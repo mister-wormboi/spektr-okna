@@ -1,0 +1,524 @@
+<!doctype html>
+<html lang="ru">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Завод окон и алюминиевых конструкций «Спектр». Каталог и расчёт стоимости.">
+  <title>Спектр — окна и конструкции</title>
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link rel="apple-touch-icon" href="assets/favicon.png">
+  <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="stylesheet" href="assets/css/design.css">
+  <link rel="stylesheet" href="assets/css/window-story.css">
+  <link rel="stylesheet" href="assets/css/night.css">
+  <link rel="stylesheet" href="assets/css/reviews.css">
+  <script src="assets/js/main.js" defer></script>
+  <script src="assets/js/window-story.js" defer></script>
+  <script src="assets/js/motion.js" defer></script>
+  <script src="assets/js/reviews.js" defer></script>
+</head>
+
+<body class="home-page">
+  <div class="reading-progress" aria-hidden="true"><span></span></div>
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <div class="header-brand">
+        <a class="logo header-logo" href="#top">
+          <img src="assets/logo-white.png" alt="Спектр — завод металлопластиковых конструкций">
+        </a>
+
+        <p class="header-tagline">
+          Производим окна<br>
+          <strong>с 2004 года</strong>
+        </p>
+      </div>
+
+      <nav class="header-nav" aria-label="Основная навигация">
+        <a href="#catalog">Каталог</a>
+        <a href="#calculator">Расчёт стоимости</a>
+        <a href="contacts/">Наши офисы ↗</a>
+      </nav>
+      <a class="header-phone" href="tel:+79895175699">8 989 517 56 99</a>
+      <form class="search" id="searchForm" role="search">
+        <input id="searchInput" type="search" placeholder="Найти окно, дверь или услугу" aria-label="Поиск по каталогу">
+        <button type="submit" aria-label="Найти">⌕</button>
+        <span class="search-status" id="searchStatus" role="status"></span>
+      </form>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="wrap hero-inner">
+        <div class="hero-copy">
+          <span class="eyebrow">Спектр / Окна от производителя</span>
+          <h1>Больше света.<br>Больше <em>дома.</em></h1>
+          <p>
+            Изготавливаем пластиковые окна, двери и алюминиевые системы
+            для дома и бизнеса.
+          </p>
+          <div class="hero-actions">
+            <a class="primary-link hero-call" href="tel:+79895175699" aria-label="Позвонить в Спектр: 8 989 517 56 99">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m7 3 3 5-2.5 2.5a15 15 0 0 0 6 6L16 14l5 3c0 3-2 4-4 4C10 20 4 14 3 7c0-2 1-4 4-4Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+              <span><small>Позвонить в «Спектр»</small><strong>8 989 517 56 99</strong></span>
+              <span class="hero-call-arrow" aria-hidden="true">↗</span>
+            </a>
+            <a class="secondary-link" href="#calculator">Рассчитать стоимость <span aria-hidden="true">→</span></a>
+          </div>
+        </div>
+        <div class="hero-caption"><span>Для жизни, открытой свету</span><span>ПВХ · Алюминий · Панорамное остекление</span></div>
+      </div>
+    </section>
+
+    <div class="benefits-strip wrap" aria-label="О компании">
+      <div><strong>С 2004</strong><span>производим окна для вашего дома</span></div>
+      <div><strong>Ваш размер</strong><span>изготавливаем под каждый проём</span></div>
+      <div><strong>Рядом с вами</strong><span><a href="contacts/">6 офисов продаж ↗</a></span></div>
+    </div>
+
+    <section class="window-story" id="window-details" aria-labelledby="windowStoryTitle">
+      <div class="window-story-sticky">
+        <div class="wrap window-story-heading">
+          <div>
+            <span class="eyebrow">Продумано до деталей</span>
+            <h2 id="windowStoryTitle">За тишиной и теплом —<br><em>точная конструкция.</em></h2>
+          </div>
+          <p>Посмотрите, как устроено окно.<br> Листайте вниз — раскроем каждый слой.</p>
+        </div>
+        <div class="window-stage" role="img" aria-label="Устройство окна: наружная рама, створка с фурнитурой, стеклопакет и прижимной штапик. При прокрутке детали разделяются и собираются обратно.">
+          <img class="window-fallback" src="assets/window-white.png" alt="">
+        </div>
+        <div class="wrap window-story-bottom">
+          <div class="window-part-description">
+            <span class="window-step-number" aria-hidden="true">01 / 04</span>
+            <div><h3 class="window-step-title">Всё на своём месте</h3><p class="window-step-copy">Рама, створка и стеклопакет работают как единое целое.</p></div>
+          </div>
+          <a class="window-story-skip" href="#calculator">К расчёту стоимости <span aria-hidden="true">↓</span></a>
+        </div>
+        <div class="window-timeline" aria-hidden="true"><span></span></div>
+      </div>
+    </section>
+
+    <section class="calculator-section" id="calculator" aria-labelledby="calculatorTitle">
+      <div class="wrap combined-layout">
+        <div class="call-panel">
+          <div class="call-heading">
+            <h2>Хороший вид<br>начинается<br>с хорошего окна.</h2>
+            <svg class="call-direction" viewBox="0 0 32 64" fill="none" aria-hidden="true">
+              <path d="M16 3v56M3 46l13 13 13-13" stroke="currentColor" stroke-width="3" />
+            </svg>
+          </div>
+          <p class="call-description">Поможем разобраться в профилях, размерах и деталях. Просто позвоните нам.</p>
+
+          <a class="secondary-link" href="#catalog">Посмотреть каталог <span aria-hidden="true">↗</span></a>
+
+        </div>
+
+        <div class="calculator">
+          <div class="calculator-heading">
+            <div>
+              <span class="eyebrow">Узнайте примерную стоимость</span>
+              <h2 id="calculatorTitle">Калькулятор стоимости</h2>
+              <p>Предварительный расчёт по вашим размерам</p>
+            </div>
+
+            <div class="window-preview" aria-hidden="true">
+              <div class="window-illustration">
+                <i></i>
+                <i></i>
+              </div>
+            </div>
+          </div>
+
+          <div class="calculator-content">
+            <div class="calculator-fields">
+              <label>
+                Ширина, см
+                <input id="widthInput" type="number" min="40" max="400" value="120">
+              </label>
+              <label>
+                Высота, см
+                <input id="heightInput" type="number" min="40" max="350" value="140">
+              </label>
+              <label>
+                Количество створок
+                <select id="sashesInput">
+                  <option value="1">1 створка</option>
+                  <option value="2" selected>2 створки</option>
+                  <option value="3">3 створки</option>
+                </select>
+              </label>
+              <label>
+                Профиль
+                <select id="profileInput">
+                  <option value="1">Стандарт</option>
+                  <option value="1.25" selected>Комфорт</option>
+                  <option value="1.55">Премиум</option>
+                </select>
+              </label>
+            </div>
+
+            <div class="calculator-summary">
+              <div class="calculator-result">
+                <span>Ориентировочная стоимость<br>изготовления</span>
+                <b id="calcPrice"></b>
+              </div>
+              <small>Точную цену рассчитает специалист после замера.</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="catalog" id="catalog" aria-labelledby="catalogTitle">
+      <div class="wrap">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">Подберите решение</span>
+            <h2 id="catalogTitle">Каталог конструкций</h2>
+          </div>
+          <p>Выберите категорию и параметры — покажем подходящие варианты.</p>
+        </div>
+
+        <div class="tabs" role="tablist" aria-label="Категории каталога">
+          <button class="tab is-active" type="button" data-category="Окна">Окна</button>
+          <button class="tab" type="button" data-category="Двери">Двери</button>
+          <button class="tab" type="button" data-category="Остекление балконов">Остекление балконов</button>
+          <button class="tab" type="button" data-category="Алюм. конструкции">Алюм. конструкции</button>
+          <button class="tab" type="button" data-category="Рулонные шторы">Рулонные шторы</button>
+          <button class="tab" type="button" data-category="Рольставни">Рольставни</button>
+        </div>
+
+        <div class="catalog-layout">
+          <aside class="filters" aria-label="Фильтры каталога">
+            <fieldset>
+              <legend>Количество створок</legend>
+              <label><input type="radio" name="sashesFilter" value="1"> 1 створка</label>
+              <label><input type="radio" name="sashesFilter" value="2" checked> 2 створки</label>
+              <label><input type="radio" name="sashesFilter" value="3"> 3 створки</label>
+            </fieldset>
+
+            <label>
+              Профиль
+              <select id="profileFilter">
+                <option>Любой профиль</option>
+                <option>ПВХ</option>
+                <option>Алюминий</option>
+              </select>
+            </label>
+
+            <label>
+              Размеры
+              <select id="sizeFilter">
+                <option>Любой размер</option>
+                <option>До 120 см</option>
+                <option>От 120 см</option>
+              </select>
+            </label>
+
+            <label class="checkbox-label">
+              <input id="extraFilter" type="checkbox">
+              Энергосбережение
+            </label>
+          </aside>
+
+          <div class="cards" id="cards" aria-live="polite"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="reviews" id="reviews" aria-labelledby="reviewsTitle">
+      <div class="wrap">
+        <div class="reviews-heading">
+          <div>
+            <span class="eyebrow">Нам доверяют</span>
+            <h2 id="reviewsTitle">Отзывы клиентов</h2>
+            <p class="reviews-intro">Избранные отзывы с оценкой 5/5.<br>Короткие цитаты из Яндекс Карт.</p>
+            <p class="reviews-source-note">Филиал: Ростов-на-Дону, Зорге, 56.<br>Источники проверены 25 сентября 2026.<br>Полный текст — по ссылке в каждой карточке.</p>
+          </div>
+
+          <div class="reviews-rating" aria-label="Рейтинг филиала на Зорге в Яндекс Картах: 4,2 из 5, 19 оценок">
+            <strong>4,2</strong>
+            <div>
+              <a class="reviews-rating-source" href="https://yandex.com/maps/org/spektr/1211069508/reviews/" target="_blank" rel="noopener noreferrer">Яндекс Карты ↗</a>
+              <small>19 оценок · филиал на Зорге<br>На 25.09.2026</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="reviews-grid">
+          <article class="review-card">
+            <div class="review-top">
+              <div class="review-avatar">ТЛ</div>
+              <div>
+                <h3>Татьяна Литвинова</h3>
+                <span>Автор отзыва на Яндекс Картах</span>
+              </div>
+              <span class="review-quote" aria-hidden="true">“</span>
+            </div>
+
+            <div class="review-stars" aria-label="Оценка 5 из 5">★★★★★</div>
+
+            <p>
+              «Окна красивые, ребята отлично все установили.»
+            </p>
+
+            <footer>
+              <span>3 июля · фрагмент отзыва</span>
+              <a class="review-verified" href="https://yandex.com/maps/org/1211069508/reviews?reviews%5BpublicId%5D=qg1td1t0e0x0dtg8rgfxk4dcn4&amp;utm_source=review" target="_blank" rel="noopener noreferrer">Оригинал на Яндекс Картах ↗</a>
+            </footer>
+          </article>
+
+          <article class="review-card review-card-featured">
+            <div class="review-top">
+              <div class="review-avatar">ОМ</div>
+              <div>
+                <h3>Ольга М.</h3>
+                <span>Автор отзыва на Яндекс Картах</span>
+              </div>
+              <span class="review-quote" aria-hidden="true">“</span>
+            </div>
+
+            <div class="review-stars" aria-label="Оценка 5 из 5">★★★★★</div>
+
+            <p>
+              «Отдельное спасибо за соблюдение сроков.»
+            </p>
+
+            <footer>
+              <span>6 августа · фрагмент отзыва</span>
+              <a class="review-verified" href="https://yandex.com/maps/org/1211069508/reviews?reviews%5BpublicId%5D=af8xyy5eght53607wrtdkf7mtm&amp;utm_source=review" target="_blank" rel="noopener noreferrer">Оригинал на Яндекс Картах ↗</a>
+            </footer>
+          </article>
+
+          <article class="review-card">
+            <div class="review-top">
+              <div class="review-avatar">И</div>
+              <div>
+                <h3>Ирина</h3>
+                <span>Автор отзыва на Яндекс Картах</span>
+              </div>
+              <span class="review-quote" aria-hidden="true">“</span>
+            </div>
+
+            <div class="review-stars" aria-label="Оценка 5 из 5">★★★★★</div>
+
+            <p>
+              «Окнами, замером,монтажом довольна всё сделано аккуратно.»
+            </p>
+
+            <footer>
+              <span>15 сентября · фрагмент отзыва</span>
+              <a class="review-verified" href="https://yandex.com/maps/org/1211069508/reviews?reviews%5BpublicId%5D=01tdnthfwhpnx24qyc8x3ettx4&amp;utm_source=review" target="_blank" rel="noopener noreferrer">Оригинал на Яндекс Картах ↗</a>
+            </footer>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="guides" aria-labelledby="guidesTitle">
+      <div class="wrap">
+        <span class="eyebrow">Полезная информация</span>
+        <h2 id="guidesTitle">Поможем определиться</h2>
+
+        <details>
+          <summary>Как выбрать окно? <b aria-hidden="true">+</b></summary>
+          <p>
+            Определите, что важнее для помещения: тепло, защита от шума
+            или максимальный свет. Затем сравните профиль, стеклопакет и фурнитуру.
+          </p>
+        </details>
+
+        <details>
+          <summary>Как сделать замеры самостоятельно? <b aria-hidden="true">+</b></summary>
+          <p>
+            Измерьте ширину и высоту проёма в нескольких точках и запишите
+            наименьшие значения. Для заказа необходим профессиональный замер.
+          </p>
+        </details>
+
+        <details>
+          <summary>От чего зависит стоимость окна? <b aria-hidden="true">+</b></summary>
+          <p>
+            На цену влияют размеры, профиль, стеклопакет, фурнитура и способ
+            открывания. Итоговую стоимость с учётом монтажа и дополнительных
+            работ уточняют после замера.
+          </p>
+        </details>
+
+        <details>
+          <summary>Как подготовить помещение к монтажу? <b aria-hidden="true">+</b></summary>
+          <p>
+            Освободите подоконник и проход к окну, снимите шторы и накройте
+            мебель. Заранее согласуйте с мастером место для инструментов
+            и порядок вывоза старых конструкций.
+          </p>
+        </details>
+
+        <details>
+          <summary>Как ухаживать за окнами после установки? <b aria-hidden="true">+</b></summary>
+          <p>
+            Очищайте профиль мягкой тканью и неабразивным средством,
+            поддерживайте чистоту уплотнителей и дренажных отверстий.
+            Обслуживайте фурнитуру по инструкции производителя.
+          </p>
+        </details>
+      </div>
+    </section>
+
+    <section class="home-offices" aria-labelledby="homeOfficesTitle">
+      <div class="wrap">
+        <div class="home-offices-heading">
+          <div>
+            <span class="eyebrow">Мы рядом</span>
+            <h2 id="homeOfficesTitle">Наши офисы</h2>
+          </div>
+          <p>Выберите ближайший филиал и откройте его в Яндекс Картах.</p>
+        </div>
+
+        <div class="home-offices-grid">
+          <article class="home-office-card">
+            <a class="home-office-map"
+              href="https://yandex.ru/maps/?text=Ростов-на-Дону%2C%20проспект%2040-летия%20Победы%2C%2089"
+              target="_blank" rel="noopener">
+              <img src="contacts/assets/rostov-aleksandrovka.png"
+                alt="Карта офиса: Ростов-на-Дону, проспект 40-летия Победы, 89" loading="lazy">
+              <span>Открыть карту ↗</span>
+            </a>
+            <div class="home-office-body">
+              <small>Ростовская область</small>
+              <h3>Ростов-на-Дону</h3>
+              <p>проспект 40-летия Победы, 89</p>
+              <a href="tel:+79882530344">8 988 253 03 44</a>
+            </div>
+          </article>
+
+          <article class="home-office-card">
+            <a class="home-office-map" href="https://yandex.ru/maps/?text=Ростов-на-Дону%2C%20улица%20Зорге%2C%2056"
+              target="_blank" rel="noopener">
+              <img src="contacts/assets/rostov-zorge.png" alt="Карта офиса: Ростов-на-Дону, улица Зорге, 56"
+                loading="lazy">
+              <span>Открыть карту ↗</span>
+            </a>
+            <div class="home-office-body">
+              <small>Ростовская область</small>
+              <h3>Ростов-на-Дону</h3>
+              <p>ул. Зорге, 56, магазин «Медтехника»</p>
+              <a href="tel:+79896164445">8 989 616 44 45</a>
+            </div>
+          </article>
+
+          <article class="home-office-card">
+            <a class="home-office-map" href="https://yandex.ru/maps/?text=Азов%2C%20улица%20Ленина%2C%2066"
+              target="_blank" rel="noopener">
+              <img src="contacts/assets/azov.png" alt="Карта офиса: Азов, улица Ленина, 66" loading="lazy">
+              <span>Открыть карту ↗</span>
+            </a>
+            <div class="home-office-body">
+              <small>Ростовская область</small>
+              <h3>Азов</h3>
+              <p>ул. Ленина, 66</p>
+              <a href="tel:+79895175699">8 989 517 56 99</a>
+            </div>
+          </article>
+
+          <article class="home-office-card">
+            <a class="home-office-map" href="https://yandex.ru/maps/?text=Кулешовка%2C%20улица%20Матросова%2C%2011"
+              target="_blank" rel="noopener">
+              <img src="contacts/assets/kuleshovka.png" alt="Карта офиса: Кулешовка, улица Матросова, 11"
+                loading="lazy">
+              <span>Открыть карту ↗</span>
+            </a>
+            <div class="home-office-body">
+              <small>Ростовская область</small>
+              <h3>Кулешовка</h3>
+              <p>ул. Матросова, 11</p>
+              <a href="tel:+79896350069">8 989 635 00 69</a>
+            </div>
+          </article>
+
+          <article class="home-office-card">
+            <a class="home-office-map"
+              href="https://yandex.ru/maps/?text=Батайск%2C%20улица%20Максима%20Горького%2C%20152" target="_blank"
+              rel="noopener">
+              <img src="contacts/assets/bataysk.png" alt="Карта офиса: Батайск, улица Максима Горького, 152"
+                loading="lazy">
+              <span>Открыть карту ↗</span>
+            </a>
+            <div class="home-office-body">
+              <small>Ростовская область</small>
+              <h3>Батайск</h3>
+              <p>ул. М. Горького, 152</p>
+              <a href="tel:+79885636444">8 988 563 64 44</a>
+            </div>
+          </article>
+
+          <article class="home-office-card">
+            <a class="home-office-map" href="https://yandex.ru/maps/?text=Ейск%2C%20улица%20Карла%20Либкнехта%2C%2070"
+              target="_blank" rel="noopener">
+              <img src="contacts/assets/eysk.png" alt="Карта офиса: Ейск, улица Карла Либкнехта, 70" loading="lazy">
+              <span>Открыть карту ↗</span>
+            </a>
+            <div class="home-office-body">
+              <small>Краснодарский край</small>
+              <h3>Ейск</h3>
+              <p>ул. Карла Либкнехта, 70</p>
+              <a href="tel:+79182104069">8 918 210 40 69</a>
+            </div>
+          </article>
+        </div>
+
+        <a class="home-offices-link" href="contacts/index.html">
+          Все контакты и режим работы <span>↗</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="contact-summary" id="contactInfo" aria-labelledby="contactTitle">
+      <div class="wrap contact-layout">
+        <div class="contact-copy">
+          <span class="eyebrow">Будем на связи</span>
+          <h2 id="contactTitle">Обсудим ваши окна</h2>
+          <a class="contact-phone" href="tel:+79895175699">8 989 517 56 99</a>
+          <p>Ростов-на-Дону и Ростовская область</p>
+          <address>
+            Офис в Александровке<br>
+            Ростов-на-Дону, проспект 40-летия Победы, 89
+          </address>
+          <p>Пн–Пт: 09:00–18:00 · Сб: 09:00–14:00</p>
+          <a class="contact-link" href="contacts/index.html">Все офисы и контакты ↗</a>
+        </div>
+        <div class="contact-map">
+          <iframe title="Яндекс Карты — офис Спектр в Александровке"
+            src="https://yandex.ru/map-widget/v1/?text=Ростов-на-Дону%2C%20проспект%2040-летия%20Победы%2C%2089&amp;z=16"
+            loading="lazy" allowfullscreen></iframe>
+          <a class="contact-link"
+            href="https://yandex.ru/maps/?text=Ростов-на-Дону%2C%20проспект%2040-летия%20Победы%2C%2089" target="_blank"
+            rel="noopener">Открыть в Яндекс Картах ↗</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-inner">
+      <a class="logo footer-logo" href="#top">
+        <img src="assets/logo-white.png" alt="Спектр">
+      </a>
+
+      <nav aria-label="Нижнее меню">
+        <a href="#top">О нас</a>
+        <a href="contacts/index.html">Контакты</a>
+        <a href="https://yandex.ru/maps/?text=Ростов-на-Дону">Адрес</a>
+      </nav>
+
+      <p>
+        Ростов-на-Дону и Ростовская область<br>
+        8 989 517 56 99
+      </p>
+    </div>
+  </footer>
+</body>
+
+</html>

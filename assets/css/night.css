@@ -1,0 +1,426 @@
+/* Shared night palette. Motion uses transforms and opacity, with a static fallback. */
+:root {
+  color-scheme: dark;
+  --green: #b4cfaa;
+  --green-dark: #c4dcb9;
+  --ink: #edf0e7;
+  --muted: #abb7aa;
+  --paper: #111b17;
+  --surface: #16221c;
+  --line: #ffffff22;
+  --shadow: 0 24px 60px #0003;
+}
+
+body {
+  background: #101813;
+}
+
+.site-header,
+.site-footer {
+  background: #0c1410;
+}
+
+.site-header {
+  border-bottom: 1px solid var(--line);
+}
+
+.header-tagline strong {
+  color: #c1d4b0;
+}
+
+.eyebrow,
+.card-body>small,
+.home-office-body small {
+  color: #b4cfaa;
+}
+
+.reading-progress {
+  position: fixed;
+  z-index: 50;
+  inset: 0 0 auto;
+  height: 2px;
+  pointer-events: none;
+}
+
+.reading-progress span {
+  display: block;
+  height: 100%;
+  background: #c1d9a7;
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+.home-page .hero {
+  isolation: isolate;
+  background: #0d1a13;
+}
+
+.home-page .hero::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: -65px 0;
+  background: linear-gradient(90deg, #091810ed, #09181080 55%, #09181038), url('../hero.png') center 56% / cover;
+  transform: translateY(var(--hero-shift, 0px)) scale(1.025);
+}
+
+.hero h1 em {
+  color: #cee1b2;
+}
+
+.hero .primary-link {
+  position: relative;
+  overflow: hidden;
+  background: #c4d8af;
+  color: #17261c;
+}
+
+.primary-link::after {
+  content: '';
+  position: absolute;
+  inset: -40% auto -40% -50%;
+  width: 35%;
+  background: linear-gradient(90deg, transparent, #fff5, transparent);
+  transform: skewX(-20deg);
+  pointer-events: none;
+}
+
+.primary-link:hover::after,
+.primary-link:focus-visible::after {
+  animation: button-glint .65s ease-out;
+}
+
+@keyframes button-glint {
+  to {
+    left: 130%;
+  }
+}
+
+.header-nav a,
+.footer-inner nav a {
+  position: relative;
+}
+
+.header-nav a::after,
+.footer-inner nav a::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: #c4d8af;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .25s ease;
+}
+
+.header-nav a:hover::after,
+.footer-inner nav a:hover::after {
+  transform: scaleX(1);
+}
+
+.benefits-strip {
+  background: #101813;
+}
+
+.benefits-strip strong {
+  color: #e0e8d5;
+}
+
+.benefits-strip div {
+  transition: border-color .4s;
+}
+
+.benefits-strip div:hover {
+  border-color: #a9c79a;
+}
+
+.window-story {
+  background: #101c16;
+  color: #edf0e7;
+}
+
+.window-story-sticky {
+  background: radial-gradient(ellipse at 51% 48%, #35493b 0%, #1e3025 44%, #101b15 90%);
+}
+
+.window-story-heading h2 em {
+  color: #c1d4b0;
+}
+
+.window-story-heading>p,
+.window-step-copy,
+.window-step-number {
+  color: #b5c2b2;
+}
+
+.window-story-bottom {
+  border-color: #ffffff26;
+}
+
+.window-svg-label {
+  fill: #e3ebdb;
+}
+
+.window-svg-label-number {
+  fill: #b4c6a8;
+}
+
+.window-timeline {
+  background: #ffffff10;
+}
+
+.window-timeline span {
+  background: #bad4a4;
+}
+
+.calculator-section,
+.home-offices {
+  background: #111b17;
+}
+
+.call-panel {
+  background: linear-gradient(135deg, #2a4534, #192c21);
+  border: 1px solid #c0d8b426;
+}
+
+.calculator {
+  background: #1b2921;
+  border-color: var(--line);
+}
+
+.calculator-fields input,
+.calculator-fields select,
+.filters select,
+.office-search input {
+  background: #101b14;
+  border-color: #ffffff30;
+  color: #e6eddf;
+  transition: border-color .2s, box-shadow .2s;
+}
+
+.calculator-fields input:focus,
+.calculator-fields select:focus,
+.filters select:focus {
+  border-color: #b4cfaa;
+  box-shadow: 0 0 0 3px #b4cfaa18;
+}
+
+.calculator-summary>small,
+.calculator-summary small {
+  color: #b3bfad;
+}
+
+.calculator-result b {
+  color: #d3e7b9;
+  font-variant-numeric: tabular-nums;
+}
+
+.calculator-heading p,
+.section-heading>p,
+.home-offices-heading p,
+.card p,
+.guides details p {
+  color: #adbba8;
+}
+
+.calculator-fields label,
+.filters>label,
+.filters legend,
+.filters fieldset label {
+  color: #c0ceba;
+}
+
+.catalog {
+  background: #101813;
+}
+
+.tab {
+  color: #aebda7;
+  transition: background .25s, color .25s, border-color .25s;
+}
+
+.tab:hover {
+  background: #ffffff09;
+  color: #edf0e7;
+}
+
+.tab.is-active {
+  color: #15251a;
+  background: #bfd4aa;
+  border-color: #bfd4aa;
+}
+
+.card,
+.home-office-card,
+.office-card {
+  position: relative;
+  background: #1b2820;
+  border-color: #ffffff20;
+}
+
+.card:hover,
+.home-office-card:hover,
+.office-card:hover {
+  border-color: #b4cfaa80;
+  box-shadow: 0 22px 50px #0003;
+}
+
+.card img {
+  filter: brightness(.88) saturate(.8);
+  transition: transform .8s cubic-bezier(.2, .65, .25, 1), filter .6s;
+}
+
+.card:hover img {
+  transform: scale(1.04);
+  filter: brightness(1) saturate(.95);
+}
+
+.card-body {
+  position: relative;
+  background: radial-gradient(ellipse at var(--light-x, 50%) var(--light-y, 0%), #b8d0a611, transparent 65%), #1b2820;
+}
+
+.card-bottom b,
+.card-bottom a {
+  color: #d0e1bb;
+}
+
+.empty {
+  color: var(--ink);
+  background: var(--surface);
+}
+
+.reviews {
+  background: #18251d;
+}
+
+.review-card {
+  background: #1e2d23;
+  border-color: #ffffff20;
+}
+
+.review-card-featured {
+  background: #293e2e;
+  border-color: #b4cfaa40;
+}
+
+.review-avatar {
+  background: #b5cca622;
+  color: #d7e6c9;
+}
+
+.review-card-featured .review-stars,
+.review-card-featured .review-verified,
+.review-card-featured .review-quote {
+  color: #d0e2b7;
+}
+
+.guides {
+  background: #101813;
+}
+
+.guides details {
+  transition: background .3s;
+}
+
+.guides details[open] {
+  background: #bfd4aa08;
+}
+
+.guides summary {
+  transition: color .25s, padding .25s;
+}
+
+.guides summary:hover {
+  color: #c4d8af;
+  padding-left: 10px;
+}
+
+.home-office-map img,
+.office-map img {
+  filter: brightness(.78) saturate(.65);
+  transition: filter .4s;
+}
+
+.home-office-card:hover .home-office-map img,
+.office-card:hover .office-map img {
+  filter: brightness(.96) saturate(.85);
+}
+
+.home-office-map span,
+.office-map span {
+  background: #14261c;
+  color: #e0ebd7;
+}
+
+.home-office-body>a {
+  color: #d0e2b7;
+}
+
+.contact-summary {
+  background: #18251d;
+}
+
+.search-status {
+  background: #233829;
+  color: #edf0e7;
+}
+
+.contacts-page .hero {
+  background: #14231a;
+}
+
+.contacts-page .hero::before {
+  opacity: .2;
+}
+
+.contacts-page .offices {
+  background: #101813;
+}
+
+.contacts-page .filter-button {
+  background: #1b2820;
+  color: #c4d2bc;
+  border-color: var(--line);
+}
+
+.contacts-page .filter-button.is-active {
+  background: #bfd4aa;
+  color: #15251a;
+}
+
+.contacts-page .office-body dt,
+.contacts-page .office-body dd,
+.contacts-page .hero-copy>p {
+  color: #b4c1ad;
+}
+
+.contacts-page .work-status.is-open {
+  background: #b4cfaa18;
+  color: #c4dcb9;
+}
+
+.contacts-page .contact-banner {
+  background: #213b2b;
+}
+
+.contacts-page .contact-banner a {
+  color: #15251a;
+  background: #c4d8af;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-page .hero::before {
+    transform: none;
+  }
+
+  .primary-link::after {
+    display: none;
+  }
+
+  .guides summary:hover {
+    padding-left: 2px;
+  }
+}

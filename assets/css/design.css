@@ -1,0 +1,628 @@
+/* Architectural direction: warm mineral surfaces, forest green, generous type. */
+:root {
+  --green: #37765c;
+  --green-dark: #244f3e;
+  --ink: #202b26;
+  --muted: #70746c;
+  --paper: #f0eee7;
+  --surface: #faf9f5;
+  --line: #dadcd2;
+  --shadow: 0 16px 40px #263c2e0a;
+}
+
+body {
+  overflow-x: clip;
+}
+
+main {
+  overflow-x: clip;
+}
+
+.wrap {
+  width: min(1320px, calc(100% - 96px));
+}
+
+a,
+button,
+input,
+select,
+summary {
+  -webkit-tap-highlight-color: transparent;
+}
+
+:focus-visible {
+  outline: 3px solid #669b7f;
+  outline-offset: 5px;
+}
+
+[id] {
+  scroll-margin-top: 24px;
+}
+
+.site-header {
+  background: #203c30;
+  animation: none;
+}
+
+.site-header .header-inner {
+  min-height: 100px;
+  gap: 18px 32px;
+  padding-block: 22px;
+}
+
+.site-header .header-logo {
+  width: 196px;
+  flex-basis: 196px;
+}
+
+.header-brand {
+  gap: 22px;
+}
+
+.header-tagline {
+  border-left: 1px solid #ffffff30;
+  padding-left: 22px;
+  font-size: 11px;
+  color: #c5d0c9;
+}
+
+.header-tagline strong {
+  color: #dbe7cd;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.header-nav {
+  display: flex;
+  gap: 26px;
+  margin-left: auto;
+  font-size: 13px;
+}
+
+.header-nav a:hover {
+  color: #d0e0ad;
+}
+
+.header-phone {
+  font-size: 15px;
+  white-space: nowrap;
+}
+
+.site-header .search {
+  flex: 0 1 100%;
+  max-width: none;
+  margin: 0;
+}
+
+.site-header .search input {
+  height: 38px;
+  background: #ffffff06;
+  border-color: #ffffff1c;
+  font-size: 12px;
+}
+
+.site-header .search button {
+  height: 38px;
+  font-size: 24px;
+}
+
+.search-status {
+  top: 43px;
+  z-index: 5;
+}
+
+.hero {
+  background: linear-gradient(90deg, #13281ee6 0%, #13281e96 43%, #13281e08 78%), url('../hero.png') center 56% / cover;
+}
+
+.hero::after {
+  display: none;
+}
+
+.hero-inner {
+  position: relative;
+  min-height: 650px;
+  justify-content: flex-start;
+  padding: 82px 0 115px;
+}
+
+.hero-copy {
+  max-width: 780px;
+  text-align: left;
+}
+
+.eyebrow,
+.reviews .eyebrow {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .16em;
+}
+
+.hero .eyebrow {
+  color: #e0e8d5;
+}
+
+.hero h1 {
+  margin: 30px 0 25px;
+  font-size: clamp(60px, 7.3vw, 104px);
+  line-height: 1.04;
+  letter-spacing: -.055em;
+}
+
+.hero h1 em {
+  color: #d4e3b9;
+}
+
+.hero p {
+  max-width: 410px;
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.8;
+  color: #e0e5dd;
+}
+
+.hero-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 30px;
+  margin-top: 34px;
+  animation-delay: .5s;
+}
+
+.primary-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 42px;
+  padding: 17px 24px;
+  color: #203c30;
+  background: #d4e3b9;
+  font-size: 14px;
+  font-weight: 600;
+  transition: background .2s;
+}
+
+.primary-link:hover {
+  background: #e7efd9;
+}
+
+.primary-link span {
+  font-size: 22px;
+  line-height: 1;
+}
+
+.secondary-link {
+  padding: 10px 0;
+  border-bottom: 1px solid #ffffff60;
+  font-size: 13px;
+}
+
+.secondary-link span {
+  margin-left: 18px;
+}
+
+.hero-caption {
+  position: absolute;
+  bottom: 28px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  border-top: 1px solid #ffffff35;
+  padding-top: 19px;
+  font-size: 11px;
+  letter-spacing: .04em;
+  color: #e1e5dc;
+}
+
+.benefits-strip {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  padding-block: 37px;
+}
+
+.benefits-strip div {
+  display: grid;
+  gap: 5px;
+  padding-left: 32px;
+  border-left: 1px solid var(--line);
+}
+
+.benefits-strip div:first-child {
+  padding-left: 0;
+  border: 0;
+}
+
+.benefits-strip strong {
+  font: 400 28px/1.3 var(--serif);
+}
+
+.benefits-strip span {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.calculator-section {
+  padding: 76px 0;
+  background: var(--paper);
+}
+
+.combined-layout {
+  grid-template-columns: minmax(0, .8fr) minmax(0, 1.4fr);
+  gap: 24px;
+}
+
+.call-panel {
+  padding: 38px;
+  background: #244b3b;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  gap: 22px;
+}
+
+.call-panel h2 {
+  margin: 0;
+  font-size: 40px;
+  line-height: 1.14;
+}
+
+.call-direction {
+  display: none;
+}
+
+.call-description {
+  max-width: 290px;
+  margin: 0;
+  color: #ced9ce;
+  font-size: 14px;
+}
+
+.call-panel .phone-button {
+  min-height: 86px;
+  padding: 20px 0 0;
+  justify-content: flex-start;
+  background: transparent;
+  color: #d4e3b9;
+  border: 0;
+  border-top: 1px solid #ffffff30;
+}
+
+.call-panel .phone-button>span:last-child {
+  color: #d3decf;
+  font-size: 11px;
+}
+
+.call-panel .phone-button b {
+  color: white;
+  font-size: 26px;
+  font-weight: 400;
+}
+
+.call-panel .phone-arrow {
+  font-size: 36px;
+}
+
+.calculator {
+  padding: 34px;
+  border: 1px solid var(--line);
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.calculator-heading {
+  grid-template-columns: 1fr 90px;
+  gap: 16px;
+}
+
+.calculator-heading h2 {
+  font-size: 36px;
+  line-height: 1.15;
+  margin-block: 12px;
+}
+
+.window-preview {
+  transform: scale(.65);
+  transform-origin: center;
+}
+
+.window-illustration {
+  animation: none;
+}
+
+.calculator-summary>small {
+  display: block;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.catalog,
+.reviews,
+.home-offices,
+.guides {
+  padding-block: 88px;
+}
+
+.section-heading h2,
+.reviews-heading h2,
+.home-offices-heading h2,
+.guides h2 {
+  font-size: clamp(36px, 4.1vw, 56px);
+}
+
+.tabs {
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.tab {
+  padding: 14px 17px;
+  border-radius: 0;
+  font-size: 12px;
+  letter-spacing: .06em;
+}
+
+.tab.is-active {
+  background: #244b3b;
+  border-color: #244b3b;
+  color: #fff;
+}
+
+.card {
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.card-body {
+  padding: 25px;
+}
+
+.card h3 {
+  font-size: 30px;
+}
+
+.card-bottom a {
+  padding: 8px 0;
+}
+
+.reviews {
+  background: #e9ede4;
+}
+
+.review-card {
+  background: var(--surface);
+  box-shadow: none;
+  padding: 28px;
+}
+
+.review-card-featured {
+  background: #244b3b;
+  border-color: #244b3b;
+}
+
+.reviews .review-top h3 {
+  font-size: 15px;
+}
+
+.reviews .review-top div span,
+.reviews .reviews-rating small {
+  font-size: 12px;
+}
+
+.reviews .stars,
+.reviews .review-stars {
+  font-size: 17px;
+}
+
+.review-card-featured .review-stars,
+.review-card-featured .review-verified,
+.review-card-featured .review-quote {
+  color: #d4e3b9;
+}
+
+.reviews .review-card footer,
+.reviews .review-card footer time,
+.reviews .review-verified {
+  font-size: 11px;
+}
+
+.review-avatar {
+  border-radius: 0;
+  background: #e6ecdf;
+  color: #244b3b;
+}
+
+.guides {
+  background: var(--surface);
+}
+
+.guides>.wrap {
+  max-width: 960px;
+}
+
+.guides summary {
+  font-size: 25px;
+  padding-block: 26px;
+}
+
+.home-offices {
+  background: var(--paper);
+}
+
+.home-office-map span {
+  min-height: 38px;
+  padding: 9px 14px;
+  background: #244b3b;
+  font-size: 12px;
+}
+
+.home-office-body h3 {
+  font-size: 28px;
+}
+
+.site-footer {
+  background: #203c30;
+}
+
+@media (max-width: 1100px) {
+  .wrap {
+    width: calc(100% - 56px);
+  }
+
+  .header-tagline {
+    display: none;
+  }
+
+  .combined-layout {
+    grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr);
+  }
+
+  .calculator,
+  .call-panel {
+    padding: 28px;
+  }
+
+  .calculator-heading {
+    grid-template-columns: 1fr;
+  }
+
+  .window-preview {
+    display: none;
+  }
+
+  .reviews-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 760px) {
+  .wrap {
+    width: calc(100% - 40px);
+  }
+
+  .site-header .header-inner {
+    gap: 16px;
+    padding-block: 18px;
+  }
+
+  .header-brand {
+    width: auto;
+  }
+
+  .site-header .header-logo {
+    width: 150px;
+    flex-basis: 150px;
+  }
+
+  .header-phone {
+    margin-left: auto;
+    font-size: 13px;
+  }
+
+  .header-nav {
+    order: 2;
+    width: 100%;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 12px;
+  }
+
+  .site-header .search {
+    order: 3;
+  }
+
+  .hero-inner {
+    min-height: 600px;
+    padding: 62px 0 108px;
+  }
+
+  .hero h1 {
+    font-size: clamp(51px, 9.5vw, 72px);
+  }
+
+  .hero-caption {
+    flex-direction: column;
+    gap: 4px;
+    font-size: 10px;
+  }
+
+  .hero {
+    background-position: 60% center;
+  }
+
+  .benefits-strip {
+    gap: 22px;
+    padding-block: 28px;
+    grid-template-columns: 1fr;
+  }
+
+  .benefits-strip div {
+    padding: 0 0 16px;
+    border: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .benefits-strip div:first-child {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .benefits-strip div:last-child {
+    padding-bottom: 0;
+  }
+
+  .benefits-strip strong {
+    font-size: 25px;
+  }
+
+  .combined-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .calculator-section,
+  .catalog,
+  .reviews,
+  .home-offices,
+  .guides {
+    padding-block: 56px;
+  }
+
+  .hero-actions {
+    gap: 20px;
+  }
+
+  .call-panel h2 {
+    font-size: 36px;
+  }
+
+  .calculator-heading h2 {
+    font-size: 32px;
+  }
+
+  .calculator-fields {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .calculator-fields input,
+  .calculator-fields select {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .home-offices-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .home-offices-heading {
+    display: block;
+  }
+
+  .home-offices-heading p {
+    margin-top: 18px;
+  }
+
+  .guides summary {
+    font-size: 22px;
+    gap: 20px;
+  }
+}

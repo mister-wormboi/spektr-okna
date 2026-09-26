@@ -1,0 +1,253 @@
+.window-story {
+  position: relative;
+  background: #e9eae3;
+  color: #243c31;
+}
+
+.window-story.is-enhanced {
+  height: 340vh;
+  height: 340svh;
+}
+
+.window-story-sticky {
+  position: sticky;
+  top: 0;
+  min-height: 680px;
+  height: 100vh;
+  height: 100svh;
+  max-height: 1100px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: radial-gradient(ellipse at 52% 48%, #fafbf7 0, #eef0e8 40%, #e3e5dc 100%);
+}
+
+.window-story-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 30px;
+  padding-top: clamp(28px, 5vh, 66px);
+  z-index: 1;
+}
+
+.window-story-heading h2 {
+  margin: 14px 0 0;
+  font: 400 clamp(32px, 3.6vw, 54px)/1.08 var(--serif);
+  letter-spacing: -.045em;
+}
+
+.window-story-heading h2 em {
+  color: #68806b;
+  font-weight: 400;
+}
+
+.window-story-heading>p {
+  margin: 0 0 4px;
+  color: #69766b;
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+.window-stage {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  display: grid;
+  place-items: center;
+}
+
+.window-stage svg {
+  display: block;
+  width: min(100%, 1100px);
+  height: 100%;
+  overflow: visible;
+}
+
+.window-fallback {
+  max-height: 360px;
+  width: auto;
+  margin: 35px auto;
+}
+
+.window-story-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding-block: 20px 35px;
+  border-top: 1px solid #243c3124;
+}
+
+.window-part-description {
+  display: flex;
+  align-items: flex-start;
+  gap: 25px;
+}
+
+.window-step-number {
+  color: #6b7c6d;
+  font: 12px/1.8 var(--sans);
+  letter-spacing: .1em;
+  padding-top: 4px;
+  white-space: nowrap;
+}
+
+.window-step-title {
+  font: 400 25px/1.15 var(--serif);
+  margin: 0 0 8px;
+}
+
+.window-step-copy {
+  font-size: 12px;
+  color: #69766b;
+  margin: 0;
+  max-width: 470px;
+  min-height: 3.2em;
+}
+
+.window-story-skip {
+  flex-shrink: 0;
+  font-size: 12px;
+  border-bottom: 1px solid #758d78;
+  padding-block: 8px;
+}
+
+.window-story-skip span {
+  margin-left: 22px;
+}
+
+.window-timeline {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: #243c3110;
+}
+
+.window-timeline span {
+  display: block;
+  height: 100%;
+  background: #55765d;
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+.window-svg-label {
+  font: 12px var(--sans);
+  fill: #4d6655;
+  letter-spacing: .02em;
+}
+
+.window-svg-label-number {
+  font-size: 10px;
+  fill: #7b8b7e;
+  letter-spacing: .12em;
+}
+
+.window-story:not(.is-enhanced) .window-timeline {
+  display: none;
+}
+
+@media (max-width: 760px) {
+  .window-story.is-enhanced {
+    height: 300svh;
+  }
+
+  .window-story-sticky {
+    min-height: 580px;
+    max-height: none;
+  }
+
+  .window-story-heading {
+    display: block;
+    padding-top: 30px;
+  }
+
+  .window-story-heading h2 {
+    font-size: clamp(29px, 7.2vw, 40px);
+  }
+
+  .window-story-heading>p {
+    font-size: 11px;
+    margin-top: 15px;
+  }
+
+  .window-story-heading>p br {
+    display: none;
+  }
+
+  .window-story-bottom {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 12px;
+    padding-block: 18px 22px;
+  }
+
+  .window-part-description {
+    gap: 14px;
+    min-height: 82px;
+  }
+
+  .window-step-title {
+    font-size: 24px;
+  }
+
+  .window-step-copy {
+    font-size: 12px;
+  }
+
+  .window-story-skip {
+    margin-left: 62px;
+    padding-block: 5px;
+  }
+
+  .window-svg-label {
+    font-size: 22px;
+  }
+
+  .window-svg-label-number {
+    font-size: 16px;
+  }
+}
+
+@media (max-height: 650px) and (min-width: 761px) {
+  .window-story-sticky {
+    min-height: 450px;
+  }
+
+  .window-story-heading {
+    padding-top: 18px;
+  }
+
+  .window-story-heading h2 {
+    font-size: 30px;
+  }
+
+  .window-story-bottom {
+    padding-block: 12px 18px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .window-story.is-enhanced {
+    height: auto;
+  }
+
+  .window-story-sticky {
+    position: relative;
+    height: auto;
+    min-height: 0;
+  }
+
+  .window-stage {
+    height: clamp(280px, 45vw, 520px);
+    flex: none;
+  }
+
+  .window-timeline {
+    display: none;
+  }
+}

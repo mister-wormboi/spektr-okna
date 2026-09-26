@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description"
+        content="Адреса и режим работы офисов продаж завода окон и алюминиевых конструкций «Спектр».">
+    <title>Контакты и офисы продаж — Спектр</title>
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="../assets/css/contacts.css">
+    <link rel="stylesheet" href="../assets/css/night.css">
+    <script src="../assets/js/contacts.js" defer></script>
+</head>
+
+<body class="contacts-page">
+    <header class="site-header">
+        <div class="wrap header-inner">
+            <a class="logo header-logo" href="../index.html">
+                <img src="../assets/logo-white.png" alt="Спектр — завод металлопластиковых конструкций">
+            </a>
+
+            <form class="search" id="officeSearchForm" role="search">
+                <input id="officeSearch" type="search" placeholder="Найти филиал, город или улицу"
+                    aria-label="Поиск филиала" autocomplete="off">
+
+                <button type="submit" aria-label="Найти">⌕</button>
+
+                <span class="search-status" id="headerSearchStatus" role="status"></span>
+            </form>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="wrap hero-grid">
+                <div class="hero-copy">
+                    <a class="back-link" href="../index.html">← Вернуться на главную</a>
+                    <span class="eyebrow">Офисы продаж</span>
+                    <h1>Мы рядом —<br><em>выберите удобный офис</em></h1>
+                    <p>Посетите ближайший салон «Спектр»: покажем образцы, поможем выбрать профиль и рассчитаем
+                        стоимость конструкции.</p>
+                </div>
+
+                <div class="hero-facts" aria-label="Краткая информация">
+                    <div><strong>6</strong><span>офисов продаж</span></div>
+                    <div><strong>2</strong><span>региона присутствия</span></div>
+                    <div><strong>1</strong><span>единый стандарт качества</span></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="offices" id="offices" aria-labelledby="officesTitle">
+            <div class="wrap">
+                <div class="section-heading">
+                    <div>
+                        <span class="eyebrow">Адреса и режим работы</span>
+                        <h2 id="officesTitle">Наши филиалы</h2>
+                    </div>
+
+                    <p class="section-intro">
+                        Выберите регион или найдите ближайший офис через поиск
+                        в верхней части страницы.
+                    </p>
+                </div>
+
+                <div class="region-filters" role="group" aria-label="Фильтр по региону">
+                    <button class="filter-button is-active" type="button" data-filter="all">Все офисы</button>
+                    <button class="filter-button" type="button" data-filter="rostov">Ростов-на-Дону</button>
+                    <button class="filter-button" type="button" data-filter="region">Ростовская область</button>
+                    <button class="filter-button" type="button" data-filter="krasnodar">Краснодарский край</button>
+                </div>
+
+                <p class="results-status" id="resultsStatus" role="status"></p>
+
+                <div class="office-grid" id="officeGrid">
+                    <article class="office-card" data-region="rostov"
+                        data-search="ростов-на-дону александровка 40 лет победы 89">
+                        <a class="office-map"
+                            href="https://yandex.ru/maps/?text=Ростов-на-Дону%2C%20проспект%2040-летия%20Победы%2C%2089"
+                            target="_blank" rel="noopener" aria-label="Открыть офис на карте">
+                            <img src="assets/rostov-aleksandrovka.png" alt="Карта офиса Спектр в Александровке"
+                                loading="lazy">
+                            <span>Открыть карту ↗</span>
+                        </a>
+                        <div class="office-body">
+                            <header>
+                                <div><small>Ростов-на-Дону</small>
+                                    <h3>Александровка</h3>
+                                </div><span class="work-status"
+                                    data-schedule="weekday:09:00-18:00;sat:09:00-14:00"></span>
+                            </header>
+                            <dl>
+                                <div>
+                                    <dt>Адрес</dt>
+                                    <dd>проспект 40-летия Победы, 89</dd>
+                                </div>
+                                <div>
+                                    <dt>Телефон</dt>
+                                    <dd><a href="tel:+79882530344">8 988 253 03 44</a></dd>
+                                </div>
+                                <div>
+                                    <dt>Почта</dt>
+                                    <dd><a href="mailto:40letpobedy.spektr@mail.ru">40letpobedy.spektr@mail.ru</a></dd>
+                                </div>
+                                <div>
+                                    <dt>Режим работы</dt>
+                                    <dd>Пн–Пт: 09:00–18:00<br>Сб: 09:00–14:00<br>Вс: выходной</dd>
+                                </div>
+                            </dl>
+                            <a class="route-link"
+                                href="https://yandex.ru/maps/?rtext=~Ростов-на-Дону%2C%20проспект%2040-летия%20Победы%2C%2089&rtt=auto"
+                                target="_blank" rel="noopener">Построить маршрут <span>↗</span></a>
+                        </div>
+                    </article>
+
+                    <article class="office-card" data-region="rostov"
+                        data-search="ростов-на-дону западный зжм зорге 56 медтехника">
+                        <a class="office-map"
+                            href="https://yandex.ru/maps/?text=Ростов-на-Дону%2C%20улица%20Зорге%2C%2056"
+                            target="_blank" rel="noopener" aria-label="Открыть офис на карте">
+                            <img src="assets/rostov-zorge.png" alt="Карта офиса Спектр на улице Зорге" loading="lazy">
+                            <span>Открыть карту ↗</span>
+                        </a>
+                        <div class="office-body">
+                            <header>
+                                <div><small>Ростов-на-Дону</small>
+                                    <h3>Западный</h3>
+                                </div><span class="work-status"
+                                    data-schedule="weekday:09:00-18:00;sat:09:00-14:00"></span>
+                            </header>
+                            <dl>
+                                <div>
+                                    <dt>Адрес</dt>
+                                    <dd>ул. Зорге, 56, магазин «Медтехника»</dd>
+                                </div>
+                                <div>
+                                    <dt>Телефон</dt>
+                                    <dd><a href="tel:+79896164445">8 989 616 44 45</a></dd>
+                                </div>
+                                <div>
+                                    <dt>Почта</dt>
+                                    <dd><a href="mailto:zorgespektr@mail.ru">zorgespektr@mail.ru</a></dd>
+                                </div>
+                                <div>
+                                    <dt>Режим работы</dt>
+                                    <dd>Пн–Пт: 09:00–18:00, перерыв 13:00–14:00<br>Сб: 09:00–14:00<br>Вс: выходной</dd>
+                                </div>
+                            </dl>
+                            <a class="route-link"
+                                href="https://yandex.ru/maps/?rtext=~Ростов-на-Дону%2C%20улица%20Зорге%2C%2056&rtt=auto"
+                                target="_blank" rel="noopener">Построить маршрут <span>↗</span></a>
+                        </div>
+                    </article>
+
+                    <article class="office-card" data-region="region" data-search="азов ленина 66">
+                        <a class="office-map" href="https://yandex.ru/maps/?text=Азов%2C%20улица%20Ленина%2C%2066"
+                            target="_blank" rel="noopener" aria-label="Открыть офис на карте">
+                            <img src="assets/azov.png" alt="Карта офиса Спектр в Азове" loading="lazy">
+                            <span>Открыть карту ↗</span>
+                        </a>
+                        <div class="office-body">
+                            <header>
+                                <div><small>Ростовская область</small>
+                                    <h3>Азов</h3>
+                                </div><span class="work-status"
+                                    data-schedule="weekday:08:00-17:00;sat:08:00-14:00;sun:08:00-14:00"></span>
+                            </header>
+                            <dl>
+                                <div>
+                                    <dt>Адрес</dt>
+                                    <dd>г. Азов, ул. Ленина, 66</dd>
+                                </div>
+                                <div>
+                                    <dt>Телефоны</dt>
+                                    <dd><a href="tel:+79895175699">8 989 517 56 99</a><br><a href="tel:+79885636555">8
+                                            988 563 65 55</a></dd>
+                                </div>
+                                <div>
+                                    <dt>Почта</dt>
+                                    <dd><a href="mailto:azovspektr@mail.ru">azovspektr@mail.ru</a></dd>
+                                </div>
+                                <div>
+                                    <dt>Режим работы</dt>
+                                    <dd>Пн–Пт: 08:00–17:00<br>Сб–Вс: 08:00–14:00</dd>
+                                </div>
+                            </dl>
+                            <a class="route-link"
+                                href="https://yandex.ru/maps/?rtext=~Азов%2C%20улица%20Ленина%2C%2066&rtt=auto"
+                                target="_blank" rel="noopener">Построить маршрут <span>↗</span></a>
+                        </div>
+                    </article>
+
+                    <article class="office-card" data-region="region" data-search="кулешовка матросова 11">
+                        <a class="office-map"
+                            href="https://yandex.ru/maps/?text=Кулешовка%2C%20улица%20Матросова%2C%2011" target="_blank"
+                            rel="noopener" aria-label="Открыть офис на карте">
+                            <img src="assets/kuleshovka.png" alt="Карта офиса Спектр в Кулешовке" loading="lazy">
+                            <span>Открыть карту ↗</span>
+                        </a>
+                        <div class="office-body">
+                            <header>
+                                <div><small>Ростовская область</small>
+                                    <h3>Кулешовка</h3>
+                                </div><span class="work-status"
+                                    data-schedule="weekday:08:00-17:00;sat:08:00-13:00"></span>
+                            </header>
+                            <dl>
+                                <div>
+                                    <dt>Адрес</dt>
+                                    <dd>с. Кулешовка, ул. Матросова, 11</dd>
+                                </div>
+                                <div>
+                                    <dt>Телефон</dt>
+                                    <dd><a href="tel:+79896350069">8 989 635 00 69</a></dd>
+                                </div>
+                                <div>
+                                    <dt>Почта</dt>
+                                    <dd><a href="mailto:kuleshovka.spektr@mail.ru">kuleshovka.spektr@mail.ru</a></dd>
+                                </div>
+                                <div>
+                                    <dt>Режим работы</dt>
+                                    <dd>Пн–Пт: 08:00–17:00, перерыв 12:00–13:00<br>Сб: 08:00–13:00<br>Вс: выходной</dd>
+                                </div>
+                            </dl>
+                            <a class="route-link"
+                                href="https://yandex.ru/maps/?rtext=~Кулешовка%2C%20улица%20Матросова%2C%2011&rtt=auto"
+                                target="_blank" rel="noopener">Построить маршрут <span>↗</span></a>
+                        </div>
+                    </article>
+
+                    <article class="office-card" data-region="region"
+                        data-search="батайск максима горького 152 куйбышева 143">
+                        <a class="office-map"
+                            href="https://yandex.ru/maps/?text=Батайск%2C%20улица%20Максима%20Горького%2C%20152"
+                            target="_blank" rel="noopener" aria-label="Открыть офис на карте">
+                            <img src="assets/bataysk.png" alt="Карта офиса Спектр в Батайске" loading="lazy">
+                            <span>Открыть карту ↗</span>
+                        </a>
+                        <div class="office-body">
+                            <header>
+                                <div><small>Ростовская область</small>
+                                    <h3>Батайск</h3>
+                                </div><span class="work-status"
+                                    data-schedule="weekday:09:00-18:00;sat:09:00-14:00"></span>
+                            </header>
+                            <dl>
+                                <div>
+                                    <dt>Адрес</dt>
+                                    <dd>ул. М. Горького, 152 / ул. Куйбышева, 143</dd>
+                                </div>
+                                <div>
+                                    <dt>Телефон</dt>
+                                    <dd><a href="tel:+79885636444">8 988 563 64 44</a></dd>
+                                </div>
+                                <div>
+                                    <dt>Почта</dt>
+                                    <dd><a href="mailto:bataiskspektr@mail.ru">bataiskspektr@mail.ru</a></dd>
+                                </div>
+                                <div>
+                                    <dt>Режим работы</dt>
+                                    <dd>Пн–Пт: 09:00–18:00<br>Сб: 09:00–14:00<br>Вс: выходной</dd>
+                                </div>
+                            </dl>
+                            <a class="route-link"
+                                href="https://yandex.ru/maps/?rtext=~Батайск%2C%20улица%20Максима%20Горького%2C%20152&rtt=auto"
+                                target="_blank" rel="noopener">Построить маршрут <span>↗</span></a>
+                        </div>
+                    </article>
+
+                    <article class="office-card" data-region="krasnodar"
+                        data-search="ейск карла либкнехта 70 краснодарский край">
+                        <a class="office-map"
+                            href="https://yandex.ru/maps/?text=Ейск%2C%20улица%20Карла%20Либкнехта%2C%2070"
+                            target="_blank" rel="noopener" aria-label="Открыть офис на карте">
+                            <img src="assets/eysk.png" alt="Карта офиса Спектр в Ейске" loading="lazy">
+                            <span>Открыть карту ↗</span>
+                        </a>
+                        <div class="office-body">
+                            <header>
+                                <div><small>Краснодарский край</small>
+                                    <h3>Ейск</h3>
+                                </div><span class="work-status"
+                                    data-schedule="weekday:09:00-18:00;sat:09:00-14:00"></span>
+                            </header>
+                            <dl>
+                                <div>
+                                    <dt>Адрес</dt>
+                                    <dd>г. Ейск, ул. К. Либкнехта, 70</dd>
+                                </div>
+                                <div>
+                                    <dt>Телефоны</dt>
+                                    <dd><a href="tel:+78613233656">(86132) 3 36 56</a><br><a href="tel:+79182104069">8
+                                            918 210 40 69</a></dd>
+                                </div>
+                                <div>
+                                    <dt>Почта</dt>
+                                    <dd><a href="mailto:eiskspektr@mail.ru">eiskspektr@mail.ru</a></dd>
+                                </div>
+                                <div>
+                                    <dt>Режим работы</dt>
+                                    <dd>Пн–Пт: 09:00–18:00, перерыв 13:00–14:00<br>Сб: 09:00–14:00<br>Вс: выходной</dd>
+                                </div>
+                            </dl>
+                            <a class="route-link"
+                                href="https://yandex.ru/maps/?rtext=~Ейск%2C%20улица%20Карла%20Либкнехта%2C%2070&rtt=auto"
+                                target="_blank" rel="noopener">Построить маршрут <span>↗</span></a>
+                        </div>
+                    </article>
+                </div>
+
+                <div class="empty-state" id="emptyState" hidden>
+                    <strong>Филиал не найден</strong>
+                    <p>Измените запрос или выберите другой регион.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="contact-banner">
+            <div class="wrap contact-banner-inner">
+                <div><span class="eyebrow">Остались вопросы?</span>
+                    <h2>Поможем выбрать удобный офис</h2>
+                    <p>Позвоните по единому номеру — подскажем ближайший филиал и запишем на бесплатный замер.</p>
+                </div>
+                <a href="tel:+79895175699"><span>Позвонить в «Спектр»</span><strong>8 989 517 56 99</strong></a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="wrap footer-inner">
+            <a class="logo footer-logo" href="../index.html">
+                <img src="../assets/logo-white.png" alt="Спектр">
+            </a>
+
+            <nav aria-label="Нижнее меню">
+                <a href="../index.html#top">О нас</a>
+                <a href="#offices">Контакты</a>
+                <a href="https://yandex.ru/maps/?text=Ростов-на-Дону" target="_blank" rel="noopener">
+                    Адрес
+                </a>
+            </nav>
+
+            <p>
+                Ростов-на-Дону и Ростовская область<br>
+                <a href="tel:+79895175699">8 989 517 56 99</a>
+            </p>
+        </div>
+    </footer>
+</body>
+
+</html>
