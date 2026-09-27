@@ -35,9 +35,7 @@ button { cursor: pointer; }
 .footer-inner nav { display: flex; gap: 24px; }
 .footer-inner p { font-size: 12px; color: var(--muted); }
 .review-tools { padding: 24px; border: 1px solid var(--line); margin-bottom: 28px; background: #101c14; }
-.review-search-label { display: grid; gap: 8px; font-size: 13px; color: var(--muted); max-width: 480px; }
-#reviewSearch { width: 100%; border: 1px solid #aabd9a66; padding: 13px 16px; color: var(--ink); background: #19271e; border-radius: 0; }
-.review-filters { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+.review-filters { display: flex; flex-wrap: wrap; gap: 8px; }
 .review-filters button, #resetReviews { border: 1px solid #aabd9a66; background: transparent; color: #d4e3b9; padding: 10px 16px; min-height: 44px; }
 .review-filters button[aria-pressed="true"] { background: #c1d4b0; color: #142017; border-color: #c1d4b0; }
 #reviewStatus { color: var(--muted); font-size: 13px; margin: 16px 0 0; }

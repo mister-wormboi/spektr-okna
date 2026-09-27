@@ -4,7 +4,6 @@
   if (!grid) return;
   const cards = [...grid.querySelectorAll('.review-card')];
   const tools = document.querySelector('.review-tools');
-  const search = document.querySelector('#reviewSearch');
   const filters = [...document.querySelectorAll('[data-topic]')];
   const status = document.querySelector('#reviewStatus');
   const pagination = document.querySelector('.review-pagination');
@@ -14,18 +13,14 @@
   const pageSize = 6;
   let limit = pageSize;
   let topic = 'all';
-  const normalize = value => value.toLocaleLowerCase('ru').replaceAll('ё', 'е').trim();
   const entries = cards.map(card => ({
     card,
-    text: normalize(card.querySelector('h3').textContent + ' ' + card.querySelector('p').textContent),
     topics: card.dataset.topics.split(' ')
   }));
 
   function render(focusNew = false) {
-    const words = normalize(search.value).split(/\s+/).filter(Boolean);
     const matches = entries.filter(entry =>
-      (topic === 'all' || entry.topics.includes(topic)) &&
-      words.every(word => entry.text.includes(word))
+      topic === 'all' || entry.topics.includes(topic)
     );
     const previouslyVisible = new Set(cards.filter(card => !card.hidden));
     const visible = new Set(matches.slice(0, limit).map(entry => entry.card));
@@ -33,7 +28,7 @@
     filters.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.topic === topic)));
     status.textContent = matches.length
       ? 'Показано ' + visible.size + ' из ' + matches.length + ' · всего в подборке ' + cards.length
-      : 'По вашему запросу ничего не найдено';
+      : 'В этой теме пока нет отзывов';
     empty.hidden = matches.length > 0;
     pagination.hidden = visible.size >= matches.length;
     more.textContent = 'Показать ещё (' + Math.min(pageSize, matches.length - visible.size) + ')';
@@ -47,7 +42,6 @@
     }
   }
 
-  search.addEventListener('input', () => { limit = pageSize; render(); });
   filters.forEach(button => button.addEventListener('click', () => {
     topic = button.dataset.topic;
     limit = pageSize;
@@ -55,11 +49,10 @@
   }));
   more.addEventListener('click', () => { limit += pageSize; render(true); });
   reset.addEventListener('click', () => {
-    search.value = '';
     topic = 'all';
     limit = pageSize;
     render();
-    search.focus();
+    filters[0].focus();
   });
   render();
   tools.hidden = false;
