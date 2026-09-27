@@ -154,12 +154,6 @@ const products = {
 };
 
 const elements = {
-  width: document.querySelector('#widthInput'),
-  height: document.querySelector('#heightInput'),
-  sashes: document.querySelector('#sashesInput'),
-  profile: document.querySelector('#profileInput'),
-  price: document.querySelector('#calcPrice'),
-  window: document.querySelector('.window-illustration'),
   cards: document.querySelector('#cards'),
   tabs: document.querySelectorAll('.tab'),
   filters: document.querySelector('.filters'),
@@ -176,37 +170,6 @@ const formatPrice = (value) => {
     Math.round(value)
   );
 };
-
-
-function updateCalculator() {
-  const width = Math.max(
-    40,
-    Number(elements.width.value) || 120
-  );
-
-  const height = Math.max(
-    40,
-    Number(elements.height.value) || 140
-  );
-
-  const sashCount = Number(elements.sashes.value);
-  const multiplier = Number(elements.profile.value);
-
-  const areaPrice =
-    ((width * height) / 10000) * 8600;
-
-  const price = Math.max(
-    8900,
-    (areaPrice + 2900) * multiplier +
-    (sashCount - 1) * 1300
-  );
-
-  elements.price.textContent =
-    'от ' + formatPrice(price) + ' ₽';
-
-  elements.window.style.width =
-    Math.min(170, 100 + width / 3) + 'px';
-}
 
 
 function selectedSashCount() {
@@ -345,18 +308,6 @@ function changeCategory(selectedTab) {
 }
 
 
-document
-  .querySelectorAll(
-    '.calculator input, .calculator select'
-  )
-  .forEach((control) => {
-    control.addEventListener(
-      'input',
-      updateCalculator
-    );
-  });
-
-
 elements.tabs.forEach((tab) => {
   tab.addEventListener('click', () => {
     changeCategory(tab);
@@ -386,7 +337,7 @@ elements.searchForm.addEventListener(
   }
 );
 
-updateCalculator();
+
 renderProducts();
 
 const reduceMotion = window.matchMedia(

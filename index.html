@@ -13,6 +13,8 @@
   <link rel="stylesheet" href="assets/css/window-story.css">
   <link rel="stylesheet" href="assets/css/night.css">
   <link rel="stylesheet" href="assets/css/reviews.css">
+  <link rel="stylesheet" href="assets/css/calculator.css">
+  <script src="assets/js/calculator.js" defer></script>
   <script src="assets/js/main.js" defer></script>
   <script src="assets/js/window-story.js" defer></script>
   <script src="assets/js/motion.js" defer></script>
@@ -36,12 +38,12 @@
 
       <nav class="header-nav" aria-label="Основная навигация">
         <a href="#catalog">Каталог</a>
-        <a href="#calculator">Расчёт стоимости</a>
+        <a href="calculator/">Расчёт стоимости</a>
         <a href="about/">О нас</a>
         <a href="contacts/">Наши офисы ↗</a>
         <a href="reviews/">Отзывы</a>
       </nav>
-      <a class="header-phone" href="tel:+79895175699">8 989 517 56 99</a>
+      <a class="header-phone" id="headerPhone" href="tel:+79895175699">8 989 517 56 99</a>
       <form class="search" id="searchForm" role="search">
         <input id="searchInput" type="search" placeholder="Найти окно, дверь или услугу" aria-label="Поиск по каталогу">
         <button type="submit" aria-label="Найти">⌕</button>
@@ -117,56 +119,25 @@
 
         </div>
 
-        <div class="calculator">
-          <div class="calculator-heading">
-            <div>
-              <span class="eyebrow">Узнайте примерную стоимость</span>
-              <h2 id="calculatorTitle">Калькулятор стоимости</h2>
-              <p>Предварительный расчёт по вашим размерам</p>
-            </div>
-
-            <div class="window-preview" aria-hidden="true">
-              <div class="window-illustration">
-                <i></i>
-                <i></i>
-              </div>
-            </div>
-          </div>
-
+        <div class="calculator calculator-compact">
+          <div class="calculator-heading"><div><h2 id="calculatorTitle">Калькулятор</h2></div></div>
           <div class="calculator-content">
             <div class="calculator-fields">
-              <label>
-                Ширина, см
-                <input id="widthInput" type="number" min="40" max="400" value="120">
-              </label>
-              <label>
-                Высота, см
-                <input id="heightInput" type="number" min="40" max="350" value="140">
-              </label>
-              <label>
-                Количество створок
-                <select id="sashesInput">
-                  <option value="1">1 створка</option>
-                  <option value="2" selected>2 створки</option>
-                  <option value="3">3 створки</option>
-                </select>
-              </label>
-              <label>
-                Профиль
-                <select id="profileInput">
-                  <option value="1">Стандарт</option>
-                  <option value="1.25" selected>Комфорт</option>
-                  <option value="1.55">Премиум</option>
-                </select>
-              </label>
+              <label>Высота окна, мм<input id="heightInput" type="number" min="140" max="9999999" step="1" value="1400" inputmode="numeric" required></label>
+              <label>Ширина окна, мм<input id="widthInput" type="number" min="140" max="9999999" step="1" value="1300" inputmode="numeric" required></label>
+              <label>Кол-во створок<input id="sashesInput" type="number" min="1" step="1" value="2" inputmode="numeric" required></label>
+              <div><label for="openingInput">Кол-во поворотно-откидных створок</label><input id="openingInput" type="number" min="0" max="2" step="1" value="1" inputmode="numeric" required></div>
+              <label>Профиль<select id="profileInput"><option value="Prowins">Prowins</option><option value="Elex" selected>Elex</option></select></label>
+              <label>Ширина профиля<select id="profileWidthInput"><option value="58">58 мм</option><option value="70" selected>70 мм</option></select></label>
+              <label class="calc-wide">Кол-во камер стеклопакета<select id="chambersInput"><option value="1">1 камера</option><option value="2">2 камеры</option><option value="3">3 камеры</option><option value="4">4 камеры</option></select></label>
             </div>
-
             <div class="calculator-summary">
-              <div class="calculator-result">
-                <span>Ориентировочная стоимость<br>изготовления</span>
-                <b id="calcPrice"></b>
+              <div aria-live="polite" aria-atomic="true">
+                <p id="calcError" class="calc-error" hidden></p>
+                <div class="calculator-result"><span>Примерная стоимость окна</span><div class="calc-price-emphasis" aria-describedby="compactExclusions"><b id="calcPrice">—</b></div></div>
               </div>
-              <small>Точную цену рассчитает специалист после замера.</small>
+              <p class="calc-exclusions" id="compactExclusions"><span class="calc-warning-icon" aria-hidden="true">*</span><span class="calc-exclusions-copy"><span>Без стоимости монтажа, отлива, москитной сетки , подоконника и других услуг !</span><span>Полную стоимость уточнять у менеджера</span></span></p>
+              <noscript>Для расчёта включите JavaScript или позвоните менеджеру: 8 989 517 56 99.</noscript>
             </div>
           </div>
         </div>

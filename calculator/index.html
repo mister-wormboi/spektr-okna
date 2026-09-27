@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Рассчитайте примерную стоимость окна Спектр: размеры, створки, стеклопакет и профили Elex или Prowins. Без монтажа и дополнительных комплектующих.">
+  <title>Калькулятор стоимости окна — Спектр</title>
+  <link rel="icon" type="image/png" href="../assets/favicon.png">
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <link rel="stylesheet" href="../assets/css/design.css">
+  <link rel="stylesheet" href="../assets/css/night.css">
+  <link rel="stylesheet" href="../assets/css/calculator.css">
+  <script src="../assets/js/calculator.js" defer></script>
+</head>
+<body class="calculator-page">
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <div class="header-brand">
+        <a class="logo header-logo" href="../"><img src="../assets/logo-white.png" alt="Спектр — на главную"></a>
+        <p class="header-tagline">Производим окна<br><strong>с 2004 года</strong></p>
+      </div>
+      <nav class="header-nav" aria-label="Основная навигация">
+        <a href="../#catalog">Каталог</a><a href="./" aria-current="page">Расчёт стоимости</a><a href="../about/">О нас</a><a href="../contacts/">Наши офисы ↗</a>
+      </nav>
+      <a class="header-phone" href="tel:+79895175699">8 989 517 56 99</a>
+    </div>
+  </header>
+
+  <main class="wrap calculator-page-main">
+    <a class="secondary-link calculator-back" href="../#calculator" data-calculator-link>← К быстрому расчёту на главной</a>
+        <div class="calculator">
+          <div class="calculator-heading"><div>
+            <span class="eyebrow">Ваше окно — ваш расчёт</span>
+            <h1 id="calculatorTitle">Рассчитай примерную стоимость</h1>
+            <p>Укажите размеры всего окна и выберите комплектацию.</p>
+          </div></div>
+          <div class="calculator-content">
+            <div class="calculator-fields">
+              <fieldset class="calc-wide calc-sashes"><legend>1. Сколько створок в окне?</legend>
+                <div class="sash-presets" role="group" aria-label="Выбрать количество створок">
+                  <button type="button" data-sashes="1" aria-pressed="false">1</button>
+                  <button type="button" data-sashes="2" aria-pressed="true">2</button>
+                  <button type="button" data-sashes="3" aria-pressed="false">3</button>
+                  <button type="button" data-sashes="4" aria-pressed="false">4</button>
+                  <button type="button" data-sashes="5" aria-pressed="false">5</button>
+                  <button type="button" data-sashes="6" aria-pressed="false">6</button>
+                  <button type="button" data-sashes="7" aria-pressed="false">7</button>
+                  <button type="button" data-sashes="8" aria-pressed="false">8</button>
+                  <button type="button" data-sashes="9" aria-pressed="false">9</button>
+                  <button type="button" data-sashes="10" aria-pressed="false">10</button>
+                </div>
+                <label for="sashesInput">Или введите своё количество</label>
+                <input id="sashesInput" type="number" min="1" step="1" value="2" inputmode="numeric" required>
+              </fieldset>
+              <fieldset class="calc-wide"><legend>2. Как будут открываться створки?</legend>
+                <label for="openingInput">Количество поворотно-откидных створок</label>
+                <select id="openingInput" aria-describedby="openingHelp sashSummary">
+                  <option value="0">0 — все глухие</option><option value="1" selected>1</option><option value="2">2 — все поворотно-откидные</option>
+                </select>
+                <input id="customOpeningInput" type="number" min="0" step="1" value="1" inputmode="numeric" aria-label="Количество поворотно-откидных створок" aria-describedby="openingHelp sashSummary" hidden disabled>
+                <p class="calc-help" id="openingHelp">Поворотно-откидная створка открывается и откидывается для проветривания. Остальные створки — глухие, они не открываются. Расположение на цену не влияет.</p>
+                <p class="sash-summary" id="sashSummary" aria-live="polite"></p>
+              </fieldset>
+              <label class="calc-wide">3. Количество камер стеклопакета
+                <select id="chambersInput" aria-describedby="chambersHelp"><option value="1">1 камера</option><option value="2">2 камеры</option><option value="3">3 камеры</option><option value="4">4 камеры</option></select>
+                <small id="chambersHelp">Камеры — промежутки между стёклами, а не камеры профиля.</small>
+              </label>
+              <fieldset class="calc-wide"><legend>4. Размер всего окна в миллиметрах</legend><div class="calc-pair">
+                <label>Ширина, мм<input id="widthInput" type="number" min="1" step="1" value="1300" inputmode="numeric" required></label>
+                <label>Высота, мм<input id="heightInput" type="number" min="1" step="1" value="1400" inputmode="numeric" required></label>
+              </div><p class="calc-help">Например: 1300 мм = 130 см. Введите общий размер окна, а не отдельной створки.</p></fieldset>
+              <fieldset class="calc-wide"><legend>5. Профиль</legend><div class="calc-pair">
+                <label>Название профиля<select id="profileInput"><option value="Prowins">Prowins</option><option value="Elex" selected>Elex</option></select></label>
+                <label>Ширина профиля<select id="profileWidthInput"><option value="58">58 мм</option><option value="70" selected>70 мм</option></select></label>
+              </div></fieldset>
+            </div>
+            <div class="calculator-summary">
+              <div aria-live="polite" aria-atomic="true">
+                <p id="calcError" class="calc-error" hidden></p>
+                <span id="calcTariff" class="calc-tariff"></span>
+                <div class="calculator-result"><span>Примерная стоимость окна</span><b id="calcPrice">—</b></div>
+                <p id="calcBreakdown" class="calc-help"></p>
+              </div>
+              <p class="calc-exclusions"><strong>Без стоимости монтажа, отлива, москитной сетки и подоконника.</strong><br>Полную стоимость нужно уточнять у менеджера.</p>
+              <a class="secondary-link" href="tel:+79895175699">Уточнить у менеджера <span aria-hidden="true">↗</span></a>
+              <noscript>Для расчёта включите JavaScript или позвоните менеджеру: 8 989 517 56 99.</noscript>
+            </div>
+          </div>
+        </div>
+  </main>
+  <footer class="site-footer"><div class="wrap footer-inner"><a class="logo footer-logo" href="../"><img src="../assets/logo-white.png" alt="Спектр — на главную"></a><nav aria-label="Нижнее меню"><a href="../about/">О нас</a><a href="../#catalog">Каталог</a><a href="../contacts/">Контакты</a></nav><p>Ростовская область и Краснодарский край<br><a href="tel:+79895175699">8 989 517 56 99</a></p></div></footer>
+
+</body>
+</html>
