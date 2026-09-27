@@ -21,3 +21,12 @@
 Проверена публикация на Яндекс Картах, а не факт покупки или личность автора.
 Поэтому отметка «Заказ подтверждён» удалена. Общий рейтинг филиала не равен
 оценкам выбранных отзывов. Он сохранён с датой проверки и не обновляется автоматически.
+
+Страница /reviews/ использует те же три проверенных фрагмента. 5,0 — среднее трёх выбранных оценок 5/5, явно подписанное как оценка подборки, а не общий рейтинг Яндекса. 27.09.2026 повторная загрузка карточки через веб-инструмент не удалась; дата проверки источников не изменена.
+| Ирина К. | 3 июля | 5/5 | https://yandex.ru/maps/org/1211069508/reviews?reviews%5BpublicId%5D=w9944t08y7gry0gqu1f7nkyd5m&utm_source=review |
+| Дмитрий К. | 21 июля | 5/5 | https://yandex.ru/maps/org/1211069508/reviews?reviews%5BpublicId%5D=bea3d9w9rxmwdjcdhna573d5f4&utm_source=review |
+| Алексей Николенко | 21 июля | 5/5 | https://yandex.ru/maps/org/1211069508/reviews?reviews%5BpublicId%5D=gnz2qe328n18fcnnttp6qq01x4&utm_source=review |
+| Татьяна Бейсова | 31 августа | 5/5 | https://yandex.ru/maps/org/1211069508/reviews?reviews%5BpublicId%5D=65caz9zj5w000nr6vkqmy0bpw4&utm_source=review |
+| Галина | 11 октября 2021 | 5/5 | https://yandex.ru/maps/org/1211069508/reviews?reviews%5BpublicId%5D=r4kjdp7m3n8ty4ghau65g4k218&utm_source=review |
+| Евгения Дегтярева | 14 июля | 5/5 | https://yandex.ru/maps/org/1211069508/reviews?reviews%5BpublicId%5D=1fb2r2600c9k0rr5eqxhfqnchr&utm_source=review |
+| Артем Буринский | 12 ноября 2024 | 5/5 | https://yandex.ru/maps/org/1211069508/reviews?reviews%5BpublicId%5D=y09nmnz8qh1gt0kqbxv9mh8bq8&utm_source=review |
