@@ -98,3 +98,15 @@ button:focus-visible, input:focus-visible, .review-card:focus-visible { outline:
   .reviews-page .review-card { padding: 24px; }
   .reviews-cta .primary-link { width: 100%; font-size: 14px; text-align: center; }
 }
+
+.reviews-hero-grid { grid-template-columns: 1fr; }
+.reviews-hero { position: relative; overflow: hidden; }
+.reviews-hero::after { content: '“'; position: absolute; right: 8%; top: 50px; font: 420px/1 var(--serif); color: #b4cfaa0d; pointer-events: none; }
+.reviews-hero-grid > div { position: relative; z-index: 1; }
+.review-tools { padding: 0; border: 0; background: none; }
+.review-filters button { border-radius: 24px; transition: background .2s, color .2s, border-color .2s; }
+.review-filters button:hover { border-color: #d4e3b9; }
+#reviewStatus { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); }
+.reviews-page .review-card { border-radius: 4px; transition: border-color .25s, box-shadow .25s; }
+.reviews-page .review-card:hover { border-color: #b4cfaa66; box-shadow: 0 12px 32px #0002; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; } }

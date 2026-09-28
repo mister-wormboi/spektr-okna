@@ -12,12 +12,12 @@
 .window-story-sticky {
   position: sticky;
   top: 0;
-  min-height: 680px;
+  min-height: 0;
   height: 100vh;
   height: 100svh;
-  max-height: 1100px;
-  display: flex;
-  flex-direction: column;
+  max-height: none;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
   overflow: hidden;
   background: radial-gradient(ellipse at 52% 48%, #fafbf7 0, #eef0e8 40%, #e3e5dc 100%);
 }
@@ -51,6 +51,7 @@
 
 .window-stage {
   position: relative;
+  overflow: hidden;
   flex: 1;
   min-height: 0;
   width: 100%;
@@ -59,10 +60,12 @@
 }
 
 .window-stage svg {
+  position: absolute;
+  inset: 12px 0 48px;
   display: block;
-  width: min(100%, 1100px);
-  height: 100%;
-  overflow: visible;
+  width: 100%;
+  height: calc(100% - 60px);
+  overflow: hidden;
 }
 
 .window-fallback {
@@ -157,7 +160,7 @@
   }
 
   .window-story-sticky {
-    min-height: 580px;
+    min-height: 0;
     max-height: none;
   }
 
@@ -215,7 +218,7 @@
 
 @media (max-height: 650px) and (min-width: 761px) {
   .window-story-sticky {
-    min-height: 450px;
+    min-height: 0;
   }
 
   .window-story-heading {
@@ -250,4 +253,24 @@
   .window-timeline {
     display: none;
   }
+}
+.window-part-labels { position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); width: min(760px, 90%); display: flex; justify-content: space-between; gap: 12px; margin: 0; padding: 0; list-style: none; color: #e3ebdb; font-size: 13px; }
+.window-part-labels span { color: #b4c6a8; margin-right: 8px; font-size: 10px; }
+.window-story-heading, .window-story-bottom { position: relative; }
+@media (max-width: 760px) {
+  .window-story-heading { padding-top: 20px; }
+  .window-story-heading h2 { font-size: clamp(25px, 6vw, 36px); }
+  .window-story-heading > p { margin-top: 8px; }
+  .window-part-labels { font-size: 11px; gap: 6px; width: 92%; }
+  .window-part-labels span { display: block; margin-bottom: 3px; }
+  .window-story-bottom { padding-block: 12px 16px; gap: 6px; }
+  .window-step-title { font-size: 21px; }
+}
+@media (max-height: 520px) {
+  .window-story-sticky { height: auto; min-height: 580px; position: relative; }
+  .window-story.is-enhanced { height: auto; }
+  .window-stage { min-height: 270px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .window-story-sticky { grid-template-rows: auto auto auto; }
 }

@@ -74,11 +74,14 @@
     <g transform="translate(613 60)"><text class="window-svg-label-number">03</text><text y="20" class="window-svg-label">Стеклопакет</text><path d="M18 30v46" stroke="#91a08e"/></g>
     <g transform="translate(793 515)"><path d="M0 -38v19" stroke="#91a08e"/><text class="window-svg-label-number">04</text><text y="20" class="window-svg-label">Штапик</text></g>
   </g>`;
-  stage.replaceChildren(svg);
+  svg.querySelector('.ws-labels').remove();
+  const legend = document.createElement('ol');
+  legend.className = 'window-part-labels';
+  legend.innerHTML = ['Рама', 'Створка', 'Стеклопакет', 'Штапик'].map((name, i) => '<li><span>0' + (i + 1) + '</span>' + name + '</li>').join('');
+  stage.replaceChildren(svg, legend);
   section.classList.add('is-enhanced');
 
   const layers = [...svg.querySelectorAll('[data-window-layer]')];
-  const labels = svg.querySelector('.ws-labels');
   const guides = svg.querySelector('.ws-guides');
   const shadow = svg.querySelector('.ws-ground');
   const progressBar = section.querySelector('.window-timeline span');
@@ -101,16 +104,15 @@
 
   function render() {
     frame = 0;
-    const p = motion.matches ? .5 : clamp((window.scrollY - top) / distance);
+    const p = motion.matches || window.innerHeight <= 520 ? .5 : clamp((window.scrollY - top) / distance);
     // Hold both assembled endpoints and the exploded middle. No time-based drift:
     // scrolling backwards retraces exactly the same assembly path.
     const spread = smooth((p - .07) / .30) * (1 - smooth((p - .64) / .29));
     const offsets = [-205, -67, 94, 238];
     layers.forEach((layer, index) => {
       const x = offsets[index] * spread;
-      layer.setAttribute('transform', `translate(${x.toFixed(3)} ${(x * .13).toFixed(3)})`);
+      layer.setAttribute('transform', `translate(${x.toFixed(3)} 0)`);
     });
-    labels.setAttribute('opacity', smooth((spread - .62) / .38).toFixed(3));
     guides.setAttribute('opacity', (spread * .45).toFixed(3));
     shadow.setAttribute('rx', String(215 + spread * 150));
     shadow.setAttribute('opacity', String(1 - spread * .3));
@@ -121,11 +123,15 @@
       number.textContent = `0${step + 1} / 04`;
       title.textContent = steps[step][0];
       copy.textContent = steps[step][1];
+      if (!motion.matches) [title, copy].forEach(el => {
+        el.getAnimations().forEach(animation => animation.cancel());
+        el.animate([{ opacity: .3, transform: 'translateY(6px)' }, { opacity: 1, transform: 'translateY(0)' }], { duration: 320, easing: 'ease-out' });
+      });
     }
   }
   function requestRender() { if (!frame && visible) frame = requestAnimationFrame(render); }
   function measure() {
-    svg.setAttribute('viewBox', window.innerWidth <= 760 ? '100 -10 800 590' : '0 0 1000 580');
+    svg.setAttribute('viewBox', '100 -10 800 530');
     top = section.getBoundingClientRect().top + window.scrollY;
     distance = Math.max(1, section.offsetHeight - section.querySelector('.window-story-sticky').offsetHeight);
     render();

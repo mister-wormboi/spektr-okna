@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="assets/css/window-story.css">
   <link rel="stylesheet" href="assets/css/night.css">
   <link rel="stylesheet" href="assets/css/reviews.css">
+  <link rel="stylesheet" href="assets/css/catalog.css">
   <script src="assets/js/main.js" defer></script>
   <script src="assets/js/window-story.js" defer></script>
   <script src="assets/js/motion.js" defer></script>
@@ -178,55 +179,26 @@
         <div class="section-heading">
           <div>
             <span class="eyebrow">Подберите решение</span>
-            <h2 id="catalogTitle">Каталог конструкций</h2>
+            <h2 id="catalogTitle">Товары и услуги</h2>
           </div>
-          <p>Выберите категорию и параметры — покажем подходящие варианты.</p>
+          <p>Окна, детали и забота о них.<br>Выберите то, что нужно вашему дому.</p>
         </div>
 
-        <div class="tabs" role="tablist" aria-label="Категории каталога">
-          <button class="tab is-active" type="button" data-category="Окна">Окна</button>
-          <button class="tab" type="button" data-category="Двери">Двери</button>
-          <button class="tab" type="button" data-category="Остекление балконов">Остекление балконов</button>
-          <button class="tab" type="button" data-category="Алюм. конструкции">Алюм. конструкции</button>
-          <button class="tab" type="button" data-category="Рулонные шторы">Рулонные шторы</button>
-          <button class="tab" type="button" data-category="Рольставни">Рольставни</button>
+        <div class="tabs" role="group" aria-label="Категории каталога">
+          <button class="tab is-active" type="button" data-category="Все" aria-pressed="true">Все</button>
+          <button class="tab" type="button" data-category="Окна и двери" aria-pressed="false">Окна и двери</button>
+          <button class="tab" type="button" data-category="Ремонт и обслуживание" aria-pressed="false">Ремонт и обслуживание</button>
+          <button class="tab" type="button" data-category="Москитные сетки" aria-pressed="false">Москитные сетки</button>
+          <button class="tab" type="button" data-category="Жалюзи и шторы" aria-pressed="false">Жалюзи и шторы</button>
+          <button class="tab" type="button" data-category="Отделка" aria-pressed="false">Отделка</button>
         </div>
-
-        <div class="catalog-layout">
-          <aside class="filters" aria-label="Фильтры каталога">
-            <fieldset>
-              <legend>Количество створок</legend>
-              <label><input type="radio" name="sashesFilter" value="1"> 1 створка</label>
-              <label><input type="radio" name="sashesFilter" value="2" checked> 2 створки</label>
-              <label><input type="radio" name="sashesFilter" value="3"> 3 створки</label>
-            </fieldset>
-
-            <label>
-              Профиль
-              <select id="profileFilter">
-                <option>Любой профиль</option>
-                <option>ПВХ</option>
-                <option>Алюминий</option>
-              </select>
-            </label>
-
-            <label>
-              Размеры
-              <select id="sizeFilter">
-                <option>Любой размер</option>
-                <option>До 120 см</option>
-                <option>От 120 см</option>
-              </select>
-            </label>
-
-            <label class="checkbox-label">
-              <input id="extraFilter" type="checkbox">
-              Энергосбережение
-            </label>
-          </aside>
-
-          <div class="cards" id="cards" aria-live="polite"></div>
+        <div class="catalog-tools">
+          <label class="catalog-search">Найти в каталоге<input id="catalogSearch" type="search" placeholder="Например, москитная сетка"></label>
+          <label>Порядок отображения<select id="catalogSort"><option value="default">По умолчанию</option><option value="asc">Сначала дешевле</option><option value="desc">Сначала дороже</option></select></label>
         </div>
+        <p class="catalog-note">Цены указаны от минимальной стоимости. Итог зависит от размеров и объёма работ.</p>
+        <div class="catalog-layout"><div class="cards" id="cards" aria-live="polite"></div></div>
+        <noscript><p>Для просмотра каталога включите JavaScript или позвоните: <a href="tel:+79895175699">8 989 517 56 99</a>.</p></noscript>
       </div>
     </section>
 
@@ -237,17 +209,11 @@
             <span class="eyebrow">Нам доверяют</span>
             <h2 id="reviewsTitle">Отзывы клиентов</h2>
             <a class="reviews-rating-source" href="reviews/">Страница отзывов ↗</a>
-            <p class="reviews-intro">Избранные отзывы с оценкой 5/5.<br>Короткие цитаты из Яндекс Карт.</p>
-            <p class="reviews-source-note">Филиал: Ростов-на-Дону, Зорге, 56.<br>Источники проверены 25 сентября 2026.<br>Полный текст — по ссылке в каждой карточке.</p>
+            <p class="reviews-intro">Окна уже установлены.<br>Вот что говорят наши клиенты.</p>
+
           </div>
 
-          <div class="reviews-rating" aria-label="Рейтинг филиала на Зорге в Яндекс Картах: 4,2 из 5, 19 оценок">
-            <strong>4,2</strong>
-            <div>
-              <a class="reviews-rating-source" href="https://yandex.com/maps/org/spektr/1211069508/reviews/" target="_blank" rel="noopener noreferrer">Яндекс Карты ↗</a>
-              <small>19 оценок · филиал на Зорге<br>На 25.09.2026</small>
-            </div>
-          </div>
+
         </div>
 
         <div class="reviews-grid">
@@ -256,7 +222,7 @@
               <div class="review-avatar">ТЛ</div>
               <div>
                 <h3>Татьяна Литвинова</h3>
-                <span>Автор отзыва на Яндекс Картах</span>
+                <span>Яндекс Карты</span>
               </div>
               <span class="review-quote" aria-hidden="true">“</span>
             </div>
@@ -268,7 +234,7 @@
             </p>
 
             <footer>
-              <span>3 июля · фрагмент отзыва</span>
+              <span>3 июля</span>
               <a class="review-verified" href="https://yandex.com/maps/org/1211069508/reviews?reviews%5BpublicId%5D=qg1td1t0e0x0dtg8rgfxk4dcn4&amp;utm_source=review" target="_blank" rel="noopener noreferrer">Оригинал на Яндекс Картах ↗</a>
             </footer>
           </article>
@@ -278,7 +244,7 @@
               <div class="review-avatar">ОМ</div>
               <div>
                 <h3>Ольга М.</h3>
-                <span>Автор отзыва на Яндекс Картах</span>
+                <span>Яндекс Карты</span>
               </div>
               <span class="review-quote" aria-hidden="true">“</span>
             </div>
@@ -290,7 +256,7 @@
             </p>
 
             <footer>
-              <span>6 августа · фрагмент отзыва</span>
+              <span>6 августа</span>
               <a class="review-verified" href="https://yandex.com/maps/org/1211069508/reviews?reviews%5BpublicId%5D=af8xyy5eght53607wrtdkf7mtm&amp;utm_source=review" target="_blank" rel="noopener noreferrer">Оригинал на Яндекс Картах ↗</a>
             </footer>
           </article>
@@ -300,7 +266,7 @@
               <div class="review-avatar">И</div>
               <div>
                 <h3>Ирина</h3>
-                <span>Автор отзыва на Яндекс Картах</span>
+                <span>Яндекс Карты</span>
               </div>
               <span class="review-quote" aria-hidden="true">“</span>
             </div>
@@ -312,7 +278,7 @@
             </p>
 
             <footer>
-              <span>15 сентября · фрагмент отзыва</span>
+              <span>15 сентября</span>
               <a class="review-verified" href="https://yandex.com/maps/org/1211069508/reviews?reviews%5BpublicId%5D=01tdnthfwhpnx24qyc8x3ettx4&amp;utm_source=review" target="_blank" rel="noopener noreferrer">Оригинал на Яндекс Картах ↗</a>
             </footer>
           </article>

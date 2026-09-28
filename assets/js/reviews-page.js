@@ -25,9 +25,15 @@
     const previouslyVisible = new Set(cards.filter(card => !card.hidden));
     const visible = new Set(matches.slice(0, limit).map(entry => entry.card));
     cards.forEach(card => { card.hidden = !visible.has(card); });
+    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      [...visible].forEach((card, i) => {
+        card.getAnimations().forEach(animation => animation.cancel());
+        card.animate([{ opacity: 0, transform: 'translateY(12px)' }, { opacity: 1, transform: 'translateY(0)' }], { duration: 420, delay: i * 45, fill: 'backwards', easing: 'cubic-bezier(.2,.7,.3,1)' });
+      });
+    }
     filters.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.topic === topic)));
     status.textContent = matches.length
-      ? 'Показано ' + visible.size + ' из ' + matches.length + ' · всего в подборке ' + cards.length
+      ? 'Показано отзывов: ' + visible.size
       : 'В этой теме пока нет отзывов';
     empty.hidden = matches.length > 0;
     pagination.hidden = visible.size >= matches.length;
