@@ -65,7 +65,8 @@ body {
 .home-page .hero-phone-link { align-self: center; color: #f0f4ec; }
 
 @media (max-width: 760px) {
-    .home-page .hero h1 { margin: 22px 0 18px; font-size: var(--font-size-display); }
+  .home-page .hero::before { background-image: linear-gradient(90deg, #091810ed, #09181080 55%, #09181038), url('../hero-mobile.webp'); }
+  .home-page .hero h1 { margin: 22px 0 18px; font-size: var(--font-size-display); }
   .home-page .hero-actions { align-items: flex-start; gap: 12px; }
   .home-page .hero-calculate { width: 100%; justify-content: space-between; }
   .home-page .hero-phone-link { align-self: flex-start; }

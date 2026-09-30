@@ -12,7 +12,7 @@
   function draw() {
     queued = false;
     if (progress) progress.style.transform = `scaleX(${clamp(window.scrollY / pageHeight, 0, 1)})`;
-    if (reduced.matches) return;
+    if (reduced.matches || !finePointer.matches) return;
     if (!hero) return;
     const heroVisible = window.scrollY < heroTop + heroHeight && window.scrollY + innerHeight > heroTop;
     hero.classList.toggle('is-in-view', heroVisible);
@@ -27,7 +27,7 @@
   }
   function measure() {
     pageHeight = Math.max(1, document.documentElement.scrollHeight - innerHeight);
-    if (hero) {
+    if (hero && finePointer.matches && !reduced.matches) {
       const bounds = hero.getBoundingClientRect();
       heroTop = bounds.top + window.scrollY;
       heroHeight = bounds.height;
@@ -44,10 +44,12 @@
     hero?.style.removeProperty('--hero-shift');
     hero?.style.removeProperty('--hero-scale');
     priceAnimation?.cancel();
-    requestDraw();
+    measure();
   };
   if (reduced.addEventListener) reduced.addEventListener('change', updateMotion);
   else reduced.addListener(updateMotion);
+  if (finePointer.addEventListener) finePointer.addEventListener('change', updateMotion);
+  else finePointer.addListener(updateMotion);
 
   // Delegation also covers product cards replaced by the catalogue filters.
   let lightFrame = 0;

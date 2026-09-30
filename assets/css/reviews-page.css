@@ -102,3 +102,11 @@ button:focus-visible, input:focus-visible, .review-card:focus-visible { outline:
 .reviews-page .review-card { border-radius: 4px; transition: border-color .25s, box-shadow .25s; }
 .reviews-page .review-card:hover { border-color: #b4cfaa66; box-shadow: 0 12px 32px #0002; }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; } }
+
+@media (max-width: 520px) {
+  .reviews-cta .primary-link { grid-template-columns: minmax(0, 1fr) auto; padding: 16px; }
+  .reviews-cta .primary-link > svg { display: none; }
+  .reviews-cta .primary-link strong { font-size: var(--font-size-body); white-space: nowrap; }
+  .review-tools { padding: 16px; }
+  .review-filters button { max-width: 100%; text-align: left; }
+}

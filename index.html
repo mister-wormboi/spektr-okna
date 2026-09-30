@@ -11,7 +11,8 @@
   <title>Спектр — окна и конструкции</title>
   <link rel="icon" type="image/png" href="assets/favicon.png">
   <link rel="apple-touch-icon" href="assets/favicon.png">
-  <link rel="preload" as="image" href="assets/hero.webp">
+  <link rel="preload" as="image" href="assets/hero.webp" media="(min-width: 761px)">
+  <link rel="preload" as="image" href="assets/hero-mobile.webp" media="(max-width: 760px)">
   <link rel="stylesheet" href="assets/css/main.css">
   <link rel="stylesheet" href="assets/css/design.css">
   <link rel="stylesheet" href="assets/css/window-story.css">
@@ -27,6 +28,7 @@
   <script src="assets/js/catalog-data.js" defer></script>
   <script src="assets/js/catalog-render.js" defer></script>
   <script src="assets/js/main.js" defer></script>
+  <script src="assets/js/card-strips.js" defer></script>
   <script src="assets/js/window-story.js" defer></script>
   <script src="assets/js/motion.js" defer></script>
   <script src="assets/js/reviews.js" defer></script>
@@ -41,6 +43,7 @@
       </a>
       <nav class="header-nav" aria-label="Основная навигация">
         <a href="catalog/">Каталог</a>
+        <a href="solutions/">Примеры работ</a>
         <a href="about/">О нас</a>
         <a href="contacts/">Филиалы</a>
         <a href="reviews/">Отзывы</a>
@@ -201,24 +204,31 @@
             <span class="eyebrow">Идеи для вашего дома</span>
             <h2 id="projectExamplesTitle">Примеры решений</h2>
           </div>
-          <p>Демонстрационные сценарии под разные задачи. Это не реальные заказы; фотографии служат иллюстрациями.</p>
+          <p>Идеи для вашего дома. Примеры и изображения — демонстрационные.</p>
         </div>
-        <div class="project-examples-grid">
+        <div class="card-strip-controls" data-strip-controls="homeSolutionsTrack" hidden>
+          <span class="card-strip-position" aria-live="polite" aria-atomic="true">1 / 4</span>
+          <div>
+            <button type="button" data-strip-step="-1" aria-label="Предыдущий пример" aria-controls="homeSolutionsTrack">←</button>
+            <button type="button" data-strip-step="1" aria-label="Следующий пример" aria-controls="homeSolutionsTrack">→</button>
+          </div>
+        </div>
+        <div class="project-examples-grid" id="homeSolutionsTrack" data-card-strip role="region" aria-label="Примеры решений — листайте влево и вправо">
           <article class="project-example">
-            <img src="assets/catalog/tilt-window.webp" alt="Иллюстрация поворотно-откидного окна" width="1536" height="1024" loading="lazy" decoding="async">
-            <div><span>Сценарий 01 · Квартира</span><h3>Тише и теплее в спальне</h3><p>Окно с поворотно-откидной створкой и двухкамерным стеклопакетом — пример комплектации для комнаты, где важны тепло и проветривание.</p></div>
+            <img src="assets/catalog/tilt-window.webp" srcset="assets/catalog/tilt-window-small.webp 768w, assets/catalog/tilt-window.webp 1536w" sizes="(max-width: 410px) calc(86vw - 34px), (max-width: 760px) 320px, (max-width: 1100px) calc((100vw - 74px) / 2), 320px" alt="Иллюстрация поворотно-откидного окна" width="1536" height="1024" loading="lazy" decoding="async">
+            <div><span>Сценарий 01 · Квартира</span><h3>Тише и теплее в спальне</h3><p class="project-description-full">Окно с поворотно-откидной створкой и двухкамерным стеклопакетом — пример комплектации для комнаты, где важны тепло и проветривание.</p><p class="project-summary">Окно с проветриванием и двухкамерным стеклопакетом.</p></div>
           </article>
           <article class="project-example">
-            <img src="assets/catalog/balcony-block.webp" alt="Иллюстрация балконного блока" width="1536" height="1024" loading="lazy" decoding="async">
-            <div><span>Сценарий 02 · Балкон</span><h3>Обновить балконный блок</h3><p>Окно и балконная дверь в едином стиле. Конкретные размеры, открывания и состав стеклопакета подбираются после замера.</p></div>
+            <img src="assets/catalog/balcony-block.webp" srcset="assets/catalog/balcony-block-small.webp 768w, assets/catalog/balcony-block.webp 1536w" sizes="(max-width: 410px) calc(86vw - 34px), (max-width: 760px) 320px, (max-width: 1100px) calc((100vw - 74px) / 2), 320px" alt="Иллюстрация балконного блока" width="1536" height="1024" loading="lazy" decoding="async">
+            <div><span>Сценарий 02 · Балкон</span><h3>Обновить балконный блок</h3><p class="project-description-full">Окно и балконная дверь в едином стиле. Конкретные размеры, открывания и состав стеклопакета подбираются после замера.</p><p class="project-summary">Окно и дверь в одном стиле для выхода на балкон.</p></div>
           </article>
           <article class="project-example">
-            <img src="assets/catalog/entrance-door.webp" alt="Иллюстрация входной металлопластиковой двери" width="1536" height="1024" loading="lazy" decoding="async">
-            <div><span>Сценарий 03 · Частный дом</span><h3>Входная дверь под проём</h3><p>Пример решения для частного дома: дверь из металлопластика с подбором профиля, заполнения и фурнитуры под условия эксплуатации.</p></div>
+            <img src="assets/catalog/entrance-door.webp" srcset="assets/catalog/entrance-door-small.webp 768w, assets/catalog/entrance-door.webp 1536w" sizes="(max-width: 410px) calc(86vw - 34px), (max-width: 760px) 320px, (max-width: 1100px) calc((100vw - 74px) / 2), 320px" alt="Иллюстрация входной металлопластиковой двери" width="1536" height="1024" loading="lazy" decoding="async">
+            <div><span>Сценарий 03 · Частный дом</span><h3>Входная дверь под проём</h3><p class="project-description-full">Пример решения для частного дома: дверь из металлопластика с подбором профиля, заполнения и фурнитуры под условия эксплуатации.</p><p class="project-summary">Дверь по вашим размерам и условиям эксплуатации.</p></div>
           </article>
           <article class="project-example">
-            <img src="assets/catalog/uni-blind.webp" alt="Иллюстрация окна с кассетной рулонной шторой" width="1536" height="1024" loading="lazy" decoding="async">
-            <div><span>Сценарий 04 · Гостиная</span><h3>Свет под контролем</h3><p>Кассетная рулонная штора помогает регулировать освещение и укрыться от посторонних взглядов. Ткань и размеры подбираются под ваше окно.</p></div>
+            <img src="assets/catalog/uni-blind.webp" srcset="assets/catalog/uni-blind-small.webp 768w, assets/catalog/uni-blind.webp 1536w" sizes="(max-width: 410px) calc(86vw - 34px), (max-width: 760px) 320px, (max-width: 1100px) calc((100vw - 74px) / 2), 320px" alt="Иллюстрация окна с кассетной рулонной шторой" width="1536" height="1024" loading="lazy" decoding="async">
+            <div><span>Сценарий 04 · Гостиная</span><h3>Свет под контролем</h3><p class="project-description-full">Кассетная рулонная штора помогает регулировать освещение и укрыться от посторонних взглядов. Ткань и размеры подбираются под ваше окно.</p><p class="project-summary">Рулонная штора для мягкого света и приватности.</p></div>
           </article>
         </div>
         <p class="project-examples-note">Примеры носят ознакомительный характер. Изображения — иллюстрации, не фото выполненных объектов.</p>
@@ -373,31 +383,40 @@
           <a class="home-contact-phone" href="tel:+79895175699"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m7 3 3 5-2.5 2.5a15 15 0 0 0 6 6L16 14l5 3c0 3-2 4-4 4C10 20 4 14 3 7c0-2 1-4 4-4Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg><span class="home-contact-phone-copy"><small>Позвонить в «Спектр»</small><strong>8 989 517 56 99</strong></span><span class="home-contact-phone-arrow" aria-hidden="true">↗</span></a>
           <a class="home-contact-all" href="contacts/">Адреса и режим работы всех офисов →</a>
         </div>
-        <div class="home-contact-offices" aria-label="Все филиалы">
-          <article class="home-office-card">
-            <img src="contacts/assets/rostov-aleksandrovka.webp" alt="Карта: Ростов-на-Дону, проспект 40-летия Победы, 89" loading="lazy" decoding="async" width="1247" height="796">
-            <div><small>Ростовская область</small><h3>Ростов-на-Дону</h3><p>проспект 40-летия Победы, 89</p><a class="office-call" href="tel:+79882530344" aria-label="Позвонить в филиал: 8 988 253 03 44"><span class="office-call-number">8 988 253 03 44</span><span class="office-call-arrow" aria-hidden="true">↗</span></a><a class="office-map-link" href="https://yandex.ru/maps/?text=Ростов-на-Дону%2C%20проспект%2040-летия%20Победы%2C%2089" target="_blank" rel="noopener noreferrer">Открыть карту ↗</a></div>
-          </article>
-          <article class="home-office-card">
-            <img src="contacts/assets/rostov-zorge.webp" alt="Карта: Ростов-на-Дону, улица Зорге, 56" loading="lazy" decoding="async" width="1265" height="809">
-            <div><small>Ростовская область</small><h3>Ростов-на-Дону</h3><p>ул. Зорге, 56, магазин «Медтехника»</p><a class="office-call" href="tel:+79896164445" aria-label="Позвонить в филиал: 8 989 616 44 45"><span class="office-call-number">8 989 616 44 45</span><span class="office-call-arrow" aria-hidden="true">↗</span></a><a class="office-map-link" href="https://yandex.ru/maps/?text=Ростов-на-Дону%2C%20улица%20Зорге%2C%2056" target="_blank" rel="noopener noreferrer">Открыть карту ↗</a></div>
-          </article>
-          <article class="home-office-card">
-            <img src="contacts/assets/azov.webp" alt="Карта: Азов, улица Ленина, 66" loading="lazy" decoding="async" width="1259" height="807">
-            <div><small>Ростовская область</small><h3>Азов</h3><p>ул. Ленина, 66</p><a class="office-call" href="tel:+79895175699" aria-label="Позвонить в филиал: 8 989 517 56 99"><span class="office-call-number">8 989 517 56 99</span><span class="office-call-arrow" aria-hidden="true">↗</span></a><a class="office-map-link" href="https://yandex.ru/maps/?text=Азов%2C%20улица%20Ленина%2C%2066" target="_blank" rel="noopener noreferrer">Открыть карту ↗</a></div>
-          </article>
-          <article class="home-office-card">
-            <img src="contacts/assets/kuleshovka.webp" alt="Карта: Кулешовка, улица Матросова, 11" loading="lazy" decoding="async" width="1264" height="816">
-            <div><small>Ростовская область</small><h3>Кулешовка</h3><p>ул. Матросова, 11</p><a class="office-call" href="tel:+79896350069" aria-label="Позвонить в филиал: 8 989 635 00 69"><span class="office-call-number">8 989 635 00 69</span><span class="office-call-arrow" aria-hidden="true">↗</span></a><a class="office-map-link" href="https://yandex.ru/maps/?text=Кулешовка%2C%20улица%20Матросова%2C%2011" target="_blank" rel="noopener noreferrer">Открыть карту ↗</a></div>
-          </article>
-          <article class="home-office-card">
-            <img src="contacts/assets/bataysk.webp" alt="Карта: Батайск, улица Максима Горького, 152" loading="lazy" decoding="async" width="1267" height="804">
-            <div><small>Ростовская область</small><h3>Батайск</h3><p>ул. М. Горького, 152</p><a class="office-call" href="tel:+79885636444" aria-label="Позвонить в филиал: 8 988 563 64 44"><span class="office-call-number">8 988 563 64 44</span><span class="office-call-arrow" aria-hidden="true">↗</span></a><a class="office-map-link" href="https://yandex.ru/maps/?text=Батайск%2C%20улица%20Максима%20Горького%2C%20152" target="_blank" rel="noopener noreferrer">Открыть карту ↗</a></div>
-          </article>
-          <article class="home-office-card">
-            <img src="contacts/assets/eysk.webp" alt="Карта: Ейск, улица Карла Либкнехта, 70" loading="lazy" decoding="async" width="1266" height="826">
-            <div><small>Краснодарский край</small><h3>Ейск</h3><p>ул. Карла Либкнехта, 70</p><a class="office-call" href="tel:+79182104069" aria-label="Позвонить в филиал: 8 918 210 40 69"><span class="office-call-number">8 918 210 40 69</span><span class="office-call-arrow" aria-hidden="true">↗</span></a><a class="office-map-link" href="https://yandex.ru/maps/?text=Ейск%2C%20улица%20Карла%20Либкнехта%2C%2070" target="_blank" rel="noopener noreferrer">Открыть карту ↗</a></div>
-          </article>
+        <div class="home-contact-branches">
+          <div class="card-strip-controls" data-strip-controls="homeOfficesTrack" hidden>
+            <span class="card-strip-position" aria-live="polite" aria-atomic="true">1 / 6</span>
+            <div>
+              <button type="button" data-strip-step="-1" aria-label="Предыдущий филиал" aria-controls="homeOfficesTrack">←</button>
+              <button type="button" data-strip-step="1" aria-label="Следующий филиал" aria-controls="homeOfficesTrack">→</button>
+            </div>
+          </div>
+          <div class="home-contact-offices" id="homeOfficesTrack" data-card-strip role="region" aria-label="Все филиалы">
+            <article class="home-office-card">
+              <img src="contacts/assets/rostov-aleksandrovka.webp" srcset="contacts/assets/rostov-aleksandrovka-small.webp 640w, contacts/assets/rostov-aleksandrovka.webp 1247w" sizes="(max-width: 410px) calc(86vw - 34px), (max-width: 760px) 320px, (max-width: 1280px) calc((100vw - 80px) / 2), 440px" alt="Карта: Ростов-на-Дону, проспект 40-летия Победы, 89" loading="lazy" decoding="async" width="1247" height="796">
+              <div><small>Ростовская область</small><h3>Ростов-на-Дону</h3><p>проспект 40-летия Победы, 89</p><a class="office-call" href="tel:+79882530344" aria-label="Позвонить в филиал: 8 988 253 03 44"><span class="office-call-number">8 988 253 03 44</span><span class="office-call-arrow" aria-hidden="true">↗</span></a><a class="office-map-link" href="https://yandex.ru/maps/?text=Ростов-на-Дону%2C%20проспект%2040-летия%20Победы%2C%2089" target="_blank" rel="noopener noreferrer">Открыть карту ↗</a></div>
+            </article>
+            <article class="home-office-card">
+              <img src="contacts/assets/rostov-zorge.webp" srcset="contacts/assets/rostov-zorge-small.webp 640w, contacts/assets/rostov-zorge.webp 1265w" sizes="(max-width: 410px) calc(86vw - 34px), (max-width: 760px) 320px, (max-width: 1280px) calc((100vw - 80px) / 2), 440px" alt="Карта: Ростов-на-Дону, улица Зорге, 56" loading="lazy" decoding="async" width="1265" height="809">
+              <div><small>Ростовская область</small><h3>Ростов-на-Дону</h3><p>ул. Зорге, 56, магазин «Медтехника»</p><a class="office-call" href="tel:+79896164445" aria-label="Позвонить в филиал: 8 989 616 44 45"><span class="office-call-number">8 989 616 44 45</span><span class="office-call-arrow" aria-hidden="true">↗</span></a><a class="office-map-link" href="https://yandex.ru/maps/?text=Ростов-на-Дону%2C%20улица%20Зорге%2C%2056" target="_blank" rel="noopener noreferrer">Открыть карту ↗</a></div>
+            </article>
+            <article class="home-office-card">
+              <img src="contacts/assets/azov.webp" srcset="contacts/assets/azov-small.webp 640w, contacts/assets/azov.webp 1259w" sizes="(max-width: 410px) calc(86vw - 34px), (max-width: 760px) 320px, (max-width: 1280px) calc((100vw - 80px) / 2), 440px" alt="Карта: Азов, улица Ленина, 66" loading="lazy" decoding="async" width="1259" height="807">
+              <div><small>Ростовская область</small><h3>Азов</h3><p>ул. Ленина, 66</p><a class="office-call" href="tel:+79895175699" aria-label="Позвонить в филиал: 8 989 517 56 99"><span class="office-call-number">8 989 517 56 99</span><span class="office-call-arrow" aria-hidden="true">↗</span></a><a class="office-map-link" href="https://yandex.ru/maps/?text=Азов%2C%20улица%20Ленина%2C%2066" target="_blank" rel="noopener noreferrer">Открыть карту ↗</a></div>
+            </article>
+            <article class="home-office-card">
+              <img src="contacts/assets/kuleshovka.webp" srcset="contacts/assets/kuleshovka-small.webp 640w, contacts/assets/kuleshovka.webp 1264w" sizes="(max-width: 410px) calc(86vw - 34px), (max-width: 760px) 320px, (max-width: 1280px) calc((100vw - 80px) / 2), 440px" alt="Карта: Кулешовка, улица Матросова, 11" loading="lazy" decoding="async" width="1264" height="816">
+              <div><small>Ростовская область</small><h3>Кулешовка</h3><p>ул. Матросова, 11</p><a class="office-call" href="tel:+79896350069" aria-label="Позвонить в филиал: 8 989 635 00 69"><span class="office-call-number">8 989 635 00 69</span><span class="office-call-arrow" aria-hidden="true">↗</span></a><a class="office-map-link" href="https://yandex.ru/maps/?text=Кулешовка%2C%20улица%20Матросова%2C%2011" target="_blank" rel="noopener noreferrer">Открыть карту ↗</a></div>
+            </article>
+            <article class="home-office-card">
+              <img src="contacts/assets/bataysk.webp" srcset="contacts/assets/bataysk-small.webp 640w, contacts/assets/bataysk.webp 1267w" sizes="(max-width: 410px) calc(86vw - 34px), (max-width: 760px) 320px, (max-width: 1280px) calc((100vw - 80px) / 2), 440px" alt="Карта: Батайск, улица Максима Горького, 152" loading="lazy" decoding="async" width="1267" height="804">
+              <div><small>Ростовская область</small><h3>Батайск</h3><p>ул. М. Горького, 152</p><a class="office-call" href="tel:+79885636444" aria-label="Позвонить в филиал: 8 988 563 64 44"><span class="office-call-number">8 988 563 64 44</span><span class="office-call-arrow" aria-hidden="true">↗</span></a><a class="office-map-link" href="https://yandex.ru/maps/?text=Батайск%2C%20улица%20Максима%20Горького%2C%20152" target="_blank" rel="noopener noreferrer">Открыть карту ↗</a></div>
+            </article>
+            <article class="home-office-card">
+              <img src="contacts/assets/eysk.webp" srcset="contacts/assets/eysk-small.webp 640w, contacts/assets/eysk.webp 1266w" sizes="(max-width: 410px) calc(86vw - 34px), (max-width: 760px) 320px, (max-width: 1280px) calc((100vw - 80px) / 2), 440px" alt="Карта: Ейск, улица Карла Либкнехта, 70" loading="lazy" decoding="async" width="1266" height="826">
+              <div><small>Краснодарский край</small><h3>Ейск</h3><p>ул. Карла Либкнехта, 70</p><a class="office-call" href="tel:+79182104069" aria-label="Позвонить в филиал: 8 918 210 40 69"><span class="office-call-number">8 918 210 40 69</span><span class="office-call-arrow" aria-hidden="true">↗</span></a><a class="office-map-link" href="https://yandex.ru/maps/?text=Ейск%2C%20улица%20Карла%20Либкнехта%2C%2070" target="_blank" rel="noopener noreferrer">Открыть карту ↗</a></div>
+            </article>
+          </div>
         </div>
       </div>
     </section>

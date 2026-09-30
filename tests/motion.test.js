@@ -79,7 +79,7 @@ test('scroll frames reuse hero measurements instead of forcing layout reads', ()
   const events = {};
   const hero = { classList: classList(), style: { setProperty() {}, removeProperty() {} }, getBoundingClientRect() { reads++; return { top: 100, height: 700 }; } };
   const progress = { style: {} };
-  const window = { scrollY: 0, matchMedia: () => ({ matches: false, addListener() {} }), addEventListener: (name, fn) => { events[name] = fn; } };
+  const window = { scrollY: 0, matchMedia: query => ({ matches: query.includes('pointer: fine'), addListener() {} }), addEventListener: (name, fn) => { events[name] = fn; } };
   vm.runInNewContext(source('motion.js'), {
     window, innerHeight: 800,
     document: { hidden: false, documentElement: { scrollHeight: 4000 }, addEventListener() {}, querySelector: s => s === '.hero' ? hero : s === '.reading-progress span' ? progress : null, querySelectorAll: () => [] },
@@ -87,6 +87,7 @@ test('scroll frames reuse hero measurements instead of forcing layout reads', ()
   });
   frames.shift()();
   const initialReads = reads;
+  assert.ok(initialReads > 0);
   for (let i = 1; i <= 5; i++) {
     window.scrollY = i * 100;
     events.scroll(); events.scroll();
@@ -97,4 +98,30 @@ test('scroll frames reuse hero measurements instead of forcing layout reads', ()
   window.scrollY = 1500;
   events.scroll(); frames.shift()();
   assert.equal(hero.classList.contains('is-in-view'), false);
+});
+
+test('touch devices skip hero work; enabling desktop motion refreshes its dimensions', () => {
+  let reads = 0, writes = 0;
+  const frames = [];
+  const events = {};
+  const fine = { matches: false, addListener(fn) { this.change = fn; } };
+  const reduced = { matches: true, addListener(fn) { this.change = fn; } };
+  const hero = { classList: classList(), style: { setProperty() { writes++; }, removeProperty() {} }, getBoundingClientRect() { reads++; return { top: 0, height: 700 }; } };
+  vm.runInNewContext(source('motion.js'), {
+    window: { scrollY: 0, matchMedia: q => q.includes('pointer: fine') ? fine : reduced, addEventListener: (name, fn) => { events[name] = fn; } },
+    innerHeight: 800,
+    document: { hidden: false, documentElement: { scrollHeight: 4000 }, addEventListener() {}, querySelector: s => s === '.hero' ? hero : null, querySelectorAll: () => [] },
+    requestAnimationFrame: fn => { frames.push(fn); return frames.length; },
+  });
+  const flush = () => { while (frames.length) frames.shift()(); };
+  flush(); events.scroll(); flush();
+  assert.equal(reads, 0); assert.equal(writes, 0);
+  reduced.matches = false; reduced.change(); flush();
+  assert.equal(reads, 0); assert.equal(writes, 0);
+  fine.matches = true; fine.change(); flush();
+  assert.ok(reads > 0); assert.ok(writes > 0);
+  reduced.matches = true; reduced.change(); flush();
+  const before = reads;
+  reduced.matches = false; reduced.change(); flush();
+  assert.ok(reads > before);
 });

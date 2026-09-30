@@ -31,6 +31,10 @@ function renderSpektrCatalogCard(product, index, assetPrefix = '') {
     photo.className = 'catalog-photo';
     const image = document.createElement('img');
     image.src = `${assetPrefix}${product.image}`;
+    image.srcset = `${assetPrefix}${product.image.replace('.webp', '-small.webp')} 768w, ${assetPrefix}${product.image} 1536w`;
+    image.sizes = assetPrefix
+      ? '(max-width: 600px) calc(100vw - 40px), (max-width: 1050px) calc((100vw - 74px) / 2), 420px'
+      : '(max-width: 410px) calc(86vw - 34px), 320px';
     image.alt = product.title;
     image.width = 1536;
     image.height = 1024;

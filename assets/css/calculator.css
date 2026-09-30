@@ -23,7 +23,11 @@
 .calculator .secondary-link { display: inline-block; }
 .calculator-section .combined-layout { align-items: start; }
 @media (max-width: 1100px) { .sash-presets { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
-@media (max-width: 380px) { .calculator .calc-pair { grid-template-columns: 1fr; } }
+@media (max-width: 520px) {
+  .calculator .calc-pair, .calculator .calculator-fields { grid-template-columns: minmax(0, 1fr); }
+  .calculator .calculator-fields input, .calculator .calculator-fields select { min-height: 48px; }
+  .sash-presets { grid-template-columns: repeat(4, minmax(44px, 1fr)); }
+}
 
 /* Shared calculation, two layouts: a short form and a guided full page. */
 .calculator-compact .calculator-content { margin-top: 18px; }

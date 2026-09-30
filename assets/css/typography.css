@@ -13,7 +13,11 @@
   }
 }
 
-html { font-size: var(--font-size-body); }
+html { font-size: var(--font-size-body); scrollbar-gutter: stable; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+
+@supports not (scrollbar-gutter: stable) {
+  html { overflow-y: scroll; }
+}
 
 /* Neutralize browser sizes for small, sup, headings and form controls. */
 :where(*), ::before, ::after, ::marker { font-size: inherit; }
@@ -40,4 +44,9 @@ html { font-size: var(--font-size-body); }
 *::before,
 *::after {
   border-radius: 0 !important;
+}
+
+@media (max-width: 760px) {
+  body { overflow-wrap: break-word; }
+  h1, h2, h3 { overflow-wrap: anywhere; }
 }

@@ -226,6 +226,7 @@ button {
 }
 
 .filter-button {
+    min-height: 44px;
     padding: 10px 17px;
     color: var(--muted);
     background: transparent;
@@ -923,4 +924,15 @@ button {
     .review-verified {
         font-size: var(--font-size-body);
     }
+}
+
+@media (max-width: 520px) {
+    .contact-banner a { grid-template-columns: minmax(0, 1fr) auto; padding: 16px; }
+    .contact-banner a > svg { display: none; }
+    .contact-banner a strong { font-size: var(--font-size-body); white-space: nowrap; }
+}
+@media (hover: none), (pointer: coarse) {
+    .work-status.is-open::before { animation: none; }
+    .office-card:hover { transform: none; box-shadow: none; }
+    .contacts-page .office-card:hover .office-map img { transform: none; filter: none; }
 }
