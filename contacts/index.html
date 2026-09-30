@@ -2,6 +2,9 @@
 <html lang="ru">
 
 <head>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&display=swap" rel="stylesheet">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description"
@@ -10,26 +13,32 @@
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
     <link rel="stylesheet" href="../assets/css/contacts.css">
     <link rel="stylesheet" href="../assets/css/night.css">
+    <link rel="stylesheet" href="../assets/css/header-refresh.css">
+  <link rel="stylesheet" href="../assets/css/footer.css">
+    <link rel="stylesheet" href="../assets/css/typography.css">
     <script src="../assets/js/contacts.js" defer></script>
 </head>
 
-<body class="contacts-page">
+<body id="page-top" class="contacts-page">
     <header class="site-header">
-        <div class="wrap header-inner">
-            <a class="logo header-logo" href="../index.html">
-                <img src="../assets/logo-white.png" alt="Спектр — завод металлопластиковых конструкций">
-            </a>
-
-            <form class="search" id="officeSearchForm" role="search">
-                <input id="officeSearch" type="search" placeholder="Найти филиал, город или улицу"
-                    aria-label="Поиск филиала" autocomplete="off">
-
-                <button type="submit" aria-label="Найти">⌕</button>
-
-                <span class="search-status" id="headerSearchStatus" role="status"></span>
-            </form>
-        </div>
-    </header>
+    <div class="wrap header-inner">
+      <a class="logo header-logo" href="../" aria-label="Спектр — на главную">
+        <img src="../assets/logo-white.webp" alt="Спектр" width="720" height="269" decoding="async">
+      </a>
+      <nav class="header-nav" aria-label="Основная навигация">
+        <a href="../catalog/">Каталог</a>
+        <a href="../about/">О нас</a>
+        <a aria-current="page" href="./">Филиалы</a>
+        <a href="../reviews/">Отзывы</a>
+        <a class="header-calculator-link" href="../calculator/">Рассчитать стоимость</a>
+      </nav>
+      <a class="header-call" href="tel:+79895175699">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m7 3 3 5-2.5 2.5a15 15 0 0 0 6 6L16 14l5 3c0 3-2 4-4 4C10 20 4 14 3 7c0-2 1-4 4-4Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+        <span class="header-call-copy"><span>Позвонить в «Спектр»</span><small>8 989 517 56 99</small></span>
+        <span class="header-call-arrow" aria-hidden="true">↗</span>
+      </a>
+    </div>
+  </header>
 
     <main>
         <section class="hero">
@@ -59,10 +68,7 @@
                         <h2 id="officesTitle">Наши филиалы</h2>
                     </div>
 
-                    <p class="section-intro">
-                        Выберите регион или найдите ближайший офис через поиск
-                        в верхней части страницы.
-                    </p>
+                    <p class="section-intro">Выберите регион и посмотрите адрес, телефон и режим работы ближайшего офиса.</p>
                 </div>
 
                 <div class="region-filters" role="group" aria-label="Фильтр по региону">
@@ -80,8 +86,8 @@
                         <a class="office-map"
                             href="https://yandex.ru/maps/?text=Ростов-на-Дону%2C%20проспект%2040-летия%20Победы%2C%2089"
                             target="_blank" rel="noopener" aria-label="Открыть офис на карте">
-                            <img src="assets/rostov-aleksandrovka.png" alt="Карта офиса Спектр в Александровке"
-                                loading="lazy">
+                            <img src="assets/rostov-aleksandrovka.webp" alt="Карта офиса Спектр в Александровке"
+                                loading="lazy" width="1247" height="796" decoding="async">
                             <span>Открыть карту ↗</span>
                         </a>
                         <div class="office-body">
@@ -120,7 +126,7 @@
                         <a class="office-map"
                             href="https://yandex.ru/maps/?text=Ростов-на-Дону%2C%20улица%20Зорге%2C%2056"
                             target="_blank" rel="noopener" aria-label="Открыть офис на карте">
-                            <img src="assets/rostov-zorge.png" alt="Карта офиса Спектр на улице Зорге" loading="lazy">
+                            <img src="assets/rostov-zorge.webp" alt="Карта офиса Спектр на улице Зорге" loading="lazy" width="1265" height="809" decoding="async">
                             <span>Открыть карту ↗</span>
                         </a>
                         <div class="office-body">
@@ -157,7 +163,7 @@
                     <article class="office-card" data-region="region" data-search="азов ленина 66">
                         <a class="office-map" href="https://yandex.ru/maps/?text=Азов%2C%20улица%20Ленина%2C%2066"
                             target="_blank" rel="noopener" aria-label="Открыть офис на карте">
-                            <img src="assets/azov.png" alt="Карта офиса Спектр в Азове" loading="lazy">
+                            <img src="assets/azov.webp" alt="Карта офиса Спектр в Азове" loading="lazy" width="1259" height="807" decoding="async">
                             <span>Открыть карту ↗</span>
                         </a>
                         <div class="office-body">
@@ -196,7 +202,7 @@
                         <a class="office-map"
                             href="https://yandex.ru/maps/?text=Кулешовка%2C%20улица%20Матросова%2C%2011" target="_blank"
                             rel="noopener" aria-label="Открыть офис на карте">
-                            <img src="assets/kuleshovka.png" alt="Карта офиса Спектр в Кулешовке" loading="lazy">
+                            <img src="assets/kuleshovka.webp" alt="Карта офиса Спектр в Кулешовке" loading="lazy" width="1264" height="816" decoding="async">
                             <span>Открыть карту ↗</span>
                         </a>
                         <div class="office-body">
@@ -235,7 +241,7 @@
                         <a class="office-map"
                             href="https://yandex.ru/maps/?text=Батайск%2C%20улица%20Максима%20Горького%2C%20152"
                             target="_blank" rel="noopener" aria-label="Открыть офис на карте">
-                            <img src="assets/bataysk.png" alt="Карта офиса Спектр в Батайске" loading="lazy">
+                            <img src="assets/bataysk.webp" alt="Карта офиса Спектр в Батайске" loading="lazy" width="1267" height="804" decoding="async">
                             <span>Открыть карту ↗</span>
                         </a>
                         <div class="office-body">
@@ -274,7 +280,7 @@
                         <a class="office-map"
                             href="https://yandex.ru/maps/?text=Ейск%2C%20улица%20Карла%20Либкнехта%2C%2070"
                             target="_blank" rel="noopener" aria-label="Открыть офис на карте">
-                            <img src="assets/eysk.png" alt="Карта офиса Спектр в Ейске" loading="lazy">
+                            <img src="assets/eysk.webp" alt="Карта офиса Спектр в Ейске" loading="lazy" width="1266" height="826" decoding="async">
                             <span>Открыть карту ↗</span>
                         </a>
                         <div class="office-body">
@@ -311,8 +317,8 @@
                 </div>
 
                 <div class="empty-state" id="emptyState" hidden>
-                    <strong>Филиал не найден</strong>
-                    <p>Измените запрос или выберите другой регион.</p>
+                    <strong>В выбранном регионе пока нет филиалов</strong>
+                    <p>Выберите другой регион или позвоните нам.</p>
                 </div>
             </div>
         </section>
@@ -323,31 +329,41 @@
                     <h2>Поможем выбрать удобный офис</h2>
                     <p>Позвоните по единому номеру — подскажем ближайший филиал и запишем на бесплатный замер.</p>
                 </div>
-                <a href="tel:+79895175699"><span>Позвонить в «Спектр»</span><strong>8 989 517 56 99</strong></a>
+                <a href="tel:+79895175699"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m7 3 3 5-2.5 2.5a15 15 0 0 0 6 6L16 14l5 3c0 3-2 4-4 4C10 20 4 14 3 7c0-2 1-4 4-4Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg><span>Позвонить в «Спектр»<strong>8 989 517 56 99</strong></span><b aria-hidden="true">↗</b></a>
             </div>
         </section>
     </main>
 
     <footer class="site-footer">
-        <div class="wrap footer-inner">
-            <a class="logo footer-logo" href="../index.html">
-                <img src="../assets/logo-white.png" alt="Спектр">
-            </a>
-
-            <nav aria-label="Нижнее меню">
-                <a href="../about/">О нас</a>
-                <a href="#offices">Контакты</a>
-                <a href="https://yandex.ru/maps/?text=Ростов-на-Дону" target="_blank" rel="noopener">
-                    Адрес
-                </a>
-            </nav>
-
-            <p>
-                Ростов-на-Дону и Ростовская область<br>
-                <a href="tel:+79895175699">8 989 517 56 99</a>
-            </p>
+    <div class="wrap footer-inner">
+      <div class="footer-brand">
+        <a class="logo footer-logo" href="../" aria-label="Спектр — на главную">
+          <img src="../assets/logo-white.webp" alt="Спектр" loading="lazy" decoding="async" width="720" height="269">
+        </a>
+        <p>Производим и устанавливаем окна<br><span>с 2004 года</span></p>
+      </div>
+      <nav class="footer-navigation" aria-label="Нижнее меню">
+        <span class="footer-label">Разделы сайта</span>
+        <div class="footer-links">
+          <a href="../catalog/">Каталог</a>
+          <a href="../about/">О нас</a>
+          <a href="../solutions/">Примеры решений</a>
+          <a aria-current="page" href="./">Филиалы</a>
+          <a href="../calculator/">Калькулятор</a>
+          <a href="../reviews/">Отзывы</a>
         </div>
-    </footer>
+      </nav>
+      <div class="footer-contact">
+        <span class="footer-label">Будем на связи</span>
+        <a class="footer-phone" href="tel:+79895175699">8 989 517 56 99 <span aria-hidden="true">↗</span></a>
+        <p>Ростовская область<br>и Краснодарский край</p>
+      </div>
+    </div>
+    <div class="wrap footer-bottom">
+      <span>© Спектр</span>
+      <a href="#page-top">Наверх <span aria-hidden="true">↑</span></a>
+    </div>
+  </footer>
 </body>
 
 </html>

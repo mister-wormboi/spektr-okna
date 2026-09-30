@@ -5,44 +5,75 @@
   const progress = document.querySelector('.reading-progress span');
   let queued = false;
   let pageHeight = 1;
+  let heroTop = 0;
+  let heroHeight = 0;
   const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 
   function draw() {
     queued = false;
-    progress.style.transform = `scaleX(${clamp(window.scrollY / pageHeight, 0, 1)})`;
+    if (progress) progress.style.transform = `scaleX(${clamp(window.scrollY / pageHeight, 0, 1)})`;
     if (reduced.matches) return;
-    const heroBounds = hero.getBoundingClientRect();
-    if (heroBounds.bottom > 0) hero.style.setProperty('--hero-shift', `${clamp(-heroBounds.top * .12, 0, 55)}px`);
+    if (!hero) return;
+    const heroVisible = window.scrollY < heroTop + heroHeight && window.scrollY + innerHeight > heroTop;
+    hero.classList.toggle('is-in-view', heroVisible);
+    if (heroVisible) {
+      const heroProgress = clamp((innerHeight + window.scrollY - heroTop) / (innerHeight + heroHeight), 0, 1);
+      hero.style.setProperty('--hero-shift', `${clamp(heroProgress * 36, 0, 36)}px`);
+      hero.style.setProperty('--hero-scale', `${1.025 + heroProgress * .095}`);
+    }
   }
   function requestDraw() {
-    if (!queued) { queued = true; requestAnimationFrame(draw); }
+    if (!queued && !document.hidden) { queued = true; requestAnimationFrame(draw); }
   }
   function measure() {
     pageHeight = Math.max(1, document.documentElement.scrollHeight - innerHeight);
+    if (hero) {
+      const bounds = hero.getBoundingClientRect();
+      heroTop = bounds.top + window.scrollY;
+      heroHeight = bounds.height;
+    }
     requestDraw();
   }
   window.addEventListener('scroll', requestDraw, { passive: true });
   window.addEventListener('resize', measure, { passive: true });
+  window.addEventListener('load', measure, { once: true });
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) measure(); });
   if ('ResizeObserver' in window) new ResizeObserver(measure).observe(document.body);
-  reduced.addEventListener('change', () => {
-    hero.style.removeProperty('--hero-shift');
+  const updateMotion = () => {
+    hero?.classList.remove('is-in-view');
+    hero?.style.removeProperty('--hero-shift');
+    hero?.style.removeProperty('--hero-scale');
     priceAnimation?.cancel();
     requestDraw();
-  });
+  };
+  if (reduced.addEventListener) reduced.addEventListener('change', updateMotion);
+  else reduced.addListener(updateMotion);
 
   // Delegation also covers product cards replaced by the catalogue filters.
-  document.querySelector('#cards').addEventListener('pointermove', event => {
+  let lightFrame = 0;
+  let lightTarget;
+  let lightX = 0;
+  let lightY = 0;
+  document.querySelector('#cards')?.addEventListener('pointermove', event => {
     if (reduced.matches || !finePointer.matches) return;
     const body = event.target.closest('.card-body');
     if (!body) return;
-    const bounds = body.getBoundingClientRect();
-    body.style.setProperty('--light-x', `${event.clientX - bounds.left}px`);
-    body.style.setProperty('--light-y', `${event.clientY - bounds.top}px`);
+    lightTarget = body;
+    lightX = event.clientX;
+    lightY = event.clientY;
+    if (lightFrame) return;
+    lightFrame = requestAnimationFrame(() => {
+      lightFrame = 0;
+      if (!lightTarget.isConnected || reduced.matches || document.hidden) return;
+      const bounds = lightTarget.getBoundingClientRect();
+      lightTarget.style.setProperty('--light-x', `${lightX - bounds.left}px`);
+      lightTarget.style.setProperty('--light-y', `${lightY - bounds.top}px`);
+    });
   }, { passive: true });
 
   const price = document.querySelector('#calcPrice');
   let priceAnimation;
-  new MutationObserver(() => {
+  if (price && typeof price.animate === 'function') new MutationObserver(() => {
     if (reduced.matches) return;
     priceAnimation?.cancel();
     priceAnimation = price.animate([
@@ -55,29 +86,14 @@
     let animation;
     details.addEventListener('toggle', () => {
       animation?.cancel();
-      if (!details.open || reduced.matches) return;
-      animation = details.querySelector('p').animate([
+      const copy = details.querySelector('p');
+      if (!details.open || reduced.matches || !copy || typeof copy.animate !== 'function') return;
+      animation = copy.animate([
         { opacity: 0, transform: 'translateY(-8px)' },
         { opacity: 1, transform: 'translateY(0)' }
       ], { duration: 350, easing: 'ease-out' });
     });
   });
 
-  if ('IntersectionObserver' in window) {
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (!entry.isIntersecting) return;
-        if (!reduced.matches) entry.target.animate([
-          { opacity: 0, transform: 'translateY(18px)' },
-          { opacity: 1, transform: 'translateY(0)' }
-        ], { duration: 650, delay: Number(entry.target.dataset.motionDelay), easing: 'cubic-bezier(.2,.7,.3,1)', fill: 'backwards' });
-        observer.unobserve(entry.target);
-      });
-    }, { threshold: .4 });
-    document.querySelectorAll('.benefits-strip > div').forEach((item, index) => {
-      item.dataset.motionDelay = index * 90;
-      observer.observe(item);
-    });
-  }
   measure();
 })();

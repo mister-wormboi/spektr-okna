@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Каталог окон, дверей, москитных сеток, жалюзи и услуг компании «Спектр». Цены из прайс-листа.">
+  <title>Каталог товаров и услуг — Спектр</title>
+  <link rel="icon" type="image/png" href="../assets/favicon.png">
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <link rel="stylesheet" href="../assets/css/design.css">
+  <link rel="stylesheet" href="../assets/css/night.css">
+  <link rel="stylesheet" href="../assets/css/catalog.css">
+  <link rel="stylesheet" href="../assets/css/catalog-page.css">
+  <link rel="stylesheet" href="../assets/css/header-refresh.css">
+  <link rel="stylesheet" href="../assets/css/footer.css">
+  <link rel="stylesheet" href="../assets/css/typography.css">
+  <script src="../assets/js/catalog-data.js" defer></script>
+  <script src="../assets/js/catalog-render.js" defer></script>
+  <script src="../assets/js/catalog-page.js" defer></script>
+</head>
+<body id="page-top" class="catalog-page">
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="logo header-logo" href="../" aria-label="Спектр — на главную">
+        <img src="../assets/logo-white.webp" alt="Спектр" width="720" height="269" decoding="async">
+      </a>
+      <nav class="header-nav" aria-label="Основная навигация">
+        <a aria-current="page" href="./">Каталог</a>
+        <a href="../about/">О нас</a>
+        <a href="../contacts/">Филиалы</a>
+        <a href="../reviews/">Отзывы</a>
+        <a class="header-calculator-link" href="../calculator/">Рассчитать стоимость</a>
+      </nav>
+      <a class="header-call" href="tel:+79895175699">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m7 3 3 5-2.5 2.5a15 15 0 0 0 6 6L16 14l5 3c0 3-2 4-4 4C10 20 4 14 3 7c0-2 1-4 4-4Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+        <span class="header-call-copy"><span>Позвонить в «Спектр»</span><small>8 989 517 56 99</small></span>
+        <span class="header-call-arrow" aria-hidden="true">↗</span>
+      </a>
+    </div>
+  </header>
+  <main>
+    <section class="catalog-page-hero">
+      <div class="wrap">
+        <span class="eyebrow">Спектр / Каталог</span>
+        <h1>Товары и услуги</h1>
+        <p>Цены из прайс-листа. Точную стоимость конструкции и работ подтвердит специалист.</p>
+      </div>
+    </section>
+    <section class="catalog catalog-full" aria-labelledby="fullCatalogTitle">
+      <div class="wrap">
+        <div class="section-heading">
+          <div><span class="eyebrow">29 позиций</span><h2 id="fullCatalogTitle">Выберите нужное</h2></div>
+          <label class="catalog-sort">Порядок отображения
+            <select id="catalogSort">
+              <option value="default">Как в прайс-листе</option>
+              <option value="asc">Сначала дешевле</option>
+              <option value="desc">Сначала дороже</option>
+            </select>
+          </label>
+        </div>
+        <div class="tabs catalog-filters" role="group" aria-label="Категории каталога">
+          <button class="tab catalog-filter is-active" type="button" data-group="all" aria-pressed="true">Все</button>
+          <button class="tab catalog-filter" type="button" data-group="Окна и балконные блоки" aria-pressed="false">Окна и балконные блоки</button>
+          <button class="tab catalog-filter" type="button" data-group="Ремонт окон" aria-pressed="false">Ремонт окон</button>
+          <button class="tab catalog-filter" type="button" data-group="Москитные сетки" aria-pressed="false">Москитные сетки</button>
+          <button class="tab catalog-filter" type="button" data-group="Жалюзи и шторы" aria-pressed="false">Жалюзи и шторы</button>
+          <button class="tab catalog-filter" type="button" data-group="Двери" aria-pressed="false">Двери</button>
+          <button class="tab catalog-filter" type="button" data-group="Рольставни и ворота" aria-pressed="false">Рольставни и ворота</button>
+          <button class="tab catalog-filter" type="button" data-group="Отделка" aria-pressed="false">Отделка</button>
+        </div>
+        <p class="catalog-count" id="catalogCount" role="status" aria-live="polite"></p>
+        <div class="catalog-layout"><div class="cards" id="fullCatalogCards" aria-live="polite"></div></div>
+        <p class="catalog-note">Стоимость указана «от». Цена противопожарных дверей — по запросу. Натяжной потолок рассчитан за м². Итоговая стоимость зависит от размеров и комплектации.</p>
+      </div>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <div class="wrap footer-inner">
+      <div class="footer-brand">
+        <a class="logo footer-logo" href="../" aria-label="Спектр — на главную">
+          <img src="../assets/logo-white.webp" alt="Спектр" loading="lazy" decoding="async" width="720" height="269">
+        </a>
+        <p>Производим и устанавливаем окна<br><span>с 2004 года</span></p>
+      </div>
+      <nav class="footer-navigation" aria-label="Нижнее меню">
+        <span class="footer-label">Разделы сайта</span>
+        <div class="footer-links">
+          <a aria-current="page" href="./">Каталог</a>
+          <a href="../about/">О нас</a>
+          <a href="../solutions/">Примеры решений</a>
+          <a href="../contacts/">Филиалы</a>
+          <a href="../calculator/">Калькулятор</a>
+          <a href="../reviews/">Отзывы</a>
+        </div>
+      </nav>
+      <div class="footer-contact">
+        <span class="footer-label">Будем на связи</span>
+        <a class="footer-phone" href="tel:+79895175699">8 989 517 56 99 <span aria-hidden="true">↗</span></a>
+        <p>Ростовская область<br>и Краснодарский край</p>
+      </div>
+    </div>
+    <div class="wrap footer-bottom">
+      <span>© Спектр</span>
+      <a href="#page-top">Наверх <span aria-hidden="true">↑</span></a>
+    </div>
+  </footer>
+</body>
+</html>

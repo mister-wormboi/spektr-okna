@@ -1,9 +1,9 @@
-/* A dimensionally aligned product illustration. All parts share one projection;
-   only their assembly-axis offsets change, so every joint returns exactly home. */
+/* One-shot window illustration. Only transforms animate; no scroll or layout loop. */
 (() => {
   const section = document.querySelector('.window-story');
   if (!section) return;
   const stage = section.querySelector('.window-stage');
+  if (!stage) return;
   const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const svgNS = 'http://www.w3.org/2000/svg';
   const rectPath = (x, y, w, h) => `M${x} ${y}h${w}v${h}h${-w}Z`;
@@ -31,14 +31,14 @@
     <linearGradient id="ws-metal"><stop stop-color="#68796f"/><stop offset=".2" stop-color="#e5e9e2"/><stop offset=".45" stop-color="#99a69d"/><stop offset=".65" stop-color="#f7f9f4"/><stop offset="1" stop-color="#7e8d82"/></linearGradient>
     <linearGradient id="ws-glass" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#abcac7" stop-opacity=".5"/><stop offset=".3" stop-color="#e9f3ed" stop-opacity=".16"/><stop offset=".65" stop-color="#87b2ab" stop-opacity=".26"/><stop offset="1" stop-color="#c4dad0" stop-opacity=".65"/></linearGradient>
     <radialGradient id="ws-shadow"><stop stop-color="#3b5241" stop-opacity=".24"/><stop offset="1" stop-color="#3b5241" stop-opacity="0"/></radialGradient>
-    <filter id="ws-contact" x="-25%" y="-20%" width="160%" height="160%"><feDropShadow dx="3" dy="5" stdDeviation="3" flood-color="#243f30" flood-opacity=".16"/></filter>
+    <marker id="ws-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" orient="auto" markerUnits="userSpaceOnUse"><path d="M1 1L7 4L1 7" fill="none" stroke="#b4cfaa" stroke-width="1.2"/></marker>
   </defs>
-  <ellipse class="ws-ground" cx="500" cy="500" rx="215" ry="33" fill="url(#ws-shadow)"/>
+  <ellipse class="ws-ground" cx="500" cy="500" rx="365" ry="33" opacity=".7" fill="url(#ws-shadow)"/>
   <g class="ws-guides" opacity="0" stroke="#738c77" stroke-width=".7" stroke-dasharray="3 6" fill="none">
     <path d="M215 104L767 182M175 427L727 505"/>
   </g>
   <g transform="translate(358 53) matrix(.94 .13 -.075 .94 0 0)">
-    <g data-window-layer="0"><g filter="url(#ws-contact)">
+    <g data-window-layer="0"><g>
       ${ring(0, 0, 300, 420, 25, 14)}
       <path d="M27 27H273V393H27Z" stroke="#47594e" stroke-width="4" fill="none"/>
       <path d="M30 30H270V390H30Z" stroke="#d0d6cd" stroke-width="2" fill="none"/>
@@ -46,7 +46,7 @@
       <rect x="278" y="309" width="9" height="34" rx="2" fill="url(#ws-metal)"/>
       <path d="M63 409h20M217 409h20" stroke="#a0aaa1" stroke-width="2" stroke-linecap="round"/>
     </g></g>
-    <g data-window-layer="1"><g filter="url(#ws-contact)">
+    <g data-window-layer="1"><g>
       ${ring(21, 21, 258, 378, 24, 9)}
       <path d="M46 46H254V374H46Z" stroke="#3b4b42" stroke-width="4" fill="none"/>
       <path d="M24 59V365" stroke="url(#ws-metal)" stroke-width="3"/>
@@ -63,89 +63,96 @@
       <path d="M50 50H250V370H50Z" fill="none" stroke="#5c7066" stroke-width="2" stroke-dasharray="1 3"/>
       ${glass(47, 47, 206, 326, 0)}
     </g>
-    <g data-window-layer="3"><g filter="url(#ws-contact)">
+    <g data-window-layer="3"><g>
       ${ring(42, 42, 216, 336, 10, 4)}
       <path d="M53 53H247V367H53Z" fill="none" stroke="#455b4e" stroke-width="2"/>
     </g></g>
   </g>
-  <g class="ws-labels" opacity="0">
-    <g transform="translate(149 459)"><path d="M0 -38v19" stroke="#91a08e" fill="none"/><text class="window-svg-label-number">01</text><text y="20" class="window-svg-label">Рама</text></g>
-    <g transform="translate(352 505)"><path d="M0 -38v19" stroke="#91a08e"/><text class="window-svg-label-number">02</text><text y="20" class="window-svg-label">Створка</text></g>
-    <g transform="translate(613 60)"><text class="window-svg-label-number">03</text><text y="20" class="window-svg-label">Стеклопакет</text><path d="M18 30v46" stroke="#91a08e"/></g>
-    <g transform="translate(793 515)"><path d="M0 -38v19" stroke="#91a08e"/><text class="window-svg-label-number">04</text><text y="20" class="window-svg-label">Штапик</text></g>
+  <g class="window-connectors" stroke="#b4cfaa" stroke-opacity=".65" stroke-width="1" fill="none" marker-end="url(#ws-arrow)">
+    <path d="M125 574V508L218 433"/>
+    <path d="M375 574V500L364 433"/>
+    <path d="M625 574V508L564 436"/>
+    <path d="M875 574V522L756 468"/>
   </g>`;
-  svg.querySelector('.ws-labels').remove();
-  const legend = document.createElement('ol');
-  legend.className = 'window-part-labels';
-  legend.innerHTML = ['Рама', 'Створка', 'Стеклопакет', 'Штапик'].map((name, i) => '<li><span>0' + (i + 1) + '</span>' + name + '</li>').join('');
-  stage.replaceChildren(svg, legend);
+  stage.replaceChildren(svg);
   section.classList.add('is-enhanced');
 
   const layers = [...svg.querySelectorAll('[data-window-layer]')];
-  const guides = svg.querySelector('.ws-guides');
-  const shadow = svg.querySelector('.ws-ground');
-  const progressBar = section.querySelector('.window-timeline span');
-  const title = section.querySelector('.window-step-title');
-  const copy = section.querySelector('.window-step-copy');
-  const number = section.querySelector('.window-step-number');
-  const steps = [
-    ['Всё на своём месте', 'Рама, створка и стеклопакет работают как единое целое.'],
-    ['Основа — в деталях', 'Рама держит конструкцию. Створка с фурнитурой отвечает за открывание и плотный прижим.'],
-    ['Между вами и улицей', 'Стеклопакет пропускает свет. Уплотнители и штапик обеспечивают плотное прилегание.'],
-    ['Снова одно целое', 'Каждая деталь возвращается на своё место. Окно готово впустить свет в ваш дом.'],
-  ];
-  const clamp = value => Math.max(0, Math.min(1, value));
-  const smooth = value => { const t = clamp(value); return t * t * t * (t * (t * 6 - 15) + 10); };
-  let frame = 0;
-  let current = -1;
-  let top = 0;
-  let distance = 1;
-  let visible = true;
+  const offsets = [-205, -67, 94, 238];
+  let state = 'idle';
+  let observer;
+  let animations = [];
 
-  function render() {
-    frame = 0;
-    const p = motion.matches || window.innerHeight <= 520 ? .5 : clamp((window.scrollY - top) / distance);
-    // Hold both assembled endpoints and the exploded middle. No time-based drift:
-    // scrolling backwards retraces exactly the same assembly path.
-    const spread = smooth((p - .07) / .30) * (1 - smooth((p - .64) / .29));
-    const offsets = [-205, -67, 94, 238];
+  function removeMotionListener() {
+    if (motion.removeEventListener) motion.removeEventListener('change', onMotionChange);
+    else motion.removeListener(onMotionChange);
+  }
+
+  function complete() {
+    if (state === 'complete') return;
+    state = 'complete';
+    observer?.disconnect();
     layers.forEach((layer, index) => {
-      const x = offsets[index] * spread;
-      layer.setAttribute('transform', `translate(${x.toFixed(3)} 0)`);
+      layer.style.transform = `translateX(${offsets[index]}px)`;
     });
-    guides.setAttribute('opacity', (spread * .45).toFixed(3));
-    shadow.setAttribute('rx', String(215 + spread * 150));
-    shadow.setAttribute('opacity', String(1 - spread * .3));
-    progressBar.style.transform = `scaleX(${p})`;
-    const step = p < .16 ? 0 : p < .44 ? 1 : p < .73 ? 2 : 3;
-    if (step !== current) {
-      current = step;
-      number.textContent = `0${step + 1} / 04`;
-      title.textContent = steps[step][0];
-      copy.textContent = steps[step][1];
-      if (!motion.matches) [title, copy].forEach(el => {
-        el.getAnimations().forEach(animation => animation.cancel());
-        el.animate([{ opacity: .3, transform: 'translateY(6px)' }, { opacity: 1, transform: 'translateY(0)' }], { duration: 320, easing: 'ease-out' });
+    // Inline final transforms persist after releasing the animation objects.
+    animations.forEach(animation => {
+      animation.finished?.catch(() => {});
+      animation.cancel();
+    });
+    animations = [];
+    section.classList.remove('is-playing');
+    section.classList.add('is-complete');
+    document.removeEventListener('visibilitychange', onVisibilityChange);
+    removeMotionListener();
+  }
+
+  function onMotionChange(event) {
+    if (event.matches) complete();
+  }
+
+  function onVisibilityChange() {
+    if (document.hidden) complete();
+  }
+
+  function play() {
+    if (state !== 'idle') return;
+    state = 'playing';
+    observer?.disconnect();
+    if (motion.matches || document.hidden || layers.some(layer => typeof layer.animate !== 'function')) {
+      complete();
+      return;
+    }
+    section.classList.add('is-playing');
+    document.addEventListener('visibilitychange', onVisibilityChange);
+    try {
+      // SVG-local pixel offsets keep the existing projection aligned in Safari.
+      layers.forEach((layer, index) => {
+        animations.push(layer.animate([
+          { transform: 'translateX(0px)' },
+          { transform: `translateX(${offsets[index]}px)` },
+        ], {
+          duration: 1800,
+          delay: index * 100,
+          easing: 'cubic-bezier(.22, 1, .36, 1)',
+          fill: 'both',
+        }));
       });
+      Promise.all(animations.map(animation => animation.finished)).then(complete, complete);
+    } catch {
+      complete();
     }
   }
-  function requestRender() { if (!frame && visible) frame = requestAnimationFrame(render); }
-  function measure() {
-    svg.setAttribute('viewBox', '100 -10 800 530');
-    top = section.getBoundingClientRect().top + window.scrollY;
-    distance = Math.max(1, section.offsetHeight - section.querySelector('.window-story-sticky').offsetHeight);
-    render();
+
+  if (motion.addEventListener) motion.addEventListener('change', onMotionChange);
+  else motion.addListener(onMotionChange);
+
+  if (motion.matches || !('IntersectionObserver' in window)) {
+    complete();
+  } else {
+    observer = new IntersectionObserver(entries => {
+      if (entries.some(entry => entry.isIntersecting && entry.intersectionRatio >= .3)) play();
+    }, { threshold: .3 });
+    observer.observe(stage);
   }
-  window.addEventListener('scroll', requestRender, { passive: true });
-  window.addEventListener('resize', measure, { passive: true });
-  window.addEventListener('load', measure, { once: true });
-  motion.addEventListener('change', measure);
-  if ('ResizeObserver' in window) new ResizeObserver(measure).observe(document.body);
-  if ('IntersectionObserver' in window) {
-    new IntersectionObserver(entries => {
-      visible = entries[0].isIntersecting;
-      if (visible) { measure(); requestRender(); }
-    }, { rootMargin: '200px' }).observe(section);
-  }
-  measure();
 })();

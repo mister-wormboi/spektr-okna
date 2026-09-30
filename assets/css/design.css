@@ -39,80 +39,8 @@ summary {
   scroll-margin-top: 24px;
 }
 
-.site-header {
-  background: #203c30;
-  animation: none;
-}
-
-.site-header .header-inner {
-  min-height: 100px;
-  gap: 18px 32px;
-  padding-block: 22px;
-}
-
-.site-header .header-logo {
-  width: 196px;
-  flex-basis: 196px;
-}
-
-.header-brand {
-  gap: 22px;
-}
-
-.header-tagline {
-  border-left: 1px solid #ffffff30;
-  padding-left: 22px;
-  font-size: 11px;
-  color: #c5d0c9;
-}
-
-.header-tagline strong {
-  color: #dbe7cd;
-  font-size: 13px;
-  font-weight: 500;
-}
-
-.header-nav {
-  display: flex;
-  gap: 26px;
-  margin-left: auto;
-  font-size: 13px;
-}
-
-.header-nav a:hover {
-  color: #d0e0ad;
-}
-
-.header-phone {
-  font-size: 15px;
-  white-space: nowrap;
-}
-
-.site-header .search {
-  flex: 0 1 100%;
-  max-width: none;
-  margin: 0;
-}
-
-.site-header .search input {
-  height: 38px;
-  background: #ffffff06;
-  border-color: #ffffff1c;
-  font-size: 12px;
-}
-
-.site-header .search button {
-  height: 38px;
-  font-size: 24px;
-}
-
-.search-status {
-  top: 43px;
-  z-index: 5;
-}
-
 .hero {
-  background: linear-gradient(90deg, #13281ee6 0%, #13281e96 43%, #13281e08 78%), url('../hero.png') center 56% / cover;
+  background: linear-gradient(90deg, #13281ee6 0%, #13281e96 43%, #13281e08 78%), url('../hero.webp') center 56% / cover;
 }
 
 .hero::after {
@@ -133,7 +61,7 @@ summary {
 
 .eyebrow,
 .reviews .eyebrow {
-  font-size: 11px;
+  font-size: var(--font-size-body);
   font-weight: 600;
   letter-spacing: .16em;
 }
@@ -144,7 +72,7 @@ summary {
 
 .hero h1 {
   margin: 30px 0 25px;
-  font-size: clamp(60px, 7.3vw, 104px);
+  font-size: var(--font-size-display);
   line-height: 1.04;
   letter-spacing: -.055em;
 }
@@ -156,7 +84,7 @@ summary {
 .hero p {
   max-width: 410px;
   margin: 0;
-  font-size: 15px;
+  font-size: var(--font-size-body);
   line-height: 1.8;
   color: #e0e5dd;
 }
@@ -177,7 +105,7 @@ summary {
   padding: 17px 24px;
   color: #203c30;
   background: #d4e3b9;
-  font-size: 14px;
+  font-size: var(--font-size-body);
   font-weight: 600;
   transition: background .2s;
 }
@@ -187,14 +115,14 @@ summary {
 }
 
 .primary-link span {
-  font-size: 22px;
+  font-size: var(--font-size-title);
   line-height: 1;
 }
 
 .secondary-link {
   padding: 10px 0;
   border-bottom: 1px solid #ffffff60;
-  font-size: 13px;
+  font-size: var(--font-size-body);
 }
 
 .secondary-link span {
@@ -211,7 +139,7 @@ summary {
   gap: 20px;
   border-top: 1px solid #ffffff35;
   padding-top: 19px;
-  font-size: 11px;
+  font-size: var(--font-size-body);
   letter-spacing: .04em;
   color: #e1e5dc;
 }
@@ -235,11 +163,11 @@ summary {
 }
 
 .benefits-strip strong {
-  font: 400 28px/1.3 var(--serif);
+  font: 400 var(--font-size-title)/1.3 var(--serif);
 }
 
 .benefits-strip span {
-  font-size: 12px;
+  font-size: var(--font-size-body);
   color: var(--muted);
 }
 
@@ -264,7 +192,7 @@ summary {
 
 .call-panel h2 {
   margin: 0;
-  font-size: 40px;
+  font-size: var(--font-size-display);
   line-height: 1.14;
 }
 
@@ -276,7 +204,7 @@ summary {
   max-width: 290px;
   margin: 0;
   color: #ced9ce;
-  font-size: 14px;
+  font-size: var(--font-size-body);
 }
 
 .call-panel .phone-button {
@@ -291,17 +219,17 @@ summary {
 
 .call-panel .phone-button>span:last-child {
   color: #d3decf;
-  font-size: 11px;
+  font-size: var(--font-size-body);
 }
 
 .call-panel .phone-button b {
   color: white;
-  font-size: 26px;
+  font-size: var(--font-size-title);
   font-weight: 400;
 }
 
 .call-panel .phone-arrow {
-  font-size: 36px;
+  font-size: var(--font-size-display);
 }
 
 .calculator {
@@ -317,7 +245,7 @@ summary {
 }
 
 .calculator-heading h2 {
-  font-size: 36px;
+  font-size: var(--font-size-display);
   line-height: 1.15;
   margin-block: 12px;
 }
@@ -334,21 +262,19 @@ summary {
 .calculator-summary>small {
   display: block;
   color: var(--muted);
-  font-size: 11px;
+  font-size: var(--font-size-body);
 }
 
 .catalog,
 .reviews,
-.home-offices,
 .guides {
   padding-block: 88px;
 }
 
 .section-heading h2,
 .reviews-heading h2,
-.home-offices-heading h2,
 .guides h2 {
-  font-size: clamp(36px, 4.1vw, 56px);
+  font-size: var(--font-size-display);
 }
 
 .tabs {
@@ -359,7 +285,7 @@ summary {
 .tab {
   padding: 14px 17px;
   border-radius: 0;
-  font-size: 12px;
+  font-size: var(--font-size-body);
   letter-spacing: .06em;
 }
 
@@ -379,7 +305,7 @@ summary {
 }
 
 .card h3 {
-  font-size: 30px;
+  font-size: var(--font-size-title);
 }
 
 .card-bottom a {
@@ -402,17 +328,17 @@ summary {
 }
 
 .reviews .review-top h3 {
-  font-size: 15px;
+  font-size: var(--font-size-body);
 }
 
 .reviews .review-top div span,
 .reviews .reviews-rating small {
-  font-size: 12px;
+  font-size: var(--font-size-body);
 }
 
 .reviews .stars,
 .reviews .review-stars {
-  font-size: 17px;
+  font-size: var(--font-size-body);
 }
 
 .review-card-featured .review-stars,
@@ -424,7 +350,7 @@ summary {
 .reviews .review-card footer,
 .reviews .review-card footer time,
 .reviews .review-verified {
-  font-size: 11px;
+  font-size: var(--font-size-body);
 }
 
 .review-avatar {
@@ -438,40 +364,51 @@ summary {
 }
 
 .guides>.wrap {
-  max-width: 960px;
+  display: grid;
+  grid-template-columns: minmax(0, .85fr) minmax(0, 1.65fr);
+  align-items: start;
+  gap: 64px;
+}
+
+.guides-questions {
+  min-width: 0;
+}
+
+@media (max-width: 1000px) {
+  .guides>.wrap {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 36px;
+  }
 }
 
 .guides summary {
-  font-size: 25px;
-  padding-block: 26px;
+  font-size: var(--font-size-title);
 }
 
-.home-offices {
-  background: var(--paper);
+.project-examples {
+  padding-block: 84px;
+  background: #17251c;
+  color: #edf0e7;
 }
 
-.home-office-map span {
-  min-height: 38px;
-  padding: 9px 14px;
-  background: #244b3b;
-  font-size: 12px;
-}
+.project-examples .section-heading { margin-bottom: 30px; }
+.project-examples .section-heading > p { max-width: 390px; color: #b5c2b2; }
+.project-examples-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; }
+.project-example { min-width: 0; overflow: hidden; border: 1px solid #b4cfaa30; border-radius: 6px; background: #1d2d23; }
+.project-example img { display: block; width: 100%; height: auto; aspect-ratio: 9 / 16; object-fit: cover; background: #25352a; }
+.project-example > div { padding: 22px; }
+.project-example > div > span { color: #c1d4b0; font-size: var(--font-size-body); letter-spacing: .04em; }
+.project-example h3 { margin: 10px 0 12px; font: 400 var(--font-size-title)/1.2 var(--serif); }
+.project-example p, .project-examples-note { color: #b5c2b2; font-size: var(--font-size-body); line-height: 1.7; }
+.project-example p { margin-bottom: 0; }
+.project-examples-note { margin: 20px 0 0; }
 
-.home-office-body h3 {
-  font-size: 28px;
-}
-
-.site-footer {
-  background: #203c30;
-}
+@media (max-width: 1100px) { .project-examples-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 600px) { .project-examples { padding-block: 56px; } .project-examples-grid { grid-template-columns: 1fr; gap: 12px; } .project-example > div { padding: 20px; } }
 
 @media (max-width: 1100px) {
   .wrap {
     width: calc(100% - 56px);
-  }
-
-  .header-tagline {
-    display: none;
   }
 
   .combined-layout {
@@ -501,50 +438,19 @@ summary {
     width: calc(100% - 40px);
   }
 
-  .site-header .header-inner {
-    gap: 16px;
-    padding-block: 18px;
-  }
-
-  .header-brand {
-    width: auto;
-  }
-
-  .site-header .header-logo {
-    width: 150px;
-    flex-basis: 150px;
-  }
-
-  .header-phone {
-    margin-left: auto;
-    font-size: 13px;
-  }
-
-  .header-nav {
-    order: 2;
-    width: 100%;
-    justify-content: space-between;
-    gap: 12px;
-    font-size: 12px;
-  }
-
-  .site-header .search {
-    order: 3;
-  }
-
   .hero-inner {
     min-height: 600px;
     padding: 62px 0 108px;
   }
 
   .hero h1 {
-    font-size: clamp(51px, 9.5vw, 72px);
+    font-size: var(--font-size-display);
   }
 
   .hero-caption {
     flex-direction: column;
     gap: 4px;
-    font-size: 10px;
+    font-size: var(--font-size-body);
   }
 
   .hero {
@@ -572,7 +478,7 @@ summary {
   }
 
   .benefits-strip strong {
-    font-size: 25px;
+    font-size: var(--font-size-title);
   }
 
   .combined-layout {
@@ -582,7 +488,6 @@ summary {
   .calculator-section,
   .catalog,
   .reviews,
-  .home-offices,
   .guides {
     padding-block: 56px;
   }
@@ -592,11 +497,11 @@ summary {
   }
 
   .call-panel h2 {
-    font-size: 36px;
+    font-size: var(--font-size-display);
   }
 
   .calculator-heading h2 {
-    font-size: 32px;
+    font-size: var(--font-size-title);
   }
 
   .calculator-fields {
@@ -609,20 +514,14 @@ summary {
     width: 100%;
   }
 
-  .home-offices-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .home-offices-heading {
-    display: block;
-  }
-
-  .home-offices-heading p {
-    margin-top: 18px;
-  }
-
   .guides summary {
-    font-size: 22px;
+    font-size: var(--font-size-title);
     gap: 20px;
+    padding: 28px 20px;
   }
+
+  .guides details p {
+    padding: 8px 20px 28px;
+  }
+
 }

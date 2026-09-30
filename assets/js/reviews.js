@@ -1,5 +1,6 @@
 (() => {
   const section = document.querySelector('.reviews');
+  if (!section) return;
   const cards = [...section.querySelectorAll('.review-card')];
   if (cards.length < 2) return;
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
@@ -40,7 +41,7 @@
     });
     if (!initial) {
       announcement.textContent = `Отзыв ${current + 1} из ${cards.length}. ${cards[current].querySelector('h3').textContent}`;
-      if (!reduced.matches) animation = cards[current].animate([
+      if (!reduced.matches && typeof cards[current].animate === 'function') animation = cards[current].animate([
         { opacity: 0, transform: `translateX(${direction * 14}px)` },
         { opacity: 1, transform: 'translateX(0)' }
       ], { duration: 380, easing: 'cubic-bezier(.2,.7,.3,1)' });
@@ -63,7 +64,9 @@
     event.preventDefault();
     show(event.key === 'Home' ? 0 : event.key === 'End' ? cards.length - 1 : current + (event.key === 'ArrowLeft' ? -1 : 1));
   });
-  reduced.addEventListener('change', () => animation?.cancel());
+  const stopAnimation = () => animation?.cancel();
+  if (reduced.addEventListener) reduced.addEventListener('change', stopAnimation);
+  else reduced.addListener(stopAnimation);
   section.classList.add('is-slider');
   show(0, true);
 })();

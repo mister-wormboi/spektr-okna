@@ -17,18 +17,18 @@
 }
 
 .hero-call small {
-  font-size: 12px;
+  font-size: var(--font-size-body);
   font-weight: 500;
 }
 
 .hero-call strong {
-  font: 600 27px/1.1 var(--sans);
+  font: 600 var(--font-size-title)/1.1 var(--sans);
   letter-spacing: -.04em;
   white-space: nowrap;
 }
 
 .hero-call .hero-call-arrow {
-  font-size: 27px;
+  font-size: var(--font-size-title);
   margin-left: 12px;
 }
 
@@ -43,21 +43,21 @@
 
 .reviews-intro {
   color: #aebea7;
-  font-size: 15px;
+  font-size: var(--font-size-body);
   line-height: 1.7;
   margin: 24px 0;
 }
 
 .reviews-source-note {
   color: #aebea7;
-  font-size: 12px;
+  font-size: var(--font-size-body);
   line-height: 1.8;
   max-width: 310px;
 }
 
 .reviews-rating-source {
   color: #d0e1ba;
-  font-size: 14px;
+  font-size: var(--font-size-body);
   text-underline-offset: 4px;
 }
 
@@ -94,7 +94,7 @@
 }
 
 .reviews.is-slider .reviews-rating strong {
-  font-size: 70px;
+  font-size: var(--font-size-display);
   color: #d0e1ba;
 }
 
@@ -132,7 +132,7 @@
 }
 
 .reviews.is-slider .review-card>p {
-  font: 400 clamp(23px, 2.15vw, 32px)/1.45 var(--serif);
+  font: 400 var(--font-size-title)/1.45 var(--serif);
   letter-spacing: -.025em;
   margin: 24px 0 35px;
   max-width: 760px;
@@ -144,7 +144,7 @@
 }
 
 .reviews.is-slider .review-top h3 {
-  font-size: 16px;
+  font-size: var(--font-size-body);
 }
 
 .reviews.is-slider .review-avatar {
@@ -159,14 +159,14 @@
   position: absolute;
   right: 35px;
   top: 28px;
-  font-size: 100px;
+  font-size: var(--font-size-display);
   color: #b4cc9d30;
   pointer-events: none;
 }
 
 .reviews.is-slider .review-stars {
   margin: 0;
-  font-size: 18px;
+  font-size: var(--font-size-body);
   color: #cadfb5;
 }
 
@@ -196,7 +196,7 @@
   border: 0;
   background: transparent;
   color: #a7b89f;
-  font: 12px var(--sans);
+  font: var(--font-size-body) var(--sans);
   position: relative;
 }
 
@@ -226,7 +226,7 @@
   color: #d4e5c1;
   background: transparent;
   border-radius: 50%;
-  font-size: 22px;
+  font-size: var(--font-size-title);
   transition: background .2s, transform .2s;
 }
 
@@ -271,7 +271,7 @@
   }
 
   .reviews.is-slider .reviews-rating strong {
-    font-size: 50px;
+    font-size: var(--font-size-display);
   }
 
   .review-controls {
@@ -288,7 +288,7 @@
   }
 
   .hero-call strong {
-    font-size: 25px;
+    font-size: var(--font-size-title);
   }
 
   .hero-call .hero-call-arrow {
@@ -323,7 +323,7 @@
   }
 
   .reviews.is-slider .review-card>p {
-    font-size: 24px;
+    font-size: var(--font-size-title);
     margin-block: 24px;
   }
 

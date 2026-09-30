@@ -11,6 +11,7 @@
   const empty = document.querySelector('.review-empty');
   const reset = document.querySelector('#resetReviews');
   const pageSize = 6;
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   let limit = pageSize;
   let topic = 'all';
   const entries = cards.map(card => ({
@@ -25,9 +26,10 @@
     const previouslyVisible = new Set(cards.filter(card => !card.hidden));
     const visible = new Set(matches.slice(0, limit).map(entry => entry.card));
     cards.forEach(card => { card.hidden = !visible.has(card); });
-    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    if (!reduced.matches && typeof Element.prototype.animate === 'function') {
       [...visible].forEach((card, i) => {
-        card.getAnimations().forEach(animation => animation.cancel());
+        if (focusNew && previouslyVisible.has(card)) return;
+        card.getAnimations?.().forEach(animation => animation.cancel());
         card.animate([{ opacity: 0, transform: 'translateY(12px)' }, { opacity: 1, transform: 'translateY(0)' }], { duration: 420, delay: i * 45, fill: 'backwards', easing: 'cubic-bezier(.2,.7,.3,1)' });
       });
     }
@@ -43,7 +45,7 @@
       if (next) {
         next.card.tabIndex = -1;
         next.card.focus({ preventScroll: true });
-        next.card.scrollIntoView({ block: 'nearest', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
+        next.card.scrollIntoView({ block: 'nearest', behavior: reduced.matches ? 'auto' : 'smooth' });
       }
     }
   }

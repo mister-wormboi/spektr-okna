@@ -1,238 +1,199 @@
-const cards = [...document.querySelectorAll('.office-card')];
-const filterButtons = [...document.querySelectorAll('.filter-button')];
+(() => {
+  const cards = [...document.querySelectorAll('.office-card')];
+  const filterButtons = [...document.querySelectorAll('.filter-button')];
 
-const searchInput = document.querySelector('#officeSearch');
-const searchForm = document.querySelector('#officeSearchForm');
-const headerSearchStatus = document.querySelector('#headerSearchStatus');
+  const resultsStatus = document.querySelector('#resultsStatus');
+  const emptyState = document.querySelector('#emptyState');
 
-const resultsStatus = document.querySelector('#resultsStatus');
-const emptyState = document.querySelector('#emptyState');
+  let activeRegion = 'all';
 
-let activeRegion = 'all';
+  function updateCards() {
+      let visibleCount = 0;
 
-function normalizeText(value) {
-    return value
-        .toLocaleLowerCase('ru-RU')
-        .replaceAll('ё', 'е')
-        .trim();
-}
+      cards.forEach((card) => {
+          const matchesRegion =
+              activeRegion === 'all' ||
+              card.dataset.region === activeRegion;
 
-function updateCards() {
-    const query = normalizeText(searchInput.value);
-    let visibleCount = 0;
+          const isVisible = matchesRegion;
 
-    cards.forEach((card) => {
-        const matchesRegion =
-            activeRegion === 'all' ||
-            card.dataset.region === activeRegion;
+          card.hidden = !isVisible;
 
-        const matchesQuery =
-            !query ||
-            normalizeText(card.dataset.search).includes(query);
+          if (isVisible) {
+              visibleCount += 1;
 
-        const isVisible = matchesRegion && matchesQuery;
+          }
+      });
 
-        card.hidden = !isVisible;
+      emptyState.hidden = visibleCount !== 0;
 
-        if (isVisible) {
-            visibleCount += 1;
+      resultsStatus.textContent = activeRegion !== 'all'
+          ? `Офисов в выбранном регионе: ${visibleCount}`
+          : '';
+  }
 
-            card.classList.remove('card-enter');
+  filterButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+          activeRegion = button.dataset.filter;
 
-            requestAnimationFrame(() => {
-                card.classList.add('card-enter');
-            });
-        }
-    });
+          filterButtons.forEach((item) => {
+              item.classList.toggle('is-active', item === button);
+              item.setAttribute('aria-pressed', String(item === button));
+          });
 
-    emptyState.hidden = visibleCount !== 0;
+          updateCards();
+      });
+  });
 
-    resultsStatus.textContent =
-        query || activeRegion !== 'all'
-            ? `Найдено офисов: ${visibleCount}`
-            : '';
+  function timeToMinutes(time) {
+      const [hours, minutes] = time.split(':').map(Number);
+      return hours * 60 + minutes;
+  }
 
-    headerSearchStatus.textContent = query
-        ? `Найдено: ${visibleCount}`
-        : '';
+  const workClock = new Intl.DateTimeFormat('en-US', {
+      timeZone: 'Europe/Moscow', weekday: 'short',
+      hour: '2-digit', minute: '2-digit', hourCycle: 'h23'
+  });
+  const workStatuses = [...document.querySelectorAll('.work-status')].map(status => ({
+      element: status,
+      schedule: Object.fromEntries(status.dataset.schedule.split(';').map(entry => {
+          const separator = entry.indexOf(':');
+          return [entry.slice(0, separator), entry.slice(separator + 1)];
+      }))
+  }));
 
-    headerSearchStatus.classList.toggle(
-        'is-visible',
-        Boolean(query)
-    );
-}
+  function updateWorkStatuses() {
+      const dateParts = workClock.formatToParts(new Date());
 
-filterButtons.forEach((button) => {
-    button.addEventListener('click', () => {
-        activeRegion = button.dataset.filter;
+      const getPart = (type) => {
+          return dateParts.find((item) => item.type === type)?.value;
+      };
 
-        filterButtons.forEach((item) => {
-            item.classList.toggle(
-                'is-active',
-                item === button
-            );
-        });
+      const weekday = getPart('weekday');
 
-        updateCards();
-    });
-});
+      const minutesNow =
+          Number(getPart('hour')) * 60 +
+          Number(getPart('minute'));
 
-searchInput.addEventListener('input', updateCards);
+      let dayKey = 'weekday';
 
-searchForm.addEventListener('submit', (event) => {
-    event.preventDefault();
+      if (weekday === 'Sat') {
+          dayKey = 'sat';
+      }
 
-    document.querySelector('#offices').scrollIntoView({
-        behavior: 'smooth'
-    });
-});
+      if (weekday === 'Sun') {
+          dayKey = 'sun';
+      }
 
-function timeToMinutes(time) {
-    const [hours, minutes] = time.split(':').map(Number);
-    return hours * 60 + minutes;
-}
+      workStatuses.forEach(({ element: status, schedule }) => {
+          const interval = schedule[dayKey];
+          let isOpen = false;
 
-function updateWorkStatuses() {
-    const dateParts = new Intl.DateTimeFormat('en-US', {
-        timeZone: 'Europe/Moscow',
-        weekday: 'short',
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: false
-    }).formatToParts(new Date());
+          if (interval) {
+              const [start, end] = interval.split('-');
 
-    const getPart = (type) => {
-        return dateParts.find((item) => item.type === type)?.value;
-    };
+              isOpen =
+                  minutesNow >= timeToMinutes(start) &&
+                  minutesNow < timeToMinutes(end);
+          }
 
-    const weekday = getPart('weekday');
+          status.textContent = isOpen
+              ? 'Открыто сейчас'
+              : 'Сейчас закрыто';
 
-    const minutesNow =
-        Number(getPart('hour')) * 60 +
-        Number(getPart('minute'));
+          status.classList.toggle('is-open', isOpen);
+      });
+  }
 
-    let dayKey = 'weekday';
+  updateCards();
 
-    if (weekday === 'Sat') {
-        dayKey = 'sat';
-    }
+  let statusTimer;
+  function scheduleWorkStatuses() {
+      clearInterval(statusTimer);
+      if (document.hidden) return;
+      updateWorkStatuses();
+      statusTimer = setInterval(updateWorkStatuses, 60_000);
+  }
+  document.addEventListener('visibilitychange', scheduleWorkStatuses);
+  scheduleWorkStatuses();
 
-    if (weekday === 'Sun') {
-        dayKey = 'sun';
-    }
+  const reduceMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)'
+  ).matches;
 
-    document.querySelectorAll('.work-status').forEach((status) => {
-        const schedule = Object.fromEntries(
-            status.dataset.schedule.split(';').map((entry) => {
-                const separator = entry.indexOf(':');
+  const animatedElements = [
+      {
+          selector: '.section-heading',
+          direction: ''
+      },
+      {
+          selector: '.region-filters',
+          direction: ''
+      },
+      {
+          selector: '.results-status',
+          direction: ''
+      },
+      {
+          selector: '.contact-banner-inner > div',
+          direction: 'reveal-left'
+      },
+      {
+          selector: '.contact-banner-inner > a',
+          direction: 'reveal-right'
+      }
+  ];
 
-                return [
-                    entry.slice(0, separator),
-                    entry.slice(separator + 1)
-                ];
-            })
-        );
+  const revealItems = [];
 
-        const interval = schedule[dayKey];
-        let isOpen = false;
+  animatedElements.forEach(({ selector, direction }) => {
+      document.querySelectorAll(selector).forEach((element, index) => {
+          element.classList.add('reveal');
 
-        if (interval) {
-            const [start, end] = interval.split('-');
+          if (direction) {
+              element.classList.add(direction);
+          }
 
-            isOpen =
-                minutesNow >= timeToMinutes(start) &&
-                minutesNow < timeToMinutes(end);
-        }
+          element.style.transitionDelay =
+              Math.min(index * 80, 240) + 'ms';
 
-        status.textContent = isOpen
-            ? 'Открыто сейчас'
-            : 'Сейчас закрыто';
+          revealItems.push(element);
+      });
+  });
 
-        status.classList.toggle('is-open', isOpen);
-    });
-}
+  cards.forEach((card, index) => {
+      card.classList.add('card-enter');
+      card.style.animationDelay =
+          Math.min(index * 60, 300) + 'ms';
+  });
 
-updateCards();
-updateWorkStatuses();
+  if (
+      reduceMotion ||
+      !('IntersectionObserver' in window)
+  ) {
+      revealItems.forEach((element) => {
+          element.classList.add('is-visible');
+      });
+  } else {
+      const revealObserver = new IntersectionObserver(
+          (entries, observer) => {
+              entries.forEach((entry) => {
+                  if (!entry.isIntersecting) {
+                      return;
+                  }
 
-setInterval(updateWorkStatuses, 60_000);
+                  entry.target.classList.add('is-visible');
+                  observer.unobserve(entry.target);
+              });
+          },
+          {
+              threshold: 0.14,
+              rootMargin: '0px 0px -40px'
+          }
+      );
 
-const reduceMotion = window.matchMedia(
-    '(prefers-reduced-motion: reduce)'
-).matches;
-
-const animatedElements = [
-    {
-        selector: '.section-heading',
-        direction: ''
-    },
-    {
-        selector: '.region-filters',
-        direction: ''
-    },
-    {
-        selector: '.results-status',
-        direction: ''
-    },
-    {
-        selector: '.contact-banner-inner > div',
-        direction: 'reveal-left'
-    },
-    {
-        selector: '.contact-banner-inner > a',
-        direction: 'reveal-right'
-    }
-];
-
-const revealItems = [];
-
-animatedElements.forEach(({ selector, direction }) => {
-    document.querySelectorAll(selector).forEach((element, index) => {
-        element.classList.add('reveal');
-
-        if (direction) {
-            element.classList.add(direction);
-        }
-
-        element.style.transitionDelay =
-            Math.min(index * 80, 240) + 'ms';
-
-        revealItems.push(element);
-    });
-});
-
-cards.forEach((card, index) => {
-    card.classList.add('card-enter');
-    card.style.animationDelay =
-        Math.min(index * 60, 300) + 'ms';
-});
-
-if (
-    reduceMotion ||
-    !('IntersectionObserver' in window)
-) {
-    revealItems.forEach((element) => {
-        element.classList.add('is-visible');
-    });
-} else {
-    const revealObserver = new IntersectionObserver(
-        (entries, observer) => {
-            entries.forEach((entry) => {
-                if (!entry.isIntersecting) {
-                    return;
-                }
-
-                entry.target.classList.add('is-visible');
-                observer.unobserve(entry.target);
-            });
-        },
-        {
-            threshold: 0.14,
-            rootMargin: '0px 0px -40px'
-        }
-    );
-
-    revealItems.forEach((element) => {
-        revealObserver.observe(element);
-    });
-}
+      revealItems.forEach((element) => {
+          revealObserver.observe(element);
+      });
+  }
+})();

@@ -1,24 +1,38 @@
 <!doctype html>
 <html lang="ru">
 <head>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&display=swap" rel="stylesheet">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Отзывы клиентов с Яндекс Карт — Спектр</title>
   <meta name="description" content="Отзывы клиентов «Спектр» об окнах, монтаже и сервисе. Истории и оценки с Яндекс Карт.">
   <link rel="icon" type="image/png" href="../assets/favicon.png">
   <link rel="stylesheet" href="../assets/css/reviews-page.css">
+  <link rel="stylesheet" href="../assets/css/header-refresh.css">
+  <link rel="stylesheet" href="../assets/css/footer.css">
+  <link rel="stylesheet" href="../assets/css/typography.css">
   <script src="../assets/js/reviews-page.js" defer></script>
 </head>
-<body class="reviews-page">
+<body id="page-top" class="reviews-page">
   <header class="site-header">
     <div class="wrap header-inner">
-      <a class="logo header-logo" href="../"><img src="../assets/logo-white.png" alt="Спектр — на главную"></a>
+      <a class="logo header-logo" href="../" aria-label="Спектр — на главную">
+        <img src="../assets/logo-white.webp" alt="Спектр" width="720" height="269" decoding="async">
+      </a>
       <nav class="header-nav" aria-label="Основная навигация">
-        <a href="../#catalog">Каталог</a>
-        <a href="../contacts/">Наши офисы</a>
-        <a href="./" aria-current="page">Отзывы</a>
+        <a href="../catalog/">Каталог</a>
+        <a href="../about/">О нас</a>
+        <a href="../contacts/">Филиалы</a>
+        <a aria-current="page" href="./">Отзывы</a>
+        <a class="header-calculator-link" href="../calculator/">Рассчитать стоимость</a>
       </nav>
-      <a class="header-phone" href="tel:+79895175699">8 989 517 56 99</a>
+      <a class="header-call" href="tel:+79895175699">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m7 3 3 5-2.5 2.5a15 15 0 0 0 6 6L16 14l5 3c0 3-2 4-4 4C10 20 4 14 3 7c0-2 1-4 4-4Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+        <span class="header-call-copy"><span>Позвонить в «Спектр»</span><small>8 989 517 56 99</small></span>
+        <span class="header-call-arrow" aria-hidden="true">↗</span>
+      </a>
     </div>
   </header>
   <main>
@@ -166,13 +180,38 @@
       </div>
     </section>
     <section class="reviews-cta">
-      <div class="wrap"><div><span class="eyebrow">Ваши окна начинаются с разговора</span><h2>Обсудим ваш проект?</h2><p>Поможем выбрать конструкцию и рассчитать стоимость.</p></div><a class="primary-link" href="tel:+79895175699">Позвонить: 8 989 517 56 99 ↗</a></div>
+      <div class="wrap"><div><span class="eyebrow">Ваши окна начинаются с разговора</span><h2>Обсудим ваш проект?</h2><p>Поможем выбрать конструкцию и рассчитать стоимость.</p></div><a class="primary-link" href="tel:+79895175699"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m7 3 3 5-2.5 2.5a15 15 0 0 0 6 6L16 14l5 3c0 3-2 4-4 4C10 20 4 14 3 7c0-2 1-4 4-4Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg><span><small>Позвонить в «Спектр»</small><strong>8 989 517 56 99</strong></span><b aria-hidden="true">↗</b></a></div>
     </section>
   </main>
-  <footer class="site-footer"><div class="wrap footer-inner">
-    <a class="logo footer-logo" href="../"><img src="../assets/logo-white.png" alt="Спектр"></a>
-    <nav aria-label="Нижнее меню"><a href="../">Главная</a><a href="../contacts/">Контакты</a><a href="./" aria-current="page">Отзывы</a></nav>
-    <p>Ростов-на-Дону и Ростовская область<br>8 989 517 56 99</p>
-  </div></footer>
+  <footer class="site-footer">
+    <div class="wrap footer-inner">
+      <div class="footer-brand">
+        <a class="logo footer-logo" href="../" aria-label="Спектр — на главную">
+          <img src="../assets/logo-white.webp" alt="Спектр" loading="lazy" decoding="async" width="720" height="269">
+        </a>
+        <p>Производим и устанавливаем окна<br><span>с 2004 года</span></p>
+      </div>
+      <nav class="footer-navigation" aria-label="Нижнее меню">
+        <span class="footer-label">Разделы сайта</span>
+        <div class="footer-links">
+          <a href="../catalog/">Каталог</a>
+          <a href="../about/">О нас</a>
+          <a href="../solutions/">Примеры решений</a>
+          <a href="../contacts/">Филиалы</a>
+          <a href="../calculator/">Калькулятор</a>
+          <a aria-current="page" href="./">Отзывы</a>
+        </div>
+      </nav>
+      <div class="footer-contact">
+        <span class="footer-label">Будем на связи</span>
+        <a class="footer-phone" href="tel:+79895175699">8 989 517 56 99 <span aria-hidden="true">↗</span></a>
+        <p>Ростовская область<br>и Краснодарский край</p>
+      </div>
+    </div>
+    <div class="wrap footer-bottom">
+      <span>© Спектр</span>
+      <a href="#page-top">Наверх <span aria-hidden="true">↑</span></a>
+    </div>
+  </footer>
 </body>
 </html>

@@ -1,0 +1,43 @@
+/* Exactly three type sizes. Components reference these tokens, including font shorthands. */
+:root {
+  --font-size-body: 16px;
+  --font-size-title: 28px;
+  --font-size-display: 56px;
+  --heading-label-gap: 20px;
+}
+
+@media (max-width: 760px) {
+  :root {
+    --font-size-title: 24px;
+    --font-size-display: 36px;
+  }
+}
+
+html { font-size: var(--font-size-body); }
+
+/* Neutralize browser sizes for small, sup, headings and form controls. */
+:where(*), ::before, ::after, ::marker { font-size: inherit; }
+:where(body, button, input, select, textarea) { font-size: var(--font-size-body); }
+:where(h1, h2) { font-size: var(--font-size-display); line-height: 1.1; }
+:where(h3, h4, h5, h6) { font-size: var(--font-size-title); line-height: 1.25; }
+
+/* Labels stay in normal flow: wrapped lines must push the heading down. */
+.eyebrow {
+  display: block;
+  margin: 0;
+  line-height: 1.5;
+  white-space: normal;
+  overflow-wrap: break-word;
+}
+
+.eyebrow + :is(h1, h2, h3),
+.section-heading .eyebrow + :is(h1, h2, h3) {
+  margin-block-start: var(--heading-label-gap);
+}
+
+/* Consistent square geometry across interactive and decorative elements. */
+*,
+*::before,
+*::after {
+  border-radius: 0 !important;
+}
