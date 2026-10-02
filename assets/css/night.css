@@ -1,348 +1,77 @@
-/* Shared night palette. Motion uses transforms and opacity, with a static fallback. */
+/* Shared architectural palette. Dark photography is framed by light surfaces. */
 :root {
-  color-scheme: dark;
-  --green: #b4cfaa;
-  --green-dark: #c4dcb9;
-  --ink: #edf0e7;
-  --muted: #abb7aa;
-  --paper: #111b17;
-  --surface: #16221c;
-  --line: #ffffff22;
-  --shadow: 0 24px 60px #0003;
+  color-scheme: light;
+  --green: #315c48;
+  --green-dark: #244536;
+  --ink: #202c25;
+  --muted: #5e6b62;
+  --paper: #f0f1eb;
+  --surface: #fafaf7;
+  --line: #d5dcd2;
+  --shadow: 0 16px 40px #263c2e0a;
 }
-
-body {
-  background: #101813;
-}
-
-.eyebrow,
-.card-body>small {
-  color: #b4cfaa;
-}
-
-.reading-progress {
-  position: fixed;
-  z-index: 50;
-  inset: 0 0 auto;
-  height: 2px;
-  pointer-events: none;
-}
-
-.reading-progress span {
-  display: block;
-  height: 100%;
-  background: #c1d9a7;
-  transform: scaleX(0);
-  transform-origin: left;
-}
-
-.home-page .hero {
-  isolation: isolate;
-  background: #0d1a13;
-}
-
+body { background: var(--surface); }
+.eyebrow, .card-body > small { color: var(--green); }
+.reading-progress { position: fixed; z-index: 50; inset: 0 0 auto; height: 2px; pointer-events: none; }
+.reading-progress span { display: block; height: 100%; background: var(--green); transform: scaleX(0); transform-origin: left; }
+.home-page .hero { isolation: isolate; background: #17221b; }
 .home-page .hero::before {
-  content: '';
-  position: absolute;
-  z-index: -1;
-  inset: -75px -3%;
-  background: linear-gradient(90deg, #091810ed, #09181080 55%, #09181038), url('../hero.webp') center 56% / cover;
-  transform: translate3d(0, var(--hero-shift, 0px), 0) scale(var(--hero-scale, 1.025));
-  transform-origin: center 58%;
+  content: ''; position: absolute; z-index: -1; inset: -75px -3%;
+  background: linear-gradient(90deg, #0c1819d9, #0c18195c 55%, #0c181914), url('../hero.webp') center 56% / cover;
+  transform: translate3d(0, var(--hero-shift, 0px), 0) scale(1.025);
 }
-
 .home-page .hero.is-in-view::before { will-change: transform; }
-
-
-.home-page .hero h1 {
-  max-width: 720px;
-  font-size: var(--font-size-display);
-  line-height: 1.02;
-}
-
-.home-page .hero p { max-width: 500px; }
-.home-page .hero-calculate { min-height: 56px; border-radius: 3px; }
-.home-page .hero-phone-link { align-self: center; color: #f0f4ec; }
-
+.home-page .hero h1 { max-width: 720px; line-height: 1.06; }
+.home-page .hero p { max-width: 460px; }
+.hero h1 em { color: #e2ecd7; }
+.hero .primary-link { background: #e2ecd7; color: #203c30; }
+.hero .primary-link:hover { background: #f1f5ea; }
+.benefits-strip { background: var(--surface); }
+.benefits-strip strong { color: var(--ink); }
+.calculator-section { background: var(--paper); }
+.call-panel { background: var(--surface); color: var(--ink); border: 1px solid var(--line); }
+.call-description { color: var(--muted); }
+.calculator { background: var(--surface); border-color: var(--line); }
+.calculator-fields input, .calculator-fields select, .filters select { background: #fff; border-color: var(--line); color: var(--ink); }
+.calculator-fields input:focus, .calculator-fields select:focus, .filters select:focus { border-color: var(--green); box-shadow: 0 0 0 3px #315c4812; }
+.calculator-summary small, .calculator-heading p, .section-heading > p, .card p, .guides details p { color: var(--muted); }
+.calculator-result b { color: var(--green-dark); font-variant-numeric: tabular-nums; }
+.calculator-fields label, .filters > label, .filters legend, .filters fieldset label { color: var(--ink); }
+.catalog { background: var(--surface); }
+.tab { color: var(--muted); }
+.tab:hover { background: var(--paper); color: var(--ink); }
+.tab.is-active { color: #fff; background: var(--green); border-color: var(--green); }
+.card, .home-office-card, .office-card { position: relative; background: var(--surface); border-color: var(--line); }
+.card:hover, .home-office-card:hover, .office-card:hover { border-color: var(--green); box-shadow: none; }
+.card img { filter: none; transition: transform .6s ease; }
+.card:hover img { transform: scale(1.025); filter: none; }
+.card-body { position: relative; background: var(--surface); }
+.card-bottom b, .card-bottom a { color: var(--green-dark); }
+.empty { color: var(--ink); background: var(--paper); }
+.reviews { background: var(--paper); }
+.review-card { background: var(--surface); border-color: var(--line); }
+.review-card-featured { background: var(--surface); border-color: var(--line); color: var(--ink); }
+.review-card-featured .review-top div span, .review-card-featured footer { color: var(--muted); border-color: var(--line); }
+.review-avatar { background: #e6ecdf; color: var(--green); }
+.review-card-featured .review-stars, .review-card-featured .review-verified, .review-card-featured .review-quote { color: var(--green); }
+.guides { background: var(--surface); }
+.guides details[open] { background: var(--paper); }
+.guides summary:hover { color: var(--green); }
+.office-map img { filter: none; }
+.office-card:hover .office-map img { filter: none; }
+.office-map span { background: #244536; color: #fff; }
+.contacts-page .hero { background: #14231a; }
+.contacts-page .hero::before { opacity: .2; }
+.contacts-page .offices { background: var(--surface); }
+.contacts-page .filter-button { background: var(--surface); color: var(--green); border-color: var(--line); }
+.contacts-page .filter-button.is-active { background: var(--green); color: #fff; }
+.contacts-page .office-body dt, .contacts-page .office-body dd { color: var(--muted); }
+.contacts-page .hero-copy > p { color: #d0dacd; }
+.contacts-page .work-status.is-open { background: #e6ecdf; color: var(--green-dark); }
+.contacts-page .contact-banner { background: #244536; }
+.contacts-page .contact-banner a { color: #15251a; background: #e2ecd7; }
 @media (max-width: 760px) {
-  .home-page .hero::before { background-image: linear-gradient(90deg, #091810ed, #09181080 55%, #09181038), url('../hero-mobile.webp'); }
-  .home-page .hero h1 { margin: 22px 0 18px; font-size: var(--font-size-display); }
-  .home-page .hero-actions { align-items: flex-start; gap: 12px; }
-  .home-page .hero-calculate { width: 100%; justify-content: space-between; }
-  .home-page .hero-phone-link { align-self: flex-start; }
+  .home-page .hero::before { background-image: linear-gradient(90deg, #0c1819d9, #0c181970 70%, #0c181930), url('../hero-mobile.webp'); }
+  .home-page .hero h1 { margin: 22px 0 18px; }
 }
-
-.hero h1 em {
-  color: #cee1b2;
-}
-
-.hero .primary-link {
-  position: relative;
-  overflow: hidden;
-  background: #c4d8af;
-  color: #17261c;
-}
-
-.primary-link::after {
-  content: '';
-  position: absolute;
-  inset: -40% auto -40% -50%;
-  width: 35%;
-  background: linear-gradient(90deg, transparent, #fff5, transparent);
-  transform: skewX(-20deg);
-  pointer-events: none;
-}
-
-.primary-link:hover::after,
-.primary-link:focus-visible::after {
-  animation: button-glint .65s ease-out;
-}
-
-@keyframes button-glint {
-  to {
-    left: 130%;
-  }
-}
-
-.benefits-strip {
-  background: #101813;
-}
-
-.benefits-strip strong {
-  color: #e0e8d5;
-}
-
-.benefits-strip div {
-  transition: border-color .4s;
-}
-
-.benefits-strip div:hover {
-  border-color: #a9c79a;
-}
-
-.calculator-section {
-  background: #111b17;
-}
-
-.call-panel {
-  background: linear-gradient(135deg, #2a4534, #192c21);
-  border: 1px solid #c0d8b426;
-}
-
-.calculator {
-  background: #1b2921;
-  border-color: var(--line);
-}
-
-.calculator-fields input,
-.calculator-fields select,
-.filters select {
-  background: #101b14;
-  border-color: #ffffff30;
-  color: #e6eddf;
-  transition: border-color .2s, box-shadow .2s;
-}
-
-.calculator-fields input:focus,
-.calculator-fields select:focus,
-.filters select:focus {
-  border-color: #b4cfaa;
-  box-shadow: 0 0 0 3px #b4cfaa18;
-}
-
-.calculator-summary>small,
-.calculator-summary small {
-  color: #b3bfad;
-}
-
-.calculator-result b {
-  color: #d3e7b9;
-  font-variant-numeric: tabular-nums;
-}
-
-.calculator-heading p,
-.section-heading>p,
-.card p,
-.guides details p {
-  color: #adbba8;
-}
-
-.calculator-fields label,
-.filters>label,
-.filters legend,
-.filters fieldset label {
-  color: #c0ceba;
-}
-
-.catalog {
-  background: #101813;
-}
-
-.tab {
-  color: #aebda7;
-  transition: background .25s, color .25s, border-color .25s;
-}
-
-.tab:hover {
-  background: #ffffff09;
-  color: #edf0e7;
-}
-
-.tab.is-active {
-  color: #15251a;
-  background: #bfd4aa;
-  border-color: #bfd4aa;
-}
-
-.card,
-.home-office-card,
-.office-card {
-  position: relative;
-  background: #1b2820;
-  border-color: #ffffff20;
-}
-
-.card:hover,
-.home-office-card:hover,
-.office-card:hover {
-  border-color: #b4cfaa80;
-  box-shadow: 0 22px 50px #0003;
-}
-
-.card img {
-  filter: brightness(.88) saturate(.8);
-  transition: transform .8s cubic-bezier(.2, .65, .25, 1), filter .6s;
-}
-
-.card:hover img {
-  transform: scale(1.04);
-  filter: brightness(1) saturate(.95);
-}
-
-.card-body {
-  position: relative;
-  background: radial-gradient(ellipse at var(--light-x, 50%) var(--light-y, 0%), #b8d0a611, transparent 65%), #1b2820;
-}
-
-.card-bottom b,
-.card-bottom a {
-  color: #d0e1bb;
-}
-
-.empty {
-  color: var(--ink);
-  background: var(--surface);
-}
-
-.reviews {
-  background: #18251d;
-}
-
-.review-card {
-  background: #1e2d23;
-  border-color: #ffffff20;
-}
-
-.review-card-featured {
-  background: #293e2e;
-  border-color: #b4cfaa40;
-}
-
-.review-avatar {
-  background: #b5cca622;
-  color: #d7e6c9;
-}
-
-.review-card-featured .review-stars,
-.review-card-featured .review-verified,
-.review-card-featured .review-quote {
-  color: #d0e2b7;
-}
-
-.guides {
-  background: #101813;
-}
-
-.guides details {
-  transition: background .3s;
-}
-
-.guides details[open] {
-  background: #bfd4aa08;
-}
-
-.guides summary {
-  transition: color .25s;
-}
-
-.guides summary:hover {
-  color: #c4d8af;
-}
-
-.office-map img {
-  filter: brightness(.78) saturate(.65);
-  transition: filter .4s;
-}
-
-.office-card:hover .office-map img {
-  filter: brightness(.96) saturate(.85);
-}
-
-.office-map span {
-  background: #14261c;
-  color: #e0ebd7;
-}
-
-.contacts-page .hero {
-  background: #14231a;
-}
-
-.contacts-page .hero::before {
-  opacity: .2;
-}
-
-.contacts-page .offices {
-  background: #101813;
-}
-
-.contacts-page .filter-button {
-  background: #1b2820;
-  color: #c4d2bc;
-  border-color: var(--line);
-}
-
-.contacts-page .filter-button.is-active {
-  background: #bfd4aa;
-  color: #15251a;
-}
-
-.contacts-page .office-body dt,
-.contacts-page .office-body dd,
-.contacts-page .hero-copy>p {
-  color: #b4c1ad;
-}
-
-.contacts-page .work-status.is-open {
-  background: #b4cfaa18;
-  color: #c4dcb9;
-}
-
-.contacts-page .contact-banner {
-  background: #213b2b;
-}
-
-.contacts-page .contact-banner a {
-  color: #15251a;
-  background: #c4d8af;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .home-page .hero::before {
-    transform: none;
-  }
-
-  .primary-link::after {
-    display: none;
-  }
-
-}
+@media (prefers-reduced-motion: reduce) { .home-page .hero::before { transform: none; } }

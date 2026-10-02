@@ -1,0 +1,57 @@
+/* Loaded after component styles: one palette for all eight pages. */
+:root {
+  color-scheme: light;
+  --green: #315c48;
+  --green-dark: #244536;
+  --ink: #202c25;
+  --muted: #5e6b62;
+  --paper: #f0f1eb;
+  --surface: #fafaf7;
+  --line: #d5dcd2;
+  --field: #ffffff;
+  --accent-soft: #e6ecdf;
+  --diagram-surface: #dce3d8;
+  --diagram-glow: #f0f3ec;
+  --on-accent: #ffffff;
+  --error: #9a3823;
+  --shadow: 0 16px 40px #263c2e0a;
+}
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --green: #b4cfaa;
+  --green-dark: #d0e1bb;
+  --ink: #edf0e7;
+  --muted: #b3bfaf;
+  --paper: #111b17;
+  --surface: #19261e;
+  --line: #425046;
+  --field: #101b14;
+  --accent-soft: #2b3c2f;
+  --diagram-surface: #14231a;
+  --diagram-glow: #304336;
+  --on-accent: #17261c;
+  --error: #ffb59c;
+  --shadow: 0 16px 40px #0002;
+}
+body { color: var(--ink); background: var(--surface); }
+.calculator-fields input, .calculator-fields select, .filters select {
+  color-scheme: inherit;
+  background: var(--field);
+  color: var(--ink);
+  border-color: var(--line);
+}
+.catalog-tools input, .catalog-tools select, .catalog-sort select { color-scheme: inherit; }
+.calculator .calc-error { color: var(--error); }
+.calculator [aria-invalid="true"] { border-color: var(--error); }
+.review-avatar, .contacts-page .work-status.is-open { background: var(--accent-soft); }
+.tab.is-active, .contacts-page .filter-button.is-active, .reviews-button {
+  background: var(--green);
+  color: var(--on-accent);
+  border-color: var(--green);
+}
+.reviews-button:hover { background: var(--green-dark); }
+.catalog-photo { background: var(--paper); }
+.review-quote, .reviews-hero::after { color: var(--line); }
+.secondary-link { border-bottom-color: var(--line); }
+.hero .secondary-link { border-bottom-color: #ffffff60; }
+.calculator-back { color: var(--green); }
