@@ -25,8 +25,8 @@ function checkLink(file, value) {
   if (hash && target.endsWith('.html')) assert.ok(ids(fs.readFileSync(target, 'utf8')).includes(decodeURIComponent(hash)), `Missing anchor: ${value} in ${file}`);
 }
 
-test('all seven pages have unique IDs and valid local resources and anchors', () => {
-  assert.equal(pages.length, 7);
+test('all eight pages have unique IDs and valid local resources and anchors', () => {
+  assert.equal(pages.length, 8);
   for (const file of pages) {
     const source = fs.readFileSync(file, 'utf8');
     const pageIds = ids(source);
@@ -58,7 +58,7 @@ test('CSS resources and catalogue images exist', () => {
 });
 
 test('header and footer styles have a single owner; type scale is loaded last', () => {
-  for (const file of all.filter(f => f.endsWith('.css') && !/\/(header-refresh|footer)\.css$/.test(f))) {
+  for (const file of all.filter(f => f.endsWith('.css') && !/[\\/](header-refresh|footer)\.css$/.test(f))) {
     assert.doesNotMatch(fs.readFileSync(file, 'utf8'), /\.(?:site-header|site-footer|header-[\w-]+|footer-[\w-]+)\b/);
   }
   for (const file of pages) {
