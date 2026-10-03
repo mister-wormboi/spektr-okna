@@ -94,3 +94,15 @@ html[data-theme="light"] .footer-logo img { filter: brightness(0); opacity: .85;
 @media (prefers-reduced-motion: reduce) {
   .site-footer .footer-navigation a { transition: none; }
 }
+
+/* Official social links, shared by all eight pages. */
+.footer-social { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 4px; }
+.footer-social a { display: inline-flex; align-items: center; gap: 10px; min-height: 48px; padding: 10px 12px; border: 1px solid var(--line); color: var(--ink); background: transparent; text-decoration: none; font: 500 var(--font-size-body)/1.3 var(--sans); transition: transform .2s ease, border-color .2s ease, background .2s ease; }
+.footer-social svg { flex: none; width: 22px; height: 22px; color: var(--green); }
+.footer-social-arrow { color: var(--muted); }
+.footer-social a:hover { transform: translateY(-2px); border-color: var(--green); background: var(--accent-soft); }
+.footer-social a:hover .footer-social-arrow { color: var(--green); }
+@media (prefers-reduced-motion: reduce) {
+  .footer-social a { transition: none; }
+  .footer-social a:hover { transform: none; }
+}
