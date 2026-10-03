@@ -61,12 +61,12 @@ test('saved theme is applied before controls exist and survives navigation', () 
 test('invalid preferences and blocked storage do not prevent switching', () => {
   for (const options of [{ saved: 'invalid' }, { blocked: true }]) {
     const p = page(options);
-    assert.equal(p.attributes['data-theme'], 'light');
+    assert.equal(p.attributes['data-theme'], 'dark');
     p.mount();
     p.click();
-    assert.equal(p.attributes['data-theme'], 'dark');
-    p.click();
     assert.equal(p.attributes['data-theme'], 'light');
+    p.click();
+    assert.equal(p.attributes['data-theme'], 'dark');
   }
 });
 
@@ -79,7 +79,7 @@ test('other tabs sync valid preferences and ignore unrelated storage', () => {
   p.storageEvent({ key: 'spektr-theme', newValue: 'invalid' });
   assert.equal(p.attributes['data-theme'], 'dark');
   p.storageEvent({ key: null, newValue: null });
-  assert.equal(p.attributes['data-theme'], 'light');
+  assert.equal(p.attributes['data-theme'], 'dark');
 });
 
 test('every page loads the early initializer and shared palette and exposes one accessible control', () => {
@@ -91,7 +91,7 @@ test('every page loads the early initializer and shared palette and exposes one 
     assert.ok(script, file);
     assert.ok(script.index < html.indexOf('assets/css/'), `Theme must load before styles: ${file}`);
     assert.equal((html.match(/data-theme-toggle/g) || []).length, 1, file);
-    assert.match(html, /<button[^>]+type="button"[^>]+data-theme-toggle[^>]+aria-label="[^"]+"[^>]+aria-pressed="false"/);
+    assert.match(html, /<button[^>]+type="button"[^>]+data-theme-toggle[^>]+aria-label="[^"]+"[^>]+aria-pressed="true"/);
     assert.ok(html.indexOf('assets/css/theme.css') < html.indexOf('assets/css/typography.css'), file);
   }
 });

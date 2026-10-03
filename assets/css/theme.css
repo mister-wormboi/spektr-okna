@@ -1,21 +1,5 @@
 /* Loaded after component styles: one palette for all eight pages. */
-:root {
-  color-scheme: light;
-  --green: #315c48;
-  --green-dark: #244536;
-  --ink: #202c25;
-  --muted: #5e6b62;
-  --paper: #f0f1eb;
-  --surface: #fafaf7;
-  --line: #d5dcd2;
-  --field: #ffffff;
-  --accent-soft: #e6ecdf;
-  --diagram-surface: #dce3d8;
-  --diagram-glow: #f0f3ec;
-  --on-accent: #ffffff;
-  --error: #9a3823;
-  --shadow: 0 16px 40px #263c2e0a;
-}
+:root,
 html[data-theme="dark"] {
   color-scheme: dark;
   --green: #b4cfaa;
@@ -33,6 +17,24 @@ html[data-theme="dark"] {
   --error: #ffb59c;
   --shadow: 0 16px 40px #0002;
 }
+html[data-theme="light"] {
+  color-scheme: light;
+  --green: #315c48;
+  --green-dark: #244536;
+  --ink: #202c25;
+  --muted: #5e6b62;
+  --paper: #f0f1eb;
+  --surface: #fafaf7;
+  --line: #d5dcd2;
+  --field: #ffffff;
+  --accent-soft: #e6ecdf;
+  --diagram-surface: #dce3d8;
+  --diagram-glow: #f0f3ec;
+  --on-accent: #ffffff;
+  --error: #9a3823;
+  --shadow: 0 16px 40px #263c2e0a;
+}
+
 body { color: var(--ink); background: var(--surface); }
 .calculator-fields input, .calculator-fields select, .filters select {
   color-scheme: inherit;

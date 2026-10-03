@@ -3,7 +3,8 @@
   const key = 'spektr-theme';
   const root = document.documentElement;
   const valid = value => value === 'light' || value === 'dark';
-  let theme = 'light';
+  const defaultTheme = 'dark';
+  let theme = defaultTheme;
   try {
     const saved = window.localStorage.getItem(key);
     if (valid(saved)) theme = saved;
@@ -36,7 +37,7 @@
 
   window.addEventListener('storage', event => {
     if (event.key !== key && event.key !== null) return;
-    if (event.newValue === null) apply('light');
+    if (event.newValue === null) apply(defaultTheme);
     else if (valid(event.newValue)) apply(event.newValue);
   });
 })();

@@ -163,3 +163,7 @@
   .home-page .hero::before { transform: none; }
   .home-page .hero::after { animation: none; }
 }
+
+/* Link from the short FAQ to the complete information page. */
+.guides-more { display: inline-flex; align-items: center; gap: 20px; min-height: 44px; margin-top: 24px; padding-block: 8px; color: var(--green); border-bottom: 1px solid var(--line); text-decoration: none; }
+.guides-more:focus-visible { outline: 2px solid var(--green); outline-offset: 4px; }
