@@ -21,6 +21,10 @@
   <script src="../assets/js/about.js" defer></script>
 </head>
 <body id="page-top" class="about-page">
+  <div class="about-cinema" aria-hidden="true">
+    <video class="about-video" muted playsinline preload="auto" poster="../assets/about-forest-poster.webp" tabindex="-1" data-video-src="../assets/about-forest-scroll.mp4"></video>
+    <div class="about-cinema-shade"></div>
+  </div>
   <a class="about-skip" href="#content">Перейти к содержимому</a>
   <header class="site-header">
     <div class="wrap header-inner">
@@ -51,21 +55,9 @@
     <section class="about-hero wrap" aria-labelledby="about-title">
       <div class="about-intro">
         <span class="eyebrow">О нас / Завод «Спектр»</span>
-        <h1 id="about-title">Делаем окна.<br>Думаем <em>о жизни<br>за ними.</em></h1>
+        <h1 id="about-title">Делаем окна.<br>Думаем <em>о жизни за ними.</em></h1>
         <p>О тихом утре. О свете на кухне. О любимом виде из гостиной. С 2004 года создаём окна и конструкции, которые становятся частью вашего дома.</p>
-        <a class="secondary-link" href="#approach">Познакомимся ближе <span aria-hidden="true">↓</span></a>
-      </div>
-      <div class="light-experience" data-light="day">
-        <div class="light-scene" role="img" aria-label="Архитектурная иллюстрация: солнечный свет через окно">
-          <div class="sun-glow"></div><div class="light-beam"></div>
-          <div class="architectural-window"><div class="window-landscape"></div><i></i><b></b></div>
-          <span class="scene-coordinate" aria-hidden="true">СВЕТ · ПРОСТРАНСТВО · ДОМ</span>
-        </div>
-        <div class="light-controls" hidden>
-          <span>У каждого дома свой свет</span>
-          <div role="group" aria-label="Освещение иллюстрации"><button type="button" data-scene="day" aria-pressed="true">День</button><button type="button" data-scene="evening" aria-pressed="false">Вечер</button></div>
-        </div>
-        <p class="scene-note">Окно меняет пространство. А пространство — ощущение дома.</p>
+        <a class="secondary-link" href="#approach">Познакомимся ближе <span aria-hidden="true">↓</span></a><p class="cinema-hint">Листайте — и свет придёт в движение.</p>
       </div>
     </section>
     <div class="about-facts wrap" aria-label="Спектр в фактах">
@@ -88,14 +80,14 @@
       <div class="wrap about-section">
         <div class="about-section-heading"><span class="eyebrow">02 / Что мы создаём</span><h2 id="solutions-title">Разные конструкции.<br><em>Один внимательный подход.</em></h2></div>
         <div class="solution-grid">
-          <a class="solution-card" href="../catalog/"><span class="solution-index">01 / Для дома <span aria-hidden="true">↗</span></span><div class="line-art art-window" aria-hidden="true"><i></i></div><h3>Пластиковые окна</h3><p>Свет и уют в привычных пространствах.</p><span class="solution-link">Посмотреть каталог →</span></a>
-          <a class="solution-card" href="../catalog/"><span class="solution-index">02 / Для новых идей <span aria-hidden="true">↗</span></span><div class="line-art art-panorama" aria-hidden="true"><i></i></div><h3>Алюминиевые системы</h3><p>Больше простора для архитектурных решений.</p><span class="solution-link">Посмотреть каталог →</span></a>
-          <a class="solution-card" href="../catalog/"><span class="solution-index">03 / Для движения <span aria-hidden="true">↗</span></span><div class="line-art art-door" aria-hidden="true"><i></i></div><h3>Двери</h3><p>Связь между домом и миром снаружи.</p><span class="solution-link">Посмотреть каталог →</span></a>
+          <a class="solution-card" href="../catalog/"><span class="solution-index">01 / Для дома <span aria-hidden="true">↗</span></span><div class="line-art art-window" aria-hidden="true"><span class="assembly-frame"></span><span class="assembly-sash sash-left"><span class="assembly-glass"></span></span><span class="assembly-sash sash-right"><span class="assembly-glass"></span></span><span class="assembly-handle"></span></div><h3>Пластиковые окна</h3><p>Свет и уют в привычных пространствах.</p><span class="solution-link">Посмотреть каталог →</span></a>
+          <a class="solution-card" href="../catalog/"><span class="solution-index">02 / Для новых идей <span aria-hidden="true">↗</span></span><div class="line-art art-panorama" aria-hidden="true"><span class="assembly-frame"></span><span class="assembly-sash sash-left"><span class="assembly-glass"></span></span><span class="assembly-sash sash-middle"><span class="assembly-glass"></span></span><span class="assembly-sash sash-right"><span class="assembly-glass"></span></span></div><h3>Алюминиевые системы</h3><p>Больше простора для архитектурных решений.</p><span class="solution-link">Посмотреть каталог →</span></a>
+          <a class="solution-card" href="../catalog/"><span class="solution-index">03 / Для движения <span aria-hidden="true">↗</span></span><div class="line-art art-door" aria-hidden="true"><span class="assembly-frame"></span><span class="assembly-sash sash-door"><span class="assembly-glass"></span></span><span class="assembly-handle"></span></div><h3>Двери</h3><p>Связь между домом и миром снаружи.</p><span class="solution-link">Посмотреть каталог →</span></a>
         </div>
       </div>
     </section>
     <section class="about-process wrap about-section" aria-labelledby="process-title">
-      <div class="process-intro"><span class="eyebrow">03 / От идеи к решению</span><h2 id="process-title">Ваше будущее окно.<br><em>Шаг за шагом.</em></h2><p>Не обязательно разбираться в профилях и фурнитуре. Начните с того, каким вы представляете свой дом.</p><a class="secondary-link" href="../#calculator">Прикинуть стоимость <span aria-hidden="true">↗</span></a></div>
+      <div class="process-intro"><span class="eyebrow">03 / От идеи к решению</span><h2 id="process-title">Ваше будущее окно.<br><em>Шаг за шагом.</em></h2><p>Не обязательно разбираться в профилях и фурнитуре. Начните с того, каким вы представляете свой дом.</p><a class="secondary-link" href="../calculator/">Прикинуть стоимость <span aria-hidden="true">↗</span></a></div>
       <div class="process-steps">
         <details open><summary><span>01</span>Знакомимся с вашей идеей<b aria-hidden="true">+</b></summary><p>Расскажите, где нужны окна и что хочется изменить. Больше света в гостиной? Уютный балкон? Вместе определим, с чего начать.</p></details>
         <details><summary><span>02</span>Смотрим и сравниваем<b aria-hidden="true">+</b></summary><p>В офисе можно посмотреть образцы и обсудить материалы, открывание и внешний вид. Поможем соотнести пожелания с возможностями конструкции.</p></details>
