@@ -12,11 +12,11 @@
   <title>Спектр — окна и конструкции</title>
   <link rel="icon" type="image/png" href="assets/favicon.png">
   <link rel="apple-touch-icon" href="assets/favicon.png">
-  <link rel="preload" as="image" href="assets/hero.webp" media="(min-width: 761px)">
-  <link rel="preload" as="image" href="assets/hero-mobile.webp" media="(max-width: 760px)">
+  <link rel="preload" as="image" href="assets/hero-skyline.webp" fetchpriority="high">
   <link rel="stylesheet" href="assets/css/main.css">
   <link rel="stylesheet" href="assets/css/design.css">
   <link rel="stylesheet" href="assets/css/window-story.css">
+  <link rel="stylesheet" href="assets/css/window-3d.css">
   <link rel="stylesheet" href="assets/css/night.css">
   <link rel="stylesheet" href="assets/css/reviews.css">
   <link rel="stylesheet" href="assets/css/calculator.css">
@@ -24,6 +24,7 @@
   <link rel="stylesheet" href="assets/css/header-refresh.css">
   <link rel="stylesheet" href="assets/css/footer.css">
   <link rel="stylesheet" href="assets/css/home-refresh.css">
+  <link rel="stylesheet" href="assets/css/hero-atmosphere.css">
   <link rel="stylesheet" href="assets/css/theme.css">
   <link rel="stylesheet" href="assets/css/typography.css">
   <script src="assets/js/calculator.js" defer></script>
@@ -32,7 +33,9 @@
   <script src="assets/js/main.js" defer></script>
   <script src="assets/js/card-strips.js" defer></script>
   <script src="assets/js/window-story.js" defer></script>
+  <script src="assets/js/window-3d.js" type="module"></script>
   <script src="assets/js/motion.js" defer></script>
+  <script src="assets/js/hero-atmosphere.js" defer></script>
   <script src="assets/js/reviews.js" defer></script>
 </head>
 
@@ -65,14 +68,18 @@
   </header>
 
   <main id="top">
-    <section class="hero">
+    <section class="hero hero-atmosphere">
+      <div class="hero-scene" aria-hidden="true">
+        <img src="assets/hero-skyline.webp" width="1672" height="941" alt="" fetchpriority="high" decoding="async">
+      </div>
+      <div class="hero-light" aria-hidden="true"></div>
       <div class="wrap hero-inner">
         <div class="hero-copy">
-          <span class="eyebrow">Спектр · С 2004 года</span>
-          <h1>Больше света.<br>Больше <em>дома.</em></h1>
+          <span class="eyebrow">Спектр · Окна с 2004 года</span>
+          <h1>Город снаружи.<br><em>Ваш мир внутри.</em></h1>
           <p>
-            Изготавливаем пластиковые окна, двери и алюминиевые системы
-            для дома и бизнеса.
+            Окна, двери и панорамное остекление по вашим размерам.
+            Для света, тишины и жизни с красивым видом.
           </p>
           <div class="hero-actions">
             <a class="primary-link hero-call" href="tel:+79895175699" aria-label="Позвонить в Спектр: 8 989 517 56 99">
@@ -83,7 +90,7 @@
             <a class="secondary-link" href="#calculator">Рассчитать стоимость <span aria-hidden="true">→</span></a>
           </div>
         </div>
-        <div class="hero-caption"><span>Для жизни, открытой свету</span><span>ПВХ · Алюминий · Панорамное остекление</span></div>
+        <div class="hero-caption"><span>Свет. Тишина. Ваше пространство.</span><span>ПВХ · Алюминий · Панорамное остекление</span></div>
       </div>
     </section>
 
@@ -92,6 +99,32 @@
       <div><strong>Ваш размер</strong><span>изготавливаем под каждый проём</span></div>
       <div><strong>Рядом с вами</strong><span><a href="contacts/">6 офисов продаж ↗</a></span></div>
     </div>
+
+    <section class="window-showroom" aria-labelledby="window3dTitle">
+      <div class="wrap window-showroom-layout">
+        <div class="window-showroom-copy">
+          <span class="eyebrow">Архитектура комфорта</span>
+          <h2 id="window3dTitle">Одно окно.<br><em>Всё продумано.</em></h2>
+          <p>За лёгкостью и светом — точная работа каждой детали. Рама, створка и стеклопакет соединяются в конструкцию, которая бережёт тепло вашего дома.</p>
+          <div class="window-3d-materials" aria-label="Элементы конструкции"><span>01 / Профиль</span><span>02 / Створка</span><span>03 / Стеклопакет</span></div>
+          <a class="secondary-link" href="#calculator">Рассчитать своё окно <span aria-hidden="true">→</span></a>
+        </div>
+        <div class="window-showroom-object">
+          <div class="window-3d-viewport" role="img" aria-label="Объёмное окно автоматически поворачивается, разделяется на раму, створку и стеклопакет, затем собирается обратно.">
+            <svg class="window-3d-fallback" viewBox="0 0 640 540" aria-hidden="true" focusable="false">
+              <g fill="none" stroke="currentColor" stroke-linejoin="round">
+                <path d="M215 95 413 85 413 439 215 425Z" stroke-width="12"/>
+                <path d="M230 110 398 102 398 422 230 410Z" stroke-width="6"/>
+                <path d="M242 123 387 117 387 407 242 397Z" fill="currentColor" fill-opacity=".04" stroke-width="2"/>
+                <path d="m237 247 0 28m-34 157 222 13" stroke-width="7"/>
+                <path d="m267 333 92-161m-62 216 70-123" stroke-opacity=".2" stroke-width="3"/>
+              </g>
+            </svg>
+          </div>
+          <span class="window-showroom-caption">Точность в деталях. Комфорт в целом.</span>
+        </div>
+      </div>
+    </section>
 
     <section class="window-story" id="window-details" aria-labelledby="windowStoryTitle">
       <div class="window-story-content">
