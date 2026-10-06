@@ -81,18 +81,18 @@ node --test tests/*.test.js
 
 ## Страница «О нас»
 
-Локальный лесной ролик — фиксированный фон всей страницы. Прокрутка управляет
+Локальный ролик с открыванием окна в жилой комнате — фиксированный фон всей страницы. Прокрутка управляет
 currentTime: вниз вперёд, вверх назад; самостоятельного воспроизведения нет.
 assets/js/about.js кеширует длину страницы при изменении размеров, объединяет
 события прокрутки через requestAnimationFrame и ожидает окончания seek перед
 новой перемоткой. Целевой кадр всегда рассчитывается по последней позиции.
 При reduced motion, экономии трафика или ошибке видео остаётся фотография.
 
-assets/about-forest-scroll.mp4 — версия 960×540, 24 fps, без аудио и B-кадров,
+assets/about-window-scroll.mp4 — первые 12 секунд, 960×540, 24 fps, без аудио и B-кадров,
 с ключевым кадром каждые 6 кадров (0,25 секунды), MP4 faststart.
-assets/about-forest-poster.webp — первый кадр исходного ролика.
-Оригинал сохранён в assets/about-forest.mp4.
+assets/about-window-poster.webp — первый кадр используемого ролика.
+Оригинал сохранён в assets/about-window-opening.mp4.
 
-Источник: https://mixkit.co/free-stock-video/forest-in-the-sunlight-3007/
-Mixkit, «Forest in the sunlight», Stock Video Free License для коммерческого
-и личного использования. Видео — атмосферная иллюстрация природы.
+Источник: https://mixkit.co/free-stock-video/silhouette-of-woman-opening-a-window-924/
+Mixkit, «Silhouette of woman opening a window», Stock Video Free License для коммерческого
+и личного использования. Видео иллюстративное, не съёмка объекта компании.

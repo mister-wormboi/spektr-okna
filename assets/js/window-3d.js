@@ -31,6 +31,8 @@ function buildWindow(viewport) {
   const glass = new THREE.MeshStandardMaterial({color:0x719b94,roughness:.025,metalness:.15,transparent:true,opacity:.18,envMapIntensity:1.3,side:THREE.DoubleSide,depthWrite:false});
   glass.forceSinglePass = true;
   const model = new THREE.Group(); scene.add(model);
+  // Keep one fixed viewing angle while the window separates and reassembles.
+  model.rotation.set(-.05, -.55, 0);
   const layers = Array.from({length:4},() => { const layer = new THREE.Group(); model.add(layer); return layer; });
 
   function roundedPath(w,h,r) {
@@ -92,8 +94,6 @@ function buildWindow(viewport) {
   playback(viewport,renderer,camera,scene,time => {
     const t=(time%7)/7*20;
     const spread=smooth(4,8,t)*(1-smooth(11,15,t));
-    model.rotation.y = -.28 + .2*Math.sin(t/20*Math.PI*2) - .5*spread + smooth(15,20,t)*Math.PI*2;
-    model.rotation.x = -.05 + Math.sin(t/20*Math.PI*2)*.025;
     layers.forEach((layer,i) => {
       layer.position.z = [-.45,0,.42,.72][i]*spread;
       layer.position.x = [-.16,0,.1,.2][i]*spread;

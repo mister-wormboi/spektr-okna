@@ -89,7 +89,7 @@ test('all pages declare responsive viewport; mobile assets and controls are link
   assert.match(home, /src="assets\/js\/card-strips.js" defer/);
   const data = fs.readFileSync(path.join(root, 'assets/js/catalog-data.js'), 'utf8');
   for (const match of data.matchAll(/image:\s*'([^']+)'/g)) checkLink(path.join(root, 'index.html'), match[1].replace('.webp', '-small.webp'));
-  assert.match(home, /href="assets\/hero-skyline.webp" fetchpriority="high"/);
+  assert.match(home, /href="assets\/hero-home-window.webp" fetchpriority="high"/);
   assert.match(home, /class="hero-scene" aria-hidden="true"/);
   assert.ok(!home.includes('<video'));
   assert.ok(!home.includes('hero-live'));
