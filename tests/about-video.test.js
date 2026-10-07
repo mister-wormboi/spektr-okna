@@ -4,11 +4,12 @@ const fs = require('node:fs');
 const vm = require('node:vm');
 const path = require('node:path');
 const source = fs.readFileSync(path.join(__dirname, '../assets/js/about.js'), 'utf8').split('/* Page scroll controls real footage; the video never plays on its own. */')[1];
-function mount({ reducedMotion = false, saveData = false } = {}) {
+function mount({ reducedMotion = false, saveData = false, isDesktop = true } = {}) {
   const listeners = {}, events = {}, frames = new Map(), classes = new Set();
   let nextFrame = 0, layoutReads = 0, time = 0;
   const seeks = [];
   const reduced = { matches: reducedMotion, addEventListener: (_, callback) => { reduced.change = callback; } };
+  const desktop = { matches: isDesktop, addEventListener: (_, callback) => { desktop.change = callback; } };
   const video = {
     seeking: false, readyState: 2, duration: 12, dataset: { videoSrc: 'forest.mp4' }, src: '', loads: 0,
     classList: { add: c => classes.add(c), remove: c => classes.delete(c) },
@@ -21,14 +22,30 @@ function mount({ reducedMotion = false, saveData = false } = {}) {
   const window = { scrollY: 0, innerHeight: 800, addEventListener: (name, cb) => { listeners[name] = cb; }, removeEventListener: name => { delete listeners[name]; } };
   const root = { get scrollHeight() { layoutReads++; return 3200; } };
   const document = { hidden: false, body: {}, documentElement: root, querySelector: () => video, addEventListener: (name, cb) => { listeners[name] = cb; } };
-  const context = { window, document, navigator: { connection: { saveData } }, matchMedia: () => reduced,
+  const context = { window, document, navigator: { connection: { saveData } }, matchMedia: query => query.includes('min-width') ? desktop : reduced,
     requestAnimationFrame: cb => { frames.set(++nextFrame, cb); return nextFrame; }, cancelAnimationFrame: id => frames.delete(id) };
   vm.runInNewContext(source, context);
   const flush = () => { const current = [...frames.values()]; frames.clear(); current.forEach(cb => cb()); };
   events.loadedmetadata(); events.loadeddata(); flush();
   const seekDone = () => { video.seeking = false; events.seeked(); flush(); };
-  return { video, listeners, events, window, document, reduced, seeks, classes, flush, seekDone, layoutReads: () => layoutReads };
+  return { video, listeners, events, window, document, reduced, desktop, seeks, classes, flush, seekDone, layoutReads: () => layoutReads };
 }
+
+test('phones skip video loading and scrolling; switching desktop mode updates the effect', () => {
+  const page = mount({ isDesktop: false });
+  assert.equal(page.video.loads, 0);
+  assert.equal(page.video.src, '');
+  assert.equal(page.listeners.scroll, undefined);
+  page.desktop.matches = true; page.desktop.change();
+  assert.equal(page.video.loads, 1);
+  page.window.scrollY = 1200; page.listeners.scroll(); page.flush();
+  assert.equal(page.video.currentTime, 6);
+  page.desktop.matches = false; page.desktop.change();
+  assert.equal(page.listeners.scroll, undefined);
+  assert.equal(page.classes.has('is-ready'), false);
+  page.window.scrollY = 1800; page.seekDone();
+  assert.deepEqual(page.seeks, [6]);
+});
 test('real video follows scroll in both directions, without scroll geometry reads', () => {
   const page = mount(), reads = page.layoutReads();
   page.window.scrollY = 1200; page.listeners.scroll(); page.listeners.scroll(); page.flush();

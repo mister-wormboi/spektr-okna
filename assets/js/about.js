@@ -37,6 +37,7 @@
 (() => {
   const video = document.querySelector('.about-video');
   if (!video) return;
+  const desktop = matchMedia('(min-width: 761px) and (hover: hover) and (pointer: fine)');
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   const saveData = Boolean(navigator.connection?.saveData);
   const fps = 24;
@@ -61,7 +62,7 @@
     schedule();
   }
   function configure() {
-    const next = !reduced.matches && !saveData && !failed;
+    const next = desktop.matches && !reduced.matches && !saveData && !failed;
     if (next === enabled) return;
     enabled = next;
     video.pause();
@@ -92,6 +93,7 @@
     const observer = new ResizeObserver(measure);
     observer.observe(document.body);
   }
+  desktop.addEventListener('change', configure);
   reduced.addEventListener('change', configure);
   document.addEventListener('visibilitychange', () => {
     if (document.hidden && frame) { cancelAnimationFrame(frame); frame = 0; }
