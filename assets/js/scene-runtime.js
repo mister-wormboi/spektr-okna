@@ -43,25 +43,29 @@ export function box(parent, width, height, depth, x, y, z, material) {
 }
 
 // Render at 30 fps only while visible; use a bounded framebuffer without supersampling.
-export function playback(container, renderer, camera, scene, animate, onResize = () => {}) {
+export function playback(container, renderer, camera, scene, animate, onResize = () => {}, options = {}) {
   const motion = matchMedia('(prefers-reduced-motion: reduce)');
-  let visible = false, lost = false, frame = 0, elapsed = 0, previous = 0, lastDraw = 0;
+  const { threshold = .01, duration = Infinity } = options;
+  const once = Number.isFinite(duration);
+  let visible = false, lost = false, frame = 0, elapsed = once && motion.matches ? duration : 0, previous = 0, lastDraw = 0;
+  let started = false;
   let width = 1, height = 1;
   function render() { animate(elapsed); renderer.render(scene,camera); }
   function tick(now) {
     frame = 0;
-    if (previous) elapsed += Math.min((now-previous)/1000,.25);
+    if (previous) elapsed = Math.min(duration, elapsed + Math.min((now-previous)/1000,.25));
     previous = now;
     if (!lastDraw || now - lastDraw >= 1000 / 30 - 1) {
       lastDraw = now; render();
     }
-    if (visible && !document.hidden && !motion.matches && !lost) frame = requestAnimationFrame(tick);
+    if (visible && !document.hidden && !motion.matches && !lost && elapsed < duration) frame = requestAnimationFrame(tick);
   }
   function update() {
     if (frame) cancelAnimationFrame(frame);
     frame = 0; previous = 0; lastDraw = 0;
     if (lost) return;
-    if (visible && !document.hidden && !motion.matches) frame = requestAnimationFrame(tick);
+    if (once && (motion.matches || (started && document.hidden))) elapsed = duration;
+    if (visible && !document.hidden && !motion.matches && elapsed < duration) frame = requestAnimationFrame(tick);
     else render();
   }
   function resize() {
@@ -74,10 +78,16 @@ export function playback(container, renderer, camera, scene, animate, onResize =
     onResize(width,height); if (!lost) render();
   }
   new ResizeObserver(resize).observe(container);
-  if ('IntersectionObserver' in window) new IntersectionObserver(entries => {
-    visible = entries[0].isIntersecting; update();
-  }, {threshold: .01}).observe(container);
-  else { visible = true; update(); }
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(entries => {
+      if (once) {
+        if (!entries.some(entry => entry.isIntersecting && entry.intersectionRatio >= threshold)) return;
+        started = true; visible = true; observer.disconnect();
+      } else visible = entries[0].isIntersecting;
+      update();
+    }, {threshold});
+    observer.observe(container);
+  } else { started = true; visible = true; update(); }
   document.addEventListener('visibilitychange',update);
   motion.addEventListener('change',update);
   renderer.domElement.addEventListener('webglcontextlost',event => {

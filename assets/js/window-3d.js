@@ -90,16 +90,26 @@ function buildWindow(viewport) {
     fragmentShader:'varying vec2 shadowUV; void main(){vec2 p=(shadowUV-.5)*vec2(2.,3.);float a=exp(-dot(p,p)*5.)*.18;gl_FragColor=vec4(0.,0.,0.,a);}'
   }));
   floor.rotation.x=-Math.PI/2; floor.position.y=-.95; scene.add(floor);
-  function smooth(a,b,t) { const x=THREE.MathUtils.clamp((t-a)/(b-a),0,1); return x*x*(3-2*x); }
+  // Match the illustration below: 1.8 seconds per layer, staggered by 100 ms.
+  function ease(progress) {
+    const target = THREE.MathUtils.clamp(progress,0,1);
+    let low = 0, high = 1;
+    for (let step = 0; step < 12; step++) {
+      const t = (low + high) / 2;
+      const x = 3 * .22 * (1-t) * (1-t) * t + 3 * .36 * (1-t) * t * t + t * t * t;
+      if (x < target) low = t; else high = t;
+    }
+    const t = (low + high) / 2;
+    return 1 - (1-t) * (1-t) * (1-t);
+  }
   playback(viewport,renderer,camera,scene,time => {
-    const t=(time%7)/7*20;
-    const spread=smooth(4,8,t)*(1-smooth(11,15,t));
     layers.forEach((layer,i) => {
+      const spread = ease((time - i * .1) / 1.8);
       layer.position.z = [-.45,0,.42,.72][i]*spread;
       layer.position.x = [-.16,0,.1,.2][i]*spread;
     });
   }, (w,h) => {
     camera.position.z = w/h < .75 ? 6.4 : 4.5;
     camera.updateProjectionMatrix();
-  });
+  }, { threshold: .3, duration: 2.1 });
 }
