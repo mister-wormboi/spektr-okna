@@ -27,13 +27,16 @@
   <link rel="stylesheet" href="assets/css/home-refresh.css">
   <link rel="stylesheet" href="assets/css/solutions.css">
   <link rel="stylesheet" href="assets/css/hero-atmosphere.css">
+  <link rel="stylesheet" href="assets/css/layout.css">
   <link rel="stylesheet" href="assets/css/theme.css">
   <link rel="stylesheet" href="assets/css/typography.css">
   <script src="assets/js/calculator.js" defer></script>
-  <script src="assets/js/catalog-data.js" defer></script>
-  <script src="assets/js/catalog-render.js" defer></script>
+  <script src="assets/js/products-data.js" defer></script>
+  <script src="assets/js/products-page.js" defer></script>
+  <script src="assets/js/product-preview.js" defer></script>
   <script src="assets/js/main.js" defer></script>
   <script src="assets/js/card-strips.js" defer></script>
+  <script src="assets/js/window-motion.js" defer></script>
   <script src="assets/js/window-story.js" defer></script>
   <script src="assets/js/window-3d.js" type="module"></script>
   <script src="assets/js/motion.js" defer></script>
@@ -221,24 +224,26 @@
             <span class="eyebrow">Подберите решение</span>
             <h2 id="catalogTitle">Товары и услуги</h2>
           </div>
-          <p>Окна, детали и забота о них.<br>Выберите то, что нужно вашему дому.</p>
+          <p>От окон до деталей интерьера.<br>Выберите решение для вашего дома.</p>
         </div>
         <div class="tabs home-catalog-tabs" role="group" aria-label="Фильтр товаров по категории">
-          <button class="tab is-active" type="button" data-home-group="all" aria-pressed="true">Все</button>
-          <button class="tab" type="button" data-home-group="windows-doors" aria-pressed="false">Окна и двери</button>
-          <button class="tab" type="button" data-home-group="Ремонт окон" aria-pressed="false">Ремонт и обслуживание</button>
-          <button class="tab" type="button" data-home-group="Москитные сетки" aria-pressed="false">Москитные сетки</button>
-          <button class="tab" type="button" data-home-group="Жалюзи и шторы" aria-pressed="false">Жалюзи и шторы</button>
-          <button class="tab" type="button" data-home-group="Отделка" aria-pressed="false">Отделка</button>
+          <button class="tab is-active" type="button" data-home-group="all" aria-pressed="true" aria-controls="cards">Всё</button>
+          <button class="tab" type="button" data-home-group="windows" aria-pressed="false" aria-controls="cards">Окна</button>
+          <button class="tab" type="button" data-home-group="balconies" aria-pressed="false" aria-controls="cards">Балконы</button>
+          <button class="tab" type="button" data-home-group="doors" aria-pressed="false" aria-controls="cards">Двери</button>
+          <button class="tab" type="button" data-home-group="gates" aria-pressed="false" aria-controls="cards">Ворота и рольставни</button>
+          <button class="tab" type="button" data-home-group="ceilings" aria-pressed="false" aria-controls="cards">Потолки</button>
+          <button class="tab" type="button" data-home-group="blinds" aria-pressed="false" aria-controls="cards">Рулонные шторы</button>
+          <button class="tab" type="button" data-home-group="aluminium" aria-pressed="false" aria-controls="cards">Алюминий</button>
         </div>
         <div class="catalog-tools home-catalog-tools">
-          <label>Найти в каталоге<input id="homeCatalogSearch" type="search" placeholder="Например, москитная сетка" autocomplete="off"></label>
-          <label>Порядок отображения<select id="homeCatalogSort"><option value="default">По умолчанию</option><option value="asc">Сначала дешевле</option><option value="desc">Сначала дороже</option></select></label>
+          <label>Найти в каталоге<input id="homeCatalogSearch" type="search" placeholder="Например, REHAU или рулонные шторы" autocomplete="off"></label>
+          <label>Порядок отображения<select id="homeCatalogSort"><option value="default">По умолчанию</option><option value="az">По названию: А–Я</option><option value="za">По названию: Я–А</option></select></label>
         </div>
-        <p class="catalog-note">Цены указаны от минимальной стоимости. Итог зависит от размеров и объёма работ.</p>
+        <p class="catalog-note">Изготавливаем по вашим размерам. Стоимость рассчитываем с учётом комплектации и монтажа.</p>
         <div class="catalog-layout"><div class="cards" id="cards" aria-live="polite"></div></div>
         <p class="home-catalog-count" id="homeCatalogCount" role="status" aria-live="polite"></p>
-        <a class="catalog-more" href="catalog/">Весь каталог <span>29 позиций ↗</span></a>
+        <a class="catalog-more" href="catalog/">Весь каталог <span>36 позиций ↗</span></a>
         <noscript><p>Для просмотра каталога включите JavaScript или позвоните: <a href="tel:+79895175699">8 989 517 56 99</a>.</p></noscript>
       </div>
     </section>

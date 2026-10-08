@@ -1,0 +1,47 @@
+/* Shared rhythm for page introductions and repeated content components. */
+:root {
+  --page-gutter: 48px;
+  --space-intro: 64px;
+  --space-section: 80px;
+  --space-card: 24px;
+  --space-grid: 24px;
+}
+@media (max-width: 1100px) {
+  :root { --page-gutter: 28px; }
+}
+@media (max-width: 760px) {
+  :root {
+    --page-gutter: 20px;
+    --space-intro: 40px;
+    --space-section: 48px;
+    --space-grid: 16px;
+  }
+}
+.wrap { width: min(1320px, calc(100% - 2 * var(--page-gutter))); margin-inline: auto; }
+.about-page .about-hero,
+.catalog-page-hero,
+.contacts-page .hero,
+.reviews-hero,
+.solutions-intro,
+.information-hero,
+.articles-intro { padding-block: var(--space-intro); }
+.calculator-page-main { padding-block: var(--space-intro) var(--space-section); }
+.about-page .about-section,
+.solutions-gallery,
+.information-faq,
+.contacts-page .offices,
+.reviews-page .reviews,
+.home-page .catalog,
+.home-page .reviews,
+.home-page .guides { padding-block: var(--space-section); }
+.catalog-page .product-grid,
+.contacts-page .office-grid,
+.reviews-page .reviews-grid,
+.home-page .reviews-grid,
+.articles-page .articles-grid,
+.about-page .solution-grid { gap: var(--space-grid); }
+.product-body,
+.contacts-page .office-body,
+.reviews-page .review-card,
+.home-page .review-card,
+.about-page .solution-card { padding: var(--space-card); }

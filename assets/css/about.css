@@ -2,7 +2,7 @@
 .about-page h1, .about-page h2 { letter-spacing: -.045em; line-height: 1.08; }
 .about-page em { color: var(--green); font-weight: 400; }
 .about-page p { color: var(--muted); }
-.about-skip { position: absolute; top: -100px; left: 20px; z-index: 100; background: #c4d8af; color: #101813; padding: 12px; }
+.about-skip { position: absolute; top: -100px; left: 20px; z-index: 100; background: var(--green); color: var(--on-accent); padding: 12px; }
 .about-skip:focus { top: 10px; }
 .about-hero { padding-block: 100px 76px; }
 .about-intro h1 { font-size: var(--font-size-display); margin: 25px 0; }
@@ -79,7 +79,7 @@
 .invitation-actions { display: flex; flex-direction: column; align-items: flex-start; gap: 18px; flex-shrink: 0; min-width: 0; max-width: 100%; }
 .invitation-actions .primary-link { position: relative; overflow: hidden; }
 .invitation-actions > a:nth-child(2) { font-size: var(--font-size-title); }
-.invitation-actions > .invitation-call { display: grid; grid-template-columns: 24px minmax(0, 1fr) auto; align-items: center; gap: 12px; width: min(100%, 390px); padding: 16px 18px; background: #c4d8af; color: #17261c; }
+.invitation-actions > .invitation-call { display: grid; grid-template-columns: 24px minmax(0, 1fr) auto; align-items: center; gap: 12px; width: min(100%, 390px); padding: 16px 18px; background: var(--green); color: var(--on-accent); }
 .invitation-call > svg { width: 24px; height: 24px; }
 .invitation-call > span { display: grid; gap: 3px; }
 .invitation-call small { font: 500 var(--font-size-body)/1.2 var(--sans); }
@@ -134,24 +134,24 @@
 .about-cinema { display: none; position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; }
 .about-video { display: block; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity .4s ease; }
 .about-video.is-ready { opacity: 1; }
-.about-cinema-shade { position: absolute; inset: 0; background: linear-gradient(90deg, #081511c4, #08151152 80%), linear-gradient(0deg, #0815118c, transparent 70%); }
-.about-page main { --ink: #f1f1e7; --muted: #d3dacf; --green: #c9deb8; --line: #d7e5d14d; --surface: #102119a8; --paper: #102119a8; --accent-soft: #102119b8; color: var(--ink); background: #14201a; }
+.about-cinema-shade { position: absolute; inset: 0; background: linear-gradient(90deg, color-mix(in srgb, var(--paper) 94%, transparent), color-mix(in srgb, var(--paper) 78%, transparent) 80%); }
+.about-page main { color: var(--ink); background: var(--paper); }
 .about-hero { display: flex; align-items: center; min-height: calc(100svh - 140px); }
 .about-intro { max-width: 850px; }
-.about-intro > .cinema-hint { display: none; margin: 24px 0 0; color: #cad7c3; }
+.about-intro > .cinema-hint { display: none; margin: 24px 0 0; color: var(--muted); }
 @media (min-width: 761px) and (hover: hover) and (pointer: fine) {
-  .about-cinema { display: block; background: #14201a url('../about-window-poster.webp') center / cover; }
+  .about-cinema { display: block; background: var(--paper) url('../about-window-poster.webp') center / cover; }
   .about-page main { background: transparent; }
   .about-intro > .cinema-hint { display: block; }
 }
-.about-facts { padding: 32px; background: #10211985; }
-.about-approach .approach-grid { padding: 32px; background: #10211999; }
+.about-facts { padding: 32px; background: color-mix(in srgb, var(--surface) 88%, transparent); }
+.about-approach .approach-grid { padding: 32px; background: color-mix(in srgb, var(--surface) 88%, transparent); }
 .about-solutions { background: transparent; }
-.solution-card, .solution-card:hover { background: #102119ae; }
-.process-steps { padding: 24px; background: #102119a8; }
-.about-invitation { background: #102119b8; }
+.solution-card, .solution-card:hover { background: color-mix(in srgb, var(--surface) 88%, transparent); }
+.process-steps { padding: 24px; background: color-mix(in srgb, var(--surface) 88%, transparent); }
+.about-invitation { background: color-mix(in srgb, var(--surface) 88%, transparent); }
 @media (max-width: 760px) {
   .about-hero { min-height: calc(100svh - 120px); }
   .about-facts, .about-approach .approach-grid, .process-steps { padding: 24px; }
-  .about-cinema-shade { background: linear-gradient(90deg, #081511c9, #0815117a); }
+  .about-cinema-shade { background: var(--paper); }
 }

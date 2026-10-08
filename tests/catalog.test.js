@@ -4,6 +4,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
 const { selectCatalogItems } = require('../assets/js/catalog-render.js');
+const { selectSpektrProducts } = require('../assets/js/products-page.js');
 const products = [
   { title: 'Окно под проём', group: 'Окна и балконные блоки', price: 4000 },
   { title: 'Дверь', group: 'Двери', price: null },
@@ -43,7 +44,7 @@ function home({ observer = false, reduced = false, sort = true } = {}) {
   grid.replaceChildren = (...children) => { grid.children = children; };
   grid.append = child => grid.children.push(child);
   const filter = makeElement();
-  filter.dataset.homeGroup = 'windows-doors';
+  filter.dataset.homeGroup = 'windows';
   const sortField = makeElement();
   sortField.value = 'default';
   const count = makeElement();
@@ -60,12 +61,13 @@ function home({ observer = false, reduced = false, sort = true } = {}) {
       createElement: makeElement,
     },
     window: {
-      SPEKTR_CATALOG: products, selectCatalogItems,
+      SPEKTR_PRODUCTS: products.map(p=>({...p, category:p.group==='Окна и балконные блоки'?'windows':p.group==='Двери'?'doors':'gates',subtitle:'',description:'',features:[]})),
       matchMedia: () => ({ matches: reduced }),
-      renderSpektrCatalogCard: () => { const el = makeElement(); el.classList.add('card'); return el; },
+      renderSpektrProductPreview: () => { const el = makeElement(); el.classList.add('card'); return el; },
       ...(observer ? { IntersectionObserver: Observer } : {}),
     },
     IntersectionObserver: Observer,
+    selectSpektrProducts,
   };
   vm.runInNewContext(fs.readFileSync(path.join(__dirname, '../assets/js/main.js'), 'utf8'), context);
   return { grid, filter, sortField, observed };
@@ -76,7 +78,7 @@ test('cards stay visible after filtering without IntersectionObserver or with re
     const { grid, filter } = home(settings);
     assert.equal(grid.children.length, 4);
     filter.listeners.click();
-    assert.equal(grid.children.length, 3);
+    assert.equal(grid.children.length, 1);
     assert.ok(grid.children.every(c => c.classList.contains('is-visible')));
   }
 });
@@ -86,6 +88,6 @@ test('replacing cards releases old observer targets', () => {
   const previous = [...grid.children];
   assert.equal(observed.size, 4);
   filter.listeners.click();
-  assert.equal(observed.size, 3);
+  assert.equal(observed.size, 1);
   assert.ok(previous.every(card => !observed.has(card)));
 });

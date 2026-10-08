@@ -4,23 +4,32 @@
   const sortSelect = document.querySelector('#homeCatalogSort');
   const count = document.querySelector('#homeCatalogCount');
   const filters = [...document.querySelectorAll('[data-home-group]')];
-  const products = window.SPEKTR_CATALOG || [];
+  const products = window.SPEKTR_PRODUCTS || [];
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const canReveal = !reducedMotion && 'IntersectionObserver' in window;
   let revealObserver = null;
   let activeGroup = 'all';
 
   function renderCatalog() {
-    if (!homeCatalog || !window.renderSpektrCatalogCard) return;
-    const matching = window.selectCatalogItems(products, {
-      group: activeGroup,
+    if (!homeCatalog || !window.renderSpektrProductPreview) return;
+    const matching = selectSpektrProducts(products, {
+      category: activeGroup,
       query: searchInput?.value || '',
       sort: sortSelect?.value || 'default',
     });
 
     const shown = matching.slice(0, 4);
+    const more = document.querySelector('.home-catalog .catalog-more');
+    if (more) {
+      const params = new URLSearchParams();
+      if (activeGroup !== 'all') params.set('category', activeGroup);
+      if (searchInput?.value.trim()) params.set('q', searchInput.value.trim());
+      if (sortSelect?.value && sortSelect.value !== 'default') params.set('sort', sortSelect.value);
+      more.href = 'catalog/' + (params.size ? '?' + params.toString() : '');
+      more.querySelector('span').textContent = matching.length + ' позиций ↗';
+    }
     homeCatalog.querySelectorAll('.card').forEach(card => revealObserver?.unobserve(card));
-    homeCatalog.replaceChildren(...shown.map((item, index) => window.renderSpektrCatalogCard(item, index)));
+    homeCatalog.replaceChildren(...shown.map((item, index) => window.renderSpektrProductPreview(item, index)));
     homeCatalog.querySelectorAll('.card').forEach((card, index) => {
       card.classList.remove('card-enter');
       card.classList.add('reveal');

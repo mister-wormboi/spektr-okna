@@ -1,10 +1,11 @@
-/* One-shot window illustration. Only transforms animate; no scroll or layout loop. */
+/* Window illustration with the same timeline as the 3D view above. */
 (() => {
   const section = document.querySelector('.window-story');
   if (!section) return;
   const stage = section.querySelector('.window-stage');
   if (!stage) return;
   const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const synchronization = window.SpektrWindowMotion;
   const svgNS = 'http://www.w3.org/2000/svg';
   const rectPath = (x, y, w, h) => `M${x} ${y}h${w}v${h}h${-w}Z`;
   const ring = (x, y, w, h, b, depth, finish = 'pvc') => {
@@ -82,6 +83,7 @@
   let state = 'idle';
   let observer;
   let animations = [];
+  let generation = 0;
 
   function removeMotionListener() {
     if (motion.removeEventListener) motion.removeEventListener('change', onMotionChange);
@@ -91,6 +93,7 @@
   function complete() {
     if (state === 'complete') return;
     state = 'complete';
+    generation++;
     observer?.disconnect();
     layers.forEach((layer, index) => {
       layer.style.transform = `translateX(${offsets[index]}px)`;
@@ -103,8 +106,10 @@
     animations = [];
     section.classList.remove('is-playing');
     section.classList.add('is-complete');
-    document.removeEventListener('visibilitychange', onVisibilityChange);
-    removeMotionListener();
+    if (!synchronization) {
+      document.removeEventListener('visibilitychange', onVisibilityChange);
+      removeMotionListener();
+    }
   }
 
   function onMotionChange(event) {
@@ -115,9 +120,13 @@
     if (document.hidden) complete();
   }
 
-  function play() {
-    if (state !== 'idle') return;
+  function play(timing) {
+    if (state !== 'idle' && !synchronization) return;
+    const run = ++generation;
+    animations.forEach(animation => animation.cancel());
+    animations = [];
     state = 'playing';
+    section.classList.remove('is-complete');
     observer?.disconnect();
     if (motion.matches || document.hidden || layers.some(layer => typeof layer.animate !== 'function')) {
       complete();
@@ -128,17 +137,20 @@
     try {
       // SVG-local pixel offsets keep the existing projection aligned in Safari.
       layers.forEach((layer, index) => {
-        animations.push(layer.animate([
+        const animation = layer.animate([
           { transform: 'translateX(0px)' },
           { transform: `translateX(${offsets[index]}px)` },
         ], {
-          duration: 1800,
-          delay: index * 100,
-          easing: 'cubic-bezier(.22, 1, .36, 1)',
+          duration: synchronization?.duration ?? 1800,
+          delay: index * (synchronization?.stagger ?? 100),
+          easing: synchronization?.easing ?? 'cubic-bezier(.22, 1, .36, 1)',
           fill: 'both',
-        }));
+        });
+        if (timing) animation.startTime = timing.startTime;
+        animations.push(animation);
       });
-      Promise.all(animations.map(animation => animation.finished)).then(complete, complete);
+      const finish = () => { if (run === generation) complete(); };
+      Promise.all(animations.map(animation => animation.finished)).then(finish, finish);
     } catch {
       complete();
     }
@@ -147,7 +159,11 @@
   if (motion.addEventListener) motion.addEventListener('change', onMotionChange);
   else motion.addListener(onMotionChange);
 
-  if (motion.matches || !('IntersectionObserver' in window)) {
+  if (synchronization) {
+    document.addEventListener('visibilitychange', onVisibilityChange);
+    if (motion.matches) complete();
+    synchronization.subscribe(play);
+  } else if (motion.matches || !('IntersectionObserver' in window)) {
     complete();
   } else {
     observer = new IntersectionObserver(entries => {

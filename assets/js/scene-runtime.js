@@ -45,17 +45,22 @@ export function box(parent, width, height, depth, x, y, z, material) {
 // Render at 30 fps only while visible; use a bounded framebuffer without supersampling.
 export function playback(container, renderer, camera, scene, animate, onResize = () => {}, options = {}) {
   const motion = matchMedia('(prefers-reduced-motion: reduce)');
-  const { threshold = .01, duration = Infinity } = options;
+  const { threshold = .01, duration = Infinity, synchronization } = options;
   const once = Number.isFinite(duration);
   let visible = false, lost = false, frame = 0, elapsed = once && motion.matches ? duration : 0, previous = 0, lastDraw = 0;
   let started = false;
+  let sharedStart = null;
   let width = 1, height = 1;
   function render() { animate(elapsed); renderer.render(scene,camera); }
+  function syncTime(now) {
+    if (sharedStart !== null) elapsed = Math.max(0, Math.min(duration, (now - sharedStart) / 1000));
+  }
   function tick(now) {
     frame = 0;
-    if (previous) elapsed = Math.min(duration, elapsed + Math.min((now-previous)/1000,.25));
+    if (synchronization) syncTime(now);
+    else if (previous) elapsed = Math.min(duration, elapsed + Math.min((now-previous)/1000,.25));
     previous = now;
-    if (!lastDraw || now - lastDraw >= 1000 / 30 - 1) {
+    if (elapsed >= duration || !lastDraw || now - lastDraw >= 1000 / 30 - 1) {
       lastDraw = now; render();
     }
     if (visible && !document.hidden && !motion.matches && !lost && elapsed < duration) frame = requestAnimationFrame(tick);
@@ -64,8 +69,9 @@ export function playback(container, renderer, camera, scene, animate, onResize =
     if (frame) cancelAnimationFrame(frame);
     frame = 0; previous = 0; lastDraw = 0;
     if (lost) return;
+    if (synchronization) syncTime(document.timeline.currentTime);
     if (once && (motion.matches || (started && document.hidden))) elapsed = duration;
-    if (visible && !document.hidden && !motion.matches && elapsed < duration) frame = requestAnimationFrame(tick);
+    if (visible && !document.hidden && !motion.matches && elapsed < duration && (!synchronization || sharedStart !== null)) frame = requestAnimationFrame(tick);
     else render();
   }
   function resize() {
@@ -80,7 +86,8 @@ export function playback(container, renderer, camera, scene, animate, onResize =
   new ResizeObserver(resize).observe(container);
   if ('IntersectionObserver' in window) {
     const observer = new IntersectionObserver(entries => {
-      if (once) {
+      if (synchronization) visible = entries.some(entry => entry.isIntersecting);
+      else if (once) {
         if (!entries.some(entry => entry.isIntersecting && entry.intersectionRatio >= threshold)) return;
         started = true; visible = true; observer.disconnect();
       } else visible = entries[0].isIntersecting;
@@ -99,4 +106,10 @@ export function playback(container, renderer, camera, scene, animate, onResize =
     lost = false; resize(); update(); container.classList.add('is-rendered');
   });
   resize(); container.classList.add('is-rendered');
+  synchronization?.subscribe(({ startTime }) => {
+    sharedStart = startTime;
+    started = true;
+    elapsed = 0;
+    update();
+  });
 }

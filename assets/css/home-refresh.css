@@ -51,7 +51,7 @@
 .home-contact-copy .eyebrow { max-width: 360px; }
 .home-contact-copy h2 { max-width: 440px; margin: 20px 0; font: 400 var(--font-size-display)/1.04 var(--serif); letter-spacing: -.04em; }
 .home-contact-copy p { max-width: 380px; color: var(--muted); line-height: 1.75; }
-.home-contact-phone { display: grid; grid-template-columns: 28px minmax(0, 1fr) auto; align-items: center; gap: 14px; margin: 28px 0 14px; padding: 18px 20px; background: #c4d8af; color: #17261c; text-decoration: none; }
+.home-contact-phone { display: grid; grid-template-columns: 28px minmax(0, 1fr) auto; align-items: center; gap: 14px; margin: 28px 0 14px; padding: 18px 20px; background: var(--green); color: var(--on-accent); text-decoration: none; }
 .home-contact-phone > svg { width: 26px; height: 26px; }
 .home-contact-phone-copy { display: grid; gap: 3px; }
 .home-contact-phone-copy small { font-size: var(--font-size-body); }

@@ -1119,7 +1119,7 @@ img {
 }
 
 .reviews .eyebrow {
-  font-size: var(--font-size-title);
+  font-size: var(--font-size-body);
   font-weight: 800;
   letter-spacing: 0.12em;
 }

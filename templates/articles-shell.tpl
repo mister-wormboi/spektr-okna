@@ -21,6 +21,7 @@
   {{detail_css}}
   <link rel="stylesheet" href="{{prefix}}assets/css/header-refresh.css">
   <link rel="stylesheet" href="{{prefix}}assets/css/footer.css">
+  <link rel="stylesheet" href="{{prefix}}assets/css/layout.css">
   <link rel="stylesheet" href="{{prefix}}assets/css/theme.css">
   <link rel="stylesheet" href="{{prefix}}assets/css/typography.css">
   {{structured_data}}

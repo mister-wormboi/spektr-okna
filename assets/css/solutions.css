@@ -48,7 +48,7 @@
   .solutions-intro { padding-block: 32px; }
   .solutions-back { margin-bottom: 22px; }
   .solutions-gallery { padding-block: 28px 56px; }
-  .solutions-gallery-heading h2 { font-size: 32px; }
+  .solutions-gallery-heading h2 { font-size: var(--font-size-title); }
   .solutions-gallery-track { gap: 10px; }
   .solutions-gallery-track a { height: 260px; }
   .solutions-lightbox { padding: 72px 16px 88px; }

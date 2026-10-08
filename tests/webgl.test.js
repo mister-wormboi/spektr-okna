@@ -9,7 +9,7 @@ function setup({width=640,height=480,density=2,reduced=false,playbackOptions={}}
   const events={}, canvasEvents={}, callbacks=new Map(), media={matches:reduced,addEventListener:(_,fn)=>{events.motion=fn;}};
   let intersection,resize,id=0,renders=0,ratio,size,observerOptions;
   const times=[];
-  const document={hidden:false,addEventListener:(name,fn)=>{events[name]=fn;}};
+  const document={hidden:false,timeline:{currentTime:0},addEventListener:(name,fn)=>{events[name]=fn;}};
   const container={clientWidth:width,clientHeight:height,classList:{add(){},remove(){}}};
   const renderer={capabilities:{maxTextureSize:8192},domElement:{addEventListener:(name,fn)=>{canvasEvents[name]=fn;}},setPixelRatio:r=>{ratio=r;},setSize:(w,h)=>{size=[w,h];},render:()=>{renders++;}};
   const camera={updateProjectionMatrix(){}};
@@ -61,6 +61,29 @@ test('one-shot 3D playback shows its final frame for reduced motion and hidden t
   const s=setup({playbackOptions:{threshold:.3,duration:2.1}});
   s.visible(true,.3); s.frame(1000);
   s.document.hidden=true; s.events.visibilitychange();
+  assert.equal(s.times.at(-1),2.1);
+  assert.equal(s.pending(),0);
+});
+
+test('synchronized WebGL follows the shared clock and does not run offscreen',()=>{
+  let play;
+  const s=setup({playbackOptions:{threshold:.3,duration:2.1,synchronization:{subscribe(fn){play=fn;}}}});
+  s.visible(true);
+  assert.equal(s.pending(),0);
+  s.document.timeline.currentTime=1500;
+  play({startTime:1000});
+  s.frame(1500);
+  assert.equal(s.times.at(-1),.5);
+  s.visible(false);
+  assert.equal(s.pending(),0);
+  s.document.timeline.currentTime=2000;
+  play({startTime:1800});
+  assert.equal(s.pending(),0);
+  s.document.timeline.currentTime=2200;
+  s.visible(true);
+  s.frame(2200);
+  assert.equal(s.times.at(-1),.4);
+  s.frame(4000);
   assert.equal(s.times.at(-1),2.1);
   assert.equal(s.pending(),0);
 });

@@ -1,4 +1,4 @@
-/* Loaded after component styles: one palette for all eight pages. */
+/* Loaded after component styles: one palette for all pages. */
 :root,
 html[data-theme="dark"] {
   color-scheme: dark;
@@ -60,3 +60,16 @@ body { color: var(--ink); background: var(--surface); }
 .secondary-link { border-bottom-color: var(--line); }
 .hero .secondary-link { border-bottom-color: #ffffff60; }
 .calculator-back { color: var(--green); }
+
+/* Contacts use the same themed surfaces as the remaining pages. */
+.contacts-page .hero { background: var(--paper); color: var(--ink); }
+.contacts-page .hero h1 em { color: var(--green); }
+.contacts-page .hero-copy > p,
+.contacts-page .hero-facts span,
+.contacts-page .back-link { color: var(--muted); }
+.contacts-page .hero-facts { border-color: var(--line); }
+.contacts-page .contact-banner { background: var(--accent-soft); color: var(--ink); }
+.contacts-page .contact-banner .eyebrow { color: var(--green); }
+.contacts-page .contact-banner p { color: var(--muted); }
+.contacts-page .contact-banner a { background: var(--green); color: var(--on-accent); }
+.contacts-page .contact-banner a:hover { background: var(--green-dark); }

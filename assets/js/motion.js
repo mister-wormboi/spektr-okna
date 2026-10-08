@@ -2,7 +2,17 @@
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
   const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
   const hero = document.querySelector('.hero');
+  const heroImage = document.querySelector('.hero-scene img');
   const progress = document.querySelector('.reading-progress span');
+  if (heroImage) {
+    const startZoom = () => heroImage.classList.add('is-ready');
+    if (heroImage.decode) heroImage.decode().then(startZoom, () => {
+      if (heroImage.complete && heroImage.naturalWidth) startZoom();
+      else heroImage.addEventListener('load', startZoom, { once: true });
+    });
+    else if (heroImage.complete && heroImage.naturalWidth) startZoom();
+    else heroImage.addEventListener('load', startZoom, { once: true });
+  }
   let queued = false;
   let pageHeight = 1;
   let heroTop = 0;

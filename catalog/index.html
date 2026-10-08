@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <script src="../assets/js/theme.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Каталог окон, дверей, москитных сеток, жалюзи и услуг компании «Спектр». Цены из прайс-листа.">
+  <meta name="description" content="Продукция «Спектр»: окна, балконы, двери, ворота, потолки, рулонные шторы и алюминиевые конструкции. Выбор по категориям и поиск.">
   <title>Каталог товаров и услуг — Спектр</title>
   <link rel="icon" type="image/png" sizes="128x128" href="../assets/favicon.png?v=2">
   <link rel="icon" type="image/svg+xml" sizes="any" href="../assets/favicon.svg">
@@ -18,11 +18,11 @@
   <link rel="stylesheet" href="../assets/css/catalog-page.css">
   <link rel="stylesheet" href="../assets/css/header-refresh.css">
   <link rel="stylesheet" href="../assets/css/footer.css">
+  <link rel="stylesheet" href="../assets/css/layout.css">
   <link rel="stylesheet" href="../assets/css/theme.css">
   <link rel="stylesheet" href="../assets/css/typography.css">
-  <script src="../assets/js/catalog-data.js" defer></script>
-  <script src="../assets/js/catalog-render.js" defer></script>
-  <script src="../assets/js/catalog-page.js" defer></script>
+  <script src="../assets/js/products-data.js" defer></script>
+  <script src="../assets/js/products-page.js" defer></script>
 </head>
 <body id="page-top" class="catalog-page">
   <header class="site-header">
@@ -52,40 +52,37 @@
     </div>
   </header>
   <main>
-    <section class="catalog-page-hero">
-      <div class="wrap">
-        <span class="eyebrow">Спектр / Каталог</span>
-        <h1>Товары и услуги</h1>
-        <p>Цены из прайс-листа. Точную стоимость конструкции и работ подтвердит специалист.</p>
+    <section class="catalog-page-hero"><div class="wrap">
+      <span class="eyebrow">Спектр / Продукция</span>
+      <div class="catalog-intro"><div class="catalog-intro-copy"><h1>Дом начинается<br><em>с деталей.</em></h1><p>Свет в комнате. Тишина за окном. Удобный выход на террасу. Найдите решение, с которым дома будет лучше.</p></div><aside class="catalog-help" aria-labelledby="catalogHelpTitle">
+        <span class="eyebrow">Поможем с выбором</span>
+        <h2 id="catalogHelpTitle">Быстро подберём<br>нужное решение.</h2>
+        <p>Расскажите, что хотите изменить дома. Подберём подходящий вариант и рассчитаем стоимость под ваши размеры.</p>
+        <a class="catalog-help-phone" href="tel:+79895175699" aria-label="Позвонить для подбора решения: 8 989 517 56 99"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m7 3 3 5-2.5 2.5a15 15 0 0 0 6 6L16 14l5 3c0 3-2 4-4 4C10 20 4 14 3 7c0-2 1-4 4-4Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg><span>8 989 517 56 99</span><span aria-hidden="true">↗</span></a>
+        <span class="catalog-help-note">Позвоните — обсудим детали вашего проекта.</span>
+      </aside></div>
+    </div></section>
+    <section class="catalog catalog-full" aria-labelledby="fullCatalogTitle"><div class="wrap">
+      <div class="catalog-directions-heading"><span class="eyebrow">Что изменим в вашем доме?</span></div>
+      <div class="product-categories" id="productCategories" role="group" aria-label="Категории продукции"></div>
+      <div class="product-tools">
+        <label class="product-search">Найти в каталоге<span class="product-search-field"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" stroke="currentColor" stroke-width="1.5"/><path d="m16 16 5 5" stroke="currentColor" stroke-width="1.5"/></svg><input id="catalogSearch" type="search" placeholder="Например, REHAU, двери или матовые" autocomplete="off" aria-controls="fullCatalogCards"></span></label>
+        <label class="catalog-sort">Порядок отображения<select id="catalogSort"><option value="default">Рекомендуемый</option><option value="az">По названию: А–Я</option><option value="za">По названию: Я–А</option></select></label>
       </div>
-    </section>
-    <section class="catalog catalog-full" aria-labelledby="fullCatalogTitle">
-      <div class="wrap">
-        <div class="section-heading">
-          <div><span class="eyebrow">29 позиций</span><h2 id="fullCatalogTitle">Выберите нужное</h2></div>
-          <label class="catalog-sort">Порядок отображения
-            <select id="catalogSort">
-              <option value="default">Как в прайс-листе</option>
-              <option value="asc">Сначала дешевле</option>
-              <option value="desc">Сначала дороже</option>
-            </select>
-          </label>
-        </div>
-        <div class="tabs catalog-filters" role="group" aria-label="Категории каталога">
-          <button class="tab catalog-filter is-active" type="button" data-group="all" aria-pressed="true">Все</button>
-          <button class="tab catalog-filter" type="button" data-group="Окна и балконные блоки" aria-pressed="false">Окна и балконные блоки</button>
-          <button class="tab catalog-filter" type="button" data-group="Ремонт окон" aria-pressed="false">Ремонт окон</button>
-          <button class="tab catalog-filter" type="button" data-group="Москитные сетки" aria-pressed="false">Москитные сетки</button>
-          <button class="tab catalog-filter" type="button" data-group="Жалюзи и шторы" aria-pressed="false">Жалюзи и шторы</button>
-          <button class="tab catalog-filter" type="button" data-group="Двери" aria-pressed="false">Двери</button>
-          <button class="tab catalog-filter" type="button" data-group="Рольставни и ворота" aria-pressed="false">Рольставни и ворота</button>
-          <button class="tab catalog-filter" type="button" data-group="Отделка" aria-pressed="false">Отделка</button>
-        </div>
-        <p class="catalog-count" id="catalogCount" role="status" aria-live="polite"></p>
-        <div class="catalog-layout"><div class="cards" id="fullCatalogCards" aria-live="polite"></div></div>
-        <p class="catalog-note">Стоимость указана «от». Цена противопожарных дверей — по запросу. Натяжной потолок рассчитан за м². Итоговая стоимость зависит от размеров и комплектации.</p>
-      </div>
-    </section>
+      <div class="product-quick-search" role="group" aria-label="Быстрый поиск"><span>Присмотритесь:</span><button type="button" data-catalog-query="REHAU">Окна REHAU ↗</button><button type="button" data-catalog-query="PRO WINS">PRO WINS ↗</button><button type="button" data-catalog-query="кассетные">Кассетные шторы ↗</button><button type="button" data-catalog-query="панорамное">Панорамное остекление ↗</button></div>
+      <div class="product-results-heading"><div><span class="eyebrow">Каталог решений</span><h2 id="fullCatalogTitle">Вся продукция</h2><p id="categoryDescription">Выберите категорию или найдите нужное по названию и характеристикам.</p></div><button type="button" id="catalogReset" hidden>Сбросить выбор ↺</button></div>
+      <a class="product-back-categories" href="#productCategories">К категориям ↑</a>
+      <p class="catalog-count" id="catalogCount" role="status" aria-live="polite" aria-atomic="true"></p>
+      <div class="product-grid" id="fullCatalogCards"></div>
+      <button class="product-more" id="catalogMore" type="button" hidden>Показать ещё</button>
+      <noscript><p>Для поиска и выбора категорий включите JavaScript. <a href="https://spektr-okna.ru/produkcija/">Посмотреть продукцию «Спектр»</a> или <a href="tel:+79895175699">позвонить 8 989 517 56 99</a>.</p></noscript>
+      <p class="catalog-note">Изготовление под ваши размеры. Итоговая стоимость зависит от комплектации, размеров и монтажа — рассчитаем её после уточнения деталей.</p>
+      <div class="catalog-consult"><div><h3>Есть идея? Найдём решение.</h3><p>Поможем выбрать материал, комплектацию и подходящий вариант для вашего дома.</p></div><a class="catalog-call-button" href="tel:+79895175699"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m7 3 3 5-2.5 2.5a15 15 0 0 0 6 6L16 14l5 3c0 3-2 4-4 4C10 20 4 14 3 7c0-2 1-4 4-4Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>Позвонить</a></div>
+    </div></section>
+    <dialog class="product-dialog" id="productDialog" aria-labelledby="productDialogTitle" aria-describedby="productDialogDescription">
+      <form method="dialog" class="product-dialog-close"><button type="submit" aria-label="Закрыть карточку товара" autofocus>×</button></form>
+      <div id="productDialogVisual"></div><div class="product-dialog-body"><p class="eyebrow" id="productDialogCategory"></p><h2 id="productDialogTitle"></h2><p id="productDialogDescription"></p><ul id="productDialogFeatures"></ul><p class="product-dialog-price">Стоимость — по индивидуальному расчёту</p><a class="product-dialog-call" id="productDialogCall" href="tel:+79895175699">Обсудить заказ ↗</a></div>
+    </dialog>
   </main>
   <footer class="site-footer">
     <div class="wrap footer-inner">

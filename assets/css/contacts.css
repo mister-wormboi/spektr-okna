@@ -23,7 +23,7 @@ body {
     margin: 0;
     background: var(--surface);
     color: var(--ink);
-    font: 400 var(--font-size-body)/1.55 var(--sans);
+    font: 400 var(--font-size-body)/1.6 var(--sans);
     letter-spacing: -.01em;
 }
 

@@ -90,7 +90,10 @@ function buildWindow(viewport) {
     fragmentShader:'varying vec2 shadowUV; void main(){vec2 p=(shadowUV-.5)*vec2(2.,3.);float a=exp(-dot(p,p)*5.)*.18;gl_FragColor=vec4(0.,0.,0.,a);}'
   }));
   floor.rotation.x=-Math.PI/2; floor.position.y=-.95; scene.add(floor);
-  // Match the illustration below: 1.8 seconds per layer, staggered by 100 ms.
+  const synchronization = window.SpektrWindowMotion;
+  const layerDuration = (synchronization?.duration ?? 1800) / 1000;
+  const stagger = (synchronization?.stagger ?? 100) / 1000;
+  // Match the illustration below, including its shared start time.
   function ease(progress) {
     const target = THREE.MathUtils.clamp(progress,0,1);
     let low = 0, high = 1;
@@ -104,12 +107,12 @@ function buildWindow(viewport) {
   }
   playback(viewport,renderer,camera,scene,time => {
     layers.forEach((layer,i) => {
-      const spread = ease((time - i * .1) / 1.8);
+      const spread = ease((time - i * stagger) / layerDuration);
       layer.position.z = [-.45,0,.42,.72][i]*spread;
       layer.position.x = [-.16,0,.1,.2][i]*spread;
     });
   }, (w,h) => {
     camera.position.z = w/h < .75 ? 6.4 : 4.5;
     camera.updateProjectionMatrix();
-  }, { threshold: .3, duration: 2.1 });
+  }, { threshold: .3, duration: layerDuration + stagger * 3, synchronization });
 }

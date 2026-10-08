@@ -9,7 +9,7 @@ const classList = () => {
   return { add: v => values.add(v), remove: v => values.delete(v), contains: v => values.has(v), toggle: (v, on) => on ? values.add(v) : values.delete(v) };
 };
 
-function story({ reduced = false, observer = true, animation = true } = {}) {
+function story({ reduced = false, observer = true, animation = true, synchronization } = {}) {
   const pending = [];
   const animations = [];
   const listeners = new Map();
@@ -36,7 +36,7 @@ function story({ reduced = false, observer = true, animation = true } = {}) {
     disconnect() { connected = false; }
   }
   vm.runInNewContext(source('window-story.js'), {
-    document, window: { matchMedia: () => media, ...(observer ? { IntersectionObserver: Observer } : {}) },
+    document, window: { matchMedia: () => media, SpektrWindowMotion: synchronization, ...(observer ? { IntersectionObserver: Observer } : {}) },
     IntersectionObserver: Observer,
   });
   return { section, layers, animations, pending, listeners, document, trigger, connected: () => connected };
@@ -73,6 +73,26 @@ test('window illustration has static fallbacks and stops in hidden tabs', () => 
   assert.ok(s.animations.every(a => a.cancelled));
 });
 
+test('coordinated SVG layers share a timestamp and can replay before an earlier run finishes', async () => {
+  let play;
+  const s = story({ synchronization: { duration: 1800, stagger: 100, easing: 'linear', subscribe(fn) { play = fn; } } });
+  play({ startTime: 1000 });
+  assert.ok(s.animations.every(animation => animation.startTime === 1000));
+  play({ startTime: 1400 });
+  assert.equal(s.animations.length, 8);
+  assert.ok(s.animations.slice(0, 4).every(animation => animation.cancelled));
+  assert.ok(s.animations.slice(4).every(animation => animation.startTime === 1400));
+  s.pending.slice(0, 4).forEach(resolve => resolve());
+  await new Promise(resolve => setImmediate(resolve));
+  assert.equal(s.section.classList.contains('is-complete'), false);
+  s.pending.slice(4).forEach(resolve => resolve());
+  await new Promise(resolve => setImmediate(resolve));
+  assert.equal(s.section.classList.contains('is-complete'), true);
+  play({ startTime: 4000 });
+  assert.equal(s.animations.length, 12);
+  assert.equal(s.section.classList.contains('is-complete'), false);
+});
+
 test('scroll frames reuse hero measurements instead of forcing layout reads', () => {
   let reads = 0;
   const frames = [];
@@ -98,6 +118,25 @@ test('scroll frames reuse hero measurements instead of forcing layout reads', ()
   window.scrollY = 1500;
   events.scroll(); frames.shift()();
   assert.equal(hero.classList.contains('is-in-view'), false);
+});
+
+test('hero zoom starts only after the selected image is decoded', async () => {
+  let finishDecode;
+  const image = { classList: classList(), decode: () => new Promise(resolve => { finishDecode = resolve; }) };
+  vm.runInNewContext(source('motion.js'), {
+    window: { scrollY: 0, matchMedia: () => ({ matches: false, addListener() {} }), addEventListener() {} },
+    innerHeight: 800,
+    document: {
+      hidden: false, documentElement: { scrollHeight: 1600 }, addEventListener() {},
+      querySelector: selector => selector === '.hero-scene img' ? image : null,
+      querySelectorAll: () => [],
+    },
+    requestAnimationFrame() {},
+  });
+  assert.equal(image.classList.contains('is-ready'), false);
+  finishDecode();
+  await Promise.resolve();
+  assert.equal(image.classList.contains('is-ready'), true);
 });
 
 test('touch devices skip hero work; enabling desktop motion refreshes its dimensions', () => {

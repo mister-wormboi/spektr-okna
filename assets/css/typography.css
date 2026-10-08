@@ -51,3 +51,10 @@ html { font-size: var(--font-size-body); scrollbar-gutter: stable; -webkit-text-
   body { overflow-wrap: break-word; }
   h1, h2, h3 { overflow-wrap: anywhere; }
 }
+
+/* Page titles share the same rhythm, including photographic hero titles. */
+body main h1[class],
+body main :is(.hero-copy, .about-intro, .catalog-intro-copy, .calculator-heading, .reviews-hero, .solutions-intro, .information-hero, .articles-intro, .article-heading) h1,
+.home-page .hero-atmosphere h1,
+.calculator-page h1 { line-height: 1.1; margin-block: var(--heading-label-gap) 24px; }
+.home-page .reviews .eyebrow { font-size: var(--font-size-body); font-weight: 400; }

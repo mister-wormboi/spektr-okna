@@ -22,6 +22,10 @@
 .catalog .card-bottom b { display:inline; font: 400 var(--font-size-title)/1.3 var(--serif); font-variant-numeric: lining-nums tabular-nums; color: var(--ink); white-space:nowrap; }
 .catalog .card-bottom a { font-size: var(--font-size-body); padding-block:8px; }
 .catalog .empty { grid-column:1/-1; padding:35px; color: var(--green); }
+.catalog-empty { grid-column: 1 / -1; color: var(--muted); }
+.catalog .home-product-description { margin: -12px 0 24px; color: var(--muted); }
+.catalog .catalog-category-visual { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 24px; background: var(--accent-soft); color: var(--green); }
+.catalog-category-visual svg { width: 96px; height: 96px; flex-shrink: 0; }
 #resetCatalog { display:block; margin-top:18px; padding:12px 20px; border: 1px solid var(--line); color: var(--green); background: none; cursor:pointer; }
 .catalog :is(button,a,input,select):focus-visible { outline: 2px solid var(--green); outline-offset: 4px; }
 @media(max-width:1050px) { .catalog .cards,.home-catalog .cards { grid-template-columns:repeat(2,minmax(0,1fr)); } }
