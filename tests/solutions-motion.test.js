@@ -59,7 +59,7 @@ test('marquee decodes and duplicates only once, after entering view; loop includ
   assert.equal(s.track.children.length, 32);
 });
 
-test('marquee pauses offscreen, in hidden tabs, and on explicit pause', async () => {
+test('marquee pauses offscreen and in hidden tabs without adding a play/pause button', async () => {
   const s = setup(); s.intersect(true); await settle();
   s.intersect(false);
   assert.ok(!s.track.classList.contains('is-running'));
@@ -68,11 +68,7 @@ test('marquee pauses offscreen, in hidden tabs, and on explicit pause', async ()
   assert.ok(!s.track.classList.contains('is-running'));
   s.document.hidden = false; s.document.events.visibilitychange();
   assert.ok(s.track.classList.contains('is-running'));
-  s.button.events.click();
-  assert.ok(!s.track.classList.contains('is-running'));
-  assert.equal(s.button.attrs['aria-pressed'], 'true');
-  s.button.events.click();
-  assert.ok(s.track.classList.contains('is-running'));
+  assert.equal(s.button, undefined);
 });
 
 test('reduced motion and unsupported observers keep a static, uncloned fallback', async () => {
@@ -85,7 +81,6 @@ test('reduced motion and unsupported observers keep a static, uncloned fallback'
   const s = setup(); s.intersect(true); await settle();
   s.media.matches = true; s.media.events.change();
   assert.ok(!s.marquee.classList.contains('is-animated'));
-  assert.ok(s.button.hidden);
   s.media.matches = false; s.media.events.change();
   assert.ok(s.track.classList.contains('is-running'));
 });

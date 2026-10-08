@@ -48,6 +48,27 @@
   margin: 24px 0;
 }
 
+.reviews-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  min-height: 44px;
+  width: fit-content;
+  border-bottom: 1px solid var(--line);
+  color: var(--green);
+  font-size: var(--font-size-body);
+  text-decoration: none;
+}
+
+.reviews-more:hover {
+  border-color: currentColor;
+}
+
+.reviews-more:focus-visible {
+  outline: 2px solid var(--green);
+  outline-offset: 4px;
+}
+
 .reviews-source-note {
   color: var(--green);
   font-size: var(--font-size-body);

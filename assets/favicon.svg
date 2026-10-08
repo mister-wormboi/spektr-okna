@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+  <title>Спектр</title>
+  <style>
+    .frame { fill: #202c25; }
+    @media (prefers-color-scheme: dark) { .frame { fill: #edf0e7; } }
+  </style>
+  <!-- The angled window emblem, without the wordmark. -->
+  <g transform="translate(36 8) scale(.9)">
+    <path class="frame" d="M91 44 137 0 185 79 144 123 128 98 155 76 134 39 107 65Z"/>
+    <path fill="#27a649" d="m0 136 75-78 21 24-49 54 50 52-22 25Z"/>
+    <path fill="#27a649" d="m67 136 38-44 37 44-38 45Z"/>
+    <path class="frame" d="m144 143 41 64-43 60-44-43 20-25 23 24 15-24-28-37Z"/>
+  </g>
+</svg>

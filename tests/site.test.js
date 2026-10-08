@@ -103,6 +103,8 @@ test('all pages declare responsive viewport; mobile assets and controls are link
   assert.match(home, /home-solutions-marquee/);
   assert.match(home, /src="assets\/js\/home-solutions.js" defer/);
   assert.doesNotMatch(home, /src="assets\/js\/solutions-gallery.js"/);
+  const reviewsSection = home.match(/<section class="reviews"[\s\S]*?<\/section>/)[0];
+  assert.match(reviewsSection, /<a class="reviews-more" href="reviews\/">Все отзывы/);
   assert.match(home, /src="assets\/js\/card-strips.js" defer/);
   const data = fs.readFileSync(path.join(root, 'assets/js/catalog-data.js'), 'utf8');
   for (const match of data.matchAll(/image:\s*'([^']+)'/g)) checkLink(path.join(root, 'index.html'), match[1].replace('.webp', '-small.webp'));

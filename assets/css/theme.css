@@ -6,6 +6,8 @@ html[data-theme="dark"] {
   --green-dark: #d0e1bb;
   --ink: #edf0e7;
   --muted: #b3bfaf;
+  /* Recolor the transparent logo to match --muted (navigation text). */
+  --logo-filter: brightness(0) invert(.5) sepia(1) saturate(.310842) hue-rotate(59.983645deg) brightness(1.208675);
   --paper: #111b17;
   --surface: #19261e;
   --line: #425046;
@@ -23,6 +25,7 @@ html[data-theme="light"] {
   --green-dark: #244536;
   --ink: #202c25;
   --muted: #5e6b62;
+  --logo-filter: brightness(0) invert(.5) sepia(1) saturate(.420420) hue-rotate(85.744558deg) brightness(.668474);
   --paper: #f0f1eb;
   --surface: #fafaf7;
   --line: #d5dcd2;

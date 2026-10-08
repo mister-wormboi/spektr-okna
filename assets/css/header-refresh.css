@@ -20,8 +20,7 @@
 }
 
 .site-header .header-logo { display: block; grid-column: 1; grid-row: 1; width: 140px; min-width: 0; }
-.site-header .header-logo img { display: block; width: 100%; height: auto; }
-html[data-theme="light"] .header-logo img { filter: brightness(0); opacity: .85; }
+.site-header .header-logo img { display: block; width: 100%; height: auto; filter: var(--logo-filter); }
 .site-header .header-nav {
   display: flex;
   grid-column: 2;

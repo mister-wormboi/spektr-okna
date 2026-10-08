@@ -12,16 +12,13 @@
 .solutions-gallery-track { position: relative; display: flex; align-items: center; gap: 16px; width: max-content; }
 .solutions-gallery-track a { display: block; flex: 0 0 auto; height: clamp(280px, 34vw, 440px); background: var(--paper); }
 .solutions-gallery-track img { display: block; width: auto; height: 100%; max-width: none; object-fit: contain; }
-.solutions-gallery-track a:focus-visible, .solutions-lightbox button:focus-visible, .solutions-motion-toggle:focus-visible { outline: 2px solid var(--green); outline-offset: 4px; }
-.home-solutions-marquee { position: relative; padding-bottom: 56px; }
+.solutions-gallery-track a:focus-visible, .solutions-lightbox button:focus-visible { outline: 2px solid var(--green); outline-offset: 4px; }
 .home-solutions-marquee.is-animated { overflow: hidden; }
 .home-solutions-marquee.is-animated .solutions-gallery-track { animation: solutionsMarquee var(--loop-duration, 120s) linear infinite paused; }
 .home-solutions-marquee.is-animated .solutions-gallery-track.is-running { animation-play-state: running; }
 .home-solutions-marquee.is-animated:hover .solutions-gallery-track,
 .home-solutions-marquee.is-animated:focus-within .solutions-gallery-track { animation-play-state: paused; }
 .home-solutions-marquee:not(.is-animated) [data-clone] { display: none; }
-.solutions-motion-toggle { position: absolute; right: 0; bottom: 4px; display: block; width: 40px; height: 40px; border: 1px solid var(--line); background: transparent; color: var(--green); cursor: pointer; }
-.solutions-motion-toggle[hidden] { display: none; }
 @keyframes solutionsMarquee { to { transform: translateX(calc(-1 * var(--loop-distance))); } }
 
 /* Masonry: retain each photo's proportions and the existing gutters. */
