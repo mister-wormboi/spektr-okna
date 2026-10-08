@@ -1,0 +1,72 @@
+[
+  {
+    "url": "https://api.mosokna.ru/upload/iblock/88a/uuxbrik1sibco2m3kyogvshnbzzylw3u/zm61xmnfp07e3czpdbwy3qw429bw32gh.jpg",
+    "path": "assets/articles/article-01.jpg",
+    "width": 1360,
+    "height": 1000,
+    "bytes": 135074
+  },
+  {
+    "url": "https://api.mosokna.ru/upload/iblock/db2/5vkk6p0c02elvhi2dnp7tp6uil6vt73f/Picture.png",
+    "path": "assets/articles/article-02.png",
+    "width": 1359,
+    "height": 1000,
+    "bytes": 1478863
+  },
+  {
+    "url": "https://api.mosokna.ru/upload/hooli.editor/imgs/e1a/q7jdzzk2nsis0598jt08en9xnazn4xm5/1.webp",
+    "path": "assets/articles/article-03.webp",
+    "width": 960,
+    "height": 540,
+    "bytes": 18726
+  },
+  {
+    "url": "https://api.mosokna.ru/upload/iblock/20d/ouxx4f404ego7nvjrqzpegzl6wqs5p58/okna_pod_klyuch_gotovye_varianty1.webp",
+    "path": "assets/articles/article-04.webp",
+    "width": 1183,
+    "height": 864,
+    "bytes": 481622
+  },
+  {
+    "url": "https://api.mosokna.ru/upload/hooli.editor/imgs/4d4/r12lz4zcywk55n6pf6mi13fxr9g1jydj/1ofkx8rvi8z3ctr1ujmx4agg6boszeyi.webp",
+    "path": "assets/articles/article-05.webp",
+    "width": 1500,
+    "height": 887,
+    "bytes": 48676
+  },
+  {
+    "url": "https://api.mosokna.ru/upload/iblock/be3/ade72idceicmcu8kkj8svq2uphels7t0/igz9qaw7zvqs9edhsy02m6pua9oti0f1.jpg",
+    "path": "assets/articles/article-06.jpg",
+    "width": 1360,
+    "height": 1000,
+    "bytes": 204347
+  },
+  {
+    "url": "https://api.mosokna.ru/upload/hooli.editor/imgs/857/qpusxuyf5pjyy16du6rxppf4ict6rvi8/9091jtddpnagfndnn2g7nb4o9kgm7diz.webp",
+    "path": "assets/articles/article-07.webp",
+    "width": 800,
+    "height": 600,
+    "bytes": 74958
+  },
+  {
+    "url": "https://api.mosokna.ru/upload/iblock/00e/sfatv77mbxansdlhde4xree6y93gbhy3/1novye_kvartiry_i_doma_kogda_ekonomiya_na_osteklenii_.webp",
+    "path": "assets/articles/article-08.webp",
+    "width": 1360,
+    "height": 1000,
+    "bytes": 826332
+  },
+  {
+    "url": "https://api.mosokna.ru/upload/iblock/da5/938ec9wv2084kp0oizzsww2ikgl0mg0x/3m88t7c87hwtuqqz5wetehhjskdxrosc.jpg",
+    "path": "assets/articles/article-09.jpg",
+    "width": 1200,
+    "height": 882,
+    "bytes": 109259
+  },
+  {
+    "url": "https://api.mosokna.ru/upload/iblock/32e/5lvuqviboww9d40takhjejml6h1v1tbd/Picture.jpg",
+    "path": "assets/articles/article-10.jpg",
+    "width": 625,
+    "height": 750,
+    "bytes": 136021
+  }
+]

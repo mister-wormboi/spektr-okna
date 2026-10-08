@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="ru" data-theme="dark">
+<head>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <meta charset="utf-8">
+  <script src="{{prefix}}assets/js/theme.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="{{description}}">
+  <meta property="og:title" content="{{title}}">
+  <meta property="og:description" content="{{description}}">
+  <meta property="og:type" content="{{og_type}}">
+  <title>{{title}}</title>
+  <link rel="icon" type="image/png" sizes="128x128" href="{{prefix}}assets/favicon.png?v=2">
+  <link rel="icon" type="image/svg+xml" sizes="any" href="{{prefix}}assets/favicon.svg">
+  <link rel="stylesheet" href="{{prefix}}assets/css/main.css">
+  <link rel="stylesheet" href="{{prefix}}assets/css/design.css">
+  <link rel="stylesheet" href="{{prefix}}assets/css/night.css">
+  <link rel="stylesheet" href="{{prefix}}assets/css/articles.css">
+  {{detail_css}}
+  <link rel="stylesheet" href="{{prefix}}assets/css/header-refresh.css">
+  <link rel="stylesheet" href="{{prefix}}assets/css/footer.css">
+  <link rel="stylesheet" href="{{prefix}}assets/css/theme.css">
+  <link rel="stylesheet" href="{{prefix}}assets/css/typography.css">
+  {{structured_data}}
+</head>
+<body id="page-top" class="articles-page {{body_class}}">
+  <a class="articles-skip" href="#content">Перейти к содержимому</a>
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="logo header-logo" href="{{prefix}}" aria-label="Спектр — на главную"><img src="{{prefix}}assets/logo-white.webp" alt="Спектр" width="720" height="269" decoding="async"></a>
+      <nav class="header-nav" aria-label="Основная навигация">
+        <a href="{{prefix}}catalog/">Каталог</a>
+        <a href="{{prefix}}solutions/">Примеры работ</a>
+        <a href="{{prefix}}about/">О нас</a>
+        <a href="{{prefix}}contacts/">Филиалы</a>
+        <a href="{{prefix}}reviews/">Отзывы</a>
+        <a href="{{prefix}}information/">Полезная информация</a>
+        <a aria-current="{{nav_current}}" href="{{articles_href}}">Статьи</a>
+        <a class="header-calculator-link" href="{{prefix}}calculator/">Рассчитать стоимость</a>
+      </nav>
+      <a class="header-call" href="tel:+79895175699"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m7 3 3 5-2.5 2.5a15 15 0 0 0 6 6L16 14l5 3c0 3-2 4-4 4C10 20 4 14 3 7c0-2 1-4 4-4Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg><span class="header-call-copy"><span>Позвонить в «Спектр»</span><small>8 989 517 56 99</small></span><span class="header-call-arrow" aria-hidden="true">↗</span></a>
+      <button class="theme-toggle" type="button" data-theme-toggle hidden aria-label="Включить светлую тему" aria-pressed="true" title="Включить светлую тему">
+        <svg class="theme-moon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20.8 13.2A8.8 8.8 0 0 1 10.8 3.2a8.8 8.8 0 1 0 10 10Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+        <svg class="theme-sun" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.6"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.4 1.4m11.2 11.2L19 19M5 19l1.4-1.4M17.6 6.4 19 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+  </header>
+  {{main}}
+  <footer class="site-footer"><div class="wrap footer-inner"><div class="footer-brand"><a class="logo footer-logo" href="{{prefix}}" aria-label="Спектр — на главную"><img src="{{prefix}}assets/logo-white.webp" alt="Спектр" loading="lazy" decoding="async" width="720" height="269"></a><p>Производим и устанавливаем окна<br><span>с 2004 года</span></p></div><nav class="footer-navigation" aria-label="Нижнее меню"><span class="footer-label">Разделы сайта</span><div class="footer-links"><a href="{{prefix}}catalog/">Каталог</a><a href="{{prefix}}about/">О нас</a><a href="{{prefix}}solutions/">Примеры решений</a><a href="{{prefix}}contacts/">Филиалы</a><a href="{{prefix}}calculator/">Калькулятор</a><a href="{{prefix}}reviews/">Отзывы</a><a href="{{prefix}}information/">Полезное</a><a aria-current="{{nav_current}}" href="{{articles_href}}">Статьи</a></div></nav><div class="footer-contact"><span class="footer-label">Будем на связи</span><a class="footer-phone" href="tel:+79895175699">8 989 517 56 99 <span aria-hidden="true">↗</span></a><p>Ростовская область<br>и Краснодарский край</p>
+        <nav class="footer-social" aria-label="Спектр в социальных сетях">
+          <a href="https://t.me/SpektrZavodBot/" target="_blank" rel="noopener noreferrer" aria-label="Спектр в Telegram — бот, откроется в новой вкладке">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.6 3.5c.3-1.2-.4-1.6-1.3-1.2L2.7 9.1c-1.2.5-1.2 1.1-.2 1.4l4.5 1.4 1.7 5.4c.2.6.1.8.7.8.4 0 .6-.2.8-.4l2.2-2.1 4.6 3.4c.8.5 1.4.3 1.6-.8L21.6 3.5ZM8 11.5l10.1-6.4c.5-.3.9-.1.5.2l-8.3 7.5-.3 3.4L8 11.5Z"/></svg>
+            <span>Telegram</span><span class="footer-social-arrow" aria-hidden="true">↗</span>
+          </a>
+          <a href="https://vk.com/id845343617/" target="_blank" rel="noopener noreferrer" aria-label="Спектр ВКонтакте, откроется в новой вкладке">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 6h3.2c.3 4.5 2.3 6.4 3.9 6.8V6h3v3.9c1.6-.2 3.3-2 3.9-3.9h3c-.5 2.4-2.3 4.2-3.6 4.9 1.3.6 3.4 2.2 4.2 5.1h-3.3c-.6-1.8-2.1-3.2-4.2-3.4V16h-.5C7 16 3.4 12.3 3 6Z"/></svg>
+            <span>ВКонтакте</span><span class="footer-social-arrow" aria-hidden="true">↗</span>
+          </a>
+        </nav></div></div><div class="wrap footer-bottom"><span>© Спектр</span><a href="#page-top">Наверх <span aria-hidden="true">↑</span></a></div></footer>
+</body>
+</html>

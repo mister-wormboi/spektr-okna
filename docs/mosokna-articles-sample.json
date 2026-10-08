@@ -1,0 +1,67 @@
+{
+  "source": "https://www.mosokna.ru/stati",
+  "collected_on": "2026-10-08",
+  "note": "Пробная выборка: заголовки, даты, адреса и краткие пересказы тем. Полные тексты статей не включены.",
+  "articles": [
+    {
+      "title": "Как выбрать окна в квартиру рядом с дорогой",
+      "published_on": "2026-09-29",
+      "url": "https://www.mosokna.ru/stati/kak-vybrat-okna-v-kvartiru-ryadom-s-dorogoy",
+      "topic": "Защита квартиры от уличного шума и выбор подходящей оконной системы."
+    },
+    {
+      "title": "На солнечной стороне жарко: какие окна выбрать, чтобы квартира меньше нагревалась",
+      "published_on": "2026-09-23",
+      "url": "https://www.mosokna.ru/stati/na-solnechnoy-storone-zharko-kakie-okna-vybrat-chtoby-kvartira-menshe-nagrevalas",
+      "topic": "Солнцезащитные стеклопакеты и способы уменьшить перегрев комнаты."
+    },
+    {
+      "title": "Идеальная чистота: как правильно мыть окна без разводов и царапин",
+      "published_on": "2026-09-23",
+      "url": "https://www.mosokna.ru/stati/idealnaya-chistota-kak-pravilno-myt-okna-bez-razvodov-i-tsarapin",
+      "topic": "Безопасные средства, инструменты и порядок ухода за окнами."
+    },
+    {
+      "title": "Окна под ключ: готовые варианты остекления под ваш бюджет",
+      "published_on": "2026-09-21",
+      "url": "https://www.mosokna.ru/stati/okna-pod-klyuch-gotovye-varianty-ostekleniya-pod-vash-byudzhet",
+      "topic": "Комплектации остекления, состав цены и выбор решения под бюджет."
+    },
+    {
+      "title": "Как правильно замерять окна: пошаговое руководство для подготовки к остеклению",
+      "published_on": "2026-09-03",
+      "url": "https://www.mosokna.ru/stati/kak-pravilno-zameryat-okna-poshagovoe-rukovodstvo-dlya-podgotovki-k-ostekleniyu",
+      "topic": "Подготовка к замеру проема и факторы, влияющие на итоговые размеры."
+    },
+    {
+      "title": "Какие окна выбрать для квартиры? Гайд от Московских окон",
+      "published_on": "2026-09-03",
+      "url": "https://www.mosokna.ru/stati/kakie-okna-vybrat-dlya-kvartiry-gayd-ot-moskovskikh-okon",
+      "topic": "Критерии выбора окон для квартиры: тепло, тишина, свет, профиль и стеклопакет."
+    },
+    {
+      "title": "Самые тёплые окна: как выбрать идеальную конструкцию?",
+      "published_on": "2026-08-05",
+      "url": "https://www.mosokna.ru/stati/samye-tyeplye-okna-kak-vybrat-idealnuyu-konstruktsiyu",
+      "topic": "Теплопотери, мостики холода и параметры энергоэффективных окон."
+    },
+    {
+      "title": "Новые квартиры и дома: когда экономия на остеклении становится дорогостоящей",
+      "published_on": "2026-08-05",
+      "url": "https://www.mosokna.ru/stati/novye-kvartiry-i-doma-kogda-ekonomiya-na-osteklenii-stanovitsya-dorogostoyashchey",
+      "topic": "Последствия дешевого остекления от застройщика и момент замены окон."
+    },
+    {
+      "title": "Сравнение оконных профилей 60, 70 и 80 мм: плюсы, минусы и сферы применения",
+      "published_on": "2026-06-03",
+      "url": "https://www.mosokna.ru/stati/sravnenie-okonnykh-profiley-60-70-i-80-mm-plyusy-minusy-i-sfery-primeneniya",
+      "topic": "Различия монтажной глубины профилей и подходящие условия применения."
+    },
+    {
+      "title": "Правила монтажа окон по ГОСТу: как проверить, что работу сделали грамотно",
+      "published_on": "2026-06-03",
+      "url": "https://www.mosokna.ru/stati/pravila-montazha-okon-po-gostu-kak-proverit-chto-rabotu-sdelali-gramotno",
+      "topic": "Этапы установки, монтажный шов и проверка качества работ."
+    }
+  ]
+}

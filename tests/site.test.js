@@ -25,8 +25,9 @@ function checkLink(file, value) {
   if (hash && target.endsWith('.html')) assert.ok(ids(fs.readFileSync(target, 'utf8')).includes(decodeURIComponent(hash)), `Missing anchor: ${value} in ${file}`);
 }
 
-test('all eight pages have unique IDs and valid local resources and anchors', () => {
-  assert.equal(pages.length, 8);
+test('all pages have unique IDs and valid local resources and anchors', () => {
+  const articles = JSON.parse(fs.readFileSync(path.join(root, 'content/articles.json'), 'utf8')).articles;
+  assert.equal(pages.length, 9 + articles.length);
   for (const file of pages) {
     const source = fs.readFileSync(file, 'utf8');
     const pageIds = ids(source);
