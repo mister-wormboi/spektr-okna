@@ -67,25 +67,42 @@ test('header and footer styles have a single owner; type scale is loaded last', 
   }
 });
 
-test('solution photos keep 9:16 on every breakpoint', () => {
-  const declarations = all.filter(f => f.endsWith('.css')).flatMap(file => {
-    const source = fs.readFileSync(file, 'utf8');
-    return [...source.matchAll(/([^{}]+)\{([^{}]*)\}/g)]
-      .filter(m => /\.(?:project-example|solution-example)\s+img\b/.test(m[1]))
-      .flatMap(m => [...m[2].matchAll(/aspect-ratio:\s*([^;]+)/g)].map(r => r[1].trim()));
-  });
-  assert.ok(declarations.length >= 2);
-  assert.ok(declarations.every(ratio => ratio === '9 / 16'));
+test('real gallery photos reserve space and use unique lightweight previews', () => {
+  for (const page of ['index.html', 'solutions/index.html']) {
+    const source = fs.readFileSync(path.join(root, page), 'utf8');
+    const images = [...source.matchAll(/<img[^>]+src="[^"]*assets\/solutions\/[^>]+>/g)].map(m => attrs(m[0]));
+    assert.equal(images.length, 16);
+    assert.equal(new Set(images.map(image => image.src)).size, 16);
+    for (const image of images) {
+      assert.match(image.src, /\/thumbs\//);
+      assert.equal(Number(image.width), 640);
+      assert.ok(Number(image.height) > 0);
+      assert.equal(image.decoding, 'async');
+    }
+    assert.ok(images.filter(image => image.loading === 'lazy').length >= 15);
+    assert.doesNotMatch(source, /legacy-solutions/);
+  }
+  const css = fs.readFileSync(path.join(root, 'assets/css/solutions.css'), 'utf8');
+  assert.match(css, /column-count: 3; column-gap: 24px/);
+  assert.match(css, /\.solutions-page \.solutions-gallery-track img \{ width: 100%; height: auto;/);
+  const thumbs = all.filter(file => file.includes('/solutions/thumbs/') && file.endsWith('.webp'));
+  const full = all.filter(file => path.dirname(file) === path.join(root, 'assets/solutions') && file.endsWith('.webp'));
+  const size = files => files.reduce((total, file) => total + fs.statSync(file).size, 0);
+  assert.equal(thumbs.length, 16);
+  assert.ok(size(thumbs) < size(full) * .3);
 });
 
 test('all pages declare responsive viewport; mobile assets and controls are linked', () => {
   for (const file of pages) assert.match(fs.readFileSync(file, 'utf8'), /name="viewport" content="width=device-width, initial-scale=1"/);
   const home = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
-  for (const track of ['homeSolutionsTrack', 'homeOfficesTrack']) {
+  for (const track of ['homeOfficesTrack']) {
     assert.ok(home.includes(`data-strip-controls="${track}"`));
     assert.ok(home.includes(`id="${track}" data-card-strip`));
     assert.equal([...home.matchAll(new RegExp(`aria-controls="${track}"`, 'g'))].length, 2);
   }
+  assert.match(home, /home-solutions-marquee/);
+  assert.match(home, /src="assets\/js\/home-solutions.js" defer/);
+  assert.doesNotMatch(home, /src="assets\/js\/solutions-gallery.js"/);
   assert.match(home, /src="assets\/js\/card-strips.js" defer/);
   const data = fs.readFileSync(path.join(root, 'assets/js/catalog-data.js'), 'utf8');
   for (const match of data.matchAll(/image:\s*'([^']+)'/g)) checkLink(path.join(root, 'index.html'), match[1].replace('.webp', '-small.webp'));

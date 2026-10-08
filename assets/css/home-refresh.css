@@ -40,6 +40,7 @@
 .home-page .catalog-more { margin-top: 12px; }
 
 .home-page .solutions-more { margin-top: 24px; }
+.home-page .project-example img { aspect-ratio: auto; height: auto; object-fit: contain; background: var(--surface); }
 .card-strip-controls { display: none; }
 .project-summary { display: none; }
 .home-contact-branches { min-width: 0; }

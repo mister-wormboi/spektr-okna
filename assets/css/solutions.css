@@ -2,16 +2,67 @@
 .solutions-back { display: inline-block; margin-bottom: 34px; color: var(--green); font-size: var(--font-size-body); text-underline-offset: 4px; }
 .solutions-intro h1 { margin: 14px 0; font: 400 var(--font-size-display)/1.04 var(--serif); letter-spacing: -.045em; }
 .solutions-intro p { max-width: 650px; margin: 0; color: var(--muted); line-height: 1.75; }
-.solutions-list { padding: 48px 0 88px; background: var(--surface); }
-.solutions-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; }
-.solution-example { overflow: hidden; border: 1px solid var(--line); background: var(--surface); }
-.solution-example img { display: block; width: 100%; height: auto; aspect-ratio: 9 / 16; object-fit: cover; background: var(--surface); }
-.solution-example > div { display: flex; min-height: 250px; flex-direction: column; align-items: flex-start; padding: 24px; }
-.solution-example > div > span { color: var(--green); font-size: var(--font-size-body); letter-spacing: .06em; text-transform: uppercase; }
-.solution-example h2 { margin: 12px 0; font: 400 var(--font-size-title)/1.15 var(--serif); }
-.solution-example p { margin: 0 0 22px; color: var(--muted); font-size: var(--font-size-body); line-height: 1.7; }
-.solution-example a { margin-top: auto; color: var(--green); font-size: var(--font-size-body); text-underline-offset: 4px; }
-.solutions-disclaimer { margin-top: 20px; color: var(--muted); font-size: var(--font-size-body); }
-@media (max-width: 1100px) { .solutions-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (max-width: 600px) { .solutions-intro { padding-block: 32px; } .solutions-back { margin-bottom: 22px; } .solutions-list { padding-block: 28px 56px; } .solutions-grid { grid-template-columns: 1fr; gap: 16px; } .solution-example > div { min-height: 0; padding: 20px; } }
-@media (prefers-reduced-motion: no-preference) { .solution-example { animation: solutionFade .6s both; } .solution-example:nth-child(2) { animation-delay: .08s; } .solution-example:nth-child(3) { animation-delay: .16s; } .solution-example:nth-child(4) { animation-delay: .24s; } @keyframes solutionFade { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } } }
+.solutions-gallery { padding: 48px 0 96px; background: var(--surface); }
+.solutions-gallery-heading { max-width: 720px; margin-bottom: 34px; }
+.solutions-gallery-heading h2 { margin: 14px 0 12px; font: 400 var(--font-size-title)/1.08 var(--serif); letter-spacing: -.04em; }
+.solutions-gallery-heading p { margin: 0; max-width: 560px; color: var(--muted); line-height: 1.7; }
+
+/* A scrollable fallback also serves reduced-motion users. */
+.solutions-marquee { overflow: auto; padding: 8px 0 20px; }
+.solutions-gallery-track { position: relative; display: flex; align-items: center; gap: 16px; width: max-content; }
+.solutions-gallery-track a { display: block; flex: 0 0 auto; height: clamp(280px, 34vw, 440px); background: var(--paper); }
+.solutions-gallery-track img { display: block; width: auto; height: 100%; max-width: none; object-fit: contain; }
+.solutions-gallery-track a:focus-visible, .solutions-lightbox button:focus-visible, .solutions-motion-toggle:focus-visible { outline: 2px solid var(--green); outline-offset: 4px; }
+.home-solutions-marquee { position: relative; padding-bottom: 56px; }
+.home-solutions-marquee.is-animated { overflow: hidden; }
+.home-solutions-marquee.is-animated .solutions-gallery-track { animation: solutionsMarquee var(--loop-duration, 120s) linear infinite paused; }
+.home-solutions-marquee.is-animated .solutions-gallery-track.is-running { animation-play-state: running; }
+.home-solutions-marquee.is-animated:hover .solutions-gallery-track,
+.home-solutions-marquee.is-animated:focus-within .solutions-gallery-track { animation-play-state: paused; }
+.home-solutions-marquee:not(.is-animated) [data-clone] { display: none; }
+.solutions-motion-toggle { position: absolute; right: 0; bottom: 4px; display: block; width: 40px; height: 40px; border: 1px solid var(--line); background: transparent; color: var(--green); cursor: pointer; }
+.solutions-motion-toggle[hidden] { display: none; }
+@keyframes solutionsMarquee { to { transform: translateX(calc(-1 * var(--loop-distance))); } }
+
+/* Masonry: retain each photo's proportions and the existing gutters. */
+.solutions-page .solutions-marquee { overflow: visible; }
+.solutions-page .solutions-gallery-track { width: auto; display: block; column-count: 3; column-gap: 24px; }
+.solutions-page .solutions-gallery-track a { height: auto; margin: 0 0 24px; break-inside: avoid; cursor: zoom-in; transition: opacity .7s ease, transform .7s cubic-bezier(.22, 1, .36, 1); }
+.solutions-page .solutions-gallery-track a.is-awaiting-reveal { opacity: 0; transform: translateY(24px); }
+.solutions-page .solutions-gallery-track img { width: 100%; height: auto; max-width: 100%; }
+
+/* Native dialog supplies focus containment and Escape handling. */
+.solutions-lightbox { position: fixed; inset: 0; z-index: 50; box-sizing: border-box; width: 100%; height: 100%; max-width: none; max-height: none; margin: 0; border: 0; padding: 72px 90px; background: rgba(8, 12, 10, .96); color: #fff; }
+.solutions-lightbox[open] { display: grid; place-items: center; animation: lightboxIn .22s ease-out; }
+.solutions-lightbox::backdrop { background: rgba(0, 0, 0, .65); }
+.lightbox-open { overflow: hidden; }
+.solutions-lightbox img { max-width: 100%; max-height: calc(100dvh - 144px); width: auto; height: auto; object-fit: contain; }
+.solutions-lightbox button { position: absolute; display: grid; place-items: center; border: 1px solid rgba(255,255,255,.32); border-radius: 50%; color: #fff; background: rgba(255,255,255,.08); cursor: pointer; transition: background .2s, border-color .2s; }
+.solutions-lightbox button:hover { background: rgba(255,255,255,.16); border-color: var(--green); }
+.solutions-lightbox-close { top: 16px; right: 24px; width: 44px; height: 44px; font-size: 28px; }
+.solutions-lightbox-prev, .solutions-lightbox-next { top: 50%; width: 56px; height: 56px; margin-top: -28px; font-size: 28px; }
+.solutions-lightbox-prev { left: 20px; }
+.solutions-lightbox-next { right: 20px; }
+.solutions-lightbox-count { position: absolute; bottom: 24px; left: 50%; color: rgba(255,255,255,.72); font-size: 12px; letter-spacing: .12em; transform: translateX(-50%); }
+@keyframes lightboxIn { from { opacity: 0; } to { opacity: 1; } }
+@media (max-width: 1100px) { .solutions-page .solutions-gallery-track { column-count: 2; } }
+@media (max-width: 700px) { .solutions-page .solutions-gallery-track { column-gap: 16px; } .solutions-page .solutions-gallery-track a { margin-bottom: 16px; } }
+@media (max-width: 600px) {
+  .solutions-intro { padding-block: 32px; }
+  .solutions-back { margin-bottom: 22px; }
+  .solutions-gallery { padding-block: 28px 56px; }
+  .solutions-gallery-heading h2 { font-size: 32px; }
+  .solutions-gallery-track { gap: 10px; }
+  .solutions-gallery-track a { height: 260px; }
+  .solutions-lightbox { padding: 72px 16px 88px; }
+  .solutions-lightbox img { max-height: calc(100dvh - 160px); }
+  .solutions-lightbox-prev, .solutions-lightbox-next { top: auto; bottom: 18px; width: 44px; height: 44px; margin-top: 0; }
+  .solutions-lightbox-prev { left: 24px; }
+  .solutions-lightbox-next { right: 24px; }
+  .solutions-lightbox-count { bottom: 32px; }
+}
+@media (max-width: 460px) { .solutions-page .solutions-gallery-track { column-count: 1; } }
+@media (prefers-reduced-motion: reduce) {
+  .solutions-page .solutions-gallery-track a { opacity: 1; transform: none; transition: none; }
+  .solutions-lightbox[open] { animation: none; }
+}
