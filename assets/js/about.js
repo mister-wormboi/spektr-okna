@@ -1,6 +1,5 @@
 (() => {
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
-  const saveData = Boolean(navigator.connection?.saveData);
   const animations = new Set();
   let revealObserver;
   // Content is visible by default. Each entrance runs once, without scroll handlers.

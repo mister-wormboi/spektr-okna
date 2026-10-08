@@ -85,7 +85,7 @@ test('real gallery photos reserve space and use unique lightweight previews', ()
   const css = fs.readFileSync(path.join(root, 'assets/css/solutions.css'), 'utf8');
   assert.match(css, /column-count: 3; column-gap: 24px/);
   assert.match(css, /\.solutions-page \.solutions-gallery-track img \{ width: 100%; height: auto;/);
-  const thumbs = all.filter(file => file.includes('/solutions/thumbs/') && file.endsWith('.webp'));
+  const thumbs = all.filter(file => path.dirname(file) === path.join(root, 'assets/solutions/thumbs') && file.endsWith('.webp'));
   const full = all.filter(file => path.dirname(file) === path.join(root, 'assets/solutions') && file.endsWith('.webp'));
   const size = files => files.reduce((total, file) => total + fs.statSync(file).size, 0);
   assert.equal(thumbs.length, 16);

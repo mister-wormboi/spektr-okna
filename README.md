@@ -91,7 +91,7 @@ assets/js/about.js кеширует длину страницы при изме�
 assets/about-window-scroll.mp4 — первые 12 секунд, 960×540, 24 fps, без аудио и B-кадров,
 с ключевым кадром каждые 6 кадров (0,25 секунды), MP4 faststart.
 assets/about-window-poster.webp — первый кадр используемого ролика.
-Оригинал сохранён в assets/about-window-opening.mp4.
+На сайте используется только подготовленный ролик; неиспользуемый исходник удалён при очистке.
 
 Источник: https://mixkit.co/free-stock-video/silhouette-of-woman-opening-a-window-924/
 Mixkit, «Silhouette of woman opening a window», Stock Video Free License для коммерческого
