@@ -1,4 +1,4 @@
-/* A bespoke architectural scene; motion only composites transforms and opacity. */
+/* Static architectural background. */
 .home-page .hero-atmosphere { background: #111615; isolation: isolate; }
 .home-page .hero-atmosphere::before { display: none; }
 .home-page .hero-atmosphere::after {
@@ -6,12 +6,9 @@
   pointer-events: none; transform: none; animation: none;
   background: linear-gradient(90deg,#080f0db3 0%,#080f0d52 35%,transparent 64%),linear-gradient(0deg,#0c1512b8 0%,transparent 28%);
 }
-.hero-scene { position: absolute; inset: -1px; z-index: 0; transform-origin: center; animation: hero-breathe 8s ease-in-out -2s infinite alternate; animation-play-state: paused; }
-.hero-scene img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 62% 50%; }
-.hero-light { position: absolute; z-index: 1; inset: 0 -10% 0 38%; pointer-events: none; background: linear-gradient(113deg,transparent 38%,#dcefd52e 49%,#e6eaff20 52%,transparent 63%); opacity: 0; animation: hero-glass-light 6s ease-in-out -2s infinite alternate; animation-play-state: paused; }
-.hero-atmosphere.is-atmosphere-active .hero-scene,
-.hero-atmosphere.is-atmosphere-active .hero-light { animation-play-state: running; }
-.hero-atmosphere.is-atmosphere-active .hero-scene { will-change: transform; }
+.hero-scene { position: absolute; inset: 0; z-index: 0; transform: none; animation: none; }
+.hero-scene img { display: block; width: 100%; height: 100%; object-fit: contain; object-position: right center; }
+.hero-light { display: none; }
 .home-page .hero-atmosphere .hero-inner { position: relative; z-index: 2; min-height: 760px; padding-block: 96px 142px; justify-content: flex-start; }
 .home-page .hero-atmosphere .hero-copy { max-width: 560px; }
 .home-page .hero-atmosphere .hero-copy > * { opacity: 1; transform: none; animation: none; }
@@ -27,19 +24,14 @@
 .home-page .hero-atmosphere .hero-actions > .secondary-link { padding-block: 9px; color: #e5e8df; border-bottom-color: #b4cfaa55; }
 .home-page .hero-atmosphere .hero-caption { bottom: 30px; padding-top: 20px; border-color: #b4cfaa33; color: #edf0e7; letter-spacing: .025em; }
 .home-page .hero-atmosphere .hero-caption > span:first-child { color: #b4cfaa; }
-@keyframes hero-breathe { from { transform: scale(1.08) translate3d(-2%,0,0); } to { transform: scale(1.14) translate3d(2%,-1%,0); } }
-@keyframes hero-pan-mobile { from { transform: scale(1.02) translate3d(-5%,0,0); } to { transform: scale(1.07) translate3d(5%,-1%,0); } }
-@keyframes hero-glass-light { from { opacity: .25; transform: translateX(-35%); } to { opacity: .8; transform: translateX(30%); } }
 @media (min-width:1800px) { .home-page .hero-atmosphere .hero-inner { min-height: 820px; } }
 @media (max-width:1000px) {
-  .hero-scene img { object-position: 66% center; }
   .home-page .hero-atmosphere::after { background: linear-gradient(90deg,#080f0dcc,#080f0d66 48%,transparent),linear-gradient(0deg,#0c1512c4,transparent 35%); }
 }
 @media (max-width:760px) {
-  .home-page .hero-atmosphere .hero-inner { min-height: 820px; align-items: flex-end; padding-block: 260px 112px; }
-  .hero-scene { inset-inline: -8%; animation-name: hero-pan-mobile; }
-  .hero-scene img { object-position: 100% center; }
-  .home-page .hero-atmosphere::after { background: linear-gradient(0deg,#09130ffa 5%,#09130fe8 34%,#09130f82 61%,#09130f0a 87%); }
+  .home-page .hero-atmosphere .hero-inner { min-height: 820px; align-items: flex-end; padding-block: calc(100vw * 941 / 1672 + 32px) 112px; }
+  .hero-scene img { object-position: center top; }
+  .home-page .hero-atmosphere::after { background: linear-gradient(0deg,#09130ffa 5%,#09130fe8 34%,transparent 72%); }
   .hero-light { inset: 0; }
   .home-page .hero-atmosphere .hero-copy { max-width: 480px; }
   .home-page .hero-atmosphere .eyebrow { gap: 12px; letter-spacing: .10em; }
@@ -51,4 +43,3 @@
   .home-page .hero-atmosphere .hero-caption { bottom: 24px; padding-top: 16px; }
   .home-page .hero-atmosphere .hero-caption > span:last-child { display: none; }
 }
-@media (prefers-reduced-motion:reduce) { .hero-atmosphere .hero-scene,.hero-atmosphere .hero-light { animation: none; transform: none; } }
