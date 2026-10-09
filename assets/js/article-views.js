@@ -25,7 +25,7 @@
           const result = await response.json();
           display(result.slug, result.views);
         }
-      } catch { /* Leave the counter hidden when the backend is unavailable. */ }
+      } catch { /* Keep the visible icon and unavailable placeholder. */ }
     }
     try {
       const response = await fetch('/api/article-views', { credentials: 'same-origin', cache: 'no-store' });

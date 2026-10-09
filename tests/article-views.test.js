@@ -66,8 +66,8 @@ test('API preserves concurrent increments and persisted counts after server rest
 const script = fs.readFileSync(path.join(__dirname, '../assets/js/article-views.js'), 'utf8');
 function browser({ article = true, visible = true, available = true } = {}) {
   const nodes = ['first', 'second'].map(slug => {
-    const count = { textContent: '' };
-    return { dataset: { articleViews: slug }, hidden: true, attributes: {},
+    const count = { textContent: '—' };
+    return { dataset: { articleViews: slug }, hidden: false, attributes: {},
       get textContent() { return count.textContent; },
       querySelector: () => count,
       setAttribute(name, value) { this.attributes[name] = value; },
@@ -118,8 +118,8 @@ test('background articles count after becoming visible, without repeated increme
   assert.equal(page.listeners.size, 0);
 });
 
-test('unavailable backend leaves counters hidden instead of inventing totals', async () => {
+test('unavailable backend keeps icons visible with a placeholder instead of inventing totals', async () => {
   const page = browser({ available: false });
   await settle();
-  assert.ok(page.nodes.every(node => node.hidden && node.textContent === ''));
+  assert.ok(page.nodes.every(node => !node.hidden && node.textContent === '—'));
 });

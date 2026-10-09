@@ -36,11 +36,11 @@
 .solutions-lightbox img { max-width: 100%; max-height: calc(100dvh - 144px); width: auto; height: auto; object-fit: contain; }
 .solutions-lightbox button { position: absolute; display: grid; place-items: center; border: 1px solid rgba(255,255,255,.32); border-radius: 50%; color: #fff; background: rgba(255,255,255,.08); cursor: pointer; transition: background .2s, border-color .2s; }
 .solutions-lightbox button:hover { background: rgba(255,255,255,.16); border-color: var(--green); }
-.solutions-lightbox-close { top: 16px; right: 24px; width: 44px; height: 44px; font-size: 28px; }
-.solutions-lightbox-prev, .solutions-lightbox-next { top: 50%; width: 56px; height: 56px; margin-top: -28px; font-size: 28px; }
+.solutions-lightbox-close { top: 16px; right: 24px; width: 44px; height: 44px; font-size: var(--font-size-title); }
+.solutions-lightbox-prev, .solutions-lightbox-next { top: 50%; width: 56px; height: 56px; margin-top: -28px; font-size: var(--font-size-title); }
 .solutions-lightbox-prev { left: 20px; }
 .solutions-lightbox-next { right: 20px; }
-.solutions-lightbox-count { position: absolute; bottom: 24px; left: 50%; color: rgba(255,255,255,.72); font-size: 12px; letter-spacing: .12em; transform: translateX(-50%); }
+.solutions-lightbox-count { position: absolute; bottom: 24px; left: 50%; color: rgba(255,255,255,.72); font-size: var(--font-size-body); letter-spacing: .12em; transform: translateX(-50%); }
 @keyframes lightboxIn { from { opacity: 0; } to { opacity: 1; } }
 @media (max-width: 1100px) { .solutions-page .solutions-gallery-track { column-count: 2; } }
 @media (max-width: 700px) { .solutions-page .solutions-gallery-track { column-gap: 16px; } .solutions-page .solutions-gallery-track a { margin-bottom: 16px; } }

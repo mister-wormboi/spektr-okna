@@ -30,7 +30,7 @@ function render(values) {
 }
 
 function viewCounter(slug, live = false) {
-  return `<span class="article-view-count" data-article-views="${slug}" aria-label="Просмотры"${live ? ' aria-live="polite"' : ''} hidden><svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5"/></svg><span data-view-count></span></span>`;
+  return `<span class="article-view-count" data-article-views="${slug}" aria-label="Число просмотров пока недоступно" title="Число просмотров пока недоступно"${live ? ' aria-live="polite"' : ''}><svg viewBox="0 0 24 24" width="20" height="20" fill="none" aria-hidden="true" focusable="false"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5"/></svg><span data-view-count>—</span></span>`;
 }
 
 function card(article, prefix, linkPrefix, eager = false) {

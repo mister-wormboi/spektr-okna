@@ -2,6 +2,19 @@
 .about-page h1, .about-page h2 { letter-spacing: -.045em; line-height: 1.08; }
 .about-page em { color: var(--green); font-weight: 400; }
 .about-page p { color: var(--muted); }
+.about-task-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:20px; }
+.about-task-grid article { padding:28px; border:1px solid var(--line); background:var(--surface); }
+.about-task-number { color:var(--green); font-variant-numeric:tabular-nums; }
+.about-task-grid h3 { font-size:var(--font-size-title); line-height:1.25; margin:24px 0 14px; }
+.about-task-grid p { margin:0; line-height:1.7; }
+.about-range-note { margin:28px 0 0; line-height:1.7; max-width:850px; }
+.about-range-note a { color:var(--green); text-underline-offset:4px; white-space:nowrap; }
+.about-work .about-section-heading p { line-height:1.7; margin-bottom:28px; }
+.about-work-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:20px; margin-bottom:28px; }
+.about-work-grid a { display:block; overflow:hidden; border:1px solid var(--line); }
+.about-work-grid img { display:block; width:100%; height:auto; aspect-ratio:4/3; object-fit:cover; }
+@media(max-width:1000px) { .about-task-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+@media(max-width:760px) { .about-task-grid { grid-template-columns:1fr; } .about-work-grid { gap:12px; grid-template-columns:1fr; } .about-task-grid article { padding:24px; } }
 .about-skip { position: absolute; top: -100px; left: 20px; z-index: 100; background: var(--green); color: var(--on-accent); padding: 12px; }
 .about-skip:focus { top: 10px; }
 .about-hero { padding-block: 100px 76px; }
@@ -136,7 +149,7 @@
 .about-video.is-ready { opacity: 1; }
 .about-cinema-shade { position: absolute; inset: 0; background: linear-gradient(90deg, color-mix(in srgb, var(--paper) 94%, transparent), color-mix(in srgb, var(--paper) 78%, transparent) 80%); }
 .about-page main { color: var(--ink); background: var(--paper); }
-.about-hero { display: flex; align-items: center; min-height: calc(100svh - 140px); }
+.about-hero { display: flex; align-items: center; min-height: min(650px, calc(100svh - 140px)); }
 .about-intro { max-width: 850px; }
 .about-intro > .cinema-hint { display: none; margin: 24px 0 0; color: var(--muted); }
 @media (min-width: 761px) and (hover: hover) and (pointer: fine) {

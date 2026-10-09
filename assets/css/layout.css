@@ -5,6 +5,8 @@
   --space-section: 80px;
   --space-card: 24px;
   --space-grid: 24px;
+  --space-panel: 48px;
+  --space-content: 40px;
 }
 @media (max-width: 1100px) {
   :root { --page-gutter: 28px; }
@@ -15,6 +17,8 @@
     --space-intro: 40px;
     --space-section: 48px;
     --space-grid: 16px;
+    --space-panel: 24px;
+    --space-content: 32px;
   }
 }
 .wrap { width: min(1320px, calc(100% - 2 * var(--page-gutter))); margin-inline: auto; }
@@ -34,14 +38,47 @@
 .home-page .catalog,
 .home-page .reviews,
 .home-page .guides { padding-block: var(--space-section); }
+.home-page .calculator-section,
+.home-page .project-examples,
+.home-page .home-contact,
+.contacts-page .contact-banner,
+.reviews-page .reviews-cta,
+.home-page .window-showroom-layout,
+.home-page .window-story-content { padding-block: var(--space-section); }
+.about-page .about-hero,
+.information-page .information-hero { min-height: 0; }
+.catalog-page .catalog-full { padding-block: var(--space-section); }
 .catalog-page .product-grid,
 .contacts-page .office-grid,
 .reviews-page .reviews-grid,
 .home-page .reviews-grid,
 .articles-page .articles-grid,
-.about-page .solution-grid { gap: var(--space-grid); }
+.about-page .solution-grid,
+.about-page .about-task-grid,
+.about-page .about-work-grid { gap: var(--space-grid); }
 .product-body,
 .contacts-page .office-body,
 .reviews-page .review-card,
 .home-page .review-card,
-.about-page .solution-card { padding: var(--space-card); }
+.about-page .solution-card,
+.about-page .about-task-grid article,
+.information-page .information-checklist,
+.catalog-page .catalog-help,
+.reviews-page .selection-rating,
+.home-page .calculator-compact { padding: var(--space-card); }
+/* Bordered contact panels use the same inner inset and outer section rhythm. */
+.about-page .about-invitation,
+.information-page .information-call,
+.articles-page .articles-help { padding:var(--space-panel); gap:var(--space-grid); margin-block:var(--space-section); }
+.about-page .about-invitation { margin-block-start:0; }
+.article-detail .article-heading { padding-block:var(--space-intro) 32px; }
+.article-detail .article-cover { margin-bottom:var(--space-content); }
+.article-detail .article-body>section { margin-bottom:var(--space-content); }
+.article-detail .article-takeaway { padding:var(--space-card); }
+/* Horizontal reveal offsets must never enlarge the phone's scrollable canvas. */
+@media(max-width:760px) {
+  .contacts-page .reveal.reveal-left,
+  .contacts-page .reveal.reveal-right { transform:translateY(24px); }
+  .contacts-page .reveal.is-visible { transform:none; }
+  .contacts-page .hero-facts { transform:none; animation:none; opacity:1; }
+}

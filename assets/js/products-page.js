@@ -31,16 +31,6 @@ if (typeof document !== 'undefined') (() => {
     svg.setAttribute('viewBox','0 0 48 48');svg.setAttribute('fill','none');svg.setAttribute('stroke','currentColor');svg.setAttribute('stroke-width','1.5');svg.setAttribute('stroke-linejoin','round');svg.setAttribute('aria-hidden','true');svg.innerHTML=icons[name];return svg;
   }
   const categoryFor = product => categories.find(item => item.id === product.category);
-  function visual(product) {
-    const frame=el('div','product-visual');
-    if(product.image){
-      const image=el('img');image.src='../'+product.image;
-      image.srcset=`../${product.image.replace('.webp','-small.webp')} 768w, ../${product.image} 1536w`;
-      image.sizes='(max-width:600px) calc(100vw - 40px), (max-width:1000px) 45vw, 420px';
-      image.alt='';image.width=1536;image.height=1024;image.loading='lazy';image.decoding='async';frame.append(image);
-    } else { frame.classList.add('product-illustration');frame.append(icon(categoryFor(product).icon)); }
-    return frame;
-  }
   const search=document.querySelector('#catalogSearch');
   const sort=document.querySelector('#catalogSort');
   const reset=document.querySelector('#catalogReset');
@@ -73,22 +63,7 @@ if (typeof document !== 'undefined') (() => {
     buttons.forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.category===category)));
     const matches=selectSpektrProducts(products,{category,query:search.value,sort:sort.value});
     const shown=matches.slice(0,limit);
-    grid.replaceChildren(...shown.map(product=>{
-      const card=el('article','product-card');card.dataset.category=product.category;const body=el('div','product-body');
-      const ready=['econom','optimal','comfort','energy','elite'].includes(product.id);
-      if(ready)card.classList.add('product-ready');
-      const tags=el('p','product-subtitle',product.subtitle);
-      const title=el('h3','',product.title);
-      const desc=el('p','product-description',product.description);
-      const footer=el('div','product-bottom');
-      const details=el('button','product-details','Подробнее ↗');details.type='button';details.dataset.product=product.id;details.setAttribute('aria-label',`Подробнее: ${product.title}`);details.setAttribute('aria-haspopup','dialog');
-      footer.append(el('span','','Индивидуальный расчёт'),details);
-      const features=el('ul','product-feature-chips');
-      product.features.slice(0,2).forEach(text=>features.append(el('li','',text)));
-      const picture=visual(product);
-      const badge=el('span','product-visual-badge',ready?'Коллекция «Спектр»':categoryFor(product).title);picture.append(badge);
-      body.append(tags,title,desc,features,footer);card.append(picture,body);return card;
-    }));
+    grid.replaceChildren(...shown.map(product=>renderSpektrProductCard(product,{dialog:true})));
     if(!matches.length){const empty=el('div','product-empty');const clear=el('button','','Сбросить выбор');clear.type='button';clear.addEventListener('click',resetAll);empty.append(el('h3','','Ничего не найдено'),el('p','','Попробуйте другое название или выберите другую категорию.'),clear);grid.append(empty);}
     document.querySelector('#catalogCount').textContent=`Показано ${shown.length} из ${matches.length}${search.value.trim()?' по вашему запросу':''}`;
     more.hidden=limit>=matches.length;more.textContent=`Показать ещё (${Math.min(9,Math.max(0,matches.length-limit))})`;
@@ -109,11 +84,12 @@ if (typeof document !== 'undefined') (() => {
   });
   function openProduct(product,button) {
     opener=button;
-    document.querySelector('#productDialogVisual').replaceChildren(visual(product));
     document.querySelector('#productDialogCategory').textContent=categoryFor(product).title+' / '+product.subtitle;
     document.querySelector('#productDialogTitle').textContent=product.title;
     document.querySelector('#productDialogDescription').textContent=product.description;
     document.querySelector('#productDialogFeatures').replaceChildren(...product.features.map(text=>el('li','',text)));
+    document.querySelector('#productDialogPrice').textContent=product.priceLabel;
+    document.querySelector('#productDialogPriceNote').textContent=product.priceNote;
     document.querySelector('#productDialogCall').setAttribute('aria-label',`Обсудить заказ: ${product.title}`);
     dialog.showModal();
   }

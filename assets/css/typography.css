@@ -4,6 +4,9 @@
   --font-size-title: 28px;
   --font-size-display: 56px;
   --heading-label-gap: 20px;
+  --line-height-body: 1.7;
+  --line-height-title: 1.25;
+  --line-height-display: 1.1;
 }
 
 @media (max-width: 760px) {
@@ -58,3 +61,28 @@ body main :is(.hero-copy, .about-intro, .catalog-intro-copy, .calculator-heading
 .home-page .hero-atmosphere h1,
 .calculator-page h1 { line-height: 1.1; margin-block: var(--heading-label-gap) 24px; }
 .home-page .reviews .eyebrow { font-size: var(--font-size-body); font-weight: 400; }
+
+/* Semantic roles share a scale; compact panels and article sections use title size. */
+body main :is(h1,h2,h3,h4,h5,h6) { line-height:var(--line-height-title) !important; }
+body main :is(h1,h2) { line-height:var(--line-height-display) !important; }
+body main :is(.article-body,.article-card,.information-checklist,.catalog-help,.calculator-heading) h2 { line-height:var(--line-height-title) !important; }
+.home-page .calculator-compact .calculator-heading h2 { font-size:var(--font-size-title); }
+.solutions-page .solutions-gallery-heading h2,
+.articles-page .articles-help h2 { font-size:var(--font-size-display); }
+.reviews-page .review-top h3,
+.home-page .reviews.is-slider .review-top h3,
+.reviews-page .source-context h3 { font-size:var(--font-size-title); }
+body main p { line-height:var(--line-height-body) !important; }
+body main :is(.about-section-heading,.process-intro,.information-heading,.solutions-gallery-heading,.page-reviews-heading) h2 { margin-block:var(--heading-label-gap) 24px; }
+.contacts-page .section-heading h2,
+.home-page .section-heading h2,
+.catalog-page .product-results-heading h2 { margin-block:var(--heading-label-gap) 24px; }
+.about-page .principles h3,
+.about-page .solution-card h3,
+.about-page .about-task-grid h3,
+.articles-page .article-card h2,
+.article-detail .article-body h2 { margin-bottom:16px; }
+.catalog-page .product-description { margin-block:16px 24px; }
+.home-page .catalog .card h3 { margin-block:16px; }
+.home-page .catalog .product-card h3 { margin:0; }
+.home-page .catalog .home-product-description { margin-block:0 24px; }

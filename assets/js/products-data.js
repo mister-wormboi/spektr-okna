@@ -1,5 +1,6 @@
-/* Assortment from spektr-okna.ru/produkcija/ and its linked product sections, 2026-10-08.
- * Example project prices are not prices of the named product lines. */
+/* Existing Spektr assortment. Compatible component information checked against TBM,
+ * 2026-10-09; see content/catalog-sources.md. Prices are editorial estimates for
+ * finished products, not TBM component prices or an approved Spektr price list. */
 (() => {
   const base = 'https://spektr-okna.ru/';
   const ready = 'produkcija/okna/gotovie-reshenija-spektr/';
@@ -58,8 +59,47 @@
     ['facade','aluminium','Алюминиевые фасады','Алюминиевые конструкции','Фасадные конструкции из алюминиевого профиля.', ['Проектирование под объект','Индивидуальная конфигурация'],aluminium],
     ['sanitary','aluminium','Сантехнические перегородки','Алюминиевые конструкции','Перегородки для кабинок, душевых и раздевалок.', ['Разделение общих помещений','Изготовление по размерам'],aluminium]
   ];
+  const estimates = {
+    econom:[6500,'м²'], optimal:[7500,'м²'], comfort:[9000,'м²'], energy:[13000,'м²'], elite:[11500,'м²'],
+    pro58:[6500,'м²'], pro70:[8500,'м²'], unusual:[14000,'м²'], delight:[10500,'м²'], grazio:[9500,'м²'], intelio:[13000,'м²'], blitz:[8000,'м²'],
+    'warm-balcony':[9500,'м²'], 'cold-balcony':[5000,'м²'], entrance:[25000,'шт.'], interior:[16000,'шт.'], 'balcony-door':[14000,'шт.'],
+    shutters:[6500,'м²'], 'roller-gate':[45000,'компл.'], sectional:[55000,'компл.'], automation:[18000,'компл.'],
+    matte:[700,'м²'], gloss:[800,'м²'], satin:[850,'м²'], print:[1600,'м²'], levels:[1800,'м²'],
+    'roller-blind':[1800,'шт.'], cassette:[3200,'шт.'], 'al-sliding':[6000,'м²'], 'al-door':[35000,'шт.'],
+    'al-portal':[95000,'компл.'], 'al-wicket':[22000,'шт.'], panoramic:[14000,'м²'], office:[8000,'м²'], facade:[16000,'м²'], sanitary:[6500,'м²']
+  };
+  // Selection criteria, not a promise that every supplier option is included.
+  const selection = {
+    windows:['Фурнитура подбирается по профилю, размеру и массе створки','Тип открывания и защита от случайного открывания — по согласованию'],
+    doors:['Петли и замок подбираются под материал и массу полотна','Сторона открывания, ручки и порог — по согласованию']
+  };
+  const details = {
+    'warm-balcony':{description:'Остекление со стеклопакетом для балкона или лоджии. Теплоизоляцию подбираем вместе с утеплением пола, стен и потолка.',features:['ПВХ-профиль со стеклопакетом','Поворотное или поворотно-откидное открывание','Уплотнение и фурнитура под размеры створок']},
+    'cold-balcony':{description:'Алюминиевое остекление для защиты балкона от осадков и ветра. Подходит для пространства без жилого утепления.',features:['Холодная алюминиевая система','Раздвижные створки на роликах — по согласованию','Щёточные уплотнители и защёлки под выбранную систему']},
+    entrance:{description:'ПВХ-дверь для входа в дом или помещение. Заполнение, замок, петли и порог подбираются с учётом проёма и нагрузки.'},
+    interior:{description:'ПВХ-дверь для внутренних помещений. Глухое или остеклённое полотно, ручки и защёлка подбираются под интерьер.'},
+    'balcony-door':{description:'Дверь со стеклопакетом для выхода на балкон или лоджию. Открывание, прижим, ручку и балконную защёлку согласуем при расчёте.'},
+    'al-sliding':{description:'Алюминиевые окна с перемещением створок вдоль направляющих. Систему и ролики подбираем по размерам и массе створок.',features:['Раздвижное открывание','Ролики и направляющие одной системы','Подбор уплотнения и запирания']},
+    'al-door':{description:'Алюминиевые двери для входных групп и внутренних помещений. Тёплое или холодное исполнение выбирается по условиям эксплуатации.',features:['Система с терморазрывом или без него','Петли под массу полотна','Замок, порог и доводчик — по согласованию']},
+    'al-portal':{description:'Раздвижной выход на террасу или в сад. Фурнитура и схема открывания подбираются под ширину проёма и массу остекления.',features:['Раздвижная или подъёмно-сдвижная система — по проекту','Каретки и запоры под массу створки','Подбор теплоизоляции и порога']},
+    panoramic:{description:'Большие светопрозрачные проёмы и витрины. Профили и стеклопакеты подбираются с учётом теплоизоляции и расчётных нагрузок.',features:['Тёплое или холодное остекление','Глухие и открывающиеся секции — по проекту','Подбор профиля по размерам и нагрузкам']},
+    office:{description:'Алюминиевые перегородки для зонирования офиса. Остекление, непрозрачное заполнение и дверные секции согласуются под планировку.',features:['Профиль для внутренних перегородок','Стекло или непрозрачное заполнение','Дверные секции — по проекту']},
+    facade:{description:'Светопрозрачный алюминиевый фасад для коммерческого или жилого объекта. Сечение стоек и ригелей определяется расчётом.',features:['Стоечно-ригельная система','Уплотнение и отвод воды из узлов','Подбор стеклопакетов и креплений по проекту']}
+  };
+  const referenceByCategory = {
+    windows:'https://www.tbm.ru/furnitura-dlya-okon',
+    doors:'https://www.tbm.ru/furnitura-dlya-dverey',
+    balconies:'https://www.tbm.ru/profili-i-komplektuyuschie-dlya-balkonnogo-ostekleniya',
+    aluminium:'https://www.tbm.ru/alyuminievye-sistemy-alumark'
+  };
   window.SPEKTR_PRODUCTS = records.map(([id,category,title,subtitle,description,features,source,image]) => ({
     id,category,title,subtitle,description,features,source:base+source,
-    image:image ? `assets/catalog/${image}.webp` : null
+    image:image ? `assets/catalog/${image}.webp` : null,
+    ...details[id],
+    features:[...(details[id]?.features || features),...(selection[category] || [])],
+    priceFrom:estimates[id][0], priceUnit:estimates[id][1],
+    priceLabel:`от ${new Intl.NumberFormat('ru-RU').format(estimates[id][0])} ₽ / ${estimates[id][1]}`,
+    priceNote:'Ориентировочно, без монтажа и доставки. Точный расчёт — по размерам и комплектации.',
+    tbmReference:['al-wicket','sanitary'].includes(id) ? null : (referenceByCategory[category] || null)
   }));
 })();
