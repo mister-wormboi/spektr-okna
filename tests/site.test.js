@@ -27,7 +27,7 @@ function checkLink(file, value) {
 
 test('all pages have unique IDs and valid local resources and anchors', () => {
   const articles = JSON.parse(fs.readFileSync(path.join(root, 'content/articles.json'), 'utf8')).articles;
-  assert.equal(pages.length, 9 + articles.length);
+  assert.equal(pages.length, 9 + articles.length + articles.filter(a => a.legacy_slug).length);
   for (const file of pages) {
     const source = fs.readFileSync(file, 'utf8');
     const pageIds = ids(source);

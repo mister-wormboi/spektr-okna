@@ -6,7 +6,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&display=swap" rel="stylesheet">
   <meta charset="utf-8">
   <script src="{{prefix}}assets/js/theme.js"></script>
+  <script src="{{prefix}}assets/js/article-views.js" defer></script>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  {{head_extra}}
   <meta name="description" content="{{description}}">
   <meta property="og:title" content="{{title}}">
   <meta property="og:description" content="{{description}}">
