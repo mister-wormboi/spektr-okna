@@ -100,7 +100,7 @@ test('gallery reveal waits for intersection and releases revealed targets', () =
     disconnect() { watched.clear(); }
   }
   const media = element(); media.matches = false;
-  const document = { querySelector: () => ({ querySelectorAll: () => links }), createElement: () => ({}) };
+  const document = { querySelector: selector => selector.includes('.solutions-gallery-track') ? ({ querySelectorAll: () => links }) : null, createElement: () => ({}) };
   vm.runInNewContext(fs.readFileSync(path.join(__dirname, '../assets/js/solutions-gallery.js'), 'utf8'), {
     document, window: { IntersectionObserver: Observer }, IntersectionObserver: Observer, matchMedia: () => media,
   });

@@ -53,13 +53,14 @@
       ],
       "author": "Редакция «Спектра»",
       "published_on": "2026-10-09",
-      "modified_on": "2026-10-09",
+      "modified_on": "2026-10-11",
       "content_kind": "original",
       "image": {
-        "path": "assets/solutions/thumbs/photo_2026-10-08 10.29.26 AM.webp",
+        "path": "assets/solutions/thumbs/apartment-installation.webp",
         "width": 640,
-        "height": 854,
-        "alt": "Остекление из галереи «Спектра»"
+        "height": 1422,
+        "alt": "Окно в проёме до отделки откосов",
+        "caption": "Пример окна в квартире до отделки: при заказе важно продумать открывание и состав работ."
       }
     },
     {
@@ -115,13 +116,14 @@
       ],
       "author": "Редакция «Спектра»",
       "published_on": "2026-10-09",
-      "modified_on": "2026-10-09",
+      "modified_on": "2026-10-11",
       "content_kind": "original",
       "image": {
-        "path": "assets/solutions/thumbs/photo_2026-10-08 10.29.28 AM.webp",
+        "path": "assets/solutions/thumbs/brick-house-windows.webp",
         "width": 640,
-        "height": 854,
-        "alt": "Остекление из галереи «Спектра»"
+        "height": 853,
+        "alt": "Окна с наружными откосами и отливами",
+        "caption": "Окна, наружные откосы и отливы: уточните, какие элементы и работы включены в смету."
       }
     },
     {
@@ -177,13 +179,14 @@
       ],
       "author": "Редакция «Спектра»",
       "published_on": "2026-10-09",
-      "modified_on": "2026-10-09",
+      "modified_on": "2026-10-11",
       "content_kind": "original",
       "image": {
-        "path": "assets/solutions/thumbs/photo_2026-10-08 10.29.29 AM.webp",
+        "path": "assets/solutions/thumbs/panoramic-gable.webp",
         "width": 640,
-        "height": 854,
-        "alt": "Остекление из галереи «Спектра»"
+        "height": 853,
+        "alt": "Высокие окна с фигурной верхней частью",
+        "caption": "Большая площадь остекления: состав стеклопакета выбирают под размеры и задачи помещения."
       }
     },
     {
@@ -239,13 +242,14 @@
       ],
       "author": "Редакция «Спектра»",
       "published_on": "2026-10-09",
-      "modified_on": "2026-10-09",
+      "modified_on": "2026-10-11",
       "content_kind": "original",
       "image": {
-        "path": "assets/solutions/thumbs/photo_2026-10-08 10.29.30 AM.webp",
+        "path": "assets/solutions/thumbs/apartment-installation.webp",
         "width": 640,
-        "height": 854,
-        "alt": "Остекление из галереи «Спектра»"
+        "height": 1422,
+        "alt": "Окно в проёме до отделки откосов",
+        "caption": "Окно в квартире с видом на город: защиту от шума подбирают по условиям за окном, а не по внешнему виду."
       }
     },
     {
@@ -266,7 +270,18 @@
           "heading": "Какие свойства стекла сравнивать",
           "paragraphs": [
             "Солнцезащитное стекло ограничивает поступление солнечной энергии. Мультифункциональное покрытие может сочетать эту функцию с уменьшением теплопередачи. Сравните светопропускание и солнечный фактор — долю проходящей энергии. Название покрытия само по себе не показывает, насколько светло и прохладно будет в комнате."
-          ]
+          ],
+          "photo": {
+            "id": "roller-shutter-closed",
+            "title": "Роллета в закрытом положении",
+            "category": "Роллеты",
+            "alt": "Оконный проём с опущенной защитной роллетой",
+            "full": "assets/solutions/roller-shutter-closed.webp",
+            "thumb": "assets/solutions/thumbs/roller-shutter-closed.webp",
+            "width": 640,
+            "height": 400,
+            "caption": "Та же постройка с опущенной роллетой: наружное затенение перекрывает оконный проём."
+          }
         },
         {
           "heading": "Не выбирайте только по затемнению",
@@ -301,13 +316,14 @@
       ],
       "author": "Редакция «Спектра»",
       "published_on": "2026-10-09",
-      "modified_on": "2026-10-09",
+      "modified_on": "2026-10-11",
       "content_kind": "original",
       "image": {
-        "path": "assets/solutions/thumbs/photo_2026-10-08 10.29.31 AM.webp",
+        "path": "assets/solutions/thumbs/roller-shutter-open.webp",
         "width": 640,
-        "height": 854,
-        "alt": "Остекление из галереи «Спектра»"
+        "height": 400,
+        "alt": "Окно модульной постройки с поднятой роллетой",
+        "caption": "Наружная роллета над окном — один из способов затенения. На фото она поднята."
       }
     },
     {
@@ -363,13 +379,14 @@
       ],
       "author": "Редакция «Спектра»",
       "published_on": "2026-10-09",
-      "modified_on": "2026-10-09",
+      "modified_on": "2026-10-11",
       "content_kind": "original",
       "image": {
-        "path": "assets/solutions/thumbs/photo_2026-10-08 10.29.32 AM.webp",
+        "path": "assets/solutions/thumbs/balcony-sill.webp",
         "width": 640,
-        "height": 854,
-        "alt": "Остекление из галереи «Спектра»"
+        "height": 853,
+        "alt": "Балконное остекление на этапе отделки",
+        "caption": "Балкон на этапе отделки: при запотевании важно проверить вентиляцию и влажность."
       }
     },
     {
@@ -425,13 +442,14 @@
       ],
       "author": "Редакция «Спектра»",
       "published_on": "2026-10-09",
-      "modified_on": "2026-10-09",
+      "modified_on": "2026-10-11",
       "content_kind": "original",
       "image": {
-        "path": "assets/solutions/thumbs/photo_2026-10-08 10.29.34 AM.webp",
+        "path": "assets/solutions/thumbs/balcony-sill.webp",
         "width": 640,
-        "height": 854,
-        "alt": "Остекление из галереи «Спектра»"
+        "height": 853,
+        "alt": "Балконное остекление на этапе отделки",
+        "caption": "Остекление балкона с подоконником: по фотографии нельзя определить, тёплая ли это система."
       }
     },
     {
@@ -446,7 +464,18 @@
           "heading": "Замер — это больше, чем ширина и высота",
           "paragraphs": [
             "Примерные размеры подходят для предварительного расчёта. Для заказа нужен профессиональный замер с проверкой геометрии, основания и примыканий. Согласуйте открывание, подоконник, откосы и дополнительные элементы. Покажите мебель и шторы, которые могут мешать створкам."
-          ]
+          ],
+          "photo": {
+            "id": "apartment-installation",
+            "title": "Монтаж окна в квартире",
+            "category": "Монтаж",
+            "alt": "Окно в проёме до отделки откосов",
+            "full": "assets/solutions/apartment-installation.webp",
+            "thumb": "assets/solutions/thumbs/apartment-installation.webp",
+            "width": 640,
+            "height": 1422,
+            "caption": "Пример монтажа в квартире до отделки откосов. Состав последующих работ согласуют при заказе."
+          }
         },
         {
           "heading": "Согласуйте весь объём работ",
@@ -487,13 +516,14 @@
       ],
       "author": "Редакция «Спектра»",
       "published_on": "2026-10-09",
-      "modified_on": "2026-10-09",
+      "modified_on": "2026-10-11",
       "content_kind": "original",
       "image": {
-        "path": "assets/solutions/thumbs/photo_2026-10-08 10.29.36 AM.webp",
+        "path": "assets/solutions/thumbs/frame-house-window.webp",
         "width": 640,
-        "height": 854,
-        "alt": "Остекление из галереи «Спектра»"
+        "height": 853,
+        "alt": "Белое окно с москитной сеткой до отделки фасада",
+        "caption": "Окно до отделки фасада: монтажный шов предстоит закрыть и защитить."
       }
     },
     {
@@ -611,13 +641,14 @@
       ],
       "author": "Редакция «Спектра»",
       "published_on": "2026-10-09",
-      "modified_on": "2026-10-09",
+      "modified_on": "2026-10-11",
       "content_kind": "original",
       "image": {
-        "path": "assets/solutions/thumbs/photo_2026-10-08 10.29.38 AM.webp",
+        "path": "assets/solutions/thumbs/window-with-screen.webp",
         "width": 640,
-        "height": 1423,
-        "alt": "Остекление из галереи «Спектра»"
+        "height": 853,
+        "alt": "Белое окно с сеткой на открывающейся створке",
+        "caption": "Окно с москитной сеткой: сетку снимают для очистки, а профиль и уплотнители моют отдельно."
       }
     }
   ]

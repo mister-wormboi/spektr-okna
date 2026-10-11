@@ -2,6 +2,25 @@
   const track = document.querySelector('[data-solutions-gallery] .solutions-gallery-track');
   if (!track) return;
   const links = [...track.querySelectorAll('a')];
+  let visibleLinks = links;
+  const filters = document.querySelector('.solutions-filters');
+  const result = document.querySelector('.solutions-result');
+  if (filters) {
+    filters.hidden = false;
+    result.textContent = `Фотографий: ${links.length}`;
+    filters.addEventListener('click', event => {
+      const button = event.target.closest('button[data-filter]');
+      if (!button) return;
+      const category = button.dataset.filter;
+      filters.querySelectorAll('button').forEach(item => item.setAttribute('aria-pressed', String(item === button)));
+      links.forEach(link => {
+        link.hidden = category !== 'Все' && link.dataset.category !== category;
+        if (!link.hidden) link.classList.remove('is-awaiting-reveal');
+      });
+      visibleLinks = links.filter(link => !link.hidden);
+      result.textContent = `Фотографий: ${visibleLinks.length}`;
+    });
+  }
   const motion = matchMedia('(prefers-reduced-motion: reduce)');
   // Reveal once, only when the photo enters the viewport.
   if ('IntersectionObserver' in window && !motion.matches) {
@@ -41,13 +60,13 @@
   const counter = dialog.querySelector('.solutions-lightbox-count');
   let currentIndex = 0, request = 0, opener;
   async function show(index) {
-    currentIndex = (index + links.length) % links.length;
+    currentIndex = (index + visibleLinks.length) % visibleLinks.length;
     const token = ++request;
-    const link = links[currentIndex];
+    const link = visibleLinks[currentIndex];
     const thumb = link.querySelector('img');
     preview.src = thumb.currentSrc || thumb.src;
     preview.alt = thumb.alt;
-    counter.textContent = (currentIndex + 1) + ' / ' + links.length;
+    counter.textContent = (currentIndex + 1) + ' / ' + visibleLinks.length + ' · ' + (link.querySelector('strong')?.textContent || thumb.alt);
     if (!motion.matches && preview.animate) {
       preview.getAnimations().forEach(animation => animation.cancel());
       preview.animate([{ opacity: 0, transform: 'translateY(8px)' }, { opacity: 1, transform: 'translateY(0)' }], { duration: 240, easing: 'ease-out' });
@@ -67,7 +86,7 @@
     opener = link;
     dialog.showModal();
     document.body.classList.add('lightbox-open');
-    show(links.indexOf(link));
+    show(visibleLinks.indexOf(link));
   });
   dialog.querySelector('.solutions-lightbox-close').addEventListener('click', () => dialog.close());
   dialog.querySelector('.solutions-lightbox-prev').addEventListener('click', () => show(currentIndex - 1));

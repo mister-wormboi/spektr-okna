@@ -71,9 +71,11 @@ test('header and footer styles have a single owner; type scale is loaded last', 
 test('real gallery photos reserve space and use unique lightweight previews', () => {
   for (const page of ['index.html', 'solutions/index.html']) {
     const source = fs.readFileSync(path.join(root, page), 'utf8');
-    const images = [...source.matchAll(/<img[^>]+src="[^"]*assets\/solutions\/[^>]+>/g)].map(m => attrs(m[0]));
-    assert.equal(images.length, 16);
-    assert.equal(new Set(images.map(image => image.src)).size, 16);
+    const gallery = page === 'solutions/index.html' ? source.match(/<div class="solutions-gallery-track">([\s\S]*?)<\/div>/)[1] : source;
+    const images = [...gallery.matchAll(/<img[^>]+src="[^"]*assets\/solutions\/[^>]+>/g)].map(m => attrs(m[0]));
+    const expected = page === 'solutions/index.html' ? 28 : 16;
+    assert.equal(images.length, expected);
+    assert.equal(new Set(images.map(image => image.src)).size, expected);
     for (const image of images) {
       assert.match(image.src, /\/thumbs\//);
       assert.equal(Number(image.width), 640);
@@ -89,7 +91,7 @@ test('real gallery photos reserve space and use unique lightweight previews', ()
   const thumbs = all.filter(file => path.dirname(file) === path.join(root, 'assets/solutions/thumbs') && file.endsWith('.webp'));
   const full = all.filter(file => path.dirname(file) === path.join(root, 'assets/solutions') && file.endsWith('.webp'));
   const size = files => files.reduce((total, file) => total + fs.statSync(file).size, 0);
-  assert.equal(thumbs.length, 16);
+  assert.equal(thumbs.length, 28);
   assert.ok(size(thumbs) < size(full) * .3);
 });
 

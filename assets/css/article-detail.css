@@ -21,3 +21,6 @@
 .article-detail a:focus-visible { outline: 2px solid var(--green); outline-offset: 5px; }
 @media (max-width: 900px) { .article-cover { margin-bottom: 36px; } }
 @media (max-width: 620px) { .article-breadcrumbs { margin-top: 24px; gap: 8px; } .article-heading { padding-block: 32px 28px; } .article-cover img { max-height: 320px; } .article-heading-meta { gap: 8px; flex-direction: column; } .article-takeaway { padding: 20px; } }
+.article-example { margin: 28px 0 0; padding: 18px; background: var(--paper); border: 1px solid var(--line); border-radius: 12px; }
+.article-example img { display: block; width: 100%; height: auto; max-height: 480px; object-fit: contain; }
+.article-example figcaption { color: var(--muted); font-size: 14px; line-height: 1.6; padding-top: 14px; }

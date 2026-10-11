@@ -1,0 +1,124 @@
+{
+  "photos": [
+    {
+      "id": "apartment-installation",
+      "title": "Монтаж окна в квартире",
+      "category": "Монтаж",
+      "alt": "Окно в проёме до отделки откосов",
+      "full": "assets/solutions/apartment-installation.webp",
+      "thumb": "assets/solutions/thumbs/apartment-installation.webp",
+      "width": 640,
+      "height": 1422
+    },
+    {
+      "id": "brick-house-windows",
+      "title": "Белые окна в кирпичном доме",
+      "category": "Дом",
+      "alt": "Окна с наружными откосами и отливами",
+      "full": "assets/solutions/brick-house-windows.webp",
+      "thumb": "assets/solutions/thumbs/brick-house-windows.webp",
+      "width": 640,
+      "height": 853
+    },
+    {
+      "id": "panoramic-gable",
+      "title": "Панорамное остекление фасада",
+      "category": "Дом",
+      "alt": "Высокие окна с фигурной верхней частью",
+      "full": "assets/solutions/panoramic-gable.webp",
+      "thumb": "assets/solutions/thumbs/panoramic-gable.webp",
+      "width": 640,
+      "height": 853
+    },
+    {
+      "id": "glass-entrance",
+      "title": "Стеклянная входная группа",
+      "category": "Дом",
+      "alt": "Дверь и боковые стеклянные секции в тёмном профиле",
+      "full": "assets/solutions/glass-entrance.webp",
+      "thumb": "assets/solutions/thumbs/glass-entrance.webp",
+      "width": 640,
+      "height": 853
+    },
+    {
+      "id": "graphite-window",
+      "title": "Тёмный профиль на кирпичном фасаде",
+      "category": "Дом",
+      "alt": "Окно и отлив в цвет фасадных деталей",
+      "full": "assets/solutions/graphite-window.webp",
+      "thumb": "assets/solutions/thumbs/graphite-window.webp",
+      "width": 640,
+      "height": 853
+    },
+    {
+      "id": "frame-house-window",
+      "title": "Окно в каркасной постройке",
+      "category": "Монтаж",
+      "alt": "Белое окно с москитной сеткой до отделки фасада",
+      "full": "assets/solutions/frame-house-window.webp",
+      "thumb": "assets/solutions/thumbs/frame-house-window.webp",
+      "width": 640,
+      "height": 853
+    },
+    {
+      "id": "window-with-screen",
+      "title": "Окно с москитной сеткой",
+      "category": "Дом",
+      "alt": "Белое окно с сеткой на открывающейся створке",
+      "full": "assets/solutions/window-with-screen.webp",
+      "thumb": "assets/solutions/thumbs/window-with-screen.webp",
+      "width": 640,
+      "height": 853
+    },
+    {
+      "id": "veranda-glazing",
+      "title": "Остекление веранды",
+      "category": "Веранда",
+      "alt": "Угловое остекление с дверью и непрозрачными нижними панелями",
+      "full": "assets/solutions/veranda-glazing.webp",
+      "thumb": "assets/solutions/thumbs/veranda-glazing.webp",
+      "width": 640,
+      "height": 853
+    },
+    {
+      "id": "balcony-sill",
+      "title": "Остекление балкона и подоконник",
+      "category": "Балкон",
+      "alt": "Балконное остекление на этапе отделки",
+      "full": "assets/solutions/balcony-sill.webp",
+      "thumb": "assets/solutions/thumbs/balcony-sill.webp",
+      "width": 640,
+      "height": 853
+    },
+    {
+      "id": "roller-shutter-open",
+      "title": "Роллета в открытом положении",
+      "category": "Роллеты",
+      "alt": "Окно модульной постройки с поднятой роллетой",
+      "full": "assets/solutions/roller-shutter-open.webp",
+      "thumb": "assets/solutions/thumbs/roller-shutter-open.webp",
+      "width": 640,
+      "height": 400
+    },
+    {
+      "id": "roller-shutter-closed",
+      "title": "Роллета в закрытом положении",
+      "category": "Роллеты",
+      "alt": "Оконный проём с опущенной защитной роллетой",
+      "full": "assets/solutions/roller-shutter-closed.webp",
+      "thumb": "assets/solutions/thumbs/roller-shutter-closed.webp",
+      "width": 640,
+      "height": 400
+    },
+    {
+      "id": "modular-building-shutter",
+      "title": "Роллета на модульной постройке",
+      "category": "Роллеты",
+      "alt": "Закрытая роллета рядом со входом в постройку",
+      "full": "assets/solutions/modular-building-shutter.webp",
+      "thumb": "assets/solutions/thumbs/modular-building-shutter.webp",
+      "width": 640,
+      "height": 400
+    }
+  ]
+}
