@@ -1,11 +1,11 @@
-/* Window illustration with the same timeline as the 3D view above. */
+/* Independent SVG illustrations with matching timing and no per-frame JS. */
 (() => {
   const section = document.querySelector('.window-story');
   if (!section) return;
   const stage = section.querySelector('.window-stage');
   if (!stage) return;
   const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const synchronization = window.SpektrWindowMotion;
+  const timing = window.SpektrWindowMotion;
   const svgNS = 'http://www.w3.org/2000/svg';
   const rectPath = (x, y, w, h) => `M${x} ${y}h${w}v${h}h${-w}Z`;
   const ring = (x, y, w, h, b, depth, finish = 'pvc') => {
@@ -78,97 +78,96 @@
   stage.replaceChildren(svg);
   section.classList.add('is-enhanced');
 
-  const layers = [...svg.querySelectorAll('[data-window-layer]')];
-  const offsets = [-205, -67, 94, 238];
-  let state = 'idle';
-  let observer;
-  let animations = [];
-  let generation = 0;
-
-  function removeMotionListener() {
-    if (motion.removeEventListener) motion.removeEventListener('change', onMotionChange);
-    else motion.removeListener(onMotionChange);
+  animateWindow(section, stage, svg, [-205, -67, 94, 238]);
+  const fallback = document.querySelector('.window-3d-fallback');
+  if (fallback) {
+    const viewport = fallback.closest('.window-3d-viewport');
+    animateWindow(viewport, viewport, fallback, [-105, -35, 55, 130], true);
   }
 
-  function complete() {
-    if (state === 'complete') return;
-    state = 'complete';
-    generation++;
-    observer?.disconnect();
-    layers.forEach((layer, index) => {
-      layer.style.transform = `translateX(${offsets[index]}px)`;
-    });
-    // Inline final transforms persist after releasing the animation objects.
-    animations.forEach(animation => {
-      animation.finished?.catch(() => {});
-      animation.cancel();
-    });
-    animations = [];
-    section.classList.remove('is-playing');
-    section.classList.add('is-complete');
-    if (!synchronization) {
-      document.removeEventListener('visibilitychange', onVisibilityChange);
-      removeMotionListener();
-    }
-  }
+  // The real SVG and the file:// / WebGL fallback use the same animation engine.
+  function animateWindow(section, stage, svg, offsets, isFallback = false) {
+    const layers = [...svg.querySelectorAll('[data-window-layer]')];
+    let state = 'idle';
+    let observer;
+    let rendererObserver;
+    let animations = [];
 
-  function onMotionChange(event) {
-    if (event.matches) complete();
-  }
-
-  function onVisibilityChange() {
-    if (document.hidden) complete();
-  }
-
-  function play(timing) {
-    if (state !== 'idle' && !synchronization) return;
-    const run = ++generation;
-    animations.forEach(animation => animation.cancel());
-    animations = [];
-    state = 'playing';
-    section.classList.remove('is-complete');
-    observer?.disconnect();
-    if (motion.matches || document.hidden || layers.some(layer => typeof layer.animate !== 'function')) {
-      complete();
-      return;
-    }
-    section.classList.add('is-playing');
-    document.addEventListener('visibilitychange', onVisibilityChange);
-    try {
-      // SVG-local pixel offsets keep the existing projection aligned in Safari.
+    function complete() {
+      if (state === 'complete') return;
+      state = 'complete';
+      observer?.disconnect();
+      rendererObserver?.disconnect();
       layers.forEach((layer, index) => {
-        const animation = layer.animate([
-          { transform: 'translateX(0px)' },
-          { transform: `translateX(${offsets[index]}px)` },
-        ], {
-          duration: synchronization?.duration ?? 1800,
-          delay: index * (synchronization?.stagger ?? 100),
-          easing: synchronization?.easing ?? 'cubic-bezier(.22, 1, .36, 1)',
-          fill: 'both',
-        });
-        if (timing) animation.startTime = timing.startTime;
-        animations.push(animation);
+        layer.style.transform = `translateX(${offsets[index]}px)`;
       });
-      const finish = () => { if (run === generation) complete(); };
-      Promise.all(animations.map(animation => animation.finished)).then(finish, finish);
-    } catch {
-      complete();
+      // Keep only final transforms; release animation objects and observers.
+      animations.forEach(animation => {
+        animation.finished?.catch(() => {});
+        animation.cancel();
+      });
+      animations = [];
+      section.classList.remove('is-playing');
+      section.classList.add('is-complete');
+      document.removeEventListener('visibilitychange', onVisibilityChange);
+      if (motion.removeEventListener) motion.removeEventListener('change', onMotionChange);
+      else motion.removeListener(onMotionChange);
     }
-  }
 
-  if (motion.addEventListener) motion.addEventListener('change', onMotionChange);
-  else motion.addListener(onMotionChange);
+    function onMotionChange(event) {
+      if (event.matches) complete();
+    }
 
-  if (synchronization) {
-    document.addEventListener('visibilitychange', onVisibilityChange);
-    if (motion.matches) complete();
-    synchronization.subscribe(play);
-  } else if (motion.matches || !('IntersectionObserver' in window)) {
-    complete();
-  } else {
-    observer = new IntersectionObserver(entries => {
-      if (entries.some(entry => entry.isIntersecting && entry.intersectionRatio >= .3)) play();
-    }, { threshold: .3 });
-    observer.observe(stage);
+    function onVisibilityChange() {
+      if (document.hidden) complete();
+    }
+
+    function play() {
+      if (state !== 'idle') return;
+      state = 'playing';
+      const fallbackHidden = isFallback && stage.classList.contains('is-rendered');
+      if (motion.matches || document.hidden || fallbackHidden || layers.some(layer => typeof layer.animate !== 'function')) {
+        complete();
+        return;
+      }
+      section.classList.add('is-playing');
+      document.addEventListener('visibilitychange', onVisibilityChange);
+      if (isFallback && 'MutationObserver' in window) {
+        rendererObserver = new MutationObserver(() => {
+          if (stage.classList.contains('is-rendered')) complete();
+        });
+        rendererObserver.observe(stage, { attributes: true, attributeFilter: ['class'] });
+      }
+      try {
+        // SVG-local pixel offsets keep the existing projection aligned in Safari.
+        layers.forEach((layer, index) => {
+          animations.push(layer.animate([
+            { transform: 'translateX(0px)' },
+            { transform: `translateX(${offsets[index]}px)` },
+          ], {
+            duration: timing?.duration ?? 1800,
+            delay: index * (timing?.stagger ?? 100),
+            easing: timing?.easing ?? 'cubic-bezier(.22, 1, .36, 1)',
+            fill: 'both',
+          }));
+        });
+        Promise.all(animations.map(animation => animation.finished)).then(complete, complete);
+      } catch {
+        complete();
+      }
+    }
+
+    if (motion.addEventListener) motion.addEventListener('change', onMotionChange);
+    else motion.addListener(onMotionChange);
+
+    if (motion.matches || !('IntersectionObserver' in window)) {
+      complete();
+    } else {
+      observer = new IntersectionObserver(entries => {
+        if (state === 'playing' && entries.some(entry => !entry.isIntersecting)) complete();
+        else if (entries.some(entry => entry.isIntersecting && entry.intersectionRatio >= .3)) play();
+      }, { threshold: [0, .3] });
+      observer.observe(stage);
+    }
   }
 })();

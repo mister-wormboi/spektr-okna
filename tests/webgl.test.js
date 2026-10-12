@@ -45,7 +45,7 @@ test('WebGL context loss stops rendering and recovery resumes the visible scene'
 });
 test('one-shot 3D playback starts at the visibility threshold and holds its final frame',()=>{
   const s=setup({playbackOptions:{threshold:.3,duration:2.1}});
-  assert.equal(s.observerOptions().threshold,.3);
+  assert.deepEqual(Array.from(s.observerOptions().threshold),[0,.3]);
   s.visible(true,.29); assert.equal(s.pending(),0);
   s.visible(true,.3); assert.equal(s.pending(),1);
   for (let now=1000;now<=3300;now+=100) s.frame(now);
@@ -65,25 +65,17 @@ test('one-shot 3D playback shows its final frame for reduced motion and hidden t
   assert.equal(s.pending(),0);
 });
 
-test('synchronized WebGL follows the shared clock and does not run offscreen',()=>{
-  let play;
-  const s=setup({playbackOptions:{threshold:.3,duration:2.1,synchronization:{subscribe(fn){play=fn;}}}});
-  s.visible(true);
-  assert.equal(s.pending(),0);
-  s.document.timeline.currentTime=1500;
-  play({startTime:1000});
-  s.frame(1500);
-  assert.equal(s.times.at(-1),.5);
-  s.visible(false);
-  assert.equal(s.pending(),0);
-  s.document.timeline.currentTime=2000;
-  play({startTime:1800});
-  assert.equal(s.pending(),0);
-  s.document.timeline.currentTime=2200;
-  s.visible(true);
-  s.frame(2200);
-  assert.equal(s.times.at(-1),.4);
-  s.frame(4000);
-  assert.equal(s.times.at(-1),2.1);
-  assert.equal(s.pending(),0);
+test('one-shot WebGL stops when scrolled away and cannot restart another view',()=>{
+  const upper=setup({playbackOptions:{threshold:.3,duration:2.1}});
+  const lower=setup({playbackOptions:{threshold:.3,duration:2.1}});
+  upper.visible(true); upper.frame(1000);
+  assert.equal(lower.pending(),0);
+  upper.visible(false);
+  assert.equal(upper.pending(),0);
+  assert.equal(upper.times.at(-1),2.1);
+  lower.visible(true);
+  assert.equal(lower.pending(),1);
+  assert.equal(upper.pending(),0);
+  upper.visible(true);
+  assert.equal(upper.pending(),0);
 });

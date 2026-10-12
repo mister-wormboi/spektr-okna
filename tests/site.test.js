@@ -27,7 +27,7 @@ function checkLink(file, value) {
 
 test('all pages have unique IDs and valid local resources and anchors', () => {
   const articles = JSON.parse(fs.readFileSync(path.join(root, 'content/articles.json'), 'utf8')).articles;
-  assert.equal(pages.length, 9 + articles.length + articles.filter(a => a.legacy_slug).length);
+  assert.equal(pages.length, 10 + articles.length + articles.filter(a => a.legacy_slug).length);
   for (const file of pages) {
     const source = fs.readFileSync(file, 'utf8');
     const pageIds = ids(source);
@@ -38,6 +38,15 @@ test('all pages have unique IDs and valid local resources and anchors', () => {
       if (attributes.srcset) for (const candidate of attributes.srcset.split(',')) checkLink(file, candidate.trim().split(/\s+/)[0]);
       if (tag[0].startsWith('<img ')) assert.ok('alt' in attributes, `Missing alt: ${file}`);
     }
+  }
+});
+
+test('footers keep VK but do not link to Telegram, including the article template', () => {
+  for (const file of [...pages, path.join(root, 'templates/articles-shell.tpl')]) {
+    const footer = fs.readFileSync(file, 'utf8').match(/<footer class="site-footer"[\s\S]*?<\/footer>/)?.[0];
+    if (!footer) continue;
+    assert.doesNotMatch(footer, /t\.me\/|Telegram/);
+    assert.match(footer, /https:\/\/vk\.com\//);
   }
 });
 

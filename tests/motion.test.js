@@ -9,37 +9,49 @@ const classList = () => {
   return { add: v => values.add(v), remove: v => values.delete(v), contains: v => values.has(v), toggle: (v, on) => on ? values.add(v) : values.delete(v) };
 };
 
-function story({ reduced = false, observer = true, animation = true, synchronization } = {}) {
+function story({ reduced = false, observer = true, animation = true, fallback = false } = {}) {
   const pending = [];
   const animations = [];
   const listeners = new Map();
   let trigger;
   let connected = false;
+  const observers = new Map();
+  let rendererChanged;
   const media = { matches: reduced, addEventListener: () => {}, removeEventListener: () => {} };
-  const layers = Array.from({ length: 4 }, () => ({ style: {}, ...(animation ? {
-    animate: () => {
-      const a = { cancelled: false, finished: new Promise(resolve => pending.push(resolve)), cancel() { this.cancelled = true; } };
+  const makeLayers = () => Array.from({ length: 4 }, () => ({ style: {}, ...(animation ? {
+    animate: (keyframes, options) => {
+      const a = { keyframes, options, cancelled: false, finished: new Promise(resolve => pending.push(resolve)), cancel() { this.cancelled = true; } };
       animations.push(a);
       return a;
     },
   } : {}) }));
+  const layers = makeLayers();
+  const fallbackLayers = makeLayers();
+  const viewport = { classList: classList() };
+  const fallbackSvg = { querySelectorAll: () => fallbackLayers, closest: () => viewport };
   const svg = { setAttribute() {}, querySelectorAll: () => layers };
   const stage = { replaceChildren() {} };
   const section = { classList: classList(), querySelector: () => stage };
   const document = {
-    hidden: false, querySelector: () => section, createElementNS: () => svg,
+    hidden: false, querySelector: selector => selector === '.window-story' ? section : fallback ? fallbackSvg : null, createElementNS: () => svg,
     addEventListener: (name, fn) => listeners.set(name, fn), removeEventListener: name => listeners.delete(name),
   };
   class Observer {
-    constructor(callback) { trigger = () => callback([{ isIntersecting: true, intersectionRatio: 1 }]); }
-    observe() { connected = true; }
+    constructor(callback) { this.callback = callback; }
+    observe(target) {
+      connected = true;
+      observers.set(target, (ratio = 1) => this.callback([{ isIntersecting: ratio > 0, intersectionRatio: ratio }]));
+      if (target === stage) trigger = observers.get(target);
+    }
     disconnect() { connected = false; }
   }
   vm.runInNewContext(source('window-story.js'), {
-    document, window: { matchMedia: () => media, SpektrWindowMotion: synchronization, ...(observer ? { IntersectionObserver: Observer } : {}) },
+    document, window: { matchMedia: () => media, MutationObserver: true, ...(observer ? { IntersectionObserver: Observer } : {}) },
     IntersectionObserver: Observer,
+    MutationObserver: class { constructor(fn) { rendererChanged = fn; } observe() {} disconnect() {} },
   });
-  return { section, layers, animations, pending, listeners, document, trigger, connected: () => connected };
+  return { section, layers, animations, pending, listeners, document, trigger, connected: () => connected,
+    viewport, fallbackLayers, enterFallback: ratio => observers.get(viewport)?.(ratio), rendererChanged: () => rendererChanged?.() };
 }
 
 test('window illustration plays once and releases completed animations', async () => {
@@ -47,11 +59,12 @@ test('window illustration plays once and releases completed animations', async (
   assert.equal(s.animations.length, 0);
   s.trigger(); s.trigger();
   assert.equal(s.animations.length, 4);
-  assert.equal(s.connected(), false);
+  assert.equal(s.connected(), true);
   s.pending.forEach(resolve => resolve());
   await new Promise(resolve => setImmediate(resolve));
   assert.ok(s.section.classList.contains('is-complete'));
   assert.ok(s.animations.every(a => a.cancelled));
+  assert.equal(s.connected(), false);
   assert.equal(s.listeners.size, 0);
   assert.deepEqual(s.layers.map(l => l.style.transform), [-205, -67, 94, 238].map(n => `translateX(${n}px)`));
   s.trigger();
@@ -73,24 +86,45 @@ test('window illustration has static fallbacks and stops in hidden tabs', () => 
   assert.ok(s.animations.every(a => a.cancelled));
 });
 
-test('coordinated SVG layers share a timestamp and can replay before an earlier run finishes', async () => {
-  let play;
-  const s = story({ synchronization: { duration: 1800, stagger: 100, easing: 'linear', subscribe(fn) { play = fn; } } });
-  play({ startTime: 1000 });
-  assert.ok(s.animations.every(animation => animation.startTime === 1000));
-  play({ startTime: 1400 });
+test('upper fallback and lower SVG start independently with identical timing', async () => {
+  const s = story({ fallback: true });
+  s.enterFallback(.29);
+  assert.equal(s.animations.length, 0);
+  s.enterFallback(.3);
+  assert.equal(s.animations.length, 4);
+  assert.equal(s.section.classList.contains('is-playing'), false);
+  assert.equal(s.viewport.classList.contains('is-playing'), true);
+  s.pending.forEach(resolve => resolve());
+  await new Promise(resolve => setImmediate(resolve));
+  assert.equal(s.viewport.classList.contains('is-complete'), true);
+  assert.equal(s.section.classList.contains('is-complete'), false);
+  s.trigger();
+  s.enterFallback(1);
   assert.equal(s.animations.length, 8);
-  assert.ok(s.animations.slice(0, 4).every(animation => animation.cancelled));
-  assert.ok(s.animations.slice(4).every(animation => animation.startTime === 1400));
-  s.pending.slice(0, 4).forEach(resolve => resolve());
-  await new Promise(resolve => setImmediate(resolve));
-  assert.equal(s.section.classList.contains('is-complete'), false);
-  s.pending.slice(4).forEach(resolve => resolve());
-  await new Promise(resolve => setImmediate(resolve));
-  assert.equal(s.section.classList.contains('is-complete'), true);
-  play({ startTime: 4000 });
-  assert.equal(s.animations.length, 12);
-  assert.equal(s.section.classList.contains('is-complete'), false);
+  assert.deepEqual(s.animations.slice(0, 4).map(a => a.options), s.animations.slice(4).map(a => a.options));
+  assert.equal(s.animations[0].options.duration, 1800);
+  assert.equal(s.animations[3].options.delay, 300);
+  assert.equal(s.viewport.classList.contains('is-playing'), false);
+  assert.deepEqual(s.fallbackLayers.map(l => l.style.transform), [-105, -35, 55, 130].map(n => `translateX(${n}px)`));
+});
+
+test('SVG playback stops offscreen, or when the WebGL renderer replaces the fallback', () => {
+  const lower = story();
+  lower.trigger(); lower.trigger(0);
+  assert.ok(lower.animations.every(a => a.cancelled));
+  assert.equal(lower.connected(), false);
+  for (const replace of [false, true]) {
+    const s = story({ fallback: true });
+    s.enterFallback(1);
+    if (replace) { s.viewport.classList.add('is-rendered'); s.rendererChanged(); }
+    else s.enterFallback(0);
+    assert.ok(s.animations.every(a => a.cancelled));
+    assert.ok(s.viewport.classList.contains('is-complete'));
+  }
+  const rendered = story({ fallback: true });
+  rendered.viewport.classList.add('is-rendered');
+  rendered.enterFallback(1);
+  assert.equal(rendered.animations.length, 0);
 });
 
 test('scroll frames reuse hero measurements instead of forcing layout reads', () => {

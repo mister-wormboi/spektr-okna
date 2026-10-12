@@ -84,7 +84,7 @@ test('other tabs sync valid preferences and ignore unrelated storage', () => {
 
 test('every page loads the early initializer and shared palette and exposes one accessible control', () => {
   const root = path.join(__dirname, '..');
-  const pages = ['index.html', ...['about', 'calculator', 'catalog', 'contacts', 'information', 'reviews', 'solutions'].map(dir => `${dir}/index.html`)];
+  const pages = ['index.html', ...['about', 'calculator', 'catalog', 'contacts', 'information', 'reviews', 'solutions', 'request'].map(dir => `${dir}/index.html`)];
   for (const file of pages) {
     const html = fs.readFileSync(path.join(root, file), 'utf8');
     const script = html.match(/<script src="[^"]*assets\/js\/theme\.js"><\/script>/);
