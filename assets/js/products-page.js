@@ -1,9 +1,9 @@
-function selectSpektrProducts(products, { category = 'all', query = '', sort = 'default' } = {}) {
+function selectSpektrProducts(products, { category = 'all', productIds = null, query = '', sort = 'default' } = {}) {
   const normalize = value => value.toLocaleLowerCase('ru-RU').replaceAll('ё', 'е').replaceAll('рехау','rehau').replaceAll('провин','pro wins').trim();
   const words = normalize(query).split(/\s+/).filter(Boolean);
   const result = products.filter(product => {
     const text = normalize([product.title,product.subtitle,product.description,...product.features].join(' '));
-    return (category === 'all' || product.category === category) && words.every(word => text.includes(word));
+    return (category === 'all' || product.category === category) && (!productIds || productIds.includes(product.id)) && words.every(word => text.includes(word));
   });
   if (sort === 'az' || sort === 'za') result.sort((a,b) => (sort === 'az' ? 1 : -1)*a.title.localeCompare(b.title,'ru'));
   return result;
@@ -13,6 +13,7 @@ if (typeof module !== 'undefined') module.exports = { selectSpektrProducts };
 if (typeof document !== 'undefined') (() => {
   const products = window.SPEKTR_PRODUCTS || [];
   const categories = window.SPEKTR_PRODUCT_CATEGORIES || [];
+  const subcategories = window.SPEKTR_PRODUCT_SUBCATEGORIES || {};
   const grid = document.querySelector('#fullCatalogCards');
   if (!grid) return;
   const icons = {
@@ -39,29 +40,52 @@ if (typeof document !== 'undefined') (() => {
   const dialog=document.querySelector('#productDialog');
   const params = new URLSearchParams(window.location.search);
   let category=categories.some(item=>item.id===params.get('category')) ? params.get('category') : 'all';
+  let subcategory=null;
   search.value=params.get('q') || '';
   sort.value=['az','za'].includes(params.get('sort')) ? params.get('sort') : 'default';
   let limit=9;let opener=null;
   const buttons=[];
+  const menus=[];
+  function closeMenus(){menus.forEach(({button,menu,wrapper})=>{menu.hidden=true;button.setAttribute('aria-expanded','false');wrapper.classList.remove('is-open');});}
+  function openMenu(entry){closeMenus();entry.menu.hidden=false;entry.button.setAttribute('aria-expanded','true');entry.wrapper.classList.add('is-open');const width=entry.menu.getBoundingClientRect().width;const left=entry.wrapper.getBoundingClientRect().left;entry.menu.style.left=Math.min(0,window.innerWidth-width-16-left)+'px';}
+  function showResults(){const results=document.querySelector('.product-results-heading');if(results.getBoundingClientRect().top>window.innerHeight*.8)results.scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'});}
   [{id:'all',title:'Вся продукция',icon:'all'},...categories].forEach(item => {
+    const wrapper=el('div','product-category-item');
     const button=el('button','product-category');button.type='button';button.dataset.category=item.id;
     button.setAttribute('aria-pressed',String(item.id === category));button.setAttribute('aria-controls','fullCatalogCards');
-    const total=item.id==='all'?products.length:products.filter(product=>product.category===item.id).length;
-    const forms=item.id==='all'?{one:'решение',few:'решения',many:'решений'}:{one:'позиция',few:'позиции',many:'позиций'};
-    const noun=forms[new Intl.PluralRules('ru').select(total)] || forms.many;
-    button.append(icon(item.icon),el('span','product-category-name',item.title),el('span','product-category-count',`${total} ${noun}`),el('span','product-category-arrow','↗'));
+    button.append(el('span','product-category-name',item.title),el('span','product-category-arrow',item.id==='all'?'':'⌄'));
+    wrapper.append(button);
+    let entry=null;
+    if(subcategories[item.id]?.length){
+      const menu=el('div','product-subcategories');menu.id='subcategories-'+item.id;menu.hidden=true;
+      menu.setAttribute('role','group');menu.setAttribute('aria-label',item.title+' — подкатегории');
+      button.setAttribute('aria-expanded','false');button.setAttribute('aria-controls',menu.id);
+      entry={button,menu,wrapper};menus.push(entry);
+      [{id:null,title:'Все: '+item.title},...subcategories[item.id]].forEach(sub=>{
+        const choice=el('button','product-subcategory',sub.title);choice.type='button';choice.dataset.subcategory=sub.id || 'all';choice.setAttribute('aria-pressed','false');
+        choice.addEventListener('click',()=>{category=item.id;subcategory=sub.id;limit=9;render();closeMenus();button.focus();showResults();});menu.append(choice);
+      });
+      wrapper.append(menu);
+      wrapper.addEventListener('pointerenter',()=>{if(window.matchMedia('(hover: hover)').matches&&(!document.activeElement?.matches('.product-subcategory')||wrapper.contains(document.activeElement)))openMenu(entry);});
+      wrapper.addEventListener('pointerleave',()=>{if(!menu.hidden&&window.matchMedia('(hover: hover)').matches&&!wrapper.contains(document.activeElement))closeMenus();});
+      wrapper.addEventListener('focusout',event=>{if(!wrapper.contains(event.relatedTarget))closeMenus();});
+      button.addEventListener('keydown',event=>{if(event.key==='ArrowDown'){event.preventDefault();openMenu(entry);menu.querySelector('button').focus();}});
+    }
     button.addEventListener('click',()=>{
-      category=item.id;limit=9;render();
-      const results=document.querySelector('.product-results-heading');
-      if(results.getBoundingClientRect().top>window.innerHeight*.8) results.scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'});
-    });buttons.push(button);nav.append(button);
+      const wasOpen=entry&&!entry.menu.hidden;category=item.id;subcategory=null;limit=9;render();
+      closeMenus();if(entry&&!wasOpen)openMenu(entry);if(!entry)showResults();
+    });buttons.push(button);nav.append(wrapper);
   });
+  document.addEventListener('click',event=>{if(!nav.contains(event.target))closeMenus();});
+  window.addEventListener('resize',closeMenus);
+  nav.addEventListener('keydown',event=>{if(event.key==='Escape'){const active=menus.find(entry=>!entry.menu.hidden);closeMenus();active?.button.focus();}});
   function render() {
     const selected=categories.find(item=>item.id===category);
-    document.querySelector('#fullCatalogTitle').textContent=selected?.title || 'Вся продукция';
-    document.querySelector('#categoryDescription').textContent=selected?.caption || 'Выберите категорию или найдите нужное по названию и характеристикам.';
+    const selectedSub=(subcategories[category] || []).find(item=>item.id===subcategory);
+    document.querySelector('#fullCatalogTitle').textContent=selectedSub?.title || selected?.title || 'Вся продукция';
     buttons.forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.category===category)));
-    const matches=selectSpektrProducts(products,{category,query:search.value,sort:sort.value});
+    menus.forEach(entry=>entry.menu.querySelectorAll('button').forEach(button=>button.setAttribute('aria-pressed',String(entry.button.dataset.category===category&&button.dataset.subcategory===(subcategory || 'all')))));
+    const matches=selectSpektrProducts(products,{category,productIds:selectedSub?.products,query:search.value,sort:sort.value});
     const shown=matches.slice(0,limit);
     grid.replaceChildren(...shown.map(product=>renderSpektrProductCard(product,{dialog:true})));
     if(!matches.length){const empty=el('div','product-empty');const clear=el('button','','Сбросить выбор');clear.type='button';clear.addEventListener('click',resetAll);empty.append(el('h3','','Ничего не найдено'),el('p','','Попробуйте другое название или выберите другую категорию.'),clear);grid.append(empty);}
@@ -69,12 +93,8 @@ if (typeof document !== 'undefined') (() => {
     more.hidden=limit>=matches.length;more.textContent=`Показать ещё (${Math.min(9,Math.max(0,matches.length-limit))})`;
     reset.hidden=category==='all'&&!search.value&&sort.value==='default';
   }
-  function resetAll(){category='all';search.value='';sort.value='default';limit=9;render();}
+  function resetAll(){category='all';subcategory=null;closeMenus();search.value='';sort.value='default';limit=9;render();}
   search.addEventListener('input',()=>{limit=9;render();});sort.addEventListener('change',()=>{limit=9;render();});
-  document.querySelectorAll('[data-catalog-query]').forEach(button=>button.addEventListener('click',()=>{
-    category='all';search.value=button.dataset.catalogQuery;limit=9;render();
-    document.querySelector('.product-results-heading').scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'});
-  }));
   reset.addEventListener('click',resetAll);
   more.addEventListener('click',()=>{limit+=9;render();});
   grid.addEventListener('click',event=>{
@@ -84,6 +104,7 @@ if (typeof document !== 'undefined') (() => {
   });
   function openProduct(product,button) {
     opener=button;
+    const photo=document.querySelector('#productDialogPhoto');photo.src='../'+product.catalogImage;photo.alt=product.title+' — иллюстрация на белом фоне';
     document.querySelector('#productDialogCategory').textContent=categoryFor(product).title+' / '+product.subtitle;
     document.querySelector('#productDialogTitle').textContent=product.title;
     document.querySelector('#productDialogDescription').textContent=product.description;

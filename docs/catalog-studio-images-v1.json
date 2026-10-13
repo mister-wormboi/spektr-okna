@@ -1,0 +1,21 @@
+{
+  "generated": "2026-10-13",
+  "tool": "built-in image_gen",
+  "images": [
+    {
+      "name": "window",
+      "source": "exec-e1efe1ed-654b-43fb-acc1-1c722d9854f0.png",
+      "prompt": "Use case: product-mockup. Asset type: website catalogue photograph. Subject: A complete white PVC double-sash rectangular window, one sash closed and one slightly tilted inward at the top, clear neutral glass, realistic metal handle. Full frame visible. Pure white seamless background (#ffffff), isolated product, soft studio light and subtle contact shadow only. Landscape 3:2 composition, entire subject centered with generous white margins. Photorealistic premium product photography, crisp materials. No room, wall, landscape, people, hands, tools, captions, logos, watermark or collage. This is generic illustrative catalogue imagery, not a branded product."
+    },
+    {
+      "name": "profile",
+      "source": "exec-39e278eb-3e8f-4758-af48-464e18714641.png",
+      "prompt": "Use case: product-mockup. Asset type: website catalogue photograph. Subject: A short cutaway sample of a generic white multi-chamber PVC window frame profile with a double glazed unit mounted in it. Clean precise cut ends showing hollow internal chambers, black rubber seals and glass edges. Three-quarter studio macro product view. No brand. Pure white seamless background (#ffffff), isolated product, soft studio light and subtle contact shadow only. Landscape 3:2 composition, entire subject centered with generous white margins. Photorealistic premium product photography, crisp materials. No room, wall, landscape, people, hands, tools, captions, logos, watermark or collage. This is generic illustrative catalogue imagery, not a branded product."
+    },
+    {
+      "name": "hardware",
+      "source": "exec-7d39f0f7-ef2b-438e-8697-2ee043d8ca18.png",
+      "prompt": "Use case: product-mockup. Asset type: website catalogue photograph. Subject: A small neatly arranged set of window fittings: one white window handle, one silver hinge and a silver locking mechanism strip. Realistic manufactured metal and plastic. Flat-lay studio product photograph. Pure white seamless background (#ffffff), isolated product, soft studio light and subtle contact shadow only. Landscape 3:2 composition, entire subject centered with generous white margins. Photorealistic premium product photography, crisp materials. No room, wall, landscape, people, hands, tools, captions, logos, watermark or collage. This is generic illustrative catalogue imagery, not a branded product."
+    }
+  ]
+}

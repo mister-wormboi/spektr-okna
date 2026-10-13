@@ -19,8 +19,19 @@
     { id:'gates', title:'Ворота и рольставни', icon:'gate', caption:'Защита и автоматика' },
     { id:'ceilings', title:'Потолки', icon:'ceiling', caption:'Фактуры и уровни' },
     { id:'blinds', title:'Рулонные шторы', icon:'blind', caption:'Открытые и кассетные' },
-    { id:'aluminium', title:'Алюминий', icon:'aluminium', caption:'Окна, порталы и перегородки' }
+    { id:'aluminium', title:'Алюминий', icon:'aluminium', caption:'Окна, порталы и перегородки' },
+    { id:'components', title:'Ручки и детали', icon:'all', caption:'Ручки, петли и уплотнение' }
   ];
+  window.SPEKTR_PRODUCT_SUBCATEGORIES = {
+    components:[{id:'handles',title:'Оконные ручки',products:['window-handle','locking-handle']},{id:'door-handles',title:'Дверные ручки',products:['door-handle']},{id:'hinges',title:'Петли',products:['hinge']},{id:'seals',title:'Уплотнители',products:['seal']}],
+    windows:[{id:'ready',title:'Готовые комплектации',products:['econom','optimal','comfort','energy','elite']},{id:'pro',title:'Профили PRO WINS',products:['pro58','pro70']},{id:'rehau',title:'Окна REHAU',products:['delight','grazio','intelio','blitz']},{id:'custom',title:'Нестандартные окна',products:['unusual']}],
+    balconies:[{id:'warm',title:'Тёплое остекление',products:['warm-balcony']},{id:'cold',title:'Холодное остекление',products:['cold-balcony']}],
+    doors:[{id:'entrance',title:'Входные двери',products:['entrance']},{id:'interior',title:'Межкомнатные двери',products:['interior']},{id:'balcony',title:'Балконные двери',products:['balcony-door']}],
+    gates:[{id:'shutters',title:'Рольставни',products:['shutters']},{id:'gates',title:'Гаражные ворота',products:['roller-gate','sectional']},{id:'automation',title:'Автоматика',products:['automation']}],
+    ceilings:[{id:'textures',title:'Матовые, глянцевые и сатиновые',products:['matte','gloss','satin']},{id:'design',title:'Фотопечать и два уровня',products:['print','levels']}],
+    blinds:[{id:'open',title:'Открытые рулонные шторы',products:['roller-blind']},{id:'cassette',title:'Кассетные шторы',products:['cassette']}],
+    aluminium:[{id:'windows',title:'Окна и панорамное остекление',products:['al-sliding','panoramic']},{id:'doors',title:'Двери, порталы и калитки',products:['al-door','al-portal','al-wicket']},{id:'partitions',title:'Перегородки',products:['office','sanitary']},{id:'facades',title:'Фасады',products:['facade']}]
+  };
   const records = [
     ['econom','windows','Спектр Эконом','Pro Wins · 58 мм','Базовая комплектация пластикового окна для дома и квартиры.', ['Профиль Pro Wins, 58 мм','3 камеры профиля','Стеклопакет 24 мм','Фурнитура Siegenia'],ready,'tilt-window'],
     ['optimal','windows','Спектр Оптимальный','Pro Wins · 58 мм','Комплектация со стеклопакетом с теплосберегающим покрытием.', ['Профиль Pro Wins, 58 мм','3 камеры профиля','Стеклопакет 24 мм','Фурнитура Siegenia'],ready,'transom'],
@@ -57,7 +68,12 @@
     ['panoramic','aluminium','Панорамное остекление и витрины','Алюминиевые конструкции','Светопрозрачные конструкции для больших проёмов и витрин.', ['Панорамные решения','Изготовление под объект'],aluminium],
     ['office','aluminium','Офисные перегородки','Алюминиевые конструкции','Перегородки из алюминиевого профиля для разделения пространства.', ['Зонирование офисов','Индивидуальная конфигурация'],aluminium],
     ['facade','aluminium','Алюминиевые фасады','Алюминиевые конструкции','Фасадные конструкции из алюминиевого профиля.', ['Проектирование под объект','Индивидуальная конфигурация'],aluminium],
-    ['sanitary','aluminium','Сантехнические перегородки','Алюминиевые конструкции','Перегородки для кабинок, душевых и раздевалок.', ['Разделение общих помещений','Изготовление по размерам'],aluminium]
+    ['sanitary','aluminium','Сантехнические перегородки','Алюминиевые конструкции','Перегородки для кабинок, душевых и раздевалок.', ['Разделение общих помещений','Изготовление по размерам'],aluminium],
+    ['window-handle','components','Оконная ручка','Фурнитура для окна','Ручка для управления оконной створкой. Совместимость с установленным механизмом уточняется при подборе.', ['Подбор длины штифта','Подбор цвета и крепления'],'produkcija/okna/'],
+    ['locking-handle','components','Оконная ручка с замком','Фурнитура для окна','Ручка с запиранием на ключ. Исполнение и совместимость подбираются под оконную створку.', ['Запирание на ключ','Совместимость — по механизму'],'produkcija/okna/'],
+    ['door-handle','components','Дверные ручки','Фурнитура для двери','Комплект нажимных ручек для двери. Размеры, крепления и совместимость с замком уточняются при подборе.', ['Подбор под замок','Сторона и материал двери'],doors],
+    ['hinge','components','Дверная петля','Фурнитура для двери','Регулируемая петля для ПВХ-двери. Модель подбирается по профилю, размерам и массе полотна.', ['Подбор под профиль','Регулировка положения полотна'],doors],
+    ['seal','components','Оконный уплотнитель','Комплектующие для окна','Эластичное уплотнение притвора. Сечение подбирается по пазу установленной оконной системы.', ['Подбор сечения','Совместимость с профилем'],'produkcija/okna/']
   ];
   const estimates = {
     econom:[6500,'м²'], optimal:[7500,'м²'], comfort:[9000,'м²'], energy:[13000,'м²'], elite:[11500,'м²'],
@@ -92,14 +108,19 @@
     balconies:'https://www.tbm.ru/profili-i-komplektuyuschie-dlya-balkonnogo-ostekleniya',
     aluminium:'https://www.tbm.ru/alyuminievye-sistemy-alumark'
   };
+  const studioImages={
+    econom:'window',optimal:'window',comfort:'window',energy:'window',elite:'window',delight:'window',grazio:'window',intelio:'window',blitz:'window',pro58:'profile',pro70:'profile',
+    'warm-balcony':'balconies',entrance:'doors',sectional:'gates',matte:'ceilings',cassette:'blinds','al-portal':'aluminium'
+  };
   window.SPEKTR_PRODUCTS = records.map(([id,category,title,subtitle,description,features,source,image]) => ({
     id,category,title,subtitle,description,features,source:base+source,
     image:image ? `assets/catalog/${image}.webp` : null,
+    catalogImage:`assets/catalog/studio-${studioImages[id] || id}-v1.webp`,
     ...details[id],
     features:[...(details[id]?.features || features),...(selection[category] || [])],
-    priceFrom:estimates[id][0], priceUnit:estimates[id][1],
-    priceLabel:`от ${new Intl.NumberFormat('ru-RU').format(estimates[id][0])} ₽ / ${estimates[id][1]}`,
-    priceNote:'Ориентировочно, без монтажа и доставки. Точный расчёт — по размерам и комплектации.',
+    priceFrom:estimates[id]?.[0] ?? null, priceUnit:estimates[id]?.[1] ?? null,
+    priceLabel:estimates[id]?`от ${new Intl.NumberFormat('ru-RU').format(estimates[id][0])} ₽ / ${estimates[id][1]}`:'Цена по запросу',
+    priceNote:estimates[id]?'Ориентировочно, без монтажа и доставки. Точный расчёт — по размерам и комплектации.':'Стоимость и наличие уточняются при подборе совместимой детали.',
     tbmReference:['al-wicket','sanitary'].includes(id) ? null : (referenceByCategory[category] || null)
   }));
 })();

@@ -12,7 +12,9 @@ const categories = Array.from(context.window.SPEKTR_PRODUCT_CATEGORIES);
 
 test('new assortment links to Spektr and has complete categories, details and local images',()=>{
   assert.equal(new Set(products.map(item=>item.id)).size,products.length);
-  for(const category of categories) assert.ok(products.some(item=>item.category===category.id));
+  for(const category of categories){
+    assert.ok(products.some(item=>item.category===category.id));
+  }
   for(const product of products){
     assert.ok(categories.some(item=>item.id===product.category));
     assert.equal(new URL(product.source).hostname,'spektr-okna.ru');
@@ -37,4 +39,20 @@ test('alphabetical sort preserves data and categories can be reset to all',()=>{
   assert.deepEqual(asc.map(item=>item.id),desc.map(item=>item.id).reverse());
   assert.deepEqual(products.map(item=>item.id),original);
   assert.equal(selectSpektrProducts(products).length,products.length);
+});
+
+test('subcategories cover each category exactly once and combine with search',()=>{
+  for(const category of categories){
+    const groups=context.window.SPEKTR_PRODUCT_SUBCATEGORIES[category.id];
+    const ids=groups.flatMap(group=>Array.from(group.products));
+    assert.equal(new Set(ids).size,ids.length);
+    assert.deepEqual([...ids].sort(),products.filter(p=>p.category===category.id).map(p=>p.id).sort());
+    for(const group of groups)assert.deepEqual(selectSpektrProducts(products,{category:category.id,productIds:group.products}).map(p=>p.id).sort(),Array.from(group.products).sort());
+  }
+  assert.equal(selectSpektrProducts(products,{category:'windows',productIds:['pro58','pro70'],query:'70'}).length,1);
+  for(const product of products){
+    assert.ok(product.catalogImage,product.id+' has a photograph');
+    assert.ok(fs.existsSync(path.join(root,product.catalogImage)));
+    assert.ok(fs.existsSync(path.join(root,product.catalogImage.replace('.webp','-small.webp'))));
+  }
 });

@@ -1,0 +1,126 @@
+{
+  "generated": "2026-10-13",
+  "tool": "built-in image_gen",
+  "images": [
+    {
+      "name": "unusual",
+      "source": "exec-e50c0755-aa3d-420b-9f51-40159456a272.png",
+      "prompt": "Use case: product-mockup. Asset type: individual website product card photograph. Subject: One complete white PVC arched window, curved top and rectangular lower frame, neutral clear glass and a white handle. Pure white seamless background (#ffffff), isolated product, soft studio light and subtle contact shadow. Landscape 3:2 composition, entire product centered with generous margins and no cropping. Photorealistic realistic materials, crisp manufactured detail. No room, walls, floor environment, scenery, people, text, logos, watermark or collage. Generic illustrative product without brand labels."
+    },
+    {
+      "name": "cold-balcony",
+      "source": "exec-579db82a-d660-4583-8913-59a336f2328e.png",
+      "prompt": "Use case: product-mockup. Asset type: individual website product card photograph. Subject: A complete cold aluminium balcony glazing assembly, three rectangular sliding glass panels with slim silver frames and clearly visible sliding rails. Pure white seamless background (#ffffff), isolated product, soft studio light and subtle contact shadow. Landscape 3:2 composition, entire product centered with generous margins and no cropping. Photorealistic realistic materials, crisp manufactured detail. No room, walls, floor environment, scenery, people, text, logos, watermark or collage. Generic illustrative product without brand labels."
+    },
+    {
+      "name": "interior",
+      "source": "exec-6c676d18-74f3-4d95-9a62-f0cfc2426ebc.png",
+      "prompt": "Use case: product-mockup. Asset type: individual website product card photograph. Subject: A complete white PVC interior door and frame, solid opaque white panel with a silver lever handle. Pure white seamless background (#ffffff), isolated product, soft studio light and subtle contact shadow. Landscape 3:2 composition, entire product centered with generous margins and no cropping. Photorealistic realistic materials, crisp manufactured detail. No room, walls, floor environment, scenery, people, text, logos, watermark or collage. Generic illustrative product without brand labels."
+    },
+    {
+      "name": "balcony-door",
+      "source": "exec-92476ea2-afe3-45fc-ad85-0622e7cbaf0e.png",
+      "prompt": "Use case: product-mockup. Asset type: individual website product card photograph. Subject: A complete tall white PVC balcony door in its frame, clear glass upper two-thirds and solid white lower panel, white window-style handle. Pure white seamless background (#ffffff), isolated product, soft studio light and subtle contact shadow. Landscape 3:2 composition, entire product centered with generous margins and no cropping. Photorealistic realistic materials, crisp manufactured detail. No room, walls, floor environment, scenery, people, text, logos, watermark or collage. Generic illustrative product without brand labels."
+    },
+    {
+      "name": "shutters",
+      "source": "exec-8d2f0785-9339-4112-a188-6e0f518bf6bd.png",
+      "prompt": "Use case: product-mockup. Asset type: individual website product card photograph. Subject: A complete window roller shutter assembly, white horizontal slats partly lowered, top roll box and two side guides, no window behind. Pure white seamless background (#ffffff), isolated product, soft studio light and subtle contact shadow. Landscape 3:2 composition, entire product centered with generous margins and no cropping. Photorealistic realistic materials, crisp manufactured detail. No room, walls, floor environment, scenery, people, text, logos, watermark or collage. Generic illustrative product without brand labels."
+    },
+    {
+      "name": "roller-gate",
+      "source": "exec-2d27f481-3706-402e-8017-83d744b1ff55.png",
+      "prompt": "Use case: product-mockup. Asset type: individual website product card photograph. Subject: A complete graphite roller garage gate assembly, narrow horizontal slats, compact cylindrical roll box across the top and two guide rails, isolated without building. Pure white seamless background (#ffffff), isolated product, soft studio light and subtle contact shadow. Landscape 3:2 composition, entire product centered with generous margins and no cropping. Photorealistic realistic materials, crisp manufactured detail. No room, walls, floor environment, scenery, people, text, logos, watermark or collage. Generic illustrative product without brand labels."
+    },
+    {
+      "name": "automation",
+      "source": "exec-dc1cd65d-81cb-4797-8834-eb9f522a2566.png",
+      "prompt": "Use case: product-mockup. Asset type: individual website product card photograph. Subject: A compact garage gate motor drive with metal rail and a small black remote control beside it, realistic factory product. Pure white seamless background (#ffffff), isolated product, soft studio light and subtle contact shadow. Landscape 3:2 composition, entire product centered with generous margins and no cropping. Photorealistic realistic materials, crisp manufactured detail. No room, walls, floor environment, scenery, people, text, logos, watermark or collage. Generic illustrative product without brand labels."
+    },
+    {
+      "name": "gloss",
+      "source": "exec-b1cbe71a-a994-4877-9da3-9394fcbf39e3.png",
+      "prompt": "Use case: product-mockup. Asset type: individual website product card photograph. Subject: A small framed white stretch ceiling sample with highly glossy reflective taut membrane and a single recessed circular light, three quarter view from below. Pure white seamless background (#ffffff), isolated product, soft studio light and subtle contact shadow. Landscape 3:2 composition, entire product centered with generous margins and no cropping. Photorealistic realistic materials, crisp manufactured detail. No room, walls, floor environment, scenery, people, text, logos, watermark or collage. Generic illustrative product without brand labels."
+    },
+    {
+      "name": "satin",
+      "source": "exec-a82d240f-b433-4d82-9b1a-6ecef5340b6c.png",
+      "prompt": "Use case: product-mockup. Asset type: individual website product card photograph. Subject: A small framed ivory stretch ceiling sample with taut silky satin membrane, subtle sheen and a single recessed circular light, three quarter view from below. Pure white seamless background (#ffffff), isolated product, soft studio light and subtle contact shadow. Landscape 3:2 composition, entire product centered with generous margins and no cropping. Photorealistic realistic materials, crisp manufactured detail. No room, walls, floor environment, scenery, people, text, logos, watermark or collage. Generic illustrative product without brand labels."
+    },
+    {
+      "name": "print",
+      "source": "exec-9cbd6498-70ba-42a6-9e47-fd7d8bfaa761.png",
+      "prompt": "Use case: product-mockup. Asset type: individual website product card photograph. Subject: A small rectangular framed stretch ceiling sample with an elegant pale blue sky and soft cloud print on the membrane, one recessed light, view from below. Pure white seamless background (#ffffff), isolated product, soft studio light and subtle contact shadow. Landscape 3:2 composition, entire product centered with generous margins and no cropping. Photorealistic realistic materials, crisp manufactured detail. No room, walls, floor environment, scenery, people, text, logos, watermark or collage. Generic illustrative product without brand labels."
+    },
+    {
+      "name": "levels",
+      "source": "exec-b243210e-bdcf-4f8d-a45f-98a7c4ba4796.png",
+      "prompt": "Use case: product-mockup. Asset type: individual website product card photograph. Subject: A small isolated demonstration model of a two-level white stretch ceiling, stepped rectangular perimeter and recessed inner plane, thin warm LED strip along the step, view from below. Pure white seamless background (#ffffff), isolated product, soft studio light and subtle contact shadow. Landscape 3:2 composition, entire product centered with generous margins and no cropping. Photorealistic realistic materials, crisp manufactured detail. No room, walls, floor environment, scenery, people, text, logos, watermark or collage. Generic illustrative product without brand labels."
+    },
+    {
+      "name": "roller-blind",
+      "source": "exec-1edf5624-e1f5-4982-be77-9b0872969284.png",
+      "prompt": "Use case: product-mockup. Asset type: individual website product card photograph. Subject: A complete open roller blind, exposed slim white top roller and side bead chain, beige fabric half lowered, no cassette and no side guides. Pure white seamless background (#ffffff), isolated product, soft studio light and subtle contact shadow. Landscape 3:2 composition, entire product centered with generous margins and no cropping. Photorealistic realistic materials, crisp manufactured detail. No room, walls, floor environment, scenery, people, text, logos, watermark or collage. Generic illustrative product without brand labels."
+    },
+    {
+      "name": "al-sliding",
+      "source": "exec-fd2db395-2d11-4496-9220-96d1e61297a1.png",
+      "prompt": "Use case: product-mockup. Asset type: individual website product card photograph. Subject: A complete rectangular aluminium sliding window with two glass panels, slim silver frames and visible bottom rail, one panel slid slightly open. Pure white seamless background (#ffffff), isolated product, soft studio light and subtle contact shadow. Landscape 3:2 composition, entire product centered with generous margins and no cropping. Photorealistic realistic materials, crisp manufactured detail. No room, walls, floor environment, scenery, people, text, logos, watermark or collage. Generic illustrative product without brand labels."
+    },
+    {
+      "name": "al-door",
+      "source": "exec-2ee75a1e-07d5-4a45-a6dd-243dc73812ac.png",
+      "prompt": "Use case: product-mockup. Asset type: individual website product card photograph. Subject: A complete glazed aluminium entrance door in its graphite frame, full-height clear glass, long stainless steel pull handle and narrow bottom threshold. Pure white seamless background (#ffffff), isolated product, soft studio light and subtle contact shadow. Landscape 3:2 composition, entire product centered with generous margins and no cropping. Photorealistic realistic materials, crisp manufactured detail. No room, walls, floor environment, scenery, people, text, logos, watermark or collage. Generic illustrative product without brand labels."
+    },
+    {
+      "name": "al-wicket",
+      "source": "exec-f5a7304a-2b51-489e-92bd-504f67da1bfc.png",
+      "prompt": "Use case: product-mockup. Asset type: individual website product card photograph. Subject: A complete standalone aluminium pedestrian garden gate in graphite grey, opaque horizontal metal slats, two slender posts, lever handle. Pure white seamless background (#ffffff), isolated product, soft studio light and subtle contact shadow. Landscape 3:2 composition, entire product centered with generous margins and no cropping. Photorealistic realistic materials, crisp manufactured detail. No room, walls, floor environment, scenery, people, text, logos, watermark or collage. Generic illustrative product without brand labels."
+    },
+    {
+      "name": "panoramic",
+      "source": "exec-c6d9194c-17b0-410a-8645-769f6fc0d14f.png",
+      "prompt": "Use case: product-mockup. Asset type: individual website product card photograph. Subject: A complete wide floor-to-ceiling panoramic glazed assembly, five tall clear glass sections and very slim graphite aluminium frames, no building. Pure white seamless background (#ffffff), isolated product, soft studio light and subtle contact shadow. Landscape 3:2 composition, entire product centered with generous margins and no cropping. Photorealistic realistic materials, crisp manufactured detail. No room, walls, floor environment, scenery, people, text, logos, watermark or collage. Generic illustrative product without brand labels."
+    },
+    {
+      "name": "office",
+      "source": "exec-099f7523-80e0-408d-a3e3-845a295ed2b9.png",
+      "prompt": "Use case: product-mockup. Asset type: individual website product card photograph. Subject: A freestanding L-shaped office glass partition assembly with silver aluminium frame and one glass door, low subtle frosted glass band, no furniture. Pure white seamless background (#ffffff), isolated product, soft studio light and subtle contact shadow. Landscape 3:2 composition, entire product centered with generous margins and no cropping. Photorealistic realistic materials, crisp manufactured detail. No room, walls, floor environment, scenery, people, text, logos, watermark or collage. Generic illustrative product without brand labels."
+    },
+    {
+      "name": "facade",
+      "source": "exec-8fc7e945-d005-4a0d-b474-0c4053d1e562.png",
+      "prompt": "Use case: product-mockup. Asset type: individual website product card photograph. Subject: A freestanding rectangular aluminium curtain wall facade assembly, grid of twelve glass panes with narrow graphite mullions, no building or scenery. Pure white seamless background (#ffffff), isolated product, soft studio light and subtle contact shadow. Landscape 3:2 composition, entire product centered with generous margins and no cropping. Photorealistic realistic materials, crisp manufactured detail. No room, walls, floor environment, scenery, people, text, logos, watermark or collage. Generic illustrative product without brand labels."
+    },
+    {
+      "name": "sanitary",
+      "source": "exec-6a1224c8-fadd-45ce-a38e-955734b8f4b9.png",
+      "prompt": "Use case: product-mockup. Asset type: individual website product card photograph. Subject: A freestanding compact row of two restroom partition cubicles, pale grey opaque panels with silver aluminium edge profiles, door hinges and small lock knobs, no plumbing or room. Pure white seamless background (#ffffff), isolated product, soft studio light and subtle contact shadow. Landscape 3:2 composition, entire product centered with generous margins and no cropping. Photorealistic realistic materials, crisp manufactured detail. No room, walls, floor environment, scenery, people, text, logos, watermark or collage. Generic illustrative product without brand labels."
+    },
+    {
+      "name": "window-handle",
+      "source": "exec-86654398-9d02-4536-a570-a99808d5d9ea.png",
+      "prompt": "Use case: product-mockup. Asset type: individual website product card photograph. Subject: One white PVC window lever handle with oval mounting base and visible short square metal spindle, entire single handle from a three-quarter angle. Pure white seamless background (#ffffff), isolated product, soft studio light and subtle contact shadow. Landscape 3:2 composition, entire product centered with generous margins and no cropping. Photorealistic realistic materials, crisp manufactured detail. No room, walls, floor environment, scenery, people, text, logos, watermark or collage. Generic illustrative product without brand labels."
+    },
+    {
+      "name": "locking-handle",
+      "source": "exec-f70a2ca7-57cb-4e33-bb2b-c5cd4d008a32.png",
+      "prompt": "Use case: product-mockup. Asset type: individual website product card photograph. Subject: One white PVC window lever handle with an integrated small key cylinder in the mounting base, one silver key placed beside it, short square spindle visible. Pure white seamless background (#ffffff), isolated product, soft studio light and subtle contact shadow. Landscape 3:2 composition, entire product centered with generous margins and no cropping. Photorealistic realistic materials, crisp manufactured detail. No room, walls, floor environment, scenery, people, text, logos, watermark or collage. Generic illustrative product without brand labels."
+    },
+    {
+      "name": "door-handle",
+      "source": "exec-c67ee2dd-1abc-4162-9bb6-bfdbe3cb5792.png",
+      "prompt": "Use case: product-mockup. Asset type: individual website product card photograph. Subject: One pair of stainless steel door lever handles with slim rectangular backplates, visible square spindle, neatly placed together. Pure white seamless background (#ffffff), isolated product, soft studio light and subtle contact shadow. Landscape 3:2 composition, entire product centered with generous margins and no cropping. Photorealistic realistic materials, crisp manufactured detail. No room, walls, floor environment, scenery, people, text, logos, watermark or collage. Generic illustrative product without brand labels."
+    },
+    {
+      "name": "hinge",
+      "source": "exec-2718f6f2-87d3-4268-a602-2215f431dc3e.png",
+      "prompt": "Use case: product-mockup. Asset type: individual website product card photograph. Subject: One realistic white-coated adjustable three-part PVC door hinge, mounting plates and hinge barrel clearly visible, factory product close-up. Pure white seamless background (#ffffff), isolated product, soft studio light and subtle contact shadow. Landscape 3:2 composition, entire product centered with generous margins and no cropping. Photorealistic realistic materials, crisp manufactured detail. No room, walls, floor environment, scenery, people, text, logos, watermark or collage. Generic illustrative product without brand labels."
+    },
+    {
+      "name": "seal",
+      "source": "exec-8d3bcac6-6280-4d40-9f18-ef2a38bd7105.png",
+      "prompt": "Use case: product-mockup. Asset type: individual website product card photograph. Subject: One short loose coil of black EPDM window rubber gasket with one cut end showing the sealing lip cross-section, realistic flexible rubber. Pure white seamless background (#ffffff), isolated product, soft studio light and subtle contact shadow. Landscape 3:2 composition, entire product centered with generous margins and no cropping. Photorealistic realistic materials, crisp manufactured detail. No room, walls, floor environment, scenery, people, text, logos, watermark or collage. Generic illustrative product without brand labels."
+    }
+  ]
+}

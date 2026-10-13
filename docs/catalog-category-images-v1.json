@@ -1,0 +1,37 @@
+{
+  "generated": "2026-10-13",
+  "tool": "built-in image_gen",
+  "existingWindows": "assets/catalog/studio-window-v1.webp",
+  "images": [
+    {
+      "name": "balconies",
+      "source": "exec-dfe71e4f-2ad3-41a8-93e0-230828d3b709.png",
+      "prompt": "Use case: product-mockup. Asset type: category photograph for a window company website catalogue. Subject: A standalone complete L-shaped balcony glazing assembly, white frames, three tall glazed panels along the front and two on the side, realistic window handles, freestanding product without any building or balcony slab. Pure white seamless background (#ffffff), isolated product, soft studio lighting, subtle contact shadow only. Landscape 3:2 composition, centered whole product, generous white margins, all edges visible. Photorealistic premium product photography with realistic manufactured materials. No people, hands, tools, garden, scenery, text, logo, watermark, collage or showroom. No grey or colored background. Generic illustrative product without branding."
+    },
+    {
+      "name": "doors",
+      "source": "exec-5af40dbb-1a4d-45ae-b6f9-3b7cbcf276ce.png",
+      "prompt": "Use case: product-mockup. Asset type: category photograph for a window company website catalogue. Subject: One complete white PVC entrance door in its frame, top section lightly frosted glass, bottom solid white panel, realistic silver lever handle and hinges. Entire door visible from a slight three-quarter angle. Pure white seamless background (#ffffff), isolated product, soft studio lighting, subtle contact shadow only. Landscape 3:2 composition, centered whole product, generous white margins, all edges visible. Photorealistic premium product photography with realistic manufactured materials. No people, hands, tools, garden, scenery, text, logo, watermark, collage or showroom. No grey or colored background. Generic illustrative product without branding."
+    },
+    {
+      "name": "gates",
+      "source": "exec-4b9668d9-9326-4854-87eb-aa5128e34d38.png",
+      "prompt": "Use case: product-mockup. Asset type: category photograph for a window company website catalogue. Subject: A standalone complete graphite grey sectional garage door in its frame, horizontal metal panels, small discreet bottom handle, entirely closed, isolated as a manufactured product, no building. Pure white seamless background (#ffffff), isolated product, soft studio lighting, subtle contact shadow only. Landscape 3:2 composition, centered whole product, generous white margins, all edges visible. Photorealistic premium product photography with realistic manufactured materials. No people, hands, tools, garden, scenery, text, logo, watermark, collage or showroom. No grey or colored background. Generic illustrative product without branding."
+    },
+    {
+      "name": "ceilings",
+      "source": "exec-ae6241eb-624a-427a-b277-7c81fcd2f4f6.png",
+      "prompt": "Use case: product-mockup. Asset type: category photograph for a window company website catalogue. Subject: A studio product sample of a white stretch ceiling: small rectangular demonstration frame with taut smooth matte white membrane, shown at a three-quarter angle from slightly below with the thin perimeter mounting profile visible. One recessed round light fitted in the membrane. Clearly a ceiling sample, no room or walls. Pure white seamless background (#ffffff), isolated product, soft studio lighting, subtle contact shadow only. Landscape 3:2 composition, centered whole product, generous white margins, all edges visible. Photorealistic premium product photography with realistic manufactured materials. No people, hands, tools, garden, scenery, text, logo, watermark, collage or showroom. No grey or colored background. Generic illustrative product without branding."
+    },
+    {
+      "name": "blinds",
+      "source": "exec-711c63b8-bd1f-4fa6-9193-f00ab4446873.png",
+      "prompt": "Use case: product-mockup. Asset type: category photograph for a window company website catalogue. Subject: One complete cassette roller blind assembly, white slim top cassette and two white side guide rails, light beige fabric lowered two-thirds, fine white bead chain on the right. Freestanding product without a window or interior, entire assembly visible. Pure white seamless background (#ffffff), isolated product, soft studio lighting, subtle contact shadow only. Landscape 3:2 composition, centered whole product, generous white margins, all edges visible. Photorealistic premium product photography with realistic manufactured materials. No people, hands, tools, garden, scenery, text, logo, watermark, collage or showroom. No grey or colored background. Generic illustrative product without branding."
+    },
+    {
+      "name": "aluminium",
+      "source": "exec-2dd2ee59-3288-4dc4-9531-4aaa3eeffc8a.png",
+      "prompt": "Use case: product-mockup. Asset type: category photograph for a window company website catalogue. Subject: One complete wide aluminium sliding glazed portal in a dark graphite frame, three tall glass panels, one panel slightly slid open, realistic slim handle and bottom track, freestanding product without architecture. Clear neutral glass. Pure white seamless background (#ffffff), isolated product, soft studio lighting, subtle contact shadow only. Landscape 3:2 composition, centered whole product, generous white margins, all edges visible. Photorealistic premium product photography with realistic manufactured materials. No people, hands, tools, garden, scenery, text, logo, watermark, collage or showroom. No grey or colored background. Generic illustrative product without branding."
+    }
+  ]
+}

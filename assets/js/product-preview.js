@@ -9,6 +9,17 @@ function renderSpektrProductCard(product, { dialog = false } = {}) {
   const card = el('article', 'card product-card');
   card.dataset.category = product.category;
   if (['econom','optimal','comfort','energy','elite'].includes(product.id)) card.classList.add('product-ready');
+  if (product.catalogImage) {
+    const visual=el('div','product-studio-photo');
+    const image=el('img');
+    const prefix=window.location.pathname.includes('/catalog')?'../':'';
+    image.src=prefix+product.catalogImage;
+    image.srcset=prefix+product.catalogImage.replace('.webp','-small.webp')+' 480w, '+prefix+product.catalogImage+' 960w';
+    image.sizes='(max-width: 600px) 100vw, (max-width: 1100px) 50vw, 33vw';
+    image.alt=product.title+' — иллюстрация на белом фоне';
+    image.width=960;image.height=640;image.loading='lazy';image.decoding='async';
+    visual.append(image);card.append(visual);
+  }
   const body = el('div', 'product-body');
   const title = el('h3', '', product.title);
   const details = el(dialog ? 'button' : 'a', 'product-details', 'Подробнее ↗');
