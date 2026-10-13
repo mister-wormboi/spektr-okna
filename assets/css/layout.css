@@ -43,7 +43,6 @@
 .home-page .home-contact,
 .contacts-page .contact-banner,
 .reviews-page .reviews-cta,
-.home-page .window-showroom-layout,
 .home-page .window-story-content { padding-block: var(--space-section); }
 .about-page .about-hero,
 .information-page .information-hero { min-height: 0; }

@@ -17,6 +17,7 @@
   <link rel="stylesheet" href="../assets/css/catalog.css?v=4">
   <link rel="stylesheet" href="../assets/css/catalog-page.css?v=7">
   <link rel="stylesheet" href="../assets/css/header-refresh.css">
+  <script src="../assets/js/header.js" defer></script>
   <link rel="stylesheet" href="../assets/css/footer.css">
   <link rel="stylesheet" href="../assets/css/layout.css">
   <link rel="stylesheet" href="../assets/css/theme.css">
@@ -31,25 +32,32 @@
       <a class="logo header-logo" href="../" aria-label="Спектр — на главную">
         <img src="../assets/logo-white.webp" alt="Спектр" width="720" height="269" decoding="async">
       </a>
-      <nav class="header-nav" aria-label="Основная навигация">
-        <a aria-current="page" href="./">Каталог</a>
-        <a href="../solutions/">Примеры работ</a>
-        <a href="../about/">О нас</a>
-        <a href="../contacts/">Филиалы</a>
-        <a href="../reviews/">Отзывы</a>
-        <a href="../information/">Полезная информация</a>
-        <a href="../articles/">Статьи</a>
-        <a class="header-calculator-link" href="../calculator/">Рассчитать стоимость</a>
-      </nav>
-      <a class="header-call" href="tel:+79895175699">
-        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m7 3 3 5-2.5 2.5a15 15 0 0 0 6 6L16 14l5 3c0 3-2 4-4 4C10 20 4 14 3 7c0-2 1-4 4-4Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
-        <span class="header-call-copy"><span>Позвонить в «Спектр»</span><small>8 989 517 56 99</small></span>
-        <span class="header-call-arrow" aria-hidden="true">↗</span>
-      </a>
+      <a class="header-mobile-call" href="tel:+79895175699" aria-label="Позвонить в Спектр: 8 989 517 56 99"><span>8 989 517 56 99</span></a>
       <button class="theme-toggle" type="button" data-theme-toggle hidden aria-label="Включить светлую тему" aria-pressed="true" title="Включить светлую тему">
         <svg class="theme-moon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20.8 13.2A8.8 8.8 0 0 1 10.8 3.2a8.8 8.8 0 1 0 10 10Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
         <svg class="theme-sun" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.6"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.4 1.4m11.2 11.2L19 19M5 19l1.4-1.4M17.6 6.4 19 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
       </button>
+      <button class="header-menu-toggle" type="button" aria-label="Открыть меню" aria-expanded="false" aria-controls="headerMenu" hidden><span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span></button>
+      <nav class="header-nav" id="headerMenu" aria-label="Основная навигация">
+        <div class="header-actions">
+          <a class="header-request-link" href="../request/">Оставить заявку</a>
+          <a class="header-call" href="tel:+79895175699">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m7 3 3 5-2.5 2.5a15 15 0 0 0 6 6L16 14l5 3c0 3-2 4-4 4C10 20 4 14 3 7c0-2 1-4 4-4Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+        <span class="header-call-copy"><span>Позвонить в «Спектр»</span><small>8 989 517 56 99</small></span>
+        <span class="header-call-arrow" aria-hidden="true">↗</span>
+      </a>
+          <a class="header-calculator-link" href="../calculator/">Калькулятор</a>
+          <a href="../contacts/">Филиалы</a>
+        </div>
+        <div class="header-links">
+          <a aria-current="page" href="./">Каталог</a>
+          <a href="../solutions/">Примеры работ</a>
+          <a href="../about/">О нас</a>
+          <a href="../reviews/">Отзывы</a>
+          <a href="../information/">Полезная информация</a>
+          <a href="../articles/">Статьи</a>
+        </div>
+      </nav>
     </div>
   </header>
   <main>
