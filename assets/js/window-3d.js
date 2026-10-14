@@ -1,9 +1,17 @@
-import { THREE, createRenderer, environment, box, playback } from './scene-runtime.js';
+// Keep Three.js out of the initial module graph; the SVG remains the fallback.
+let THREE, createRenderer, environment, box, playback;
 
 const viewport = document.querySelector('.window-3d-viewport');
 if (viewport) {
-  const initialize = () => {
-    try { buildWindow(viewport); } catch (error) { console.warn('Window preview unavailable:',error.message); }
+  let started = false;
+  const initialize = async () => {
+    if (started) return;
+    started = true;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || navigator.connection?.saveData) return;
+    try {
+      ({ THREE, createRenderer, environment, box, playback } = await import('./scene-runtime.js'));
+      buildWindow(viewport);
+    } catch (error) { console.warn('Window preview unavailable:',error.message); }
   };
   if ('IntersectionObserver' in window) {
     const observer = new IntersectionObserver(entries => {

@@ -12,13 +12,14 @@
   selector.setAttribute('aria-label', 'Выбор отзыва');
   let current = 0;
   let animation;
+  const names = cards.map(card => card.querySelector('h3').textContent);
   const dots = cards.map((card, index) => {
     card.id = `review-${index + 1}`;
     const button = document.createElement('button');
     button.type = 'button';
     button.className = 'review-dot';
     button.textContent = String(index + 1).padStart(2, '0');
-    button.setAttribute('aria-label', `Отзыв: ${card.querySelector('h3').textContent}`);
+    button.setAttribute('aria-label', `Отзыв: ${names[index]}`);
     button.setAttribute('aria-controls', card.id);
     button.addEventListener('click', () => show(index));
     selector.append(button);
@@ -32,15 +33,17 @@
     if (next === current && !initial) return;
     const direction = index < current ? -1 : 1;
     animation?.cancel();
+    function setCard(i, selected) {
+      cards[i].classList.toggle('is-current', selected);
+      cards[i].setAttribute('aria-hidden', String(!selected));
+      cards[i].inert = !selected;
+      dots[i].setAttribute('aria-pressed', String(selected));
+    }
+    if (initial) cards.forEach((_, i) => setCard(i, i === next));
+    else { setCard(current, false); setCard(next, true); }
     current = next;
-    cards.forEach((card, i) => {
-      card.classList.toggle('is-current', i === current);
-      card.setAttribute('aria-hidden', String(i !== current));
-      card.inert = i !== current;
-      dots[i].setAttribute('aria-pressed', String(i === current));
-    });
     if (!initial) {
-      announcement.textContent = `Отзыв ${current + 1} из ${cards.length}. ${cards[current].querySelector('h3').textContent}`;
+      announcement.textContent = `Отзыв ${current + 1} из ${cards.length}. ${names[current]}`;
       if (!reduced.matches && typeof cards[current].animate === 'function') animation = cards[current].animate([
         { opacity: 0, transform: `translateX(${direction * 14}px)` },
         { opacity: 1, transform: 'translateX(0)' }

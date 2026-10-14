@@ -65,8 +65,8 @@
     '.benefits-strip > div',
     '.calculator-section .call-panel', '.calculator-section .calculator',
     '.home-catalog .section-heading', '.home-catalog-tabs', '.home-catalog-tools', '.home-catalog .catalog-note', '.home-catalog .card', '.home-catalog-count', '.home-catalog .catalog-more',
-    '.project-examples .section-heading', '.project-example', '.project-examples-note', '.solutions-more',
-    '.reviews-heading', '.review-card', '.reviews-bottom', '.guides-heading', '.guides details',
+    '.project-examples .section-heading', '.project-examples-note', '.solutions-more',
+    '.reviews-heading', '.reviews-grid', '.guides-heading', '.guides details',
     '.home-contact-copy', '.home-office-card', '.site-footer .footer-inner > *',
   ].join(',');
   const revealItems = [...document.querySelectorAll(revealSelector)];

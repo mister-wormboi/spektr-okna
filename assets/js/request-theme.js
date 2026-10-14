@@ -7,8 +7,10 @@
   const loaded = new Set();
   let active;
   let edited = false;
+  let ready = !('IntersectionObserver' in window);
 
   function update() {
+    if (!ready) return;
     const theme = document.documentElement.dataset.theme === 'light' ? 'light' : 'dark';
     if (edited) {
       note.hidden = active.dataset.requestTheme === theme;
@@ -31,5 +33,14 @@
   host.addEventListener('input', preserveInput, true);
   host.addEventListener('change', preserveInput, true);
   new MutationObserver(update).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
-  update();
+  if (ready) update();
+  else {
+    const observer = new IntersectionObserver(entries => {
+      if (!entries.some(entry => entry.isIntersecting)) return;
+      observer.disconnect();
+      ready = true;
+      update();
+    }, { rootMargin: '400px' });
+    observer.observe(host);
+  }
 })();

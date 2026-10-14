@@ -5,8 +5,8 @@ const path = require('node:path');
 const vm = require('node:vm');
 const source = fs.readFileSync(path.join(__dirname, '../assets/js/request-theme.js'), 'utf8');
 
-function setup(theme) {
-  let update, observerOptions;
+function setup(theme, { observer = false } = {}) {
+  let update, observerOptions, intersection, disconnected = false;
   const root = { dataset: { theme } };
   const events = {}, note = { hidden: true };
   const variants = ['light', 'dark'].map(theme => ({
@@ -17,11 +17,22 @@ function setup(theme) {
   }));
   const host = { querySelectorAll: () => variants, querySelector: () => note, addEventListener: (type, handler) => { events[type] = handler; } };
   vm.runInNewContext(source, {
+    window: observer ? { IntersectionObserver: true } : {},
+    IntersectionObserver: class { constructor(fn) { intersection = fn; } observe() {} disconnect() { disconnected = true; } },
     document: { documentElement: root, querySelector: () => host, createElement: () => ({ setAttribute(name, value) { this[name] = value; } }) },
     MutationObserver: class { constructor(fn) { update = fn; } observe(_, options) { observerOptions = options; } },
   });
-  return { variants, note, events, root, observerOptions, theme(value) { root.dataset.theme = value; update(); } };
+  return { variants, note, events, root, observerOptions, visible(value) { intersection([{ isIntersecting: value }]); }, disconnected: () => disconnected, theme(value) { root.dataset.theme = value; update(); } };
 }
+
+test('form waits until near the viewport and loads the latest selected palette once', () => {
+  const s = setup('dark', { observer: true });
+  s.theme('light'); s.visible(false);
+  assert.deepEqual(s.variants.map(v => v.scripts.length), [0, 0]);
+  s.visible(true); s.visible(true);
+  assert.deepEqual(s.variants.map(v => v.scripts.length), [1, 0]);
+  assert.ok(s.disconnected());
+});
 
 test('loads only the active form and reuses it across repeated palette changes', () => {
   for (const initial of ['dark', 'light']) {
