@@ -1,9 +1,7 @@
 <!doctype html>
 <html lang="ru" data-theme="dark">
 <head>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{prefix}}assets/css/fonts.css">
   <meta charset="utf-8">
   <script src="{{prefix}}assets/js/theme.js"></script>
   <script src="{{prefix}}assets/js/article-views.js?v=2" defer></script>

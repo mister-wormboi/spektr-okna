@@ -6,7 +6,7 @@
     --paper: #f6f4ef;
     --surface: #fbfaf7;
     --line: #dedbd3;
-    --serif: Georgia, serif;
+    --serif: 'Noto Serif', serif;
     --sans: "Onest", sans-serif;
     --shadow: 0 24px 70px rgba(23, 24, 22, .1);
 }

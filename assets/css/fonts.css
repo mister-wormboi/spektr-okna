@@ -1,0 +1,29 @@
+/* Local fonts: loaded only when the corresponding face is used. */
+@font-face {
+  font-family: 'Onest';
+  src: url('../fonts/Onest/Onest-VariableFont_wght.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Noto Serif';
+  src: url('../fonts/Noto_Serif/static/NotoSerif-Regular.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Noto Serif';
+  src: url('../fonts/Noto_Serif/static/NotoSerif-Bold.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Noto Serif';
+  src: url('../fonts/Noto_Serif/static/NotoSerif-Italic.ttf') format('truetype');
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+}

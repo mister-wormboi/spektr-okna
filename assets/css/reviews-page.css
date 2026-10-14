@@ -1,5 +1,5 @@
 /* Standalone styles for /reviews/. */
-:root { color-scheme: light; --green: #315c48; --green-dark: #244536; --ink: #202c25; --muted: #5e6b62; --line: #d5dcd2; --paper: #f0f1eb; --surface: #fafaf7; --serif: Georgia, serif; --sans: "Onest", sans-serif; }
+:root { color-scheme: light; --green: #315c48; --green-dark: #244536; --ink: #202c25; --muted: #5e6b62; --line: #d5dcd2; --paper: #f0f1eb; --surface: #fafaf7; --serif: 'Noto Serif', serif; --sans: "Onest", sans-serif; }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 body { margin: 0; color: var(--ink); background: var(--surface); font: 400 var(--font-size-body)/1.6 var(--sans); }

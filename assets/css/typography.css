@@ -1,4 +1,4 @@
-@import url('./style-experiment.css?v=1');
+@import url('./style-experiment.css?v=2');
 /* Exactly three type sizes. Components reference these tokens, including font shorthands. */
 :root {
   --font-size-body: 16px;

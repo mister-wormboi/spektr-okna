@@ -2,9 +2,7 @@
 <html lang="ru" data-theme="dark">
 
 <head>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/fonts.css">
   <meta charset="utf-8">
   <script src="assets/js/theme.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -17,7 +15,6 @@
   <link rel="stylesheet" href="assets/css/main.css">
   <link rel="stylesheet" href="assets/css/design.css">
   <link rel="stylesheet" href="assets/css/window-story.css">
-  <link rel="stylesheet" href="assets/css/window-3d.css">
   <link rel="stylesheet" href="assets/css/night.css">
   <link rel="stylesheet" href="assets/css/reviews.css">
   <link rel="stylesheet" href="assets/css/calculator.css">
@@ -41,10 +38,11 @@
   <script src="assets/js/card-strips.js" defer></script>
   <script src="assets/js/window-motion.js" defer></script>
   <script src="assets/js/window-story.js" defer></script>
-  <script src="assets/js/window-3d.js" type="module"></script>
   <script src="assets/js/motion.js" defer></script>
   <script src="assets/js/reviews.js" defer></script>
   <script src="assets/js/home-solutions.js" defer></script>
+  <link rel="stylesheet" href="assets/css/before-after.css">
+  <script src="assets/js/before-after.js" defer></script>
 </head>
 
 <body id="page-top" class="home-page">
@@ -206,6 +204,7 @@
         <div class="request-copy">
           <span class="eyebrow">Начнём с вашего проекта</span>
           <h2 id="requestTitle">Оставьте заявку.<br>Обсудим детали.</h2>
+          <a class="request-link" href="request/">Открыть форму на отдельной странице <span aria-hidden="true">↗</span></a>
         </div>
         <div class="request-panel">
           <div class="request-embed" data-themed-request>
@@ -219,31 +218,6 @@
           </div>
           <p class="request-fallback">Если форма не отображается, позвоните нам: <a href="tel:+79895175699">8 989 517 56 99</a>.</p>
           <noscript><p class="request-fallback">Для заполнения формы включите JavaScript в браузере.</p></noscript>
-        </div>
-        <div class="request-visual">
-          <div class="window-3d-viewport" role="img" aria-label="Объёмное окно разделяется на раму, створку и стеклопакет.">
-            <svg class="window-3d-fallback" viewBox="0 0 640 540" aria-hidden="true" focusable="false">
-              <g fill="none" stroke="currentColor" stroke-linejoin="round">
-                <g data-window-layer="0">
-                  <path d="M215 95 413 85 413 439 215 425Z" stroke-width="12"/>
-                  <path d="m203 432 222 13" stroke-width="7"/>
-                </g>
-                <g data-window-layer="1">
-                  <path d="M230 110 398 102 398 422 230 410Z" stroke-width="6"/>
-                  <path d="m237 247 0 28" stroke-width="7"/>
-                </g>
-                <g data-window-layer="2">
-                  <path d="M242 123 387 117 387 407 242 397Z" fill="currentColor" fill-opacity=".04" stroke-width="1"/>
-                  <path d="m267 333 92-161m-62 216 70-123" stroke-opacity=".2" stroke-width="3"/>
-                </g>
-                <g data-window-layer="3">
-                  <path d="M242 123 387 117 387 407 242 397Z" stroke-width="2"/>
-                </g>
-              </g>
-            </svg>
-          </div>
-          <span class="request-visual-caption">Точность в деталях. Комфорт в целом.</span>
-          <a class="request-link" href="request/">Открыть форму на отдельной странице <span aria-hidden="true">↗</span></a>
         </div>
       </div>
     </section>
@@ -276,6 +250,26 @@
         <p class="home-catalog-count" id="homeCatalogCount" role="status" aria-live="polite"></p>
         <a class="catalog-more" href="catalog/">Весь каталог <span>36 позиций ↗</span></a>
         <noscript><p>Для просмотра каталога включите JavaScript или позвоните: <a href="tel:+79895175699">8 989 517 56 99</a>.</p></noscript>
+      </div>
+    </section>
+
+    <section class="before-after-section" aria-labelledby="beforeAfterTitle">
+      <div class="wrap">
+        <div class="section-heading">
+          <div><span class="eyebrow">Возможности вашего балкона</span><h2 id="beforeAfterTitle">Знакомое пространство.<br><em>Новое ощущение.</em></h2></div>
+          <p>Передвиньте разделитель и посмотрите, как остекление и отделка меняют пространство.</p>
+        </div>
+        <figure class="balcony-comparison" style="--split: 50%">
+          <div class="comparison-images">
+            <img src="assets/balcony-after-v1.webp" width="1536" height="1024" loading="lazy" decoding="async" alt="Визуализация балкона после обновления: белые рамы, светлые стены и пол под дерево.">
+            <img class="comparison-before" src="assets/balcony-before-v1.webp" width="1536" height="1024" loading="lazy" decoding="async" alt="Визуализация того же балкона до обновления: старые деревянные рамы и потёртая отделка.">
+            <span class="comparison-label comparison-label-before" aria-hidden="true">До</span>
+            <span class="comparison-label comparison-label-after" aria-hidden="true">После</span>
+            <span class="comparison-divider" aria-hidden="true"><span>‹ ›</span></span>
+            <input class="comparison-range" type="range" min="0" max="100" value="50" aria-label="Сравнить балкон до и после обновления" aria-describedby="comparisonNote">
+          </div>
+          <figcaption id="comparisonNote">Концепция обновления: изображения созданы с помощью ИИ, это не фотографии выполненного проекта. Показаны остекление и отделка.</figcaption>
+        </figure>
       </div>
     </section>
 

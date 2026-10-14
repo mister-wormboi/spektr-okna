@@ -1,25 +1,12 @@
-/* Visual experiment. Remove the import in typography.css to restore the previous look. */
-@font-face {
-  font-family: 'Golos Text';
-  src: url('../fonts/golos-text-experiment-v1.ttf') format('truetype');
-  font-style: normal;
-  font-weight: 400 900;
-  font-display: swap;
-}
-:root {
-  --serif: 'Golos Text', 'Onest', Arial, sans-serif;
-  --sans: 'Golos Text', 'Onest', Arial, sans-serif;
-}
+/* Visual enhancements. Font families and heading weights use the base theme. */
 body { -webkit-font-smoothing: antialiased; }
 body main :is(h1,h2,h3,h4,h5,h6) {
-  font-family: var(--serif) !important;
-  font-weight: 600 !important;
   letter-spacing: -.045em;
   text-wrap: balance;
 }
 body main :is(h3,h4,h5,h6) { letter-spacing: -.025em; }
 body main :is(h1,h2) em {
-  font-family: Georgia, serif;
+  font-family: 'Noto Serif', serif;
   font-style: italic;
   font-weight: 400;
   letter-spacing: -.035em;
