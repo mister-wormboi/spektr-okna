@@ -45,13 +45,17 @@
 .request-link:focus-visible, .request-back:focus-visible, .request-fallback a:focus-visible { outline: 2px solid var(--green); outline-offset: 4px; }
 .request-panel { min-width: 0; }
 .home-page .request-layout {
-  grid-template-areas: "copy panel" "visual panel";
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr);
+  grid-template-areas: "copy visual" "panel visual";
   grid-template-rows: auto 1fr;
   row-gap: 24px;
 }
 .home-page .request-copy { grid-area: copy; }
+.home-page .request-copy h2 { margin-bottom: 0; }
 .home-page .request-panel { grid-area: panel; }
-.request-visual { grid-area: visual; min-width: 0; text-align: center; }
+.request-visual { grid-area: visual; min-width: 0; align-self: center; text-align: center; }
+.request-visual .window-3d-viewport { height: clamp(400px, 44vw, 660px); }
+.request-visual .request-link { text-align: left; }
 .request-visual-caption { display: block; color: var(--muted); font-size: var(--font-size-body); letter-spacing: .12em; text-transform: uppercase; }
 /* Reserve space for the asynchronous widget without constraining its fields or consent text. */
 .request-embed { min-height: 440px; }
@@ -61,6 +65,7 @@
 
 @media (max-width: 900px) {
   .request-layout { grid-template-columns: minmax(0, 1fr); gap: 32px; }
-  .home-page .request-layout { grid-template-areas: "copy" "panel" "visual"; grid-template-rows: auto; row-gap: 32px; }
+  .home-page .request-layout { grid-template-columns: minmax(0, 1fr); grid-template-areas: "copy" "panel" "visual"; grid-template-rows: auto; row-gap: 32px; }
   .request-visual { width: 100%; max-width: 500px; justify-self: center; }
+  .request-visual .window-3d-viewport { height: clamp(300px, 80vw, 440px); }
 }

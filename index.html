@@ -24,6 +24,7 @@
   <link rel="stylesheet" href="assets/css/catalog.css?v=4">
   <link rel="stylesheet" href="assets/css/header-refresh.css">
   <script src="assets/js/header.js" defer></script>
+  <script src="assets/js/request-theme.js" defer></script>
   <link rel="stylesheet" href="assets/css/footer.css">
   <link rel="stylesheet" href="assets/css/home-refresh.css">
   <link rel="stylesheet" href="assets/css/solutions.css">
@@ -205,12 +206,16 @@
         <div class="request-copy">
           <span class="eyebrow">Начнём с вашего проекта</span>
           <h2 id="requestTitle">Оставьте заявку.<br>Обсудим детали.</h2>
-          <p>Заполните форму — поможем с выбором окон, остеклением и расчётом стоимости.</p>
-          <a class="request-link" href="request/">Открыть форму на отдельной странице <span aria-hidden="true">↗</span></a>
         </div>
         <div class="request-panel">
-          <div class="request-embed">
-            <script data-b24-form="inline/5/q69y9k" data-skip-moving="true">(function(w,d,u){var s=d.createElement('script');s.async=true;s.src=u+'?'+(Date.now()/180000|0);var h=d.getElementsByTagName('script')[0];h.parentNode.insertBefore(s,h);})(window,document,'https://cdn-ru.bitrix24.ru/b32449848/crm/form/loader_5.js');</script>
+          <div class="request-embed" data-themed-request>
+            <div data-request-theme="light" hidden>
+              <template><script data-b24-form="inline/5/q69y9k" data-skip-moving="true">(function(w,d,u){var s=d.createElement('script');s.async=true;s.src=u+'?'+(Date.now()/180000|0);var h=d.getElementsByTagName('script')[0];h.parentNode.insertBefore(s,h);})(window,document,'https://cdn-ru.bitrix24.ru/b32449848/crm/form/loader_5.js');</script></template>
+            </div>
+            <div data-request-theme="dark" hidden>
+              <template><script data-b24-form="inline/9/h54l7f" data-b24-form-telemetry-sign="v1:9:site.8a81d6d9a1b2d648461160a6bb870cdd7b254669bde630868b6fdbaed6c7767b" data-skip-moving="true">(function(w,d,u){var s=d.createElement('script');s.async=true;s.src=u+'?'+(Date.now()/180000|0);var h=d.getElementsByTagName('script')[0];h.parentNode.insertBefore(s,h);})(window,document,'https://cdn-ru.bitrix24.ru/b32449848/crm/form/loader_9.js');</script></template>
+            </div>
+            <p class="request-theme-note" data-request-theme-note role="status" hidden>Сохранили оформление формы, чтобы не потерять введённые данные.</p>
           </div>
           <p class="request-fallback">Если форма не отображается, позвоните нам: <a href="tel:+79895175699">8 989 517 56 99</a>.</p>
           <noscript><p class="request-fallback">Для заполнения формы включите JavaScript в браузере.</p></noscript>
@@ -238,6 +243,7 @@
             </svg>
           </div>
           <span class="request-visual-caption">Точность в деталях. Комфорт в целом.</span>
+          <a class="request-link" href="request/">Открыть форму на отдельной странице <span aria-hidden="true">↗</span></a>
         </div>
       </div>
     </section>

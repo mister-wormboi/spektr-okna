@@ -18,16 +18,21 @@ test('home request follows the calculator and contains the single relocated wind
   assert.match(html, /id="window-details"/);
 });
 
-test('home keeps form 5 while the request page has light form 3 and dark form 7', () => {
-  for (const [file, form, loader] of [['index.html', 'inline/5/q69y9k', 5], ['request/index.html', 'inline/3/gmh4uz', 3], ['request/index.html', 'inline/7/key9wr', 7]]) {
+test('home uses forms 5 and 9; the request page uses forms 3 and 7 for light and dark themes', () => {
+  for (const [file, form, loader] of [['index.html', 'inline/5/q69y9k', 5], ['index.html', 'inline/9/h54l7f', 9], ['request/index.html', 'inline/3/gmh4uz', 3], ['request/index.html', 'inline/7/key9wr', 7]]) {
     const html = read(file);
     const scripts = [...html.matchAll(/<script data-b24-form="([^"]+)"([^>]*)>([\s\S]*?)<\/script>/g)];
-    assert.equal(scripts.length, loader === 5 ? 1 : 2, file);
+    assert.equal(scripts.length, 2, file);
     const script = scripts.find(script => script[1] === form);
     assert.ok(script, form);
     assert.match(script[2], /data-skip-moving="true"/);
     if (loader === 3) assert.ok(script[2].includes('data-b24-form-telemetry-sign="v1:3:site.d16f9e5703acbc330fa8bd03b9313497a79eac46fbb07c58599a2c6842541f1c"'));
     if (loader === 7) assert.ok(script[2].includes('data-b24-form-telemetry-sign="v1:7:site.a11dee4f71c619bb6f66a63b3757fbfa55b32e9cb81a2e9e733c7a17f20ee4e1"'));
+    if (loader === 9) assert.ok(script[2].includes('data-b24-form-telemetry-sign="v1:9:site.8a81d6d9a1b2d648461160a6bb870cdd7b254669bde630868b6fdbaed6c7767b"'));
+    assert.match(html, /assets\/js\/request-theme\.js" defer/);
+    const variant = html.match(new RegExp(`<div data-request-theme="${loader === 7 || loader === 9 ? 'dark' : 'light'}" hidden>([\\s\\S]*?)<\\/div>`));
+    assert.ok(variant?.[1].includes(`data-b24-form="${form}"`));
+    assert.match(variant[1], /<template><script/);
     assert.ok(script[3].includes(`https://cdn-ru.bitrix24.ru/b32449848/crm/form/loader_${loader}.js`));
     assert.match(script[3], /s\.async=true/);
     assert.match(html, /class="request-embed"/);
