@@ -104,7 +104,7 @@ if (typeof document !== 'undefined') (() => {
   });
   function openProduct(product,button) {
     opener=button;
-    const photo=document.querySelector('#productDialogPhoto');photo.src='../'+product.catalogImage;photo.alt=product.title+' — иллюстрация на белом фоне';
+    const photo=document.querySelector('#productDialogPhoto');photo.src='../'+product.catalogImage;photo.alt=product.title+' — визуализация в обстановке';
     document.querySelector('#productDialogCategory').textContent=categoryFor(product).title+' / '+product.subtitle;
     document.querySelector('#productDialogTitle').textContent=product.title;
     document.querySelector('#productDialogDescription').textContent=product.description;

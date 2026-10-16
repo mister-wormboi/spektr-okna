@@ -16,7 +16,7 @@ function renderSpektrProductCard(product, { dialog = false } = {}) {
     image.src=prefix+product.catalogImage;
     image.srcset=prefix+product.catalogImage.replace('.webp','-small.webp')+' 480w, '+prefix+product.catalogImage+' 960w';
     image.sizes='(max-width: 600px) 100vw, (max-width: 1100px) 50vw, 33vw';
-    image.alt=product.title+' — иллюстрация на белом фоне';
+    image.alt=product.title+' — визуализация в обстановке';
     image.width=960;image.height=640;image.loading='lazy';image.decoding='async';
     visual.append(image);card.append(visual);
   }

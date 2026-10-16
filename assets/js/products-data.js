@@ -108,14 +108,14 @@
     balconies:'https://www.tbm.ru/profili-i-komplektuyuschie-dlya-balkonnogo-ostekleniya',
     aluminium:'https://www.tbm.ru/alyuminievye-sistemy-alumark'
   };
-  const studioImages={
+  const sceneImages={
     econom:'window',optimal:'window',comfort:'window',energy:'window',elite:'window',delight:'window',grazio:'window',intelio:'window',blitz:'window',pro58:'profile',pro70:'profile',
     'warm-balcony':'balconies',entrance:'doors',sectional:'gates',matte:'ceilings',cassette:'blinds','al-portal':'aluminium'
   };
   window.SPEKTR_PRODUCTS = records.map(([id,category,title,subtitle,description,features,source,image]) => ({
     id,category,title,subtitle,description,features,source:base+source,
     image:image ? `assets/catalog/${image}.webp` : null,
-    catalogImage:`assets/catalog/studio-${studioImages[id] || id}-v1.webp`,
+    catalogImage:`assets/catalog/scene-${sceneImages[id] || id}-v1.webp`,
     ...details[id],
     features:[...(details[id]?.features || features),...(selection[category] || [])],
     priceFrom:estimates[id]?.[0] ?? null, priceUnit:estimates[id]?.[1] ?? null,
