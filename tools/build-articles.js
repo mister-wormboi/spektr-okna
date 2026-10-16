@@ -79,8 +79,10 @@ articles.forEach(article => {
     <nav class="article-breadcrumbs" aria-label="Хлебные крошки"><a href="../../">Главная</a><span aria-hidden="true">/</span><a href="../">Статьи</a><span aria-hidden="true">/</span><span aria-current="page">${escape(article.category)}</span></nav>
     <article data-article-view="${article.slug}">
       <header class="article-heading"><h1>${escape(article.title)}</h1><div class="article-heading-meta"><span><time datetime="${article.published_on}">${date(article.published_on)}</time></span><span>Чтение: около ${readingMinutes(article)} мин</span>${viewCounter(article.slug, true)}</div></header>
+      <div class="article-content${article.image.height > article.image.width ? ' article-content--portrait' : ''}">
       <figure class="article-cover"><img src="../../${article.image.path}" alt="${escape(article.image.alt)}" width="${article.image.width}" height="${article.image.height}" fetchpriority="high" decoding="async"><figcaption>${escape(article.image.caption || 'Фото из галереи «Спектра»')}</figcaption></figure>
       <div class="article-body">${sections}<aside class="article-takeaway"><span class="eyebrow">Главная мысль</span><p>${escape(article.takeaway)}</p></aside>
+      </div>
       </div>
     </article>
     ${help('../../')}

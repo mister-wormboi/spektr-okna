@@ -26,10 +26,10 @@ html[data-theme="light"] {
   --ink: #202c25;
   --muted: #5e6b62;
   --logo-filter: brightness(0) invert(.5) sepia(1) saturate(.420420) hue-rotate(85.744558deg) brightness(.668474);
-  --paper: #f0f1eb;
-  --surface: #fafaf7;
-  --line: #d5dcd2;
-  --field: #ffffff;
+  --paper: #d9ded2;
+  --surface: #e6e8df;
+  --line: #bfc8bb;
+  --field: #edf0e7;
   --accent-soft: #e6ecdf;
   --diagram-surface: #dce3d8;
   --diagram-glow: #f0f3ec;

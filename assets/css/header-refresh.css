@@ -110,13 +110,16 @@ html[data-theme="dark"] .theme-toggle .theme-moon { display: none; }
 }
 @media (min-width: 901px) {
   /* Reserve the expanded height: folding never shifts the page below it. */
-  .site-header { height: 125px; transition: background-color .35s ease, border-color .35s ease; pointer-events: none; }
+  /* Both header surfaces must switch palette in the same frame. */
+  .site-header { height: 125px; transition: border-color .35s ease; pointer-events: none; }
   .header-sentinel { top: 160px; }
   .site-header .header-inner {
     pointer-events: auto;
     /* Folding only lays out this fixed-height header, not the page content. */
     contain: layout style;
-    border: 1px solid transparent;
+    /* Keep the frame inside the grid so it cannot protrude below the header. */
+    outline: 1px solid transparent;
+    outline-offset: -1px;
     background: var(--surface);
     transition: grid-template-rows .4s cubic-bezier(.22, 1, .36, 1), width .4s ease, padding .4s ease, transform .4s ease;
   }
@@ -130,7 +133,7 @@ html[data-theme="dark"] .theme-toggle .theme-moon { display: none; }
   .site-header.is-scrolled .header-inner {
     grid-template-rows: 72px 0px;
     padding-inline: 24px;
-    border-color: var(--line);
+    outline-color: var(--line);
     box-shadow: 0 12px 32px #0002;
     transform: translateY(12px);
   }
