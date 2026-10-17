@@ -21,6 +21,9 @@
     --space-content: 32px;
   }
 }
+@media (max-width: 480px) {
+  :root { --page-gutter: 16px; --space-card: 20px; }
+}
 .wrap { width: min(1320px, calc(100% - 2 * var(--page-gutter))); margin-inline: auto; }
 .about-page .about-hero,
 .catalog-page-hero,
@@ -76,8 +79,11 @@
 .article-detail .article-takeaway { padding:var(--space-card); }
 /* Horizontal reveal offsets must never enlarge the phone's scrollable canvas. */
 @media(max-width:760px) {
-  .contacts-page .reveal.reveal-left,
-  .contacts-page .reveal.reveal-right { transform:translateY(24px); }
-  .contacts-page .reveal.is-visible { transform:none; }
+  .reveal.reveal-left,
+  .reveal.reveal-right,
+  .home-page .reveal.reveal-left,
+  .home-page .reveal.reveal-right { transform:translateY(24px); }
+  .reveal.is-visible,
+  .home-page .reveal.is-visible { transform:none; }
   .contacts-page .hero-facts { transform:none; animation:none; opacity:1; }
 }

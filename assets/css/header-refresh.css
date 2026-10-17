@@ -205,6 +205,20 @@ html[data-theme="dark"] .theme-toggle .theme-moon { display: none; }
   .site-header .header-logo { width: 92px; }
   .site-header .header-mobile-call { padding-inline: 6px; font-size: clamp(13px, 3.6vw, 15px); }
 }
+@media (max-width: 380px) {
+  .site-header .header-inner { grid-template-columns: minmax(0, 1fr) 44px 44px 44px; }
+  .site-header .header-logo { width: 110px; }
+  .site-header .header-mobile-call { width: 44px; padding: 0; color: var(--green); }
+  .site-header .header-mobile-call > span { display: none; }
+  .site-header .header-mobile-call::before {
+    content: '';
+    width: 22px;
+    height: 22px;
+    background: currentColor;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='m7 3 3 5-2.5 2.5a15 15 0 0 0 6 6L16 14l5 3c0 3-2 4-4 4C10 20 4 14 3 7c0-2 1-4 4-4Z' stroke='black' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+  }
+  .site-header .header-nav .header-call { display: flex; justify-content: space-between; }
+}
 @media (prefers-reduced-motion: reduce) {
   .site-header { animation: none; }
   .site-header, .site-header .header-inner, .site-header .header-links, .site-header .header-nav, .site-header .header-nav a, .header-menu-toggle span { transition: none; }

@@ -103,6 +103,13 @@ html:has(.product-dialog[open]) { overflow:hidden; }
  .product-dialog-body { padding:24px; }
 }
 @media(max-width:600px) {
+ .product-categories { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; }
+ .product-category-item:first-child { grid-column:1/-1; }
+ .product-category-item .product-category { white-space:normal; min-height:48px; }
+ /* Keep touch disclosures in flow so every option fits the phone viewport. */
+ .product-category-item.is-open { grid-column:1/-1; }
+ .product-subcategories { position:static; width:100%; max-width:none; box-shadow:none; }
+ .product-subcategory { min-height:48px; }
  .product-back-categories { display:inline-block; }
  .product-category { padding:10px 12px; }
  .product-grid { grid-template-columns:1fr; gap:16px; }

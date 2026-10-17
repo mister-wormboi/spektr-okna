@@ -16,6 +16,9 @@
     --font-size-display: 36px;
   }
 }
+@media (max-width: 360px) {
+  :root { --font-size-display: 32px; }
+}
 
 html { font-size: var(--font-size-body); scrollbar-gutter: stable; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 /* Layout uses native viewport dimensions and crisp, unscaled text. */
