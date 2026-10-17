@@ -1,12 +1,12 @@
 /* Shared rhythm for page introductions and repeated content components. */
 :root {
   --page-gutter: 48px;
-  --space-intro: 64px;
-  --space-section: 80px;
-  --space-card: 24px;
-  --space-grid: 24px;
-  --space-panel: 48px;
-  --space-content: 40px;
+  --space-intro: 48px;
+  --space-section: 60px;
+  --space-card: 20px;
+  --space-grid: 20px;
+  --space-panel: 36px;
+  --space-content: 32px;
 }
 @media (max-width: 1100px) {
   :root { --page-gutter: 28px; }
@@ -14,15 +14,15 @@
 @media (max-width: 760px) {
   :root {
     --page-gutter: 20px;
-    --space-intro: 40px;
-    --space-section: 48px;
+    --space-intro: 28px;
+    --space-section: 36px;
     --space-grid: 16px;
-    --space-panel: 24px;
-    --space-content: 32px;
+    --space-panel: 20px;
+    --space-content: 24px;
   }
 }
 @media (max-width: 480px) {
-  :root { --page-gutter: 16px; --space-card: 20px; }
+  :root { --page-gutter: 16px; --space-card: 16px; }
 }
 .wrap { width: min(1320px, calc(100% - 2 * var(--page-gutter))); margin-inline: auto; }
 .about-page .about-hero,

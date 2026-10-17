@@ -1,23 +1,23 @@
 @import url('./style-experiment.css?v=2');
 /* Exactly three type sizes. Components reference these tokens, including font shorthands. */
 :root {
-  --font-size-body: 16px;
-  --font-size-title: 28px;
-  --font-size-display: 56px;
-  --heading-label-gap: 20px;
-  --line-height-body: 1.7;
+  --font-size-body: 14px;
+  --font-size-title: 24px;
+  --font-size-display: 44px;
+  --heading-label-gap: 16px;
+  --line-height-body: 1.6;
   --line-height-title: 1.25;
   --line-height-display: 1.1;
 }
 
 @media (max-width: 760px) {
   :root {
-    --font-size-title: 24px;
-    --font-size-display: 36px;
+    --font-size-title: 20px;
+    --font-size-display: 28px;
   }
 }
 @media (max-width: 360px) {
-  :root { --font-size-display: 32px; }
+  :root { --font-size-display: 26px; }
 }
 
 html { font-size: var(--font-size-body); scrollbar-gutter: stable; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
@@ -90,3 +90,8 @@ body main :is(.about-section-heading,.process-intro,.information-heading,.soluti
 .home-page .catalog .card h3 { margin-block:16px; }
 .home-page .catalog .product-card h3 { margin:0; }
 .home-page .catalog .home-product-description { margin-block:0 24px; }
+
+/* Keep focused fields readable and prevent automatic zoom in mobile Safari. */
+@media (max-width: 900px) {
+  body main :is(input, select, textarea) { font-size: 16px !important; }
+}
