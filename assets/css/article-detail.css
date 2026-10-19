@@ -27,8 +27,6 @@
 .article-example figcaption { color: var(--muted); font-size: 14px; line-height: 1.6; padding-top: 14px; }
 @media (min-width: 901px) {
   .article-detail { --article-photo-top: 160px; }
-  body:has(> header.is-scrolled) .article-detail { --article-photo-top: 108px; }
-  body:has(> header.is-scrolled .header-inner:is(:hover, :has(:focus-visible))) .article-detail { --article-photo-top: 160px; }
   .article-content--portrait { display: grid; grid-template-columns: minmax(0, 360px) minmax(0, 1fr); align-items: start; gap: clamp(32px, 5vw, 72px); max-width: 1160px; margin-inline: auto; }
   .article-content--portrait .article-cover { position: sticky; top: var(--article-photo-top); width: 100%; margin: 0; }
   .article-content--portrait .article-cover img { max-height: min(680px, 75svh, calc(100svh - var(--article-photo-top) - 96px)); }

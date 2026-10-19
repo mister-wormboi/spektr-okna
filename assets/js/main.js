@@ -10,6 +10,12 @@
   let revealObserver = null;
   let activeGroup = 'all';
 
+  function prepareReveal(element, index) {
+    element.classList.add('reveal');
+    element.style.setProperty('--reveal-delay', `${Math.min(index, 5) * 65}ms`);
+    if (!canReveal) element.classList.add('is-visible');
+  }
+
   function renderCatalog() {
     if (!homeCatalog || !window.renderSpektrProductPreview) return;
     const matching = selectSpektrProducts(products, {
@@ -31,11 +37,8 @@
     homeCatalog.querySelectorAll('.card').forEach(card => revealObserver?.unobserve(card));
     homeCatalog.replaceChildren(...shown.map((item, index) => window.renderSpektrProductPreview(item, index)));
     homeCatalog.querySelectorAll('.card').forEach((card, index) => {
-      card.classList.remove('card-enter');
-      card.classList.add('reveal');
-      card.style.setProperty('--reveal-delay', `${index * 55}ms`);
-      if (!canReveal) card.classList.add('is-visible');
-      else revealObserver?.observe(card);
+      prepareReveal(card, index);
+      revealObserver?.observe(card);
     });
     if (!shown.length) {
       const empty = document.createElement('p');
@@ -67,15 +70,17 @@
     '.home-catalog .section-heading', '.home-catalog-tabs', '.home-catalog-tools', '.home-catalog .catalog-note', '.home-catalog .card', '.home-catalog-count', '.home-catalog .catalog-more',
     '.project-examples .section-heading', '.project-examples-note', '.solutions-more',
     '.reviews-heading', '.reviews-grid', '.guides-heading', '.guides details',
-    '.home-contact-copy', '.home-office-card', '.site-footer .footer-inner > *',
+    '.home-office-card', '.site-footer .footer-inner > *',
   ].join(',');
   const revealItems = [...document.querySelectorAll(revealSelector)];
 
   revealItems.forEach((element, index) => {
-    element.classList.add('reveal');
-    if (element.matches('.call-panel, .home-contact-copy')) element.classList.add('reveal-left');
+    const cardIndex = element.matches('.home-catalog .card, .home-office-card')
+      ? [...element.parentElement.children].indexOf(element)
+      : index % 6;
+    prepareReveal(element, cardIndex);
+    if (element.matches('.call-panel')) element.classList.add('reveal-left');
     if (element.matches('.calculator')) element.classList.add('reveal-right');
-    element.style.setProperty('--reveal-delay', `${Math.min(index % 6, 5) * 65}ms`);
   });
 
   if (!canReveal) {

@@ -18,7 +18,7 @@
     const button = document.createElement('button');
     button.type = 'button';
     button.className = 'review-dot';
-    button.textContent = String(index + 1).padStart(2, '0');
+    button.textContent = String(index + 1);
     button.setAttribute('aria-label', `Отзыв: ${names[index]}`);
     button.setAttribute('aria-controls', card.id);
     button.addEventListener('click', () => show(index));

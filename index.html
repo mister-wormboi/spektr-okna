@@ -2,47 +2,49 @@
 <html lang="ru" data-theme="dark">
 
 <head>
-  <link rel="stylesheet" href="assets/css/fonts.css">
+
   <meta charset="utf-8">
   <script src="assets/js/theme.js"></script>
+  <link rel="stylesheet" href="assets/css/fonts.css?v=20261020-audit">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Завод окон и алюминиевых конструкций «Спектр». Каталог и расчёт стоимости.">
   <title>Спектр — окна и конструкции</title>
   <link rel="icon" type="image/png" sizes="128x128" href="assets/favicon.png?v=2">
   <link rel="icon" type="image/svg+xml" sizes="any" href="assets/favicon.svg">
   <link rel="apple-touch-icon" href="assets/favicon.png">
-  <link rel="preload" as="image" href="assets/hero-mobile-photo.webp" fetchpriority="high" media="(max-width: 760px)">
-  <link rel="preload" as="image" href="assets/hero-home-window.webp" fetchpriority="high" media="(min-width: 761px)">
-  <link rel="stylesheet" href="assets/css/main.css">
-  <link rel="stylesheet" href="assets/css/design.css">
+  <link rel="preload" as="image" href="assets/hero-curtains-poster.webp" fetchpriority="high">
+  <link rel="stylesheet" href="assets/css/main.css?v=20261020-audit">
+  <link rel="stylesheet" href="assets/css/design.css?v=20261020-audit">
   <link rel="stylesheet" href="assets/css/window-story.css">
-  <link rel="stylesheet" href="assets/css/night.css">
-  <link rel="stylesheet" href="assets/css/reviews.css">
-  <link rel="stylesheet" href="assets/css/calculator.css">
-  <link rel="stylesheet" href="assets/css/catalog.css?v=5">
-  <link rel="stylesheet" href="assets/css/header-refresh.css">
+  <link rel="stylesheet" href="assets/css/night.css?v=20261020-audit">
+  <link rel="stylesheet" href="assets/css/reviews.css?v=20261020-brand">
+  <link rel="stylesheet" href="assets/css/calculator.css?v=20261020-audit">
+  <link rel="stylesheet" href="assets/css/catalog.css?v=20261020-audit">
+  <link rel="stylesheet" href="assets/css/header-refresh.css?v=20261020-mobile-arrow">
   <script src="assets/js/header.js" defer></script>
   <script src="assets/js/request-theme.js" defer></script>
-  <link rel="stylesheet" href="assets/css/footer.css">
-  <link rel="stylesheet" href="assets/css/home-refresh.css">
-  <link rel="stylesheet" href="assets/css/solutions.css">
-  <link rel="stylesheet" href="assets/css/hero-atmosphere.css?v=20261019-day-night">
+  <link rel="stylesheet" href="assets/css/footer.css?v=20261020-sage">
+  <link rel="stylesheet" href="assets/css/home-refresh.css?v=20261020-audit">
+  <link rel="stylesheet" href="assets/css/solutions.css?v=20261020-large-preview">
+  <link rel="stylesheet" href="assets/css/hero-atmosphere.css?v=20261020-phone">
+  <script src="assets/js/hero-video.js?v=20261020-neutral" defer></script>
   <link rel="stylesheet" href="assets/css/request.css">
-  <link rel="stylesheet" href="assets/css/layout.css?v=20261017-compact">
-  <link rel="stylesheet" href="assets/css/theme.css">
-  <link rel="stylesheet" href="assets/css/typography.css?v=20261017-compact">
+  <link rel="stylesheet" href="assets/css/layout.css?v=20261020">
+  <link rel="stylesheet" href="assets/css/theme.css?v=20261020-sage">
+  <link rel="stylesheet" href="assets/css/before-after.css">
+  <link rel="stylesheet" href="assets/css/style-experiment.css?v=20261020-audit">
+  <link rel="stylesheet" href="assets/css/typography.css?v=20261020">
   <script src="assets/js/calculator.js" defer></script>
   <script src="assets/js/products-data.js?v=7" defer></script>
   <script src="assets/js/products-page.js?v=8" defer></script>
   <script src="assets/js/product-preview.js?v=7" defer></script>
-  <script src="assets/js/main.js" defer></script>
+  <script src="assets/js/main.js?v=20261020-catalog-reveal" defer></script>
   <script src="assets/js/card-strips.js" defer></script>
   <script src="assets/js/window-motion.js" defer></script>
-  <script src="assets/js/window-story.js" defer></script>
-  <script src="assets/js/motion.js" defer></script>
-  <script src="assets/js/reviews.js" defer></script>
+  <script src="assets/js/window-story.js?v=20261020-brand" defer></script>
+  <script src="assets/js/motion.js?v=20261020-audit" defer></script>
+  <script src="assets/js/reviews.js?v=20261020-brand" defer></script>
   <script src="assets/js/home-solutions.js" defer></script>
-  <link rel="stylesheet" href="assets/css/before-after.css">
   <script src="assets/js/before-after.js" defer></script>
 </head>
 
@@ -83,36 +85,28 @@
   </header>
 
   <main id="top">
-    <section class="hero hero-atmosphere">
-      <div class="hero-scene" aria-hidden="true">
-        <picture>
-          <source media="(min-width: 761px)" srcset="assets/hero-home-window.webp">
-          <source media="(max-width: 760px)" srcset="assets/hero-mobile-photo.webp">
-          <img src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" width="1672" height="941" alt="" fetchpriority="high" decoding="async">
-        </picture>
-        <picture class="hero-scene-night">
-          <source media="(max-width: 760px)" srcset="assets/hero-mobile-night.webp">
-          <img src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" width="900" height="1350" alt="" decoding="async">
-        </picture>
+    <section class="hero-cinema" aria-labelledby="heroTitle">
+      <div class="hero-cinema-media" aria-hidden="true">
+        <img src="assets/hero-curtains-poster.webp" alt="" width="1280" height="720" fetchpriority="high" decoding="async">
+        <video id="heroVideo" muted loop playsinline preload="none" data-src="assets/hero-curtains.mp4" tabindex="-1"></video>
       </div>
-      <div class="wrap hero-inner">
-        <div class="hero-copy">
-          <span class="eyebrow">Спектр · Окна с 2004 года</span>
-          <h1>Город снаружи.<br><em>Ваш мир внутри.</em></h1>
-          <p>
-            Окна, двери и панорамное остекление по вашим размерам.
-            Для света, тишины и жизни с красивым видом.
-          </p>
-          <div class="hero-actions">
-            <a class="primary-link hero-call" href="tel:+79895175699" aria-label="Позвонить в Спектр: 8 989 517 56 99">
-              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m7 3 3 5-2.5 2.5a15 15 0 0 0 6 6L16 14l5 3c0 3-2 4-4 4C10 20 4 14 3 7c0-2 1-4 4-4Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
-              <span><small>Позвонить в «Спектр»</small><strong>8 989 517 56 99</strong></span>
-              <span class="hero-call-arrow" aria-hidden="true">↗</span>
-            </a>
-            <a class="secondary-link" href="#calculator">Рассчитать стоимость <span aria-hidden="true">→</span></a>
-          </div>
+      <div class="hero-cinema-heading">
+        <span class="hero-cinema-kicker">Свет. Тишина. Ваше пространство.</span>
+        <h1 id="heroTitle">Впустите<br><em>больше жизни.</em></h1>
+        <a class="hero-cinema-call" href="tel:+79895175699" aria-label="Позвонить в Спектр: 8 989 517 56 99">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m7 3 3 5-2.5 2.5a15 15 0 0 0 6 6L16 14l5 3c0 3-2 4-4 4C10 20 4 14 3 7c0-2 1-4 4-4Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+          <span class="hero-cinema-call-copy"><small>Позвонить в «Спектр»</small><strong>8 989 517 56 99</strong></span><span aria-hidden="true">↗</span>
+        </a>
+      </div>
+      <div class="hero-cinema-bottom">
+        <p>Окна и остекление по вашим размерам.<br>Для дома, в котором хочется быть.</p>
+        <div class="hero-cinema-controls">
+          <a href="#calculator">Рассчитать стоимость <span aria-hidden="true">↗</span></a>
+          <button class="hero-video-toggle" type="button" aria-controls="heroVideo" aria-label="Воспроизвести видео" hidden>
+            <svg class="hero-video-play" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 9 6-9 6Z" fill="currentColor"/></svg>
+            <svg class="hero-video-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6v12M15 6v12" stroke="currentColor" stroke-width="2"/></svg>
+          </button>
         </div>
-        <div class="hero-caption"><span>Свет. Тишина. Ваше пространство.</span><span>ПВХ · Алюминий · Панорамное остекление</span></div>
       </div>
     </section>
 
@@ -137,22 +131,22 @@
           </div>
           <ol class="window-part-labels" aria-label="Детали окна">
             <li>
-              <div class="window-part-index"><span>01</span><span aria-hidden="true">↑</span></div>
+              <div class="window-part-index"><span>1</span><span aria-hidden="true">↑</span></div>
               <h3>Рама</h3>
               <p>Основа окна: держит конструкцию и соединяет её с проёмом.</p>
             </li>
             <li>
-              <div class="window-part-index"><span>02</span><span aria-hidden="true">↑</span></div>
+              <div class="window-part-index"><span>2</span><span aria-hidden="true">↑</span></div>
               <h3>Створка</h3>
               <p>Открывается для проветривания и плотно закрывается благодаря фурнитуре.</p>
             </li>
             <li>
-              <div class="window-part-index"><span>03</span><span aria-hidden="true">↑</span></div>
+              <div class="window-part-index"><span>3</span><span aria-hidden="true">↑</span></div>
               <h3>Стеклопакет</h3>
               <p>Пропускает свет, помогает сохранять тепло и снижать уличный шум.</p>
             </li>
             <li>
-              <div class="window-part-index"><span>04</span><span aria-hidden="true">↑</span></div>
+              <div class="window-part-index"><span>4</span><span aria-hidden="true">↑</span></div>
               <h3>Штапик</h3>
               <p>Удерживает стеклопакет в створке и обеспечивает плотное прилегание.</p>
             </li>

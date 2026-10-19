@@ -73,7 +73,7 @@ test('header and footer styles have a single owner; type scale is loaded last', 
   }
   for (const file of pages) {
     const links = [...fs.readFileSync(file, 'utf8').matchAll(/<link[^>]+>/g)].map(m => attrs(m[0])).filter(a => a.rel === 'stylesheet');
-    assert.ok(links.at(-1).href.endsWith('typography.css'));
+    assert.ok(links.at(-1).href.split('?')[0].endsWith('typography.css'));
   }
 });
 
@@ -120,8 +120,10 @@ test('all pages declare responsive viewport; mobile assets and controls are link
   assert.match(home, /src="assets\/js\/card-strips.js" defer/);
   const data = fs.readFileSync(path.join(root, 'assets/js/catalog-data.js'), 'utf8');
   for (const match of data.matchAll(/image:\s*'([^']+)'/g)) checkLink(path.join(root, 'index.html'), match[1].replace('.webp', '-small.webp'));
-  assert.match(home, /href="assets\/hero-home-window.webp" fetchpriority="high"/);
-  assert.match(home, /class="hero-scene" aria-hidden="true"/);
-  assert.ok(!home.includes('<video'));
-  assert.ok(!home.includes('hero-live'));
+  assert.match(home, /href="assets\/hero-curtains-poster.webp" fetchpriority="high"/);
+  const heroVideo = attrs(home.match(/<video\b[^>]*>/)[0]);
+  assert.equal(heroVideo.preload, 'none');
+  assert.ok(!heroVideo.src, 'Playback preferences are checked before requesting the video');
+  checkLink(path.join(root, 'index.html'), heroVideo['data-src']);
+  assert.match(home, /aria-controls="heroVideo"/);
 });

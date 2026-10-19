@@ -2,37 +2,42 @@
 :root,
 html[data-theme="dark"] {
   color-scheme: dark;
+  --brand: #b4cfaa;
   --green: #b4cfaa;
-  --green-dark: #d0e1bb;
-  --ink: #edf0e7;
-  --muted: #b3bfaf;
-  /* Recolor the transparent logo to match --muted (navigation text). */
-  --logo-filter: brightness(0) invert(.5) sepia(1) saturate(.310842) hue-rotate(59.983645deg) brightness(1.208675);
-  --paper: #111b17;
-  --surface: #19261e;
-  --line: #425046;
-  --field: #101b14;
-  --accent-soft: #2b3c2f;
-  --diagram-surface: #14231a;
-  --diagram-glow: #304336;
-  --on-accent: #17261c;
+  --green-dark: #d3e1c9;
+  --ink: #f0f1e9;
+  --muted: #b6bdb4;
+  --paper: #171c19;
+  --surface: #202723;
+  --line: #dce8d129;
+  --field: #ffffff05;
+  --panel: #dce8d104;
+  --panel-raised: #dce8d108;
+  --header-surface: #202723ef;
+  --accent-soft: #b4cfaa0c;
+  --diagram-surface: #1b241f;
+  --diagram-glow: #344337;
+  --on-accent: #102418;
   --error: #ffb59c;
   --shadow: 0 16px 40px #0002;
 }
 html[data-theme="light"] {
   color-scheme: light;
-  --green: #315c48;
-  --green-dark: #244536;
-  --ink: #202c25;
-  --muted: #5e6b62;
-  --logo-filter: brightness(0) invert(.5) sepia(1) saturate(.420420) hue-rotate(85.744558deg) brightness(.668474);
-  --paper: #d9ded2;
-  --surface: #e6e8df;
-  --line: #bfc8bb;
-  --field: #edf0e7;
-  --accent-soft: #e6ecdf;
-  --diagram-surface: #dce3d8;
-  --diagram-glow: #f0f3ec;
+  --brand: #24a749;
+  --green: #187c36;
+  --green-dark: #11672a;
+  --ink: #202b25;
+  --muted: #5c6860;
+  --paper: #f3f4ef;
+  --surface: #fafbf7;
+  --line: #253e2d26;
+  --field: #ffffff80;
+  --panel: #ffffff38;
+  --panel-raised: #ffffff75;
+  --header-surface: #fafbf7ef;
+  --accent-soft: #24a7490c;
+  --diagram-surface: #edf0e9;
+  --diagram-glow: #fafcf7;
   --on-accent: #ffffff;
   --error: #9a3823;
   --shadow: 0 16px 40px #263c2e0a;
@@ -50,11 +55,11 @@ body { color: var(--ink); background: var(--surface); }
 .calculator [aria-invalid="true"] { border-color: var(--error); }
 .review-avatar, .contacts-page .work-status.is-open { background: var(--accent-soft); }
 .tab.is-active, .contacts-page .filter-button.is-active, .reviews-button {
-  background: var(--green);
-  color: var(--on-accent);
-  border-color: var(--green);
+  background: var(--accent-soft);
+  color: var(--green);
+  border-color: var(--brand);
 }
-.reviews-button:hover { background: var(--green-dark); }
+.reviews-button:hover { background: var(--panel-raised); }
 .catalog-photo { background: var(--paper); }
 .review-quote, .reviews-hero::after { color: var(--line); }
 .secondary-link { border-bottom-color: var(--line); }
@@ -73,3 +78,29 @@ body { color: var(--ink); background: var(--surface); }
 .contacts-page .contact-banner p { color: var(--muted); }
 .contacts-page .contact-banner a { background: var(--green); color: var(--on-accent); }
 .contacts-page .contact-banner a:hover { background: var(--green-dark); }
+
+/* Translucent layers: the background shows through without filtering the text. */
+body :is(.call-panel, .calculator, .article-card, .solution-card, .office-card, .branch-card),
+.catalog .product-card,
+.home-contact-offices .home-office-card,
+.reviews.is-slider .review-card,
+.reviews-page .review-card { background: var(--panel); border-color: var(--line); box-shadow: none; }
+body :is(.catalog-consult, .catalog-help, .selection-rating, .information-checklist, .about-task-grid article, .about-work-grid article) { background: var(--panel-raised); border-color: var(--line); }
+.catalog .product-feature-chips li { background: transparent; border: 1px solid var(--line); }
+.catalog .product-category,
+.catalog-page .catalog-tools :is(input,select) { background: var(--panel); }
+.home-page .home-contact-phone,
+.catalog-help-phone,
+.catalog-consult > a,
+.product-dialog-call { background: var(--accent-soft); color: var(--green); border: 1px solid var(--brand); box-shadow: none; }
+.product-category.is-active,
+.product-category[aria-pressed="true"],
+.product-category[aria-expanded="true"] { background: var(--accent-soft); color: var(--green); border-color: var(--brand); }
+.product-category[aria-pressed="true"] .product-category-arrow { color: var(--green); }
+.catalog-help-phone:hover { background: var(--accent-soft); color: var(--green-dark); }
+.review-avatar, .reviews.is-slider .review-avatar { background: var(--accent-soft); }
+.reviews.is-slider .review-quote { color: var(--brand); opacity: .2; }
+.review-arrow:hover { background: var(--accent-soft); }
+html[data-theme="dark"] body .eyebrow { color: var(--muted); font-weight: 500; }
+html[data-theme="dark"] body main :is(h1,h2) em { color: var(--ink); }
+body :is(a,button,input,select,textarea):focus-visible { outline-color: var(--brand); }

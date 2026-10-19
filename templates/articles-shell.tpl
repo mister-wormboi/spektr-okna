@@ -1,9 +1,10 @@
 <!doctype html>
 <html lang="ru" data-theme="dark">
 <head>
-  <link rel="stylesheet" href="{{prefix}}assets/css/fonts.css">
+
   <meta charset="utf-8">
   <script src="{{prefix}}assets/js/theme.js"></script>
+  <link rel="stylesheet" href="{{prefix}}assets/css/fonts.css?v=20261020-audit">
   <script src="{{prefix}}assets/js/article-views.js?v=2" defer></script>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   {{head_extra}}
@@ -14,17 +15,18 @@
   <title>{{title}}</title>
   <link rel="icon" type="image/png" sizes="128x128" href="{{prefix}}assets/favicon.png?v=2">
   <link rel="icon" type="image/svg+xml" sizes="any" href="{{prefix}}assets/favicon.svg">
-  <link rel="stylesheet" href="{{prefix}}assets/css/main.css">
-  <link rel="stylesheet" href="{{prefix}}assets/css/design.css">
-  <link rel="stylesheet" href="{{prefix}}assets/css/night.css">
+  <link rel="stylesheet" href="{{prefix}}assets/css/main.css?v=20261020-audit">
+  <link rel="stylesheet" href="{{prefix}}assets/css/design.css?v=20261020-audit">
+  <link rel="stylesheet" href="{{prefix}}assets/css/night.css?v=20261020-audit">
   <link rel="stylesheet" href="{{prefix}}assets/css/articles.css?v=2">
   {{detail_css}}
-  <link rel="stylesheet" href="{{prefix}}assets/css/header-refresh.css">
+  <link rel="stylesheet" href="{{prefix}}assets/css/header-refresh.css?v=20261020-mobile-arrow">
   <script src="{{prefix}}assets/js/header.js" defer></script>
-  <link rel="stylesheet" href="{{prefix}}assets/css/footer.css">
-  <link rel="stylesheet" href="{{prefix}}assets/css/layout.css">
-  <link rel="stylesheet" href="{{prefix}}assets/css/theme.css">
-  <link rel="stylesheet" href="{{prefix}}assets/css/typography.css">
+  <link rel="stylesheet" href="{{prefix}}assets/css/footer.css?v=20261020-sage">
+  <link rel="stylesheet" href="{{prefix}}assets/css/layout.css?v=20261020">
+  <link rel="stylesheet" href="{{prefix}}assets/css/theme.css?v=20261020-sage">
+  <link rel="stylesheet" href="{{prefix}}assets/css/style-experiment.css?v=20261020-audit">
+  <link rel="stylesheet" href="{{prefix}}assets/css/typography.css?v=20261020">
   {{structured_data}}
 </head>
 <body id="page-top" class="articles-page {{body_class}}">

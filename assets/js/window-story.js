@@ -75,7 +75,7 @@
     <path d="M625 574V508L564 436"/>
     <path d="M875 574V522L756 468"/>
   </g>
-  <g class="ws-mobile-labels" text-anchor="middle"><text x="160" y="350">01 · Рама</text><text x="470" y="350">02 · Створка</text><text x="160" y="730">03 · Стеклопакет</text><text x="470" y="730">04 · Штапик</text></g>`;
+  <g class="ws-mobile-labels" text-anchor="middle"><text x="160" y="350">1 · Рама</text><text x="470" y="350">2 · Створка</text><text x="160" y="730">3 · Стеклопакет</text><text x="470" y="730">4 · Штапик</text></g>`;
   stage.replaceChildren(svg);
   section.classList.add('is-enhanced');
 

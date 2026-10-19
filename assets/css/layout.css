@@ -1,5 +1,6 @@
 /* Shared rhythm for page introductions and repeated content components. */
 :root {
+  --content-max: 1320px;
   --page-gutter: 48px;
   --space-intro: 48px;
   --space-section: 60px;
@@ -24,7 +25,7 @@
 @media (max-width: 480px) {
   :root { --page-gutter: 16px; --space-card: 16px; }
 }
-.wrap { width: min(1320px, calc(100% - 2 * var(--page-gutter))); margin-inline: auto; }
+.wrap { width: min(var(--content-max), calc(100% - 2 * var(--page-gutter))); margin-inline: auto; }
 .about-page .about-hero,
 .catalog-page-hero,
 .contacts-page .hero,

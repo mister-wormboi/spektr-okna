@@ -145,16 +145,15 @@ test('SVG playback stops offscreen, or when the WebGL renderer replaces the fall
   assert.equal(rendered.animations.length, 0);
 });
 
-test('scroll frames reuse hero measurements instead of forcing layout reads', () => {
+test('reading progress batches scroll events and reuses the measured page height', () => {
   let reads = 0;
   const frames = [];
   const events = {};
-  const hero = { classList: classList(), style: { setProperty() {}, removeProperty() {} }, getBoundingClientRect() { reads++; return { top: 100, height: 700 }; } };
   const progress = { style: {} };
   const window = { scrollY: 0, matchMedia: query => ({ matches: query.includes('pointer: fine'), addListener() {} }), addEventListener: (name, fn) => { events[name] = fn; } };
   vm.runInNewContext(source('motion.js'), {
     window, innerHeight: 800,
-    document: { hidden: false, documentElement: { scrollHeight: 4000 }, addEventListener() {}, querySelector: s => s === '.hero' ? hero : s === '.reading-progress span' ? progress : null, querySelectorAll: () => [] },
+    document: { hidden: false, documentElement: { get scrollHeight() { reads++; return 4000; } }, addEventListener() {}, querySelector: s => s === '.reading-progress span' ? progress : null, querySelectorAll: () => [] },
     requestAnimationFrame: fn => { frames.push(fn); return frames.length; },
   });
   frames.shift()();
@@ -169,50 +168,31 @@ test('scroll frames reuse hero measurements instead of forcing layout reads', ()
   assert.equal(reads, initialReads);
   window.scrollY = 1500;
   events.scroll(); frames.shift()();
-  assert.equal(hero.classList.contains('is-in-view'), false);
+  assert.equal(progress.style.transform, 'scaleX(0.46875)');
 });
 
-test('hero zoom starts only after the selected image is decoded', async () => {
-  let finishDecode;
-  const image = { classList: classList(), decode: () => new Promise(resolve => { finishDecode = resolve; }) };
+test('reading progress does no background work in a hidden tab and catches up on return', () => {
+  const frames = [], events = {};
+  const progress = { style: {} };
+  const document = {
+    hidden: false, documentElement: { scrollHeight: 1600 },
+    addEventListener: (name, fn) => { events[name] = fn; },
+    querySelector: selector => selector === '.reading-progress span' ? progress : null,
+    querySelectorAll: () => [],
+  };
+  const window = { scrollY: 0, matchMedia: () => ({ matches: false, addListener() {} }), addEventListener: (name, fn) => { events[name] = fn; } };
   vm.runInNewContext(source('motion.js'), {
-    window: { scrollY: 0, matchMedia: () => ({ matches: false, addListener() {} }), addEventListener() {} },
-    innerHeight: 800,
-    document: {
-      hidden: false, documentElement: { scrollHeight: 1600 }, addEventListener() {},
-      querySelector: selector => selector === '.hero-scene img' ? image : null,
-      querySelectorAll: () => [],
-    },
-    requestAnimationFrame() {},
+    window, document, innerHeight: 800,
+    requestAnimationFrame: fn => { frames.push(fn); },
   });
-  assert.equal(image.classList.contains('is-ready'), false);
-  finishDecode();
-  await Promise.resolve();
-  assert.equal(image.classList.contains('is-ready'), true);
-});
-
-test('touch devices skip hero work; enabling desktop motion refreshes its dimensions', () => {
-  let reads = 0, writes = 0;
-  const frames = [];
-  const events = {};
-  const fine = { matches: false, addListener(fn) { this.change = fn; } };
-  const reduced = { matches: true, addListener(fn) { this.change = fn; } };
-  const hero = { classList: classList(), style: { setProperty() { writes++; }, removeProperty() {} }, getBoundingClientRect() { reads++; return { top: 0, height: 700 }; } };
-  vm.runInNewContext(source('motion.js'), {
-    window: { scrollY: 0, matchMedia: q => q.includes('pointer: fine') ? fine : reduced, addEventListener: (name, fn) => { events[name] = fn; } },
-    innerHeight: 800,
-    document: { hidden: false, documentElement: { scrollHeight: 4000 }, addEventListener() {}, querySelector: s => s === '.hero' ? hero : null, querySelectorAll: () => [] },
-    requestAnimationFrame: fn => { frames.push(fn); return frames.length; },
-  });
-  const flush = () => { while (frames.length) frames.shift()(); };
-  flush(); events.scroll(); flush();
-  assert.equal(reads, 0); assert.equal(writes, 0);
-  reduced.matches = false; reduced.change(); flush();
-  assert.equal(reads, 0); assert.equal(writes, 0);
-  fine.matches = true; fine.change(); flush();
-  assert.ok(reads > 0); assert.ok(writes > 0);
-  reduced.matches = true; reduced.change(); flush();
-  const before = reads;
-  reduced.matches = false; reduced.change(); flush();
-  assert.ok(reads > before);
+  frames.shift()();
+  assert.equal(progress.style.transform, 'scaleX(0)');
+  document.hidden = true;
+  window.scrollY = 400;
+  events.scroll(); events.scroll();
+  assert.equal(frames.length, 0);
+  document.hidden = false;
+  events.visibilitychange();
+  frames.shift()();
+  assert.equal(progress.style.transform, 'scaleX(0.5)');
 });

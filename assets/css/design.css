@@ -1,14 +1,4 @@
-/* Architectural direction: warm mineral surfaces, forest green, generous type. */
-:root {
-  --green: #37765c;
-  --green-dark: #244f3e;
-  --ink: #202b26;
-  --muted: #70746c;
-  --paper: #f0eee7;
-  --surface: #faf9f5;
-  --line: #dadcd2;
-  --shadow: 0 16px 40px #263c2e0a;
-}
+/* Shared architectural layout; colors come from theme.css. */
 
 body {
   overflow-x: clip;
@@ -31,7 +21,7 @@ summary {
 }
 
 :focus-visible {
-  outline: 3px solid #669b7f;
+  outline: 3px solid var(--brand);
   outline-offset: 5px;
 }
 

@@ -174,3 +174,19 @@ html[data-theme="light"] .about-page {
   .about-facts, .about-approach .approach-grid, .process-steps { padding: 24px; }
   .about-cinema-shade { background: var(--paper); }
 }
+
+/* Keep the full-page footage, with more opaque reading surfaces in light mode. */
+html[data-theme="light"] .about-cinema-shade { background: none; }
+html[data-theme="light"] .about-page :is(.about-facts, .about-task-grid article, .approach-grid, .solution-card, .process-steps, .about-invitation) {
+  background: color-mix(in srgb, var(--surface) 96%, transparent);
+}
+@media (min-width: 761px) and (hover: hover) and (pointer: fine) {
+  html[data-theme="light"] .about-page :is(.about-intro, .about-section-heading, .about-range-note, .about-work > .secondary-link) {
+    --ink: #f0f1e9;
+    --muted: #e1e5de;
+    --green: #b4cfaa;
+    --line: #ffffff50;
+    color: var(--ink);
+    text-shadow: 0 1px 5px #000a;
+  }
+}

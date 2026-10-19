@@ -1,5 +1,4 @@
 /* Standalone styles for /reviews/. */
-:root { color-scheme: light; --green: #315c48; --green-dark: #244536; --ink: #202c25; --muted: #5e6b62; --line: #d5dcd2; --paper: #f0f1eb; --surface: #fafaf7; --serif: 'Noto Serif', serif; --sans: "Onest", sans-serif; }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 body { margin: 0; color: var(--ink); background: var(--surface); font: 400 var(--font-size-body)/1.6 var(--sans); }
@@ -52,7 +51,7 @@ button:focus-visible, input:focus-visible, .review-card:focus-visible { outline:
 .reviews-hero h1 { font: 400 var(--font-size-display)/1.08 var(--serif); letter-spacing: -.045em; margin: 24px 0; }
 .reviews-hero h1 em { color: var(--green); font-weight: 400; }
 .reviews-lead { max-width: 520px; color: var(--muted); font-size: var(--font-size-body); margin: 0 0 28px; }
-.selection-rating { border: 1px solid var(--line); padding: 36px; background: #b4cfaa08; }
+.selection-rating { border: 1px solid var(--line); padding: 36px; background: var(--panel-raised); }
 .selection-score { font: 400 var(--font-size-display)/1.2 var(--serif); color: var(--green); margin-top: 18px; }
 .selection-score span { font: var(--font-size-body) var(--sans); color: var(--muted); margin-left: 14px; }
 .selection-stars { color: var(--green); letter-spacing: 6px; font-size: var(--font-size-title); }
@@ -65,7 +64,7 @@ button:focus-visible, input:focus-visible, .review-card:focus-visible { outline:
 .reviews-page .review-card { opacity: 1; transform: none; background: var(--surface); min-height: 350px; }
 .reviews-page .review-card > p { font-size: var(--font-size-title); line-height: 1.5; }
 .reviews-page .review-card footer { flex-direction: column; align-items: flex-start; gap: 12px; }
-.reviews-page .review-avatar { background: #b4cfaa20; color: var(--green); border-radius: 50%; }
+.reviews-page .review-avatar { background: var(--accent-soft); color: var(--green); border-radius: 50%; }
 .source-context { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; border-top: 1px solid var(--line); margin-top: 48px; padding-top: 32px; }
 .source-context h3 { font-size: var(--font-size-body); margin: 0 0 10px; }
 .source-context p { color: var(--muted); font-size: var(--font-size-body); }

@@ -4,7 +4,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { createArticleViewStore } = require('./article-view-store');
 const root = path.resolve(__dirname, '..');
-const types = { '.html': 'text/html; charset=utf-8', '.css': 'text/css', '.js': 'text/javascript', '.webp': 'image/webp', '.mp4': 'video/mp4', '.png': 'image/png', '.svg': 'image/svg+xml' };
+const types = { '.html': 'text/html; charset=utf-8', '.css': 'text/css', '.js': 'text/javascript', '.webp': 'image/webp', '.mp4': 'video/mp4', '.png': 'image/png', '.svg': 'image/svg+xml', '.woff2': 'font/woff2', '.ttf': 'font/ttf' };
 function createServer({ views } = {}) {
   if (!views) {
     const articles = JSON.parse(fs.readFileSync(path.join(root, 'content/articles.json'), 'utf8')).articles;

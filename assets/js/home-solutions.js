@@ -1,6 +1,6 @@
 (() => {
   const marquee = document.querySelector('.home-solutions-marquee');
-  const track = marquee?.querySelector('.solutions-gallery-track');
+  const track = marquee?.querySelector('.solutions-gallery-track, .photo-marquee-track');
   if (!track || !('IntersectionObserver' in window)) return;
   const motion = matchMedia('(prefers-reduced-motion: reduce)');
   const originals = [...track.children];
