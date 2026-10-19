@@ -9,7 +9,7 @@ const classList = () => {
   return { add: v => values.add(v), remove: v => values.delete(v), contains: v => values.has(v), toggle: (v, on) => on ? values.add(v) : values.delete(v) };
 };
 
-function story({ reduced = false, observer = true, animation = true, fallback = false } = {}) {
+function story({ reduced = false, observer = true, animation = true, fallback = false, mobile = false } = {}) {
   const pending = [];
   const animations = [];
   const listeners = new Map();
@@ -18,6 +18,8 @@ function story({ reduced = false, observer = true, animation = true, fallback = 
   const observers = new Map();
   let rendererChanged;
   const media = { matches: reduced, addEventListener: () => {}, removeEventListener: () => {} };
+  let layoutChanged;
+  const layout = { matches: mobile, addEventListener: (_, fn) => { layoutChanged = fn; } };
   const makeLayers = () => Array.from({ length: 4 }, () => ({ style: {}, ...(animation ? {
     animate: (keyframes, options) => {
       const a = { keyframes, options, cancelled: false, finished: new Promise(resolve => pending.push(resolve)), cancel() { this.cancelled = true; } };
@@ -46,13 +48,29 @@ function story({ reduced = false, observer = true, animation = true, fallback = 
     disconnect() { connected = false; }
   }
   vm.runInNewContext(source('window-story.js'), {
-    document, window: { matchMedia: () => media, MutationObserver: true, ...(observer ? { IntersectionObserver: Observer } : {}) },
+    document, window: { matchMedia: query => query.includes('max-width') ? layout : media, MutationObserver: true, ...(observer ? { IntersectionObserver: Observer } : {}) },
     IntersectionObserver: Observer,
     MutationObserver: class { constructor(fn) { rendererChanged = fn; } observe() {} disconnect() {} },
   });
-  return { section, layers, animations, pending, listeners, document, trigger, connected: () => connected,
+  return { section, layers, animations, pending, listeners, document, trigger, resize: value => { layout.matches = value; layoutChanged(); }, connected: () => connected,
     viewport, fallbackLayers, enterFallback: ratio => observers.get(viewport)?.(ratio), rendererChanged: () => rendererChanged?.() };
 }
+
+
+test('mobile window separates into four readable panels and reflows during playback', () => {
+  const s = story({ mobile: true });
+  s.trigger();
+  assert.equal(s.animations[0].options.duration, 1100);
+  assert.match(s.animations[3].keyframes[1].transform, /350px, 400px/);
+  s.resize(false);
+  assert.ok(s.animations.every(a => a.cancelled));
+  assert.deepEqual(s.layers.map(l => l.style.transform), [-205, -67, 94, 238].map(n => `translateX(${n}px)`));
+  s.resize(true);
+  assert.match(s.layers[3].style.transform, /350px, 400px/);
+  const reduced = story({ mobile: true, reduced: true });
+  assert.equal(reduced.animations.length, 0);
+  assert.match(reduced.layers[0].style.transform, /55px, 20px/);
+});
 
 test('window illustration plays once and releases completed animations', async () => {
   const s = story();

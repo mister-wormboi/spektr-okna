@@ -321,3 +321,9 @@
     gap: 8px;
   }
 }
+
+@media (max-width: 760px) {
+  .reviews .review-selector { display: none; }
+  .reviews .review-controls { justify-content: flex-end; gap: 10px; }
+  .reviews .review-arrow { width: 48px; height: 48px; }
+}

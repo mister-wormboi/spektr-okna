@@ -38,7 +38,7 @@
   <g class="ws-guides" opacity="0" stroke="#738c77" stroke-width=".7" stroke-dasharray="3 6" fill="none">
     <path d="M215 104L767 182M175 427L727 505"/>
   </g>
-  <g transform="translate(358 53) matrix(.94 .13 -.075 .94 0 0)">
+  <g class="ws-projection" transform="translate(358 53) matrix(.94 .13 -.075 .94 0 0)">
     <g data-window-layer="0"><g>
       ${ring(0, 0, 300, 420, 25, 14)}
       <path d="M27 27H273V393H27Z" stroke="#47594e" stroke-width="4" fill="none"/>
@@ -74,7 +74,8 @@
     <path d="M375 574V500L364 433"/>
     <path d="M625 574V508L564 436"/>
     <path d="M875 574V522L756 468"/>
-  </g>`;
+  </g>
+  <g class="ws-mobile-labels" text-anchor="middle"><text x="160" y="350">01 · Рама</text><text x="470" y="350">02 · Створка</text><text x="160" y="730">03 · Стеклопакет</text><text x="470" y="730">04 · Штапик</text></g>`;
   stage.replaceChildren(svg);
   section.classList.add('is-enhanced');
 
@@ -88,6 +89,16 @@
   // The real SVG and the file:// / WebGL fallback use the same animation engine.
   function animateWindow(section, stage, svg, offsets, isFallback = false) {
     const layers = [...svg.querySelectorAll('[data-window-layer]')];
+    const mobile = window.matchMedia('(max-width: 760px)');
+    const isMobile = () => !isFallback && mobile.matches;
+    const mobilePositions = [[55, 20], [350, 20], [55, 400], [350, 400]];
+    const finalTransform = index => isMobile()
+      ? `translate(${mobilePositions[index][0]}px, ${mobilePositions[index][1]}px) scale(.72)`
+      : `translateX(${offsets[index]}px)`;
+    function setViewBox() {
+      if (!isFallback) svg.setAttribute('viewBox', isMobile() ? '0 0 640 760' : '0 0 1000 580');
+    }
+    setViewBox();
     let state = 'idle';
     let observer;
     let rendererObserver;
@@ -99,7 +110,7 @@
       observer?.disconnect();
       rendererObserver?.disconnect();
       layers.forEach((layer, index) => {
-        layer.style.transform = `translateX(${offsets[index]}px)`;
+        layer.style.transform = finalTransform(index);
       });
       // Keep only final transforms; release animation objects and observers.
       animations.forEach(animation => {
@@ -142,10 +153,10 @@
         // SVG-local pixel offsets keep the existing projection aligned in Safari.
         layers.forEach((layer, index) => {
           animations.push(layer.animate([
-            { transform: 'translateX(0px)' },
-            { transform: `translateX(${offsets[index]}px)` },
+            { transform: isMobile() ? 'translate(210px, 200px) scale(.72)' : 'translateX(0px)' },
+            { transform: finalTransform(index) },
           ], {
-            duration: timing?.duration ?? 1800,
+            duration: isMobile() ? 1100 : (timing?.duration ?? 1800),
             delay: index * (timing?.stagger ?? 100),
             easing: timing?.easing ?? 'cubic-bezier(.22, 1, .36, 1)',
             fill: 'both',
@@ -157,6 +168,16 @@
       }
     }
 
+    // Reflow after rotation without replaying or retaining stale animation transforms.
+    function onLayoutChange() {
+      setViewBox();
+      if (state === 'playing') complete();
+      if (state === 'complete') layers.forEach((layer, index) => { layer.style.transform = finalTransform(index); });
+    }
+    if (!isFallback) {
+      if (mobile.addEventListener) mobile.addEventListener('change', onLayoutChange);
+      else mobile.addListener(onLayoutChange);
+    }
     if (motion.addEventListener) motion.addEventListener('change', onMotionChange);
     else motion.addListener(onMotionChange);
 
