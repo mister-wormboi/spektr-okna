@@ -47,16 +47,29 @@ button:focus-visible, input:focus-visible, .review-card:focus-visible { outline:
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 .reviews-hero { padding: 38px 0 80px; background: var(--paper); }
 .back-link { display: inline-block; color: var(--muted); margin-bottom: 56px; }
-.reviews-hero-grid { display: grid; grid-template-columns: 1.6fr 1fr; gap: 80px; align-items: center; }
+.reviews-hero-grid { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 64px; align-items: center; position: relative; z-index: 1; }
 .reviews-hero h1 { font: 400 var(--font-size-display)/1.08 var(--serif); letter-spacing: -.045em; margin: 24px 0; }
 .reviews-hero h1 em { color: var(--green); font-weight: 400; }
 .reviews-lead { max-width: 520px; color: var(--muted); font-size: var(--font-size-body); margin: 0 0 28px; }
 .selection-rating { border: 1px solid var(--line); padding: 36px; background: var(--panel-raised); }
-.selection-score { font: 400 var(--font-size-display)/1.2 var(--serif); color: var(--green); margin-top: 18px; }
+.selection-score { font: 400 clamp(64px, 7vw, 100px)/1.1 var(--serif); color: var(--green); margin-top: 24px; font-variant-numeric: lining-nums tabular-nums; }
 .selection-score span { font: var(--font-size-body) var(--sans); color: var(--muted); margin-left: 14px; }
-.selection-stars { color: var(--green); letter-spacing: 6px; font-size: var(--font-size-title); }
 .selection-rating p { font-size: var(--font-size-body); }
-.selection-rating small { display: block; border-top: 1px solid var(--line); padding-top: 20px; color: var(--muted); font-size: var(--font-size-body); line-height: 1.6; }
+.rating-caption { margin: 16px 0 10px; }
+.rating-note, .rating-updated, .rating-formula { color: var(--muted); line-height: 1.6; }
+.rating-note { margin: 0 0 24px; }
+.rating-details { border-block: 1px solid var(--line); }
+.rating-details summary { display: flex; justify-content: space-between; gap: 16px; padding-block: 16px; color: var(--green); cursor: pointer; list-style: none; }
+.rating-details summary::-webkit-details-marker { display: none; }
+.rating-details summary:focus-visible { outline: 2px solid var(--green); outline-offset: 4px; }
+.rating-details[open] summary > span { transform: rotate(45deg); }
+.rating-branches { list-style: none; padding: 0; margin: 0; }
+.rating-branches li { display: flex; align-items: baseline; justify-content: space-between; gap: 18px; padding-block: 12px; border-top: 1px solid var(--line); }
+.rating-branches a { min-width: 0; color: var(--muted); overflow-wrap: anywhere; }
+.rating-branches a:hover { color: var(--ink); text-decoration: underline; text-underline-offset: 4px; }
+.rating-branches strong { flex: none; color: var(--ink); font-weight: 500; font-variant-numeric: tabular-nums; }
+.rating-formula { overflow-wrap: anywhere; }
+.rating-updated { margin: 20px 0 0; }
 .reviews-page .reviews { padding: 76px 0; background: var(--surface); scroll-margin-top: 30px; }
 .page-reviews-heading { display: flex; justify-content: space-between; align-items: end; gap: 30px; margin-bottom: 36px; }
 .page-reviews-heading h2, .reviews-cta h2 { font: 400 var(--font-size-display)/1.15 var(--serif); margin: 14px 0 0; }
@@ -77,12 +90,14 @@ button:focus-visible, input:focus-visible, .review-card:focus-visible { outline:
   .reviews-page .reviews-grid { grid-template-columns: 1fr; }
   .reviews-page .review-card { min-height: 0; }
 }
+@media (max-width: 800px) {
+  .reviews-hero-grid { grid-template-columns: 1fr; }
+}
 @media (max-width: 600px) {
   .reviews-hero { padding-bottom: 44px; }
   .back-link { margin-bottom: 32px; }
   .reviews-hero-grid, .source-context { grid-template-columns: 1fr; gap: 32px; }
   .selection-rating { padding: 26px; }
-  .selection-score { font-size: var(--font-size-display); }
   .page-reviews-heading, .reviews-cta > .wrap { flex-direction: column; align-items: flex-start; gap: 18px; }
   .reviews-page .reviews { padding: 44px 0; }
   .reviews-page .review-card { padding: 24px; }
@@ -90,7 +105,6 @@ button:focus-visible, input:focus-visible, .review-card:focus-visible { outline:
   .reviews-cta .primary-link strong { font-size: var(--font-size-title); }
 }
 
-.reviews-hero-grid { grid-template-columns: 1fr; }
 .reviews-hero { position: relative; overflow: hidden; }
 .reviews-hero::after { content: '“'; position: absolute; right: 8%; top: 50px; font: var(--font-size-display)/1 var(--serif); color: var(--green); pointer-events: none; }
 .reviews-hero-grid > div { position: relative; z-index: 1; }
