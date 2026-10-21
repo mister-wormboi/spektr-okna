@@ -5,6 +5,16 @@ const path = require('node:path');
 const root = path.resolve(__dirname, '..');
 const read = file => fs.readFileSync(path.join(root, file), 'utf8');
 
+test('About contact actions share palette-based styling in both themes', () => {
+  const css = read('assets/css/about.css');
+  const shared = css.match(/(?:^|\n)\.about-page \.invitation-actions > a\s*\{([^}]+)\}/);
+  assert.ok(shared, 'the common action style must not be limited to the light theme');
+  assert.match(shared[1], /background:\s*var\(--accent-soft\)/);
+  assert.match(shared[1], /color:\s*var\(--green\)/);
+  assert.match(shared[1], /border:\s*1px solid var\(--brand\)/);
+  assert.match(shared[1], /width:\s*100%/);
+});
+
 test('component styles do not redefine the shared root palette', () => {
   for (const file of fs.readdirSync(path.join(root, 'assets/css')).filter(file => file.endsWith('.css') && file !== 'theme.css')) {
     for (const block of read('assets/css/' + file).matchAll(/:root\s*\{([^}]+)\}/g)) {
