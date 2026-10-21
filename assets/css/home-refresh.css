@@ -46,7 +46,7 @@
 .card-strip-controls[hidden] { display: none; }
 .home-page .home-contact { padding: 92px 0; background: var(--surface); }
 .home-contact-layout { display: grid; grid-template-columns: minmax(360px, .7fr) minmax(0, 1.7fr); gap: clamp(36px, 6vw, 90px); align-items: start; }
-.home-contact-copy { position: static; padding: 8px 0; }
+.home-contact-copy { position: sticky; top: 104px; align-self: start; padding: 8px 0; }
 .home-contact-copy .eyebrow { max-width: 360px; }
 .home-contact-copy h2 { max-width: 440px; margin: 20px 0; font: 400 var(--font-size-display)/1.04 var(--serif); letter-spacing: -.04em; }
 .home-contact-copy p { max-width: 380px; color: var(--muted); line-height: 1.75; }
@@ -96,6 +96,9 @@
 .home-page .reveal.reveal-right { transform: translate3d(28px, 0, 0); }
 .home-page .reveal.is-visible { opacity: 1; transform: translate3d(0, 0, 0); }
 
+@media (max-height: 600px) {
+  .home-contact-copy { position: static; }
+}
 @media (max-width: 1280px) {
   .home-contact-layout { grid-template-columns: 1fr; gap: 28px; }
   .home-contact-copy { position: static; max-width: 700px; }

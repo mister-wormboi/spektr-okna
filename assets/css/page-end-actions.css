@@ -1,0 +1,67 @@
+/* Shared actions used only in the closing content blocks, before the footer. */
+:is(.contact-banner-inner, .catalog-consult, .solutions-help, .reviews-cta > .wrap) > div { min-width: 0; }
+body main a.page-end-action:any-link {
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr) 36px;
+  align-items: center;
+  gap: 16px;
+  flex: 0 0 auto;
+  width: 360px;
+  min-width: 0;
+  max-width: 100%;
+  min-height: 96px;
+  padding: 22px;
+  border: 1px solid var(--green);
+  background: var(--accent-soft);
+  color: var(--green);
+  box-shadow: none;
+  text-align: left;
+  text-decoration: none;
+  font: 400 var(--font-size-body)/1.6 var(--sans);
+  transform: none;
+  transition: background .2s ease, border-color .2s ease;
+}
+body main a.page-end-action:any-link:hover {
+  background: color-mix(in srgb, var(--green) 12%, var(--paper));
+  border-color: var(--green-dark);
+  transform: none;
+}
+body main a.page-end-action:focus-visible { outline: 2px solid var(--green); outline-offset: 5px; }
+body main a.page-end-action::before, body main a.page-end-action::after { content: none; }
+body main .page-end-action .page-end-action-icon { width: 24px; height: 24px; }
+body main .page-end-action .page-end-action-copy { display: grid; grid-column: auto; gap: 6px; min-width: 0; }
+body main .page-end-action .page-end-action-copy > span { font: 400 var(--font-size-body)/1.6 var(--sans); color: var(--muted); }
+body main .page-end-action .page-end-action-copy strong {
+  font: 500 var(--font-size-title)/1.25 var(--sans);
+  letter-spacing: -.025em;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+body main .page-end-action .page-end-action-arrow {
+  display: grid;
+  grid-column: auto;
+  place-items: center;
+  flex: none;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 1px solid color-mix(in srgb, currentColor 35%, transparent);
+  font: 400 20px/1 var(--sans);
+  color: inherit;
+  transition: background .2s ease, color .2s ease;
+}
+body main a.page-end-action:any-link:hover .page-end-action-arrow { background: var(--green); color: var(--on-accent); }
+body main a.page-end-action-text:any-link { grid-template-columns: minmax(0, 1fr) 36px; min-height: 80px; }
+body main .page-end-action .page-end-action-label { font: 500 var(--font-size-body)/1.5 var(--sans); }
+@media (max-width: 900px) {
+  body main a.page-end-action:any-link { flex-basis: auto; width: 100%; }
+}
+@media (max-width: 620px) {
+  body main a.page-end-action:any-link { grid-template-columns: minmax(0, 1fr) 28px; min-height: 80px; gap: 12px; padding: 16px; }
+  body main .page-end-action .page-end-action-icon { display: none; }
+  body main .page-end-action .page-end-action-copy strong { font-size: clamp(16px, 4.5vw, 20px); }
+  body main .page-end-action .page-end-action-arrow { width: 28px; height: 28px; font-size: 18px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  body main a.page-end-action, body main .page-end-action .page-end-action-arrow { transition: none; }
+}

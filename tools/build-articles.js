@@ -43,7 +43,7 @@ function card(article, prefix, linkPrefix, eager = false) {
 }
 
 function help(prefix) {
-  return `<section class="articles-help" aria-labelledby="articles-help-title"><div><span class="eyebrow">От чтения — к решению</span><h2 id="articles-help-title">Подберём окна<br><em>для вашего дома.</em></h2></div><a href="${prefix}calculator/">Рассчитать стоимость <span aria-hidden="true">↗</span></a></section>`;
+  return `<section class="articles-help" aria-labelledby="articles-help-title"><div><span class="eyebrow">От чтения — к решению</span><h2 id="articles-help-title">Подберём окна<br><em>для вашего дома.</em></h2></div><a class=" page-end-action page-end-action-text" href="${prefix}calculator/"><span class="page-end-action-label">Рассчитать стоимость</span><span class="page-end-action-arrow" aria-hidden="true">↗</span></a></section>`;
 }
 
 const listing = `<main id="content" class="articles-main wrap">

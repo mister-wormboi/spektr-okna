@@ -26,6 +26,7 @@
   <link rel="stylesheet" href="{{prefix}}assets/css/layout.css?v=20261020">
   <link rel="stylesheet" href="{{prefix}}assets/css/theme.css?v=20261020-sage">
   <link rel="stylesheet" href="{{prefix}}assets/css/style-experiment.css?v=20261020-audit">
+  <link rel="stylesheet" href="{{prefix}}assets/css/page-end-actions.css?v=20261021">
   <link rel="stylesheet" href="{{prefix}}assets/css/typography.css?v=20261020">
   {{structured_data}}
 </head>
