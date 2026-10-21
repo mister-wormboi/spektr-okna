@@ -9,12 +9,14 @@
     link.addEventListener('click', () => openAnswer(link.hash));
   });
   if (window.location.hash) openAnswer(window.location.hash);
+  window.addEventListener('hashchange', () => openAnswer(window.location.hash));
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
   const items = document.querySelectorAll('[data-reveal]');
   if (reduced.matches || !('IntersectionObserver' in window)) {
     items.forEach(item => item.classList.add('is-visible'));
     return;
   }
+  document.body.classList.add('has-reveal');
   const observer = new IntersectionObserver(entries => entries.forEach(entry => {
     if (!entry.isIntersecting) return;
     entry.target.classList.add('is-visible');

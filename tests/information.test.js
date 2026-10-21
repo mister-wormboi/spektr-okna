@@ -27,14 +27,16 @@ function mount(hash = '') {
   };
   const answers = { 'faq-moisture': element(), 'faq-glazing': element(), 'faq-care': element() };
   const links = Object.keys(answers).map(id => ({ hash: '#' + id, addEventListener(_, callback) { this.click = callback; } }));
+  const events = {};
+  const window = { location: { hash }, matchMedia: () => ({ matches: true }), addEventListener: (name, callback) => { events[name] = callback; } };
   vm.runInNewContext(fs.readFileSync(path.join(root, 'assets/js/information.js'), 'utf8'), {
-    window: { location: { hash }, matchMedia: () => ({ matches: true }) },
+    window,
     document: {
       getElementById: id => answers[id] || null,
       querySelectorAll: selector => selector === '[data-faq-link]' ? links : Object.values(answers),
     },
   });
-  return { answers, links };
+  return { answers, links, window, events };
 }
 
 test('quick topics open their matching answer, including with reduced motion', () => {
@@ -48,4 +50,21 @@ test('quick topics open their matching answer, including with reduced motion', (
 test('a direct answer link opens on arrival and unrelated hashes are harmless', () => {
   assert.equal(mount('#faq-care').answers['faq-care'].open, true);
   assert.ok(Object.values(mount('#questions').answers).every(answer => !answer.open));
+});
+
+
+test('changing the answer hash opens the requested answer after navigation', () => {
+  const page = mount();
+  page.window.location.hash = '#faq-care';
+  page.events.hashchange();
+  assert.equal(page.answers['faq-care'].open, true);
+  assert.ok(page.answers['faq-care'].classList.contains('is-visible'));
+});
+
+test('information source has no unresolved conflicts and sections have distinct labels', () => {
+  const css = fs.readFileSync(path.join(root, 'assets/css/information.css'), 'utf8');
+  for (const source of [html, css]) assert.doesNotMatch(source, /^(?:<{7}|={7}|>{7})/m);
+  assert.match(html, /class="information-preflight wrap" aria-labelledby="preflight-title"/);
+  assert.match(html, /<h2 id="preflight-title">/);
+  assert.match(html, /class="information-checklist"[^>]*aria-labelledby="checklist-title"/);
 });
