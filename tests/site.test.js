@@ -82,7 +82,7 @@ test('real gallery photos reserve space and use unique lightweight previews', ()
     const source = fs.readFileSync(path.join(root, page), 'utf8');
     const gallery = page === 'solutions/index.html' ? source.match(/<div class="solutions-gallery-track">([\s\S]*?)<\/div>/)[1] : source;
     const images = [...gallery.matchAll(/<img[^>]+src="[^"]*assets\/solutions\/[^>]+>/g)].map(m => attrs(m[0]));
-    const expected = page === 'solutions/index.html' ? 28 : 16;
+    const expected = page === 'solutions/index.html' ? 35 : 23;
     assert.equal(images.length, expected);
     assert.equal(new Set(images.map(image => image.src)).size, expected);
     for (const image of images) {
@@ -100,7 +100,7 @@ test('real gallery photos reserve space and use unique lightweight previews', ()
   const thumbs = all.filter(file => path.dirname(file) === path.join(root, 'assets/solutions/thumbs') && file.endsWith('.webp'));
   const full = all.filter(file => path.dirname(file) === path.join(root, 'assets/solutions') && file.endsWith('.webp'));
   const size = files => files.reduce((total, file) => total + fs.statSync(file).size, 0);
-  assert.equal(thumbs.length, 28);
+  assert.equal(thumbs.length, 35);
   assert.ok(size(thumbs) < size(full) * .3);
 });
 
