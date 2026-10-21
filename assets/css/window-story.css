@@ -43,6 +43,12 @@
   list-style: none;
 }
 .window-part-labels > li {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: baseline;
+  align-content: start;
+  column-gap: 12px;
+  row-gap: 10px;
   min-width: 0;
   padding-top: 20px;
   border-top: 1px solid var(--line);
@@ -60,8 +66,8 @@
 }
 .window-part-index { display: flex; justify-content: space-between; color: var(--green); font: 400 var(--font-size-body)/1.5 var(--serif); font-variant-numeric: lining-nums tabular-nums; }
 .window-part-index > span:last-child { display: none; }
-.window-part-labels h3 { margin: 12px 0; font: 400 var(--font-size-title)/1.2 var(--serif); overflow-wrap: break-word; }
-.window-part-labels p { margin: 0; color: var(--muted); font: 400 var(--font-size-body)/1.6 var(--sans); }
+.window-part-labels h3 { margin: 0; font: 400 var(--font-size-title)/1.2 var(--serif); overflow-wrap: break-word; }
+.window-part-labels p { grid-column: 2; margin: 0; color: var(--muted); font: 400 var(--font-size-body)/1.6 var(--sans); }
 .window-story-bottom {
   display: flex;
   align-items: center;
@@ -92,9 +98,7 @@
   .ws-mobile-labels { fill: var(--green); font: 24px var(--sans); }
   .window-story:not(.is-complete) .ws-mobile-labels { opacity: 0; }
   .window-part-labels { grid-template-columns: 1fr; gap: 16px; margin-top: 16px; }
-  .window-part-labels > li { display: grid; grid-template-columns: 28px minmax(0, 1fr); column-gap: 12px; }
-  .window-part-labels h3 { margin: 0 0 8px; }
-  .window-part-labels p { grid-column: 2; }
+  .window-part-labels > li { grid-template-columns: 28px minmax(0, 1fr); }
   .window-part-labels > li { padding-top: 16px; }
   .window-part-index > span:last-child { display: none; }
   .window-connectors { display: none; }

@@ -1,4 +1,4 @@
-/* Exactly three type sizes. Components reference these tokens, including font shorthands. */
+/* Shared type scale; content is readable while navigation remains compact. */
 :root {
   --font-size-body: 14px;
   --font-size-title: 24px;
@@ -29,14 +29,19 @@ html { font-size: var(--font-size-body); scrollbar-gutter: stable; -webkit-text-
 /* Neutralize browser sizes for small, sup, headings and form controls. */
 :where(*), ::before, ::after, ::marker { font-size: inherit; }
 :where(body, button, input, select, textarea) { font-size: var(--font-size-body); }
+body main { --font-size-body: 16px; font-size: var(--font-size-body); }
 :where(h1, h2) { font-size: var(--font-size-display); line-height: 1.1; }
 :where(h3, h4, h5, h6) { font-size: var(--font-size-title); line-height: 1.25; }
 
-/* Labels stay in normal flow: wrapped lines must push the heading down. */
-.eyebrow {
+/* Section labels share the body face instead of looking like a third type style. */
+body main .eyebrow,
+body main .reviews .eyebrow,
+body main .hero-cinema-kicker {
   display: block;
   margin: 0;
-  line-height: 1.5;
+  font: 500 var(--font-size-body)/1.5 var(--sans);
+  letter-spacing: normal;
+  text-transform: none;
   white-space: normal;
   overflow-wrap: break-word;
 }
@@ -63,7 +68,6 @@ body main h1[class],
 body main :is(.hero-copy, .about-intro, .catalog-intro-copy, .calculator-heading, .reviews-hero, .solutions-intro, .information-hero, .articles-intro, .article-heading) h1,
 .home-page .hero-atmosphere h1,
 .calculator-page h1 { line-height: 1.1; margin-block: var(--heading-label-gap) 24px; }
-.home-page .reviews .eyebrow { font-size: var(--font-size-body); font-weight: 400; }
 
 /* Semantic roles share a scale; compact panels and article sections use title size. */
 body main :is(h1,h2,h3,h4,h5,h6) { line-height:var(--line-height-title) !important; }
@@ -76,6 +80,24 @@ body main :is(.article-body,.article-card,.information-checklist,.catalog-help,.
 .home-page .reviews.is-slider .review-top h3,
 .reviews-page .source-context h3 { font-size:var(--font-size-title); }
 body main p { line-height:var(--line-height-body) !important; }
+html[data-theme] body main p { font-family: var(--sans); font-size: var(--font-size-body); font-style: normal; font-weight: 400; }
+
+/* One accent treatment across all pages. Video copy stays light for contrast. */
+html[data-theme] body main :is(h1, h2) > .heading-accent {
+  color: var(--green);
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: inherit;
+}
+html[data-theme] body main .hero-cinema :is(h1, h2) > .heading-accent { color: #f0f1e9; }
+html[data-theme] body main p :is(strong, b, em) { color: inherit; font-family: inherit; font-weight: inherit; font-style: normal; }
+
+/* Heading and explanation stay together, in the same reading order. */
+html body main .section-copy { display: grid; grid-template-columns: minmax(0, 1fr); align-content: start; justify-items: start; gap: 16px; min-width: 0; }
+html body main .section-copy > :is(h1, h2) { margin-block: 0; }
+html body main .section-copy > p { max-width: 60ch; margin-block: 0; font-family: var(--sans); font-size: var(--font-size-body); font-style: normal; font-weight: 400; }
+html body main .section-copy > :is(.secondary-link, .request-link, .information-cinema-explore) { margin-top: 8px; }
 body main :is(.about-section-heading,.process-intro,.information-heading,.solutions-gallery-heading,.page-reviews-heading) h2 { margin-block:var(--heading-label-gap) 24px; }
 .contacts-page .section-heading h2,
 .home-page .section-heading h2,

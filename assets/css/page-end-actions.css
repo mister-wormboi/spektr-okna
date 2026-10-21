@@ -65,3 +65,15 @@ body main .page-end-action .page-end-action-label { font: 500 var(--font-size-bo
 @media (prefers-reduced-motion: reduce) {
   body main a.page-end-action, body main .page-end-action .page-end-action-arrow { transition: none; }
 }
+/* Call actions use one neutral ink throughout, not mixed green/grey labels. */
+html body main a.page-end-action[href^="tel:"]:any-link {
+  color:var(--ink); border-color:var(--line); background:var(--panel-raised);
+}
+html body main a.page-end-action[href^="tel:"]:any-link:hover {
+  color:var(--ink); border-color:var(--muted); background:var(--panel);
+}
+html body main a.page-end-action[href^="tel:"] .page-end-action-copy > span { color:inherit; }
+html body main a.page-end-action[href^="tel:"] .page-end-action-arrow,
+html body main a.page-end-action[href^="tel:"]:hover .page-end-action-arrow { color:inherit; background:transparent; border-color:var(--line); }
+html body main :is(.catalog-help-phone,.product-dialog-call,.calculator-manager)[href^="tel:"]:any-link { color:var(--ink); border:1px solid var(--line); background:var(--panel-raised); box-shadow:none; }
+html body main :is(.catalog-help-phone,.product-dialog-call,.calculator-manager)[href^="tel:"]:hover { color:var(--ink); border-color:var(--muted); background:var(--panel); }

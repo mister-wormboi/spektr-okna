@@ -3,7 +3,7 @@
   const video = hero?.querySelector('video');
   const toggle = hero?.querySelector('.hero-video-toggle');
   const header = document.querySelector('.site-header');
-  if (!video || !toggle) return;
+  if (!video) return;
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   const connection = navigator.connection;
   let manual = null;
@@ -16,21 +16,21 @@
     if (!visible || document.hidden || !wantsPlayback()) { video.pause(); return; }
     if (!loaded && manual !== true) return;
     if (!video.hasAttribute('src')) { video.src = video.dataset.src; video.muted = true; }
-    video.play().catch(() => {}); // A browser may require a tap; the control stays available.
+    video.play().catch(() => {}); // If autoplay is unavailable, keep the poster.
   }
   function reflect() {
-    toggle.classList.toggle('is-playing', !video.paused);
-    toggle.setAttribute('aria-label', video.paused ? 'Воспроизвести видео' : 'Приостановить видео');
+    toggle?.classList.toggle('is-playing', !video.paused);
+    toggle?.setAttribute('aria-label', video.paused ? 'Воспроизвести видео' : 'Приостановить видео');
   }
-  toggle.hidden = false;
-  toggle.addEventListener('click', () => { manual = video.paused; update(); });
+  if (toggle) toggle.hidden = false;
+  toggle?.addEventListener('click', () => { manual = video.paused; update(); });
   video.addEventListener('playing', () => {
     if (!visible || document.hidden || !wantsPlayback()) { video.pause(); return; }
     hero.classList.add('is-video-ready');
     reflect();
   });
   video.addEventListener('pause', reflect);
-  video.addEventListener('error', () => { failed = true; hero.classList.remove('is-video-ready'); toggle.hidden = true; });
+  video.addEventListener('error', () => { failed = true; hero.classList.remove('is-video-ready'); if (toggle) toggle.hidden = true; });
   document.addEventListener('visibilitychange', update);
   window.addEventListener('load', () => { loaded = true; update(); }, { once: true });
   reduced.addEventListener('change', () => { manual = null; update(); });

@@ -15,8 +15,6 @@ body { background: var(--surface); }
 .hero h1 em { color: #e2ecd7; }
 .hero .primary-link { background: #e2ecd7; color: #203c30; }
 .hero .primary-link:hover { background: #f1f5ea; }
-.benefits-strip { background: var(--surface); }
-.benefits-strip strong { color: var(--ink); }
 .calculator-section { background: var(--paper); }
 .call-panel { background: var(--surface); color: var(--ink); border: 1px solid var(--line); }
 .call-description { color: var(--muted); }

@@ -125,5 +125,5 @@ test('all pages declare responsive viewport; mobile assets and controls are link
   assert.equal(heroVideo.preload, 'none');
   assert.ok(!heroVideo.src, 'Playback preferences are checked before requesting the video');
   checkLink(path.join(root, 'index.html'), heroVideo['data-src']);
-  assert.match(home, /aria-controls="heroVideo"/);
+  assert.equal(heroVideo.id, 'heroVideo');
 });

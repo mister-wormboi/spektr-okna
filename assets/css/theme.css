@@ -102,5 +102,4 @@ body :is(.catalog-consult, .catalog-help, .selection-rating, .information-checkl
 .reviews.is-slider .review-quote { color: var(--brand); opacity: .2; }
 .review-arrow:hover { background: var(--accent-soft); }
 html[data-theme="dark"] body .eyebrow { color: var(--muted); font-weight: 500; }
-html[data-theme="dark"] body main :is(h1,h2) em { color: var(--ink); }
 body :is(a,button,input,select,textarea):focus-visible { outline-color: var(--brand); }

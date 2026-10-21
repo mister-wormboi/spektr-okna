@@ -11,7 +11,7 @@ test('home request follows the calculator with text on the left and the form on 
   const request = sections[calculator + 1];
   assert.match(request, /id="request"/);
   assert.match(request, /data-b24-form="inline\/5\/q69y9k"/);
-  assert.match(request, /class="request-copy"[\s\S]*class="request-panel"/);
+  assert.match(request, /class="request-copy(?: [^"]+)?"[\s\S]*class="request-panel"/);
   assert.doesNotMatch(request, /window-3d-viewport|window-3d-fallback/);
   assert.doesNotMatch(html, /window-showroom|window3dTitle/);
   assert.match(html, /id="window-details"/);
@@ -39,7 +39,8 @@ test('home uses forms 5 and 9; the request page uses forms 3 and 7 for light and
     assert.match(html, /class="request-fallback"[^>]*>[\s\S]*?href="tel:\+79895175699"/);
   }
   assert.match(read('index.html'), /href="request\/"/);
-  assert.match(read('request/index.html'), /<h1 id="requestTitle">Оставить заявку<\/h1>/);
+  const heading = read('request/index.html').match(/<h1 id="requestTitle">([\s\S]*?)<\/h1>/)[1].replace(/<[^>]+>/g, '');
+  assert.equal(heading, 'Оставить заявку.');
 });
 
 test('every shared header links to the request page, including nested articles', () => {

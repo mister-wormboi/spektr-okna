@@ -26,6 +26,18 @@
   :root { --page-gutter: 16px; --space-card: 16px; }
 }
 .wrap { width: min(var(--content-max), calc(100% - 2 * var(--page-gutter))); margin-inline: auto; }
+/* Static breadcrumbs share the page grid and remain readable on narrow screens. */
+body:is(.reviews-page,.catalog-page,.contacts-page,.solutions-page,.request-page) { background:var(--paper); }
+body main :is(.breadcrumbs, .article-breadcrumbs) { display:flex; flex-wrap:wrap; align-items:center; gap:10px 16px; margin-block:24px 0; color:var(--muted); font:400 16px/1.6 var(--sans); letter-spacing:normal; }
+body main :is(.breadcrumbs, .article-breadcrumbs) a { color:inherit; text-decoration:none; padding-block:4px; }
+body main :is(.breadcrumbs, .article-breadcrumbs) a:hover { color:var(--ink); text-decoration:underline; text-underline-offset:4px; }
+body main :is(.breadcrumbs, .article-breadcrumbs) a:focus-visible { outline:2px solid currentColor; outline-offset:4px; }
+body main :is(.breadcrumbs, .article-breadcrumbs) [aria-current] { min-width:0; overflow-wrap:break-word; }
+.information-cinema-top .breadcrumbs { margin:0; color:inherit; }
+body main :is(.reviews-hero,.catalog-page-hero,.solutions-intro,.hero,.request-section,.about-hero) .breadcrumbs { margin-top:0; margin-bottom:32px; }
+.about-hero>.breadcrumbs { grid-column:1/-1; }
+@media(min-width:761px) { html[data-theme="light"] .about-page .about-hero>.breadcrumbs { color:#f0f1e9; } }
+@media(max-width:760px) { body main :is(.breadcrumbs, .article-breadcrumbs) { gap:6px 10px; margin-top:12px; } body main .information-cinema-top .breadcrumbs { margin:0; } }
 .about-page .about-hero,
 .catalog-page-hero,
 .contacts-page .hero,

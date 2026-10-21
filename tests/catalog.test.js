@@ -28,66 +28,38 @@ test('catalogue combines groups and normalizes Russian search', () => {
   assert.deepEqual(selectCatalogItems(products, { group: 'Двери', query: 'окно' }), []);
 });
 
-function home({ observer = false, reduced = false, sort = true } = {}) {
-  const makeElement = () => {
-    const classes = new Set();
-    return {
-      classList: { add: (...names) => names.forEach(n => classes.add(n)), remove: n => classes.delete(n), toggle: (n, on) => on ? classes.add(n) : classes.delete(n), contains: n => classes.has(n) },
-      style: { setProperty() {} }, dataset: {}, listeners: {},
-      addEventListener(name, handler) { this.listeners[name] = handler; },
-      setAttribute() {}, matches() { return false; },
-    };
-  };
-  const grid = makeElement();
-  grid.children = [];
-  grid.querySelectorAll = () => grid.children.filter(c => c.classList.contains('card'));
-  grid.replaceChildren = (...children) => { grid.children = children; };
-  grid.append = child => grid.children.push(child);
-  const filter = makeElement();
-  filter.dataset.homeGroup = 'windows';
-  const sortField = makeElement();
-  sortField.value = 'default';
-  const count = makeElement();
-  const fields = { '#cards': grid, '#homeCatalogCount': count, '#homeCatalogSort': sort ? sortField : null };
-  const observed = new Set();
-  class Observer {
-    observe(element) { observed.add(element); }
-    unobserve(element) { observed.delete(element); }
-  }
-  const context = {
-    document: {
-      querySelector: selector => fields[selector] || null,
-      querySelectorAll: selector => selector === '[data-home-group]' ? [filter] : grid.children,
-      createElement: makeElement,
-    },
-    window: {
-      SPEKTR_PRODUCTS: products.map(p=>({...p, category:p.group==='Окна и балконные блоки'?'windows':p.group==='Двери'?'doors':'gates',subtitle:'',description:'',features:[]})),
-      matchMedia: () => ({ matches: reduced }),
-      renderSpektrProductPreview: () => { const el = makeElement(); el.classList.add('card'); return el; },
-      ...(observer ? { IntersectionObserver: Observer } : {}),
-    },
-    IntersectionObserver: Observer,
-    selectSpektrProducts,
-  };
-  vm.runInNewContext(fs.readFileSync(path.join(__dirname, '../assets/js/main.js'), 'utf8'), context);
-  return { grid, filter, sortField, observed };
+function home({observer=false,reduced=false}={}) {
+  const observed=new Set();let intersect;
+  const items=Array.from({length:8},()=>{const names=new Set();return {style:{setProperty(){}},classList:{add:n=>names.add(n),contains:n=>names.has(n)},matches:selector=>selector.includes('.home-category-card')};});
+  items.forEach(item=>item.parentElement={children:items});
+  class Observer { constructor(fn){intersect=fn;} observe(item){observed.add(item);} unobserve(item){observed.delete(item);} }
+  vm.runInNewContext(fs.readFileSync(path.join(__dirname,'../assets/js/main.js'),'utf8'),{
+    document:{querySelectorAll:()=>items},window:{matchMedia:()=>({matches:reduced}),...(observer?{IntersectionObserver:Observer}:{})},IntersectionObserver:Observer
+  });
+  return {items,observed,intersect};
 }
 
-test('cards stay visible after filtering without IntersectionObserver or with reduced motion', () => {
-  for (const settings of [{}, { observer: true, reduced: true }, { sort: false }]) {
-    const { grid, filter } = home(settings);
-    assert.equal(grid.children.length, 4);
-    filter.listeners.click();
-    assert.equal(grid.children.length, 1);
-    assert.ok(grid.children.every(c => c.classList.contains('is-visible')));
+test('category links stay visible without IntersectionObserver or with reduced motion',()=>{
+  for(const settings of [{},{observer:true,reduced:true}]){
+    const {items,observed}=home(settings);
+    assert.equal(items.length,8);assert.equal(observed.size,0);
+    assert.ok(items.every(item=>item.classList.contains('is-visible')));
   }
 });
 
-test('replacing cards releases old observer targets', () => {
-  const { grid, filter, observed } = home({ observer: true });
-  const previous = [...grid.children];
-  assert.equal(observed.size, 4);
-  filter.listeners.click();
-  assert.equal(observed.size, 1);
-  assert.ok(previous.every(card => !observed.has(card)));
+test('category reveal releases a target after it appears',()=>{
+  const {items,observed,intersect}=home({observer:true});
+  assert.equal(observed.size,8);
+  intersect([{target:items[0],isIntersecting:true}],{unobserve:item=>observed.delete(item)});
+  assert.equal(observed.size,7);assert.ok(items[0].classList.contains('is-visible'));
+});
+
+test('home offers every category as a direct schematic link, without product controls or photos',()=>{
+  const html=fs.readFileSync(path.join(__dirname,'../index.html'),'utf8');
+  const catalog=html.match(/<section class="catalog home-catalog"[\s\S]*?<\/section>/)[0];
+  const links=[...catalog.matchAll(/<a class="home-category-card" href="catalog\/\?category=([^"]+)"[^>]*>([\s\S]*?)<\/a>/g)];
+  assert.deepEqual(links.map(item=>item[1]).sort(),['windows','balconies','doors','gates','ceilings','blinds','aluminium','components'].sort());
+  links.forEach(item=>{assert.match(item[2],/<svg[^>]+aria-hidden="true"/);assert.match(item[2],/<h3>/);});
+  assert.doesNotMatch(catalog,/<img|homeCatalogSearch|homeCatalogSort|Подробнее|product-price/);
+  assert.doesNotMatch(html,/src="assets\/js\/(?:products-data|products-page|product-preview)\.js/);
 });

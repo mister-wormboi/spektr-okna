@@ -56,3 +56,31 @@ test('subcategories cover each category exactly once and combine with search',()
     assert.ok(fs.existsSync(path.join(root,product.catalogImage.replace('.webp','-small.webp'))));
   }
 });
+
+test('prices are one existing example per direction, not invented per product or profile',()=>{
+  const guides=context.window.SPEKTR_PRICE_GUIDES;
+  assert.equal(Object.keys(guides).length,7);
+  assert.equal(guides.windows.amount,6500);
+  assert.equal(guides.windows.unit,'м²');
+  assert.equal(guides.doors.amount,14000);
+  for(const guide of Object.values(guides)){
+    assert.ok(products.some(product=>product.id===guide.productId));
+    assert.match(guide.note,/Цены примерные/);
+    assert.match(guide.note,/Без монтажа и доставки/);
+  }
+  for(const product of products){
+    assert.equal(product.priceFrom,undefined);
+    assert.equal(product.priceLabel,undefined);
+  }
+  assert.equal(context.window.SPEKTR_CATALOG_DIRECTIONS.length,categories.length);
+  assert.deepEqual(Array.from(context.window.SPEKTR_WINDOW_COLLECTIONS,item=>item.id),['ready','pro','rehau','custom']);
+});
+
+test('catalogue removes redundant all/windows labels and explains estimates before selection',()=>{
+  const read=file=>fs.readFileSync(path.join(root,file),'utf8');
+  assert.doesNotMatch(read('index.html'),/data-home-group/);
+  assert.doesNotMatch(read('assets/js/product-preview.js'),/product-subtitle|priceLabel|product-ready/);
+  assert.doesNotMatch(read('assets/js/products-page.js'),/title:'Вся продукция'|#productDialogPrice'|product-subcategories/);
+  assert.match(read('catalog/index.html'),/Цены примерные[\s\S]*?id="fullCatalogCards"/);
+  assert.match(read('catalog/index.html'),/не являются публичной офертой/i);
+});

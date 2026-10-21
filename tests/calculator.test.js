@@ -1,6 +1,6 @@
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
-const { calculateWindow } = require('../assets/js/calculator.js');
+const { calculateWindow, getWindowPreviewLayout } = require('../assets/js/calculator.js');
 const base = { width: 1300, height: 1400, sashes: 2, opening: 1, chambers: 1, profile: 'Elex', profileWidth: 70 };
 const calc = changes => calculateWindow({ ...base, ...changes });
 
@@ -44,4 +44,20 @@ test('nonstandard ignores all surcharges', () => {
 });
 test('invalid or incomplete inputs never produce a price', () => {
   for (const change of [{ width: 0 }, { height: -1 }, { width: 1.5 }, { sashes: 0 }, { sashes: 2.5 }, { opening: NaN }, { opening: -1 }, { opening: 3 }, { chambers: 5 }, { profile: 'Other' }, { profileWidth: 60 }, { width: Infinity }, { width: Number.MAX_SAFE_INTEGER }]) assert.equal(calc(change), null);
+});
+
+test('window preview follows dimensions and openings without limiting custom counts',()=>{
+  for(const sashes of [1,2,3,10,25,100000]){
+    const layout=getWindowPreviewLayout({...base,sashes,opening:Math.min(sashes,3)});
+    assert.equal(layout.panes.length,Math.min(sashes,10));
+    assert.equal(layout.panes.filter(pane=>pane.opens).length,Math.min(sashes,3));
+    for(const pane of layout.panes){assert.ok(pane.width>=22);assert.ok(pane.height>0);}
+    assert.ok(layout.width<=320&&layout.height<=210);
+  }
+  const landscape=getWindowPreviewLayout({...base,width:2200,height:1200});
+  const portrait=getWindowPreviewLayout({...base,width:1200,height:2200});
+  assert.ok(landscape.width>landscape.height);
+  assert.ok(portrait.width<portrait.height);
+  assert.equal(getWindowPreviewLayout({...base,width:0}),null);
+  assert.equal(getWindowPreviewLayout({...base,opening:3}),null);
 });

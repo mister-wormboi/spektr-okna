@@ -1,73 +1,15 @@
 (() => {
-  const homeCatalog = document.querySelector('#cards');
-  const searchInput = document.querySelector('#homeCatalogSearch');
-  const sortSelect = document.querySelector('#homeCatalogSort');
-  const count = document.querySelector('#homeCatalogCount');
-  const filters = [...document.querySelectorAll('[data-home-group]')];
-  const products = window.SPEKTR_PRODUCTS || [];
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const canReveal = !reducedMotion && 'IntersectionObserver' in window;
-  let revealObserver = null;
-  let activeGroup = 'all';
-
   function prepareReveal(element, index) {
     element.classList.add('reveal');
     element.style.setProperty('--reveal-delay', `${Math.min(index, 5) * 65}ms`);
     if (!canReveal) element.classList.add('is-visible');
   }
 
-  function renderCatalog() {
-    if (!homeCatalog || !window.renderSpektrProductPreview) return;
-    const matching = selectSpektrProducts(products, {
-      category: activeGroup,
-      query: searchInput?.value || '',
-      sort: sortSelect?.value || 'default',
-    });
-
-    const shown = matching.slice(0, 4);
-    const more = document.querySelector('.home-catalog .catalog-more');
-    if (more) {
-      const params = new URLSearchParams();
-      if (activeGroup !== 'all') params.set('category', activeGroup);
-      if (searchInput?.value.trim()) params.set('q', searchInput.value.trim());
-      if (sortSelect?.value && sortSelect.value !== 'default') params.set('sort', sortSelect.value);
-      more.href = 'catalog/' + (params.size ? '?' + params.toString() : '');
-      more.querySelector('span').textContent = matching.length + ' позиций ↗';
-    }
-    homeCatalog.querySelectorAll('.card').forEach(card => revealObserver?.unobserve(card));
-    homeCatalog.replaceChildren(...shown.map((item, index) => window.renderSpektrProductPreview(item, index)));
-    homeCatalog.querySelectorAll('.card').forEach((card, index) => {
-      prepareReveal(card, index);
-      revealObserver?.observe(card);
-    });
-    if (!shown.length) {
-      const empty = document.createElement('p');
-      empty.className = 'catalog-empty';
-      empty.textContent = 'Ничего не найдено. Попробуйте изменить запрос.';
-      homeCatalog.append(empty);
-    }
-    if (count) count.textContent = matching.length > shown.length
-      ? `Показаны ${shown.length} из ${matching.length} позиций — весь список в каталоге.`
-      : `Показано позиций: ${shown.length}`;
-  }
-
-  filters.forEach((button) => button.addEventListener('click', () => {
-    activeGroup = button.dataset.homeGroup;
-    filters.forEach((item) => {
-      const selected = item === button;
-      item.classList.toggle('is-active', selected);
-      item.setAttribute('aria-pressed', String(selected));
-    });
-    renderCatalog();
-  }));
-  searchInput?.addEventListener('input', renderCatalog);
-  sortSelect?.addEventListener('change', renderCatalog);
-  renderCatalog();
-
   const revealSelector = [
-    '.benefits-strip > div',
     '.calculator-section .call-panel', '.calculator-section .calculator',
-    '.home-catalog .section-heading', '.home-catalog-tabs', '.home-catalog-tools', '.home-catalog .catalog-note', '.home-catalog .card', '.home-catalog-count', '.home-catalog .catalog-more',
+    '.home-catalog .section-heading', '.home-category-card', '.home-catalog .catalog-more',
     '.project-examples .section-heading', '.project-examples-note', '.solutions-more',
     '.reviews-heading', '.reviews-grid', '.guides-heading', '.guides details',
     '.home-office-card', '.site-footer .footer-inner > *',
@@ -75,7 +17,7 @@
   const revealItems = [...document.querySelectorAll(revealSelector)];
 
   revealItems.forEach((element, index) => {
-    const cardIndex = element.matches('.home-catalog .card, .home-office-card')
+    const cardIndex = element.matches('.home-category-card, .home-office-card')
       ? [...element.parentElement.children].indexOf(element)
       : index % 6;
     prepareReveal(element, cardIndex);
@@ -88,7 +30,7 @@
     return;
   }
 
-  revealObserver = new IntersectionObserver((entries, currentObserver) => {
+  const revealObserver = new IntersectionObserver((entries, currentObserver) => {
     entries.forEach((entry) => {
       if (!entry.isIntersecting) return;
       entry.target.classList.add('is-visible');

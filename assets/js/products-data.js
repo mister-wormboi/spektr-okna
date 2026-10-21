@@ -75,15 +75,21 @@
     ['hinge','components','Дверная петля','Фурнитура для двери','Регулируемая петля для ПВХ-двери. Модель подбирается по профилю, размерам и массе полотна.', ['Подбор под профиль','Регулировка положения полотна'],doors],
     ['seal','components','Оконный уплотнитель','Комплектующие для окна','Эластичное уплотнение притвора. Сечение подбирается по пазу установленной оконной системы.', ['Подбор сечения','Совместимость с профилем'],'produkcija/okna/']
   ];
-  const estimates = {
-    econom:[6500,'м²'], optimal:[7500,'м²'], comfort:[9000,'м²'], energy:[13000,'м²'], elite:[11500,'м²'],
-    pro58:[6500,'м²'], pro70:[8500,'м²'], unusual:[14000,'м²'], delight:[10500,'м²'], grazio:[9500,'м²'], intelio:[13000,'м²'], blitz:[8000,'м²'],
-    'warm-balcony':[9500,'м²'], 'cold-balcony':[5000,'м²'], entrance:[25000,'шт.'], interior:[16000,'шт.'], 'balcony-door':[14000,'шт.'],
-    shutters:[6500,'м²'], 'roller-gate':[45000,'компл.'], sectional:[55000,'компл.'], automation:[18000,'компл.'],
-    matte:[700,'м²'], gloss:[800,'м²'], satin:[850,'м²'], print:[1600,'м²'], levels:[1800,'м²'],
-    'roller-blind':[1800,'шт.'], cassette:[3200,'шт.'], 'al-sliding':[6000,'м²'], 'al-door':[35000,'шт.'],
-    'al-portal':[95000,'компл.'], 'al-wicket':[22000,'шт.'], panoramic:[14000,'м²'], office:[8000,'м²'], facade:[16000,'м²'], sanitary:[6500,'м²']
+  // One existing estimate per direction, never a separate price for each profile.
+  const priceExamples = {
+    windows:['Пластиковое окно',6500,'м²','econom'],
+    balconies:['Холодное остекление балкона',5000,'м²','cold-balcony'],
+    doors:['Балконная дверь',14000,'шт.','balcony-door'],
+    gates:['Рольворота',45000,'компл.','roller-gate'],
+    ceilings:['Матовый потолок',700,'м²','matte'],
+    blinds:['Рулонная штора',1800,'шт.','roller-blind'],
+    aluminium:['Раздвижное алюминиевое окно',6000,'м²','al-sliding']
   };
+  const priceFormat = new Intl.NumberFormat('ru-RU');
+  window.SPEKTR_PRICE_GUIDES = Object.fromEntries(Object.entries(priceExamples).map(([category,[title,amount,unit,productId]]) => [category,{
+    title,amount,unit,productId,label:`от ${priceFormat.format(amount)} ₽ / ${unit}`,
+    note:'Цены примерные, не являются публичной офертой. Без монтажа и доставки. Итоговую стоимость рассчитаем после замера и согласования комплектации.'
+  }]));
   // Selection criteria, not a promise that every supplier option is included.
   const selection = {
     windows:['Фурнитура подбирается по профилю, размеру и массе створки','Тип открывания и защита от случайного открывания — по согласованию'],
@@ -118,9 +124,24 @@
     catalogImage:`assets/catalog/scene-${sceneImages[id] || id}-v1.webp`,
     ...details[id],
     features:[...(details[id]?.features || features),...(selection[category] || [])],
-    priceFrom:estimates[id]?.[0] ?? null, priceUnit:estimates[id]?.[1] ?? null,
-    priceLabel:estimates[id]?`от ${new Intl.NumberFormat('ru-RU').format(estimates[id][0])} ₽ / ${estimates[id][1]}`:'Цена по запросу',
-    priceNote:estimates[id]?'Ориентировочно, без монтажа и доставки. Точный расчёт — по размерам и комплектации.':'Стоимость и наличие уточняются при подборе совместимой детали.',
+    priceNote:'Точную стоимость рассчитаем по вашим размерам и комплектации. Монтаж и доставка рассчитываются отдельно.',
     tbmReference:['al-wicket','sanitary'].includes(id) ? null : (referenceByCategory[category] || null)
+  }));
+  window.SPEKTR_CATALOG_DIRECTIONS = window.SPEKTR_PRODUCT_CATEGORIES.map(category => {
+    const representative = window.SPEKTR_PRODUCTS.find(product => product.id === priceExamples[category.id]?.[3])
+      || window.SPEKTR_PRODUCTS.find(product => product.category === category.id);
+    return {...representative,id:category.id,title:category.id==='windows'?'Пластиковые окна':category.title,
+      description:category.caption,features:[],isDirection:true,priceGuide:window.SPEKTR_PRICE_GUIDES[category.id]};
+  });
+  const collectionCopy = {
+    ready:['Готовые решения «Спектр»','Пять комплектаций: от базового «Эконом» до «Элит». Подберём подходящую для вашего дома.'],
+    pro:['Окна PRO WINS','Профильные системы 58 и 70 мм. Выбор глубины профиля и стеклопакета под вашу задачу.'],
+    rehau:['Окна REHAU','Delight Design, Grazio, Intelio и Blitz New. Поможем разобраться в различиях.'],
+    custom:['Нестандартные окна','Арочные и другие нестандартные формы. Изготовление под ваш проём.']
+  };
+  window.SPEKTR_WINDOW_COLLECTIONS = window.SPEKTR_PRODUCT_SUBCATEGORIES.windows.map(group => ({
+    ...window.SPEKTR_PRODUCTS.find(product => product.id===group.products[0]),
+    id:group.id,title:collectionCopy[group.id][0],description:collectionCopy[group.id][1],
+    features:[],isCollection:true
   }));
 })();

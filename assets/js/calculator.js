@@ -16,7 +16,20 @@ function calculateWindow({ width, height, sashes, opening, chambers, profile, pr
   return { area, standard, rate, surcharge, multiplier, price };
 }
 
-if (typeof module !== 'undefined') module.exports = { calculateWindow };
+function getWindowPreviewLayout({ width, height, sashes, opening }) {
+  if (![width,height,sashes].every(value=>Number.isSafeInteger(value)&&value>0)
+    || !Number.isSafeInteger(opening)||opening<0||opening>sashes) return null;
+  const columns=Math.min(sashes,10);
+  const scale=Math.min(320/width,210/height);
+  const frameWidth=Math.max(columns*22+12,80,width*scale);
+  const frameHeight=Math.max(80,height*scale);
+  const x=(400-frameWidth)/2,y=(280-frameHeight)/2;
+  const paneWidth=(frameWidth-12)/columns;
+  return {x,y,width:frameWidth,height:frameHeight,shown:columns,
+    panes:Array.from({length:columns},(_,index)=>({x:x+6+index*paneWidth,y:y+6,width:paneWidth,height:frameHeight-12,opens:index<opening}))};
+}
+
+if (typeof module !== 'undefined') module.exports = { calculateWindow, getWindowPreviewLayout };
 
 if (typeof document !== 'undefined') (() => {
   const root = document.querySelector('.calculator');
@@ -30,6 +43,7 @@ if (typeof document !== 'undefined') (() => {
   const areaFormat = value => new Intl.NumberFormat('ru-RU', { maximumFractionDigits: 6 }).format(value);
   let lastCount = 2;
   let opening = 1;
+  let lastPreviewKey = '';
   const transferFields = ['widthInput', 'heightInput', 'sashesInput', 'chambersInput', 'profileInput', 'profileWidthInput'];
   const params = new URLSearchParams(window.location.search);
   transferFields.forEach(id => {
@@ -88,6 +102,30 @@ if (typeof document !== 'undefined') (() => {
       ? 'Введите целые числа: высота и ширина — от 140 до 9 999 999 мм, количество створок — от 1, поворотно-откидных — от 0 до общего количества створок.'
       : 'Введите размеры и количество створок целыми положительными числами. Количество открывающихся створок — от 0 до общего количества. Слишком большие значения не поддерживаются.';
     byId('calcPrice').textContent = result ? money(result.price) + ' ₽' : '—';
+    const preview=byId('calcWindowPreview');
+    if(preview){
+      const width=Number(byId('widthInput').value),height=Number(byId('heightInput').value);
+      const layout=getWindowPreviewLayout({width,height,sashes,opening});
+      const previewKey=layout?`${width}/${height}/${sashes}/${opening}`:'invalid';
+      preview.toggleAttribute('hidden',!layout);
+      byId('calcPreviewSize').textContent=layout?`${width} × ${height} мм`:'Укажите размеры';
+      if(layout && previewKey!==lastPreviewKey){
+        const shape=(tag,attributes)=>{const node=document.createElementNS('http://www.w3.org/2000/svg',tag);Object.entries(attributes).forEach(([name,value])=>node.setAttribute(name,String(value)));return node;};
+        const pieces=[shape('rect',{x:layout.x,y:layout.y,width:layout.width,height:layout.height,fill:'none',stroke:'currentColor','stroke-width':5})];
+        layout.panes.forEach(pane=>{
+          const x=pane.x+3,y=pane.y+3,w=pane.width-6,h=pane.height-6;
+          pieces.push(shape('rect',{x,y,width:w,height:h,fill:'currentColor','fill-opacity':'.035',stroke:'currentColor','stroke-width':1.5}));
+          if(pane.opens){
+            pieces.push(shape('path',{d:`M${x+w} ${y} L${x} ${y+h/2} L${x+w} ${y+h} M${x} ${y+h} L${x+w/2} ${y} L${x+w} ${y+h}`,fill:'none',stroke:'currentColor','stroke-width':1,'stroke-opacity':'.65'}));
+            pieces.push(shape('path',{d:`M${x+4} ${y+h/2-6}v12`,fill:'none',stroke:'currentColor','stroke-width':3}));
+          }
+        });
+        preview.replaceChildren(...pieces);
+        preview.setAttribute('aria-label',`Условная схема окна ${width} на ${height} мм. Створок: ${sashes}, открывающихся: ${opening}.`);
+        byId('calcPreviewNote').textContent=layout.shown<sashes?`Условная схема: показаны первые ${layout.shown} из ${sashes} створок.`:'Условная схема. Расположение створок уточним при заказе.';
+      }
+      lastPreviewKey=previewKey;
+    }
     if (byId('calcTariff')) byId('calcTariff').textContent = result ? `${result.standard ? 'Стандарт' : 'Нестандарт'} · ${money(result.rate)} ₽/м²` : '';
     if (byId('calcBreakdown')) byId('calcBreakdown').textContent = result ? `${areaFormat(result.area)} м² × ${money(result.rate)} ₽/м²`
       + (result.surcharge ? ` + ${money(result.surcharge)} ₽ за дополнительные открывающиеся створки` : '')

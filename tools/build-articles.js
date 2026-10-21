@@ -43,12 +43,13 @@ function card(article, prefix, linkPrefix, eager = false) {
 }
 
 function help(prefix) {
-  return `<section class="articles-help" aria-labelledby="articles-help-title"><div><span class="eyebrow">От чтения — к решению</span><h2 id="articles-help-title">Подберём окна<br><em>для вашего дома.</em></h2></div><a class=" page-end-action page-end-action-text" href="${prefix}calculator/"><span class="page-end-action-label">Рассчитать стоимость</span><span class="page-end-action-arrow" aria-hidden="true">↗</span></a></section>`;
+  return `<section class="articles-help" aria-labelledby="articles-help-title"><div><h2 id="articles-help-title">Подберём окна<br><em class="heading-accent">для вашего дома.</em></h2></div><a class=" page-end-action page-end-action-text" href="${prefix}calculator/"><span class="page-end-action-label">Рассчитать стоимость</span><span class="page-end-action-arrow" aria-hidden="true">↗</span></a></section>`;
 }
 
 const listing = `<main id="content" class="articles-main wrap">
+  <nav class="breadcrumbs" aria-label="Хлебные крошки"><a href="../">Главная</a><span aria-hidden="true">/</span><span aria-current="page">Статьи</span></nav>
   <section class="articles-intro" aria-labelledby="articles-title">
-    <div><span class="eyebrow">Журнал / полезное об окнах</span><h1 id="articles-title">Об окнах —<br><em>по делу.</em></h1></div>
+    <div class="section-copy"><h1 id="articles-title">Об окнах —<br><em class="heading-accent">простыми словами.</em></h1><p>Как выбрать окна, разобраться в стоимости и подготовиться к установке.</p></div>
   </section>
   <section class="articles-grid" aria-label="Превью статей">${articles.map((a, i) => card(a, '../', './', i === 0)).join('\n')}</section>
   ${help('../')}
@@ -91,7 +92,7 @@ articles.forEach(article => {
       title: escape(article.title + ' — Спектр'), description: escape(article.description), prefix: '../../', articles_href: '../',
       nav_current: 'location', body_class: 'article-detail-page', og_type: 'website', detail_css: '', structured_data: '',
       head_extra: `<meta name="robots" content="noindex, follow"><meta http-equiv="refresh" content="0; url=../${article.slug}/">`,
-      main: `<main id="content" class="articles-main wrap"><section class="articles-intro"><div><span class="eyebrow">Журнал «Спектра»</span><h1>Статья обновлена</h1><p><a href="../${article.slug}/">${escape(article.title)}</a></p></div></section></main>`,
+      main: `<main id="content" class="articles-main wrap"><nav class="breadcrumbs" aria-label="Хлебные крошки"><a href="../../">Главная</a><span aria-hidden="true">/</span><a href="../">Статьи</a><span aria-hidden="true">/</span><span aria-current="page">${escape(article.category)}</span></nav><section class="articles-intro"><div><h1>Статья обновлена</h1><p><a href="../${article.slug}/">${escape(article.title)}</a></p></div></section></main>`,
     }));
   }
 });

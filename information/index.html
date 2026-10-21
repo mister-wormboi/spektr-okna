@@ -18,13 +18,13 @@
   <link rel="stylesheet" href="../assets/css/header-refresh.css?v=20261021-video">
   <script src="../assets/js/header.js" defer></script>
   <link rel="stylesheet" href="../assets/css/footer.css?v=20261020-sage">
-  <link rel="stylesheet" href="../assets/css/layout.css?v=20261020">
-  <link rel="stylesheet" href="../assets/css/theme.css?v=20261020-sage">
+  <link rel="stylesheet" href="../assets/css/layout.css?v=20261022-breadcrumb-surfaces">
+  <link rel="stylesheet" href="../assets/css/theme.css?v=20261022-shared-theme">
   <link rel="stylesheet" href="../assets/css/style-experiment.css?v=20261020-audit">
-  <link rel="stylesheet" href="../assets/css/page-end-actions.css?v=20261021">
-  <link rel="stylesheet" href="../assets/css/typography.css?v=20261020">
+  <link rel="stylesheet" href="../assets/css/page-end-actions.css?v=20261022-monochrome">
+  <link rel="stylesheet" href="../assets/css/typography.css?v=20261022-shared-theme">
   <script src="../assets/js/information.js?v=20261021-fullscreen-video" defer></script>
-  <script src="../assets/js/hero-video.js?v=20261020-neutral" defer></script>
+  <script src="../assets/js/hero-video.js?v=20261022-optional-control" defer></script>
 </head>
 <body id="page-top" class="information-page">
   <a class="information-skip" href="#content">Перейти к содержимому</a>
@@ -62,15 +62,15 @@
         <video muted loop playsinline preload="none" poster="../assets/information-fresh-air-poster.webp" data-src="../assets/information-fresh-air.mp4" tabindex="-1"></video>
       </div>
       <div class="information-cinema-top">
-        <span>Для комфорта каждый день</span>
+        <nav class="breadcrumbs" aria-label="Хлебные крошки"><a href="../">Главная</a><span aria-hidden="true">/</span><span aria-current="page">Полезная информация</span></nav>
         <button class="hero-video-toggle" type="button" aria-label="Воспроизвести видео" hidden>
           <svg class="hero-video-play" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m9 5 10 7-10 7V5Z" fill="currentColor"/></svg>
           <svg class="hero-video-pause" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8 5v14M16 5v14" stroke="currentColor" stroke-width="2"/></svg>
         </button>
       </div>
-      <div class="information-cinema-copy">
-        <span class="information-cinema-kicker">Полезная информация / Спектр</span>
-        <h1 id="information-title">Всё, что важно<br>знать <em>об окнах.</em></h1>
+      <div class="information-cinema-copy section-copy">
+
+        <h1 id="information-title">Всё, что важно<br>знать <em class="heading-accent">об окнах.</em></h1>
         <p>Собрали понятные ответы об уходе, тепле, проветривании и деталях оконной конструкции.</p>
         <a class="information-cinema-explore" href="#questions">Выбрать вопрос <span aria-hidden="true">↓</span></a>
       </div>
@@ -82,14 +82,14 @@
     </section>
 
     <section class="information-preflight wrap" aria-labelledby="preflight-title">
-      <div class="information-preflight-copy" data-reveal>
-        <span class="eyebrow">Начните с простого</span>
-        <h2 id="preflight-title">Не каждую проблему<br>решает <em>замена окна.</em></h2>
+      <div class="information-preflight-copy section-copy" data-reveal>
+
+        <h2 id="preflight-title">Не каждую проблему<br>решает <em class="heading-accent">замена окна.</em></h2>
         <p>Иногда стоит начать с проветривания или обслуживания фурнитуры. Три наблюдения помогут понятнее описать ситуацию специалисту.</p>
         <a class="information-down" href="#questions">Все 20 ответов <span aria-hidden="true">↓</span></a>
       </div>
       <aside class="information-checklist" data-reveal aria-labelledby="checklist-title">
-        <div class="checklist-top"><span class="eyebrow">Экспресс-проверка</span><span>1 — 3</span></div>
+        <div class="checklist-top"><span>1 — 3</span></div>
         <h2 id="checklist-title">Что проверить<br>перед звонком?</h2>
         <ol>
           <li><span>1</span><p><strong>Где влага?</strong> На стекле со стороны комнаты — чаще вопрос влажности и вентиляции. Между стёклами — нужна диагностика стеклопакета.</p></li>
@@ -102,7 +102,7 @@
 
     <section class="information-faq" id="questions" aria-labelledby="questions-title">
       <div class="wrap information-faq-layout">
-        <header class="information-heading" data-reveal><span class="eyebrow">20 ответов</span><h2 id="questions-title">Разберёмся <em>в деталях.</em></h2><p>Выберите вопрос — ответ раскроется ниже. Если ситуация нестандартная, лучше показать окно мастеру.</p></header>
+        <header class="information-heading section-copy" data-reveal><h2 id="questions-title">Разберёмся <em class="heading-accent">в деталях.</em></h2><p>Выберите вопрос — ответ раскроется ниже. Если ситуация нестандартная, лучше показать окно мастеру.</p></header>
         <div class="information-questions">
           <div class="information-question-column">
             <details data-reveal><summary><span>1</span>Какой подоконник лучше выбрать?<b aria-hidden="true">+</b></summary><div><p>Для жилых комнат чаще выбирают ПВХ-подоконник: он практичен, устойчив к влаге и прост в уходе. Ламинированные модели позволяют подобрать текстуру под интерьер. Каменные и деревянные варианты эффектны, но требуют более точного монтажа и ухода. Важно подобрать глубину так, чтобы подоконник не перекрывал поток тёплого воздуха от радиатора.</p></div></details>
@@ -133,7 +133,7 @@
     </section>
 
     <section class="information-call wrap" data-reveal aria-labelledby="information-call-title">
-      <div><span class="eyebrow">Остались вопросы?</span><h2 id="information-call-title">Поможем разобраться<br><em>именно с вашим окном.</em></h2><p>Опишите ситуацию по телефону — подскажем, что можно сделать и когда нужен выезд мастера.</p></div>
+      <div><h2 id="information-call-title">Поможем разобраться<br><em class="heading-accent">именно с вашим окном.</em></h2><p>Опишите ситуацию по телефону — подскажем, что можно сделать и когда нужен выезд мастера.</p></div>
       <a class=" page-end-action" href="tel:+79895175699" aria-label="Позвонить в Спектр: 8 989 517 56 99"><svg class="page-end-action-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m7 3 3 5-2.5 2.5a15 15 0 0 0 6 6L16 14l5 3c0 3-2 4-4 4C10 20 4 14 3 7c0-2 1-4 4-4Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg><span class="page-end-action-copy"><span>Позвонить в «Спектр»</span><strong>8 989 517 56 99</strong></span><span class="page-end-action-arrow" aria-hidden="true">↗</span></a>
     </section>
   </main>
