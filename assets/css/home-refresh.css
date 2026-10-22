@@ -30,6 +30,7 @@
 .home-page .calculator-section .call-panel { max-width:none; margin-bottom:32px; }
 .home-page .calculator-compact .calculator-content { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,.85fr); gap:36px; margin:0; }
 .home-page .calculator-compact .calculator-fields { gap:24px; align-content:start; }
+.home-page .calculator-compact .calculator-fields > .calc-exclusions { margin:0; }
 .home-page .calculator-compact .calculator-summary { margin:0; padding-left:32px; border-left:1px solid var(--line); }
 .compact-preview-heading { display:flex; flex-wrap:wrap; justify-content:space-between; align-items:baseline; gap:12px; }
 .compact-preview-heading h3 { margin:0; font:400 24px/1.25 var(--serif); }
@@ -201,4 +202,16 @@ body.home-page main .hero-cinema h1 { max-width: 22ch; margin: 0 auto 20px; font
   .home-page .home-section-heading > h2 { max-width: none; }
   body.home-page main .hero-cinema h1 { font-size: clamp(32px, 8vw, 56px); }
   .home-page .hero-cinema-heading { padding-top: 24px; }
+}
+
+/* Two quiet surfaces follow the reading flow, not one stripe per section. */
+body.home-page { background:var(--paper); }
+body.home-page main > :is(.home-catalog,.project-examples,.reviews,.guides,.home-contact) { background:var(--paper); }
+body.home-page main > :is(.window-story,.before-after-section,.calculator-section,.request-section) { background:var(--surface); }
+.home-page .window-story-content { background:radial-gradient(ellipse at 50% 42%,color-mix(in srgb,var(--ink) 4%,transparent),transparent 68%),var(--surface); }
+/* Thin, content-width rules separate neighbouring sections within one group. */
+.home-page main > :is(.project-examples,.reviews,.calculator-section,.request-section,.home-contact) > .wrap:first-child { position:relative; }
+.home-page main > :is(.project-examples,.reviews,.calculator-section,.request-section,.home-contact) > .wrap:first-child::before {
+  content:''; position:absolute; top:calc(-1 * var(--space-section)); inset-inline:0;
+  height:1px; background:var(--line); pointer-events:none;
 }

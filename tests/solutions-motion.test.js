@@ -44,6 +44,17 @@ function setup({ reduced = false, observer = true } = {}) {
 }
 const settle = () => new Promise(resolve => setImmediate(resolve));
 
+test('both work strips keep moving on hover, retaining keyboard focus and visibility pauses', () => {
+  const css = fs.readFileSync(path.join(__dirname, '../assets/css/solutions.css'), 'utf8');
+  assert.doesNotMatch(css, /\.home-solutions-marquee[^{}]*:hover[^{}]*\{[^}]*animation-play-state:\s*paused/);
+  assert.match(css, /\.home-solutions-marquee\.is-animated:focus-within[^{}]*\{\s*animation-play-state:\s*paused/);
+  for (const file of ['index.html', 'solutions/index.html']) {
+    const html = fs.readFileSync(path.join(__dirname, '..', file), 'utf8');
+    assert.match(html, /home-solutions-marquee/);
+    assert.match(html, /solutions\.css\?v=20261022-continuous/);
+  }
+});
+
 test('marquee decodes and duplicates only once, after entering view; loop includes gaps', async () => {
   const s = setup();
   assert.equal(s.decodes(), 0);

@@ -66,6 +66,11 @@ test('home calculator has a shared live diagram and its heading before the compl
   assert.match(calc,/id="calcWindowPreview"/);
   assert.match(calc,/id="calcPreviewSize"/);
   assert.match(calc,/id="calcPreviewNote"/);
+  const fields=calc.match(/<div class="calculator-fields">([\s\S]*?)<div class="calculator-summary">/)[1];
+  assert.match(fields, /class="calc-exclusions calc-wide" id="compactExclusions"/);
+  assert.match(fields, /В расчёт не входят монтаж, подоконник, отлив, москитная сетка и дополнительные услуги\./);
+  assert.match(calc, /aria-describedby="compactExclusions compactPriceNote"/);
+  assert.match(calc, /id="compactPriceNote">Полную стоимость уточните у менеджера\./);
   for(const id of ['widthInput','heightInput','sashesInput','openingInput','chambersInput','profileInput','profileWidthInput'])assert.ok(calc.includes(`id="${id}"`));
   assert.match(read('assets/js/calculator.js'),/previewKey!==lastPreviewKey/);
 });

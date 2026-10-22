@@ -24,8 +24,8 @@
   <script src="assets/js/header.js" defer></script>
   <script src="assets/js/request-theme.js" defer></script>
   <link rel="stylesheet" href="assets/css/footer.css?v=20261020-sage">
-  <link rel="stylesheet" href="assets/css/home-refresh.css?v=20261022-category-grid">
-  <link rel="stylesheet" href="assets/css/solutions.css?v=20261020-large-preview">
+  <link rel="stylesheet" href="assets/css/home-refresh.css?v=20261022-reviews-first">
+  <link rel="stylesheet" href="assets/css/solutions.css?v=20261022-continuous">
   <link rel="stylesheet" href="assets/css/hero-atmosphere.css?v=20261022-call-restored">
   <script src="assets/js/hero-video.js?v=20261022-optional-control" defer></script>
   <link rel="stylesheet" href="assets/css/request.css">
@@ -103,106 +103,6 @@
       </div>
     </section>
 
-    <section class="window-story" id="window-details" aria-labelledby="windowStoryTitle">
-      <div class="window-story-content">
-        <div class="wrap window-story-heading home-section-heading">
-          <h2 id="windowStoryTitle">Из чего состоит окно?</h2>
-          <p>Рама, створка и стеклопакет работают вместе: помогают сохранять тепло, снижать шум и проветривать комнату. Показываем, за что отвечает каждая деталь.</p>
-        </div>
-        <div class="wrap window-visual">
-          <div class="window-stage" role="img" aria-label="Устройство окна: наружная рама, створка с фурнитурой, стеклопакет и прижимной штапик.">
-            <img class="window-fallback" src="assets/window-white.webp" alt="" loading="lazy" decoding="async" width="1312" height="1199">
-          </div>
-          <ol class="window-part-labels" aria-label="Детали окна">
-            <li>
-              <div class="window-part-index"><span>1</span><span aria-hidden="true">↑</span></div>
-              <h3>Рама</h3>
-              <p>Основа окна: держит конструкцию и соединяет её с проёмом.</p>
-            </li>
-            <li>
-              <div class="window-part-index"><span>2</span><span aria-hidden="true">↑</span></div>
-              <h3>Створка</h3>
-              <p>Открывается для проветривания и плотно закрывается благодаря фурнитуре.</p>
-            </li>
-            <li>
-              <div class="window-part-index"><span>3</span><span aria-hidden="true">↑</span></div>
-              <h3>Стеклопакет</h3>
-              <p>Пропускает свет, помогает сохранять тепло и снижать уличный шум.</p>
-            </li>
-            <li>
-              <div class="window-part-index"><span>4</span><span aria-hidden="true">↑</span></div>
-              <h3>Штапик</h3>
-              <p>Удерживает стеклопакет в створке и обеспечивает плотное прилегание.</p>
-            </li>
-          </ol>
-        </div>
-        <div class="wrap window-story-bottom">
-          <p>Сравнить стоимость разных комплектаций можно в калькуляторе ниже.</p>
-          <a class="window-story-skip" href="#calculator">Рассчитать стоимость <span aria-hidden="true">↗</span></a>
-        </div>
-      </div>
-    </section>
-
-    <section class="calculator-section" id="calculator" aria-labelledby="calculatorTitle">
-      <div class="wrap">
-        <div class="call-panel home-section-heading">
-          <h2 id="calculatorTitle">Рассчитайте <em class="heading-accent">стоимость окна.</em></h2>
-          <p class="call-description">Укажите размеры и выберите комплектацию. Это предварительный расчёт: точную стоимость с монтажом уточним после замера.</p>
-          <a class="secondary-link" href="#request">Получить помощь с расчётом <span aria-hidden="true">↗</span></a>
-        </div>
-
-        <div class="calculator calculator-compact" aria-labelledby="calculatorTitle">
-          <div class="calculator-content">
-            <div class="calculator-fields">
-              <label>Высота окна, мм<input id="heightInput" type="number" min="140" max="9999999" step="1" value="1400" inputmode="numeric" required></label>
-              <label>Ширина окна, мм<input id="widthInput" type="number" min="140" max="9999999" step="1" value="1300" inputmode="numeric" required></label>
-              <label>Количество створок<input id="sashesInput" type="number" min="1" step="1" value="2" inputmode="numeric" required></label>
-              <div><label for="openingInput">Из них открываются и откидываются</label><input id="openingInput" type="number" min="0" max="2" step="1" value="1" inputmode="numeric" required></div>
-              <label>Профиль<select id="profileInput"><option value="Prowins">Prowins</option><option value="Elex" selected>Elex</option></select></label>
-              <label>Ширина профиля<select id="profileWidthInput"><option value="58">58 мм</option><option value="70" selected>70 мм</option></select></label>
-              <label class="calc-wide">Количество камер стеклопакета<select id="chambersInput"><option value="1">1 камера</option><option value="2">2 камеры</option><option value="3">3 камеры</option><option value="4">4 камеры</option></select></label>
-            </div>
-            <div class="calculator-summary">
-              <div class="compact-window-preview">
-                <div class="compact-preview-heading"><h3>Ваше окно</h3><span id="calcPreviewSize">1300 × 1400 мм</span></div>
-                <svg id="calcWindowPreview" viewBox="0 0 400 280" role="img" aria-label="Условная схема окна с двумя створками"><rect x="100" y="28" width="200" height="224" fill="none" stroke="currentColor" stroke-width="5"/><path d="M200 28v224M108 36h84v208h-84zM208 36h84v208h-84z" fill="none" stroke="currentColor" stroke-width="2"/></svg>
-                <p id="calcPreviewNote">Условная схема. Расположение створок уточним при заказе.</p>
-              </div>
-              <div aria-live="polite" aria-atomic="true">
-                <p id="calcError" class="calc-error" hidden></p>
-                <div class="calculator-result"><span>Примерная стоимость окна</span><div class="calc-price-emphasis" aria-describedby="compactExclusions"><b id="calcPrice">—</b></div></div>
-              </div>
-              <p class="calc-exclusions" id="compactExclusions"><span class="calc-warning-icon" aria-hidden="true">*</span><span class="calc-exclusions-copy"><span>В расчёт не входят монтаж, подоконник, отлив, москитная сетка и дополнительные услуги.</span><span>Полную стоимость уточните у менеджера.</span></span></p>
-              <noscript>Для расчёта включите JavaScript или позвоните менеджеру: 8 989 517 56 99.</noscript>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="request-section" id="request" aria-labelledby="requestTitle">
-      <div class="wrap request-layout">
-        <div class="request-copy home-section-heading">
-          <h2 id="requestTitle">Поможем <em class="heading-accent">выбрать окна.</em></h2>
-          <p>Оставьте имя и телефон. Мы свяжемся с вами, обсудим размеры, комплектацию и стоимость.</p>
-          <a class="request-link" href="request/">Открыть форму на отдельной странице <span aria-hidden="true">↗</span></a>
-        </div>
-        <div class="request-panel">
-          <div class="request-embed" data-themed-request>
-            <div data-request-theme="light" hidden>
-              <template><script data-b24-form="inline/5/q69y9k" data-skip-moving="true">(function(w,d,u){var s=d.createElement('script');s.async=true;s.src=u+'?'+(Date.now()/180000|0);var h=d.getElementsByTagName('script')[0];h.parentNode.insertBefore(s,h);})(window,document,'https://cdn-ru.bitrix24.ru/b32449848/crm/form/loader_5.js');</script></template>
-            </div>
-            <div data-request-theme="dark" hidden>
-              <template><script data-b24-form="inline/9/h54l7f" data-b24-form-telemetry-sign="v1:9:site.8a81d6d9a1b2d648461160a6bb870cdd7b254669bde630868b6fdbaed6c7767b" data-skip-moving="true">(function(w,d,u){var s=d.createElement('script');s.async=true;s.src=u+'?'+(Date.now()/180000|0);var h=d.getElementsByTagName('script')[0];h.parentNode.insertBefore(s,h);})(window,document,'https://cdn-ru.bitrix24.ru/b32449848/crm/form/loader_9.js');</script></template>
-            </div>
-            <p class="request-theme-note" data-request-theme-note role="status" hidden>Сохранили оформление формы, чтобы не потерять введённые данные.</p>
-          </div>
-          <p class="request-fallback">Если форма не отображается, позвоните нам: <a href="tel:+79895175699">8 989 517 56 99</a>.</p>
-          <noscript><p class="request-fallback">Для заполнения формы включите JavaScript в браузере.</p></noscript>
-        </div>
-      </div>
-    </section>
-
     <section class="catalog home-catalog" id="catalog" aria-labelledby="catalogTitle">
       <div class="wrap">
         <div class="section-heading home-section-heading">
@@ -220,25 +120,6 @@
           <a class="home-category-card" href="catalog/?category=components"><svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M43 22h24v76H43zM49 28h12v29H49zM67 50h31v13H67M23 22v76M17 22h12M17 98h12"/><circle cx="55" cy="82" r="4"/></svg><h3>Ручки и детали</h3><span aria-hidden="true">↗</span></a>
         </nav>
         <a class="catalog-more" href="catalog/">Открыть каталог <span>↗</span></a>
-      </div>
-    </section>
-
-    <section class="before-after-section" aria-labelledby="beforeAfterTitle">
-      <div class="wrap">
-        <div class="section-heading home-section-heading">
-          <h2 id="beforeAfterTitle">Как может измениться <em class="heading-accent">балкон?</em></h2>
-          <p>Передвиньте разделитель и сравните балкон до и после остекления и отделки.</p>
-        </div>
-        <figure class="balcony-comparison" style="--split: 50%">
-          <div class="comparison-images">
-            <img src="assets/balcony-after-v1.webp" width="1536" height="1024" loading="lazy" decoding="async" alt="Визуализация балкона после обновления: белые рамы, светлые стены и пол под дерево.">
-            <img class="comparison-before" src="assets/balcony-before-v1.webp" width="1536" height="1024" loading="lazy" decoding="async" alt="Визуализация того же балкона до обновления: старые деревянные рамы и потёртая отделка.">
-            <span class="comparison-label comparison-label-before" aria-hidden="true">До</span>
-            <span class="comparison-label comparison-label-after" aria-hidden="true">После</span>
-            <span class="comparison-divider" aria-hidden="true"><span>‹ ›</span></span>
-            <input class="comparison-range" type="range" min="0" max="100" value="50" aria-label="Сравнить балкон до и после обновления" aria-describedby="comparisonNote">
-          </div>
-        </figure>
       </div>
     </section>
 
@@ -398,6 +279,127 @@
             <p>В отзыве положительно отмечены офис, производство, качество и гарантия.</p>
             <footer><span>12 ноября 2024 · краткий пересказ</span><a class="review-verified" href="https://yandex.ru/maps/org/1211069508/reviews?reviews%5BpublicId%5D=y09nmnz8qh1gt0kqbxv9mh8bq8&amp;utm_source=review" target="_blank" rel="noopener noreferrer">Читать на Яндекс Картах ↗</a></footer>
           </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="before-after-section" aria-labelledby="beforeAfterTitle">
+      <div class="wrap">
+        <div class="section-heading home-section-heading">
+          <h2 id="beforeAfterTitle">Как может измениться <em class="heading-accent">балкон?</em></h2>
+          <p>Передвиньте разделитель и сравните балкон до и после остекления и отделки.</p>
+        </div>
+        <figure class="balcony-comparison" style="--split: 50%">
+          <div class="comparison-images">
+            <img src="assets/balcony-after-v1.webp" width="1536" height="1024" loading="lazy" decoding="async" alt="Визуализация балкона после обновления: белые рамы, светлые стены и пол под дерево.">
+            <img class="comparison-before" src="assets/balcony-before-v1.webp" width="1536" height="1024" loading="lazy" decoding="async" alt="Визуализация того же балкона до обновления: старые деревянные рамы и потёртая отделка.">
+            <span class="comparison-label comparison-label-before" aria-hidden="true">До</span>
+            <span class="comparison-label comparison-label-after" aria-hidden="true">После</span>
+            <span class="comparison-divider" aria-hidden="true"><span>‹ ›</span></span>
+            <input class="comparison-range" type="range" min="0" max="100" value="50" aria-label="Сравнить балкон до и после обновления" aria-describedby="comparisonNote">
+          </div>
+          <figcaption id="comparisonNote">Пример возможного обновления балкона: изображения созданы с помощью ИИ, это не фотографии выполненного проекта.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="window-story" id="window-details" aria-labelledby="windowStoryTitle">
+      <div class="window-story-content">
+        <div class="wrap window-story-heading home-section-heading">
+          <h2 id="windowStoryTitle">Из чего состоит окно?</h2>
+          <p>Рама, створка и стеклопакет работают вместе: помогают сохранять тепло, снижать шум и проветривать комнату. Показываем, за что отвечает каждая деталь.</p>
+        </div>
+        <div class="wrap window-visual">
+          <div class="window-stage" role="img" aria-label="Устройство окна: наружная рама, створка с фурнитурой, стеклопакет и прижимной штапик.">
+            <img class="window-fallback" src="assets/window-white.webp" alt="" loading="lazy" decoding="async" width="1312" height="1199">
+          </div>
+          <ol class="window-part-labels" aria-label="Детали окна">
+            <li>
+              <div class="window-part-index"><span>1</span><span aria-hidden="true">↑</span></div>
+              <h3>Рама</h3>
+              <p>Основа окна: держит конструкцию и соединяет её с проёмом.</p>
+            </li>
+            <li>
+              <div class="window-part-index"><span>2</span><span aria-hidden="true">↑</span></div>
+              <h3>Створка</h3>
+              <p>Открывается для проветривания и плотно закрывается благодаря фурнитуре.</p>
+            </li>
+            <li>
+              <div class="window-part-index"><span>3</span><span aria-hidden="true">↑</span></div>
+              <h3>Стеклопакет</h3>
+              <p>Пропускает свет, помогает сохранять тепло и снижать уличный шум.</p>
+            </li>
+            <li>
+              <div class="window-part-index"><span>4</span><span aria-hidden="true">↑</span></div>
+              <h3>Штапик</h3>
+              <p>Удерживает стеклопакет в створке и обеспечивает плотное прилегание.</p>
+            </li>
+          </ol>
+        </div>
+        <div class="wrap window-story-bottom">
+          <p>Сравнить стоимость разных комплектаций можно в калькуляторе ниже.</p>
+          <a class="window-story-skip" href="#calculator">Рассчитать стоимость <span aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="calculator-section" id="calculator" aria-labelledby="calculatorTitle">
+      <div class="wrap">
+        <div class="call-panel home-section-heading">
+          <h2 id="calculatorTitle">Рассчитайте <em class="heading-accent">стоимость окна.</em></h2>
+          <p class="call-description">Укажите размеры и выберите комплектацию. Это предварительный расчёт: точную стоимость с монтажом уточним после замера.</p>
+          <a class="secondary-link" href="#request">Получить помощь с расчётом <span aria-hidden="true">↗</span></a>
+        </div>
+
+        <div class="calculator calculator-compact" aria-labelledby="calculatorTitle">
+          <div class="calculator-content">
+            <div class="calculator-fields">
+              <label>Высота окна, мм<input id="heightInput" type="number" min="140" max="9999999" step="1" value="1400" inputmode="numeric" required></label>
+              <label>Ширина окна, мм<input id="widthInput" type="number" min="140" max="9999999" step="1" value="1300" inputmode="numeric" required></label>
+              <label>Количество створок<input id="sashesInput" type="number" min="1" step="1" value="2" inputmode="numeric" required></label>
+              <div><label for="openingInput">Из них открываются и откидываются</label><input id="openingInput" type="number" min="0" max="2" step="1" value="1" inputmode="numeric" required></div>
+              <label>Профиль<select id="profileInput"><option value="Prowins">Prowins</option><option value="Elex" selected>Elex</option></select></label>
+              <label>Ширина профиля<select id="profileWidthInput"><option value="58">58 мм</option><option value="70" selected>70 мм</option></select></label>
+              <label class="calc-wide">Количество камер стеклопакета<select id="chambersInput"><option value="1">1 камера</option><option value="2">2 камеры</option><option value="3">3 камеры</option><option value="4">4 камеры</option></select></label>
+              <p class="calc-exclusions calc-wide" id="compactExclusions"><span class="calc-warning-icon" aria-hidden="true">*</span><span class="calc-exclusions-copy">В расчёт не входят монтаж, подоконник, отлив, москитная сетка и дополнительные услуги.</span></p>
+            </div>
+            <div class="calculator-summary">
+              <div class="compact-window-preview">
+                <div class="compact-preview-heading"><h3>Ваше окно</h3><span id="calcPreviewSize">1300 × 1400 мм</span></div>
+                <svg id="calcWindowPreview" viewBox="0 0 400 280" role="img" aria-label="Условная схема окна с двумя створками"><rect x="100" y="28" width="200" height="224" fill="none" stroke="currentColor" stroke-width="5"/><path d="M200 28v224M108 36h84v208h-84zM208 36h84v208h-84z" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+                <p id="calcPreviewNote">Условная схема. Расположение створок уточним при заказе.</p>
+              </div>
+              <div aria-live="polite" aria-atomic="true">
+                <p id="calcError" class="calc-error" hidden></p>
+                <div class="calculator-result"><span>Примерная стоимость окна</span><div class="calc-price-emphasis" aria-describedby="compactExclusions compactPriceNote"><b id="calcPrice">—</b></div></div>
+              </div>
+              <p class="calc-help" id="compactPriceNote">Полную стоимость уточните у менеджера.</p>
+              <noscript>Для расчёта включите JavaScript или позвоните менеджеру: 8 989 517 56 99.</noscript>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="request-section" id="request" aria-labelledby="requestTitle">
+      <div class="wrap request-layout">
+        <div class="request-copy home-section-heading">
+          <h2 id="requestTitle">Поможем <em class="heading-accent">выбрать окна.</em></h2>
+          <p>Оставьте имя и телефон. Мы свяжемся с вами, обсудим размеры, комплектацию и стоимость.</p>
+          <a class="request-link" href="request/">Открыть форму на отдельной странице <span aria-hidden="true">↗</span></a>
+        </div>
+        <div class="request-panel">
+          <div class="request-embed" data-themed-request>
+            <div data-request-theme="light" hidden>
+              <template><script data-b24-form="inline/5/q69y9k" data-skip-moving="true">(function(w,d,u){var s=d.createElement('script');s.async=true;s.src=u+'?'+(Date.now()/180000|0);var h=d.getElementsByTagName('script')[0];h.parentNode.insertBefore(s,h);})(window,document,'https://cdn-ru.bitrix24.ru/b32449848/crm/form/loader_5.js');</script></template>
+            </div>
+            <div data-request-theme="dark" hidden>
+              <template><script data-b24-form="inline/9/h54l7f" data-b24-form-telemetry-sign="v1:9:site.8a81d6d9a1b2d648461160a6bb870cdd7b254669bde630868b6fdbaed6c7767b" data-skip-moving="true">(function(w,d,u){var s=d.createElement('script');s.async=true;s.src=u+'?'+(Date.now()/180000|0);var h=d.getElementsByTagName('script')[0];h.parentNode.insertBefore(s,h);})(window,document,'https://cdn-ru.bitrix24.ru/b32449848/crm/form/loader_9.js');</script></template>
+            </div>
+            <p class="request-theme-note" data-request-theme-note role="status" hidden>Сохранили оформление формы, чтобы не потерять введённые данные.</p>
+          </div>
+          <p class="request-fallback">Если форма не отображается, позвоните нам: <a href="tel:+79895175699">8 989 517 56 99</a>.</p>
+          <noscript><p class="request-fallback">Для заполнения формы включите JavaScript в браузере.</p></noscript>
         </div>
       </div>
     </section>

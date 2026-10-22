@@ -5,6 +5,21 @@ const path = require('node:path');
 const read = file => fs.readFileSync(path.join(__dirname, '..', file), 'utf8');
 const main = read('index.html').match(/<main\b[^>]*>([\s\S]*?)<\/main>/)[1];
 
+test('home leads from products and evidence to calculation, request and practical questions',()=>{
+  const order=[...main.matchAll(/<section\b[^>]*class="([^"]+)"[^>]*>/g)].map(match=>match[1]);
+  assert.deepEqual(order,['hero-cinema','catalog home-catalog','project-examples','reviews','before-after-section','window-story','calculator-section','request-section','guides','home-contact']);
+  assert.equal((main.match(/<section\b/g)||[]).length,10);
+  assert.equal((main.match(/data-themed-request/g)||[]).length,1);
+});
+
+test('home groups related sections on two shared theme surfaces without new palette colours',()=>{
+  const css=read('assets/css/home-refresh.css');
+  assert.match(css,/main > :is\(\.home-catalog,\.project-examples,\.reviews,\.guides,\.home-contact\) \{ background:var\(--paper\); \}/);
+  assert.match(css,/main > :is\(\.window-story,\.before-after-section,\.calculator-section,\.request-section\) \{ background:var\(--surface\); \}/);
+  assert.match(css,/\.window-story-content \{ background:radial-gradient\([^;]*var\(--ink\) 4%[^;]*var\(--surface\);/);
+  assert.match(css,/\.wrap:first-child::before \{[^}]*inset-inline:0;[^}]*height:1px; background:var\(--line\)/);
+});
+
 test('hero call button keeps its original quiet outline and accessible number', () => {
   const call = main.match(/<a class="hero-cinema-call"[\s\S]*?<\/a>/)[0];
   assert.match(call, /href="tel:\+79895175699"/);
