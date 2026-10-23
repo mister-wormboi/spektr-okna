@@ -5,7 +5,6 @@
   <meta charset="utf-8">
   <script src="{{prefix}}assets/js/theme.js"></script>
   <link rel="stylesheet" href="{{prefix}}assets/css/fonts.css?v=20261020-audit">
-  <script src="{{prefix}}assets/js/article-views.js?v=2" defer></script>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   {{head_extra}}
   <meta name="description" content="{{description}}">
@@ -18,7 +17,7 @@
   <link rel="stylesheet" href="{{prefix}}assets/css/main.css?v=20261020-audit">
   <link rel="stylesheet" href="{{prefix}}assets/css/design.css?v=20261020-audit">
   <link rel="stylesheet" href="{{prefix}}assets/css/night.css?v=20261020-audit">
-  <link rel="stylesheet" href="{{prefix}}assets/css/articles.css?v=2">
+  <link rel="stylesheet" href="{{prefix}}assets/css/articles.css?v=20261023-reading">
   {{detail_css}}
   <link rel="stylesheet" href="{{prefix}}assets/css/header-refresh.css?v=20261020-mobile-arrow">
   <script src="{{prefix}}assets/js/header.js" defer></script>
@@ -26,7 +25,6 @@
   <link rel="stylesheet" href="{{prefix}}assets/css/layout.css?v=20261022-breadcrumb-surfaces">
   <link rel="stylesheet" href="{{prefix}}assets/css/theme.css?v=20261022-shared-theme">
   <link rel="stylesheet" href="{{prefix}}assets/css/style-experiment.css?v=20261020-audit">
-  <link rel="stylesheet" href="{{prefix}}assets/css/page-end-actions.css?v=20261022-monochrome">
   <link rel="stylesheet" href="{{prefix}}assets/css/typography.css?v=20261022-shared-theme">
   {{structured_data}}
 </head>

@@ -19,7 +19,7 @@
         animation.oncancel = release;
       });
     }, { threshold: .12 });
-    document.querySelectorAll('.about-section-heading, .principles article, .solution-card, .process-intro, .process-steps, .about-invitation').forEach(element => revealObserver.observe(element));
+    document.querySelectorAll('.about-section-heading, .about-task-list li, .principles li, .solution-card, .about-invitation').forEach(element => revealObserver.observe(element));
   }
 
   document.addEventListener('visibilitychange', () => {

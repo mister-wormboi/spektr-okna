@@ -29,21 +29,13 @@ function render(values) {
   });
 }
 
-function viewCounter(slug, live = false) {
-  return `<span class="article-view-count" data-article-views="${slug}" aria-label="Число просмотров пока недоступно" title="Число просмотров пока недоступно"${live ? ' aria-live="polite"' : ''}><svg viewBox="0 0 24 24" width="20" height="20" fill="none" aria-hidden="true" focusable="false"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5"/></svg><span data-view-count>—</span></span>`;
-}
-
 function card(article, prefix, linkPrefix, eager = false) {
   return `<article class="article-card">
     <a class="article-card-link" href="${linkPrefix}${article.slug}/" aria-label="${escape(article.title)}">
       <div class="article-image"><img src="${prefix}${article.image.path}" alt="" width="${article.image.width}" height="${article.image.height}" ${eager ? 'fetchpriority="high"' : 'loading="lazy"'} decoding="async"></div>
-      <div class="article-copy"><div class="article-meta"><time datetime="${article.published_on}">${date(article.published_on)}</time>${viewCounter(article.slug)}</div><h2>${escape(article.title)}</h2><p>${escape(article.description)}</p></div>
+      <div class="article-copy"><div class="article-meta"><time datetime="${article.published_on}">${date(article.published_on)}</time></div><h2>${escape(article.title)}</h2><p>${escape(article.description)}</p></div>
     </a>
   </article>`;
-}
-
-function help(prefix) {
-  return `<section class="articles-help" aria-labelledby="articles-help-title"><div><h2 id="articles-help-title">Подберём окна<br><em class="heading-accent">для вашего дома.</em></h2></div><a class=" page-end-action page-end-action-text" href="${prefix}calculator/"><span class="page-end-action-label">Рассчитать стоимость</span><span class="page-end-action-arrow" aria-hidden="true">↗</span></a></section>`;
 }
 
 const listing = `<main id="content" class="articles-main wrap">
@@ -52,7 +44,6 @@ const listing = `<main id="content" class="articles-main wrap">
     <div class="section-copy"><h1 id="articles-title">Об окнах —<br><em class="heading-accent">простыми словами.</em></h1><p>Как выбрать окна, разобраться в стоимости и подготовиться к установке.</p></div>
   </section>
   <section class="articles-grid" aria-label="Превью статей">${articles.map((a, i) => card(a, '../', './', i === 0)).join('\n')}</section>
-  ${help('../')}
 </main>`;
 
 fs.writeFileSync(path.join(root, 'articles/index.html'), render({
@@ -61,18 +52,19 @@ fs.writeFileSync(path.join(root, 'articles/index.html'), render({
 }));
 
 articles.forEach(article => {
+  const fullCover = article.image.path.replace('/thumbs/', '/');
+  const coverPath = fs.existsSync(path.join(root, fullCover)) ? fullCover : article.image.path;
   const sections = article.sections.map((s, i) => `<section id="section-${i + 1}"><h2>${escape(s.heading)}</h2>${s.paragraphs.map(p => `<p>${escape(p)}</p>`).join('')}${s.items ? `<ul>${s.items.map(item => `<li>${escape(item)}</li>`).join('')}</ul>` : ''}${s.photo ? `<figure class="article-example"><a href="../../${escape(s.photo.full)}" target="_blank" rel="noopener"><img src="../../${escape(s.photo.thumb)}" alt="${escape(s.photo.alt)}" width="${s.photo.width}" height="${s.photo.height}" loading="lazy" decoding="async"></a><figcaption>${escape(s.photo.caption)}</figcaption></figure>` : ''}</section>`).join('\n');
   const main = `<main id="content" class="article-detail wrap">
     <nav class="article-breadcrumbs" aria-label="Хлебные крошки"><a href="../../">Главная</a><span aria-hidden="true">/</span><a href="../">Статьи</a><span aria-hidden="true">/</span><span aria-current="page">${escape(article.category)}</span></nav>
-    <article data-article-view="${article.slug}">
-      <header class="article-heading"><h1>${escape(article.title)}</h1><div class="article-heading-meta"><span><time datetime="${article.published_on}">${date(article.published_on)}</time></span><span>Чтение: около ${readingMinutes(article)} мин</span>${viewCounter(article.slug, true)}</div></header>
-      <div class="article-content${article.image.height > article.image.width ? ' article-content--portrait' : ''}">
-      <figure class="article-cover"><img src="../../${article.image.path}" alt="${escape(article.image.alt)}" width="${article.image.width}" height="${article.image.height}" fetchpriority="high" decoding="async"><figcaption>${escape(article.image.caption || 'Фото из галереи «Спектра»')}</figcaption></figure>
+    <article>
+      <header class="article-heading"><h1>${escape(article.title)}</h1><div class="article-heading-meta"><span><time datetime="${article.published_on}">${date(article.published_on)}</time></span><span>Чтение: около ${readingMinutes(article)} мин</span></div></header>
+      <div class="article-content">
+      <figure class="article-cover"><img src="../../${coverPath}" alt="${escape(article.image.alt)}" width="${article.image.width}" height="${article.image.height}" fetchpriority="high" decoding="async"><figcaption>${escape(article.image.caption || 'Фото из галереи «Спектра»')}</figcaption></figure>
       <div class="article-body">${sections}<aside class="article-takeaway"><span class="eyebrow">Главная мысль</span><p>${escape(article.takeaway)}</p></aside>
       </div>
       </div>
     </article>
-    ${help('../../')}
   </main>`;
   const schema = { '@context': 'https://schema.org', '@type': 'Article', headline: article.title, description: article.description,
     inLanguage: 'ru', genre: 'Практическое руководство', datePublished: article.published_on,
@@ -83,7 +75,7 @@ articles.forEach(article => {
   fs.writeFileSync(path.join(dir, 'index.html'), render({
     title: escape(article.title + ' — Спектр'), description: escape(article.description), prefix: '../../', articles_href: '../',
     nav_current: 'location', body_class: 'article-detail-page', og_type: 'article',
-    detail_css: '<link rel="stylesheet" href="../../assets/css/article-detail.css">', structured_data: jsonLd(schema), main,
+    detail_css: '<link rel="stylesheet" href="../../assets/css/article-detail.css?v=20261023-reading">', structured_data: jsonLd(schema), main,
   }));
   if (article.legacy_slug) {
     const legacyDir = path.join(root, 'articles', article.legacy_slug);

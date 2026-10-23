@@ -12,7 +12,7 @@
     <title>Контакты и офисы продаж — Спектр</title>
     <link rel="icon" type="image/png" sizes="128x128" href="../assets/favicon.png?v=2">
     <link rel="icon" type="image/svg+xml" sizes="any" href="../assets/favicon.svg">
-    <link rel="stylesheet" href="../assets/css/contacts.css?v=20261020-audit">
+    <link rel="stylesheet" href="../assets/css/contacts.css?v=20261023-cinema-type">
     <link rel="stylesheet" href="../assets/css/night.css?v=20261020-audit">
     <link rel="stylesheet" href="../assets/css/header-refresh.css?v=20261020-mobile-arrow">
   <script src="../assets/js/header.js" defer></script>
@@ -20,9 +20,10 @@
   <link rel="stylesheet" href="../assets/css/layout.css?v=20261022-breadcrumb-surfaces">
   <link rel="stylesheet" href="../assets/css/theme.css?v=20261022-shared-theme">
   <link rel="stylesheet" href="../assets/css/style-experiment.css?v=20261020-audit">
-    <link rel="stylesheet" href="../assets/css/page-end-actions.css?v=20261022-monochrome">
+    <link rel="stylesheet" href="../assets/css/page-end-actions.css?v=20261023-solid-call">
   <link rel="stylesheet" href="../assets/css/typography.css?v=20261022-shared-theme">
     <script src="../assets/js/contacts.js" defer></script>
+    <script src="../assets/js/hero-video.js?v=20261022-optional-control" defer></script>
 </head>
 
 <body id="page-top" class="contacts-page">
@@ -61,22 +62,32 @@
   </header>
 
     <main>
-        <section class="hero">
+        <section class="hero contacts-hero hero-cinema" aria-labelledby="contactsTitle">
+            <div class="contacts-hero-media" aria-hidden="true">
+                <img src="../assets/contacts-window-rain-poster.webp" alt="" width="1600" height="900" fetchpriority="high" decoding="async">
+                <video muted loop playsinline preload="none" data-src="../assets/contacts-window-rain.mp4" tabindex="-1"></video>
+            </div>
     <nav class="breadcrumbs wrap" aria-label="Хлебные крошки"><a href="../">Главная</a><span aria-hidden="true">/</span><span aria-current="page">Филиалы</span></nav>
             <div class="wrap hero-grid">
                 <div class="hero-copy section-copy">
-                    <a class="back-link" href="../reviews/">Отзывы клиентов ↗</a>
-
-                    <h1>Наши офисы.<br><em class="heading-accent">Выберите ближайший.</em></h1>
+                    <h1 id="contactsTitle">Наши офисы.<br><em class="heading-accent">Выберите ближайший.</em></h1>
                     <p>Посетите ближайший салон «Спектр»: покажем образцы, поможем выбрать профиль и рассчитаем
                         стоимость конструкции.</p>
                 </div>
 
+                <aside class="contacts-hero-help" aria-labelledby="contactsHelpTitle">
+                    <h2 id="contactsHelpTitle">Поможем выбрать удобный офис.</h2>
+                    <p>Позвоните по единому номеру — подскажем ближайший филиал и запишем на бесплатный замер.</p>
+                    <a class="page-end-action" href="tel:+79895175699" aria-label="Позвонить в Спектр: 8 989 517 56 99"><svg class="page-end-action-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m7 3 3 5-2.5 2.5a15 15 0 0 0 6 6L16 14l5 3c0 3-2 4-4 4C10 20 4 14 3 7c0-2 1-4 4-4Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg><span class="page-end-action-copy"><span>Позвонить в «Спектр»</span><strong>8 989 517 56 99</strong></span><span class="page-end-action-arrow" aria-hidden="true">↗</span></a>
+                </aside>
+            </div>
+            <div class="wrap contacts-hero-bottom">
                 <div class="hero-facts" aria-label="Краткая информация">
                     <div><strong>6</strong><span>офисов продаж</span></div>
                     <div><strong>2</strong><span>региона присутствия</span></div>
                     <div><strong>1</strong><span>единый стандарт качества</span></div>
                 </div>
+                <button class="hero-video-toggle" type="button" hidden aria-label="Приостановить видео"><span aria-hidden="true">Ⅱ</span></button>
             </div>
         </section>
 
@@ -343,15 +354,6 @@
             </div>
         </section>
 
-        <section class="contact-banner">
-            <div class="wrap contact-banner-inner">
-                <div>
-                    <h2>Поможем выбрать удобный офис</h2>
-                    <p>Позвоните по единому номеру — подскажем ближайший филиал и запишем на бесплатный замер.</p>
-                </div>
-                <a class=" page-end-action" href="tel:+79895175699" aria-label="Позвонить в Спектр: 8 989 517 56 99"><svg class="page-end-action-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m7 3 3 5-2.5 2.5a15 15 0 0 0 6 6L16 14l5 3c0 3-2 4-4 4C10 20 4 14 3 7c0-2 1-4 4-4Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg><span class="page-end-action-copy"><span>Позвонить в «Спектр»</span><strong>8 989 517 56 99</strong></span><span class="page-end-action-arrow" aria-hidden="true">↗</span></a>
-            </div>
-        </section>
     </main>
 
     <footer class="site-footer">

@@ -65,15 +65,28 @@ body main .page-end-action .page-end-action-label { font: 500 var(--font-size-bo
 @media (prefers-reduced-motion: reduce) {
   body main a.page-end-action, body main .page-end-action .page-end-action-arrow { transition: none; }
 }
-/* Call actions use one neutral ink throughout, not mixed green/grey labels. */
-html body main a.page-end-action[href^="tel:"]:any-link {
-  color:var(--ink); border-color:var(--line); background:var(--panel-raised);
+/* All prominent call actions share one solid themed accent and a stable hover. */
+html[data-theme] body main a:is(.page-end-action,.catalog-help-phone,.product-dialog-call,.calculator-manager)[href^="tel:"]:any-link,
+html[data-theme] body main a:is(.page-end-action,.catalog-help-phone,.product-dialog-call,.calculator-manager)[href^="tel:"]:any-link:is(:hover,:focus-visible,:active) {
+  color:var(--on-accent);
+  border:1px solid var(--green);
+  background:var(--green);
+  box-shadow:none;
+  transform:none;
+  filter:none;
+  text-decoration:none;
+  transition:none;
 }
-html body main a.page-end-action[href^="tel:"]:any-link:hover {
-  color:var(--ink); border-color:var(--muted); background:var(--panel);
+html[data-theme] body main a:is(.page-end-action,.catalog-help-phone,.product-dialog-call,.calculator-manager)[href^="tel:"] :is(span,small,strong,svg) {
+  color:inherit;
+  opacity:1;
+  transform:none;
+  transition:none;
 }
-html body main a.page-end-action[href^="tel:"] .page-end-action-copy > span { color:inherit; }
-html body main a.page-end-action[href^="tel:"] .page-end-action-arrow,
-html body main a.page-end-action[href^="tel:"]:hover .page-end-action-arrow { color:inherit; background:transparent; border-color:var(--line); }
-html body main :is(.catalog-help-phone,.product-dialog-call,.calculator-manager)[href^="tel:"]:any-link { color:var(--ink); border:1px solid var(--line); background:var(--panel-raised); box-shadow:none; }
-html body main :is(.catalog-help-phone,.product-dialog-call,.calculator-manager)[href^="tel:"]:hover { color:var(--ink); border-color:var(--muted); background:var(--panel); }
+html[data-theme] body main a.page-end-action[href^="tel:"] .page-end-action-arrow,
+html[data-theme] body main a.page-end-action[href^="tel:"]:hover .page-end-action-arrow {
+  color:inherit;
+  background:transparent;
+  border:0;
+}
+html[data-theme] body main a:is(.page-end-action,.catalog-help-phone,.product-dialog-call,.calculator-manager)[href^="tel:"]:focus-visible { outline:2px solid var(--green); outline-offset:5px; }

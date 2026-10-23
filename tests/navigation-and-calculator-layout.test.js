@@ -19,14 +19,15 @@ test('every internal page has exactly one static breadcrumb, while home has none
   }
 });
 
-test('shared call buttons have neutral ink on labels, number and arrow in both palettes',()=>{
+test('call buttons share a solid theme accent without changing the homepage hero',()=>{
   const css=read('assets/css/page-end-actions.css');
-  assert.match(css,/a\.page-end-action\[href\^="tel:"\]:any-link\s*\{[^}]*color:var\(--ink\); border-color:var\(--line\);/);
-  assert.match(css,/\[href\^="tel:"\] \.page-end-action-copy > span \{ color:inherit;/);
-  assert.match(css,/\[href\^="tel:"\]:hover \.page-end-action-arrow \{ color:inherit; background:transparent;/);
+  assert.doesNotMatch(css,/hero-cinema-call/);
+  assert.match(css,/:is\(\.page-end-action,\.catalog-help-phone,\.product-dialog-call,\.calculator-manager\)\[href\^="tel:"\]:any-link:is\(:hover,:focus-visible,:active\)\s*\{[^}]*color:var\(--on-accent\);[^}]*background:var\(--green\);[^}]*box-shadow:none;[^}]*transform:none;[^}]*transition:none;/);
+  assert.match(css,/\[href\^="tel:"\] :is\(span,small,strong,svg\)\s*\{[^}]*color:inherit;[^}]*opacity:1;/);
+  assert.match(css,/\[href\^="tel:"\]:hover \.page-end-action-arrow\s*\{[^}]*color:inherit;[^}]*background:transparent;[^}]*border:0;/);
   for(const file of pages(root)){
     const html=fs.readFileSync(file,'utf8');
-    if(html.includes('class="page-end-action')||html.includes(' page-end-action"'))assert.match(html,/page-end-actions\.css\?v=20261022-monochrome/);
+    if(html.includes('class="page-end-action')||html.includes(' page-end-action"'))assert.match(html,/page-end-actions\.css\?v=20261023-solid-call/);
   }
 });
 
@@ -52,7 +53,7 @@ test('full calculator keeps all five steps and options visible rather than short
 });
 
 test('breadcrumbs belong to the introduction surface, not a separate colour strip',()=>{
-  for(const [file,section] of [['reviews/index.html','reviews-hero'],['catalog/index.html','catalog-page-hero'],['solutions/index.html','solutions-intro'],['contacts/index.html','hero'],['request/index.html','request-section'],['about/index.html','about-hero wrap']]){
+  for(const [file,section] of [['reviews/index.html','reviews-hero'],['catalog/index.html','catalog-page-hero'],['solutions/index.html','solutions-intro'],['contacts/index.html','hero contacts-hero hero-cinema'],['request/index.html','request-section'],['about/index.html','about-hero wrap']]){
     const html=read(file);
     assert.doesNotMatch(html,/<main[^>]*>\s*<nav class="breadcrumbs/);
     assert.match(html,new RegExp(`<section class="${section}"[^>]*>[\\s\\S]*?<nav class="breadcrumbs`));

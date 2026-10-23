@@ -1,4 +1,5 @@
 .articles-page { background: var(--surface); color: var(--ink); }
+.articles-page :is(.articles-main,.article-detail) { padding-bottom:clamp(56px,7vw,96px); }
 .articles-skip { position: absolute; top: -100px; left: 20px; z-index: 20; padding: 12px; background: var(--green); color: var(--on-accent); }
 .articles-skip:focus { top: 12px; }
 .articles-main h1, .articles-main h2 { font-family: var(--serif); font-weight: 400; letter-spacing: -.035em; }
@@ -14,22 +15,13 @@
 .article-card-link:hover .article-image img { transform: scale(1.035); }
 .article-copy { display: flex; flex-direction: column; flex: 1; padding: 22px 0 28px; }
 .article-meta { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 16px; color: var(--muted); }
-.article-meta > span { color: var(--green); }
-.article-view-count:not([hidden]) { display: inline-flex; align-items: center; gap: 7px; white-space: nowrap; }
-.article-view-count svg { width: 20px; height: 20px; flex: none; }
 .article-card h2 { font-size: var(--font-size-title); line-height: 1.2; margin: 20px 0 16px; }
 .article-card p { margin: auto 0 0; max-width: 58ch; color: var(--muted); }
-.articles-help { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 32px; padding: 36px 42px; margin: 76px 0; background: var(--paper); border: 1px solid var(--line); }
-.articles-help h2 { font-size: var(--font-size-display); line-height: 1.1; margin: 20px 0 0; }
-.articles-help > a { display: flex; align-items: center; gap: 32px; justify-content: space-between; padding: 20px 24px; background: var(--green); color: var(--on-accent); text-decoration: none; }
 @media (max-width: 1000px) {
   .articles-grid { gap: 36px 24px; }
-  .articles-help h2 { font-size: var(--font-size-title); line-height: 1.25; }
 }
 @media (max-width: 620px) {
   .articles-intro { padding-block: 44px 36px; }
   .articles-grid { grid-template-columns: minmax(0, 1fr); gap: 32px; }
-  .articles-help { grid-template-columns: 1fr; gap: 24px; margin-block: 48px; padding: 24px; }
-  .articles-help > a { width: 100%; padding: 16px; gap: 12px; }
 }
 @media (prefers-reduced-motion: reduce) { .article-image img { transition: none; } .article-card-link:hover .article-image img { transform: none; } }
