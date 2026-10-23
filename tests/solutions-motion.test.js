@@ -15,7 +15,7 @@ function element() {
     append(child) { this.children.push(child); },
   };
 }
-function setup({ reduced = false, observer = true } = {}) {
+function setup({ reduced = false, observer = true, saveData = false } = {}) {
   const track = element(), marquee = element(), document = element(), media = element();
   let intersection;
   let decodes = 0;
@@ -39,7 +39,7 @@ function setup({ reduced = false, observer = true } = {}) {
     constructor(fn) { intersection = fn; }
     observe() {}
   }
-  vm.runInNewContext(source, { document, matchMedia: () => media, window: observer ? { IntersectionObserver: Observer } : {}, IntersectionObserver: Observer });
+  vm.runInNewContext(source, { document, matchMedia: () => media, window: { ...(observer ? { IntersectionObserver: Observer } : {}), navigator: { connection: { saveData } } }, IntersectionObserver: Observer });
   return { track, marquee, document, media, button, decodes: () => decodes, intersect: visible => intersection?.([{ isIntersecting: visible }]) };
 }
 const settle = () => new Promise(resolve => setImmediate(resolve));
@@ -83,7 +83,7 @@ test('marquee pauses offscreen and in hidden tabs without adding a play/pause bu
 });
 
 test('reduced motion and unsupported observers keep a static, uncloned fallback', async () => {
-  for (const options of [{ reduced: true }, { observer: false }]) {
+  for (const options of [{ reduced: true }, { observer: false }, { saveData: true }]) {
     const s = setup(options); s.intersect(true); await settle();
     assert.equal(s.decodes(), 0);
     assert.equal(s.track.children.length, 16);

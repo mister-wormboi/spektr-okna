@@ -54,13 +54,16 @@ fs.writeFileSync(path.join(root, 'articles/index.html'), render({
 articles.forEach(article => {
   const fullCover = article.image.path.replace('/thumbs/', '/');
   const coverPath = fs.existsSync(path.join(root, fullCover)) ? fullCover : article.image.path;
+  const coverSources = coverPath !== article.image.path && article.image.full_width
+    ? ` srcset="../../${escape(encodeURI(article.image.path))} ${article.image.width}w, ../../${escape(encodeURI(coverPath))} ${article.image.full_width}w" sizes="(max-width: 480px) calc(100vw - 32px), (max-width: 760px) calc(100vw - 40px), (max-width: 1100px) calc(100vw - 56px), (max-width: 1416px) calc(100vw - 96px), 1320px"`
+    : '';
   const sections = article.sections.map((s, i) => `<section id="section-${i + 1}"><h2>${escape(s.heading)}</h2>${s.paragraphs.map(p => `<p>${escape(p)}</p>`).join('')}${s.items ? `<ul>${s.items.map(item => `<li>${escape(item)}</li>`).join('')}</ul>` : ''}${s.photo ? `<figure class="article-example"><a href="../../${escape(s.photo.full)}" target="_blank" rel="noopener"><img src="../../${escape(s.photo.thumb)}" alt="${escape(s.photo.alt)}" width="${s.photo.width}" height="${s.photo.height}" loading="lazy" decoding="async"></a><figcaption>${escape(s.photo.caption)}</figcaption></figure>` : ''}</section>`).join('\n');
   const main = `<main id="content" class="article-detail wrap">
     <nav class="article-breadcrumbs" aria-label="Хлебные крошки"><a href="../../">Главная</a><span aria-hidden="true">/</span><a href="../">Статьи</a><span aria-hidden="true">/</span><span aria-current="page">${escape(article.category)}</span></nav>
     <article>
       <header class="article-heading"><h1>${escape(article.title)}</h1><div class="article-heading-meta"><span><time datetime="${article.published_on}">${date(article.published_on)}</time></span><span>Чтение: около ${readingMinutes(article)} мин</span></div></header>
       <div class="article-content">
-      <figure class="article-cover"><img src="../../${coverPath}" alt="${escape(article.image.alt)}" width="${article.image.width}" height="${article.image.height}" fetchpriority="high" decoding="async"><figcaption>${escape(article.image.caption || 'Фото из галереи «Спектра»')}</figcaption></figure>
+      <figure class="article-cover"><img src="../../${coverPath}"${coverSources} alt="${escape(article.image.alt)}" width="${article.image.full_width || article.image.width}" height="${article.image.full_height || article.image.height}" fetchpriority="high" decoding="async"><figcaption>${escape(article.image.caption || 'Фото из галереи «Спектра»')}</figcaption></figure>
       <div class="article-body">${sections}<aside class="article-takeaway"><span class="eyebrow">Главная мысль</span><p>${escape(article.takeaway)}</p></aside>
       </div>
       </div>

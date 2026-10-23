@@ -2,6 +2,8 @@
   const marquee = document.querySelector('.home-solutions-marquee');
   const track = marquee?.querySelector('.solutions-gallery-track, .photo-marquee-track');
   if (!track || !('IntersectionObserver' in window)) return;
+  // Preserve native lazy loading and manual scrolling in data-saving mode.
+  if (window.navigator?.connection?.saveData) return;
   const motion = matchMedia('(prefers-reduced-motion: reduce)');
   const originals = [...track.children];
   let visible = false, ready = false, preparing = false;

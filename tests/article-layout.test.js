@@ -6,6 +6,18 @@ const root=path.resolve(__dirname,'..');
 const read=file=>fs.readFileSync(path.join(root,file),'utf8');
 const {articles}=JSON.parse(read('content/articles.json'));
 
+test('article cards have inset copy and place the date above the heading',()=>{
+  const cards=[...read('articles/index.html').matchAll(/<div class="article-copy">([\s\S]*?)<\/a>/g)];
+  assert.equal(cards.length,articles.length);
+  for(const [,copy] of cards){
+    assert.ok(copy.indexOf('<time ')<copy.indexOf('<h2>'));
+    assert.ok(copy.indexOf('<h2>')<copy.indexOf('<p>'));
+  }
+  const css=read('assets/css/articles.css');
+  assert.match(css,/\.article-copy \{[^}]*gap:14px; padding:28px;/);
+  assert.match(css,/@media \(max-width: 620px\)[\s\S]*?\.article-copy \{ padding:20px; gap:12px;/);
+});
+
 test('article listing and every article omit counters, scripts and the closing calculator banner',()=>{
   const pages=['articles/index.html',...articles.flatMap(a=>[`articles/${a.slug}/index.html`,...(a.legacy_slug?[`articles/${a.legacy_slug}/index.html`]:[])])];
   for(const file of pages)assert.doesNotMatch(read(file),/article-view-count|data-article-view|article-views\.js|articles-help|Подберём окна/,file);

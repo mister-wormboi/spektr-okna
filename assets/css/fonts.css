@@ -5,28 +5,28 @@
 }
 @font-face {
   font-family: 'Onest';
-  src: url('../fonts/Onest/Onest-VariableFont_wght.woff2') format('woff2');
+  src: url('../fonts/Onest/Onest-VariableFont_wght.woff2?v=20261024') format('woff2');
   font-style: normal;
   font-weight: 100 900;
   font-display: swap;
 }
 @font-face {
   font-family: 'Noto Serif';
-  src: url('../fonts/Noto_Serif/static/NotoSerif-Regular.woff2') format('woff2');
+  src: url('../fonts/Noto_Serif/static/NotoSerif-Regular.woff2?v=20261024') format('woff2');
   font-style: normal;
   font-weight: 400;
   font-display: swap;
 }
 @font-face {
   font-family: 'Noto Serif';
-  src: url('../fonts/Noto_Serif/static/NotoSerif-Bold.woff2') format('woff2');
+  src: url('../fonts/Noto_Serif/static/NotoSerif-Bold.woff2?v=20261024') format('woff2');
   font-style: normal;
   font-weight: 700;
   font-display: swap;
 }
 @font-face {
   font-family: 'Noto Serif';
-  src: url('../fonts/Noto_Serif/static/NotoSerif-Italic.woff2') format('woff2');
+  src: url('../fonts/Noto_Serif/static/NotoSerif-Italic.woff2?v=20261024') format('woff2');
   font-style: italic;
   font-weight: 400;
   font-display: swap;

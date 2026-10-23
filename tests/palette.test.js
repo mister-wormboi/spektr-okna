@@ -42,7 +42,7 @@ test('both palettes keep body text, secondary text and action labels readable', 
 test('local webfonts use WOFF2 and are substantially smaller than the preserved originals', () => {
   const css = read('assets/css/fonts.css');
   assert.doesNotMatch(css, /url\([^)]*\.ttf/);
-  const fonts = [...css.matchAll(/url\('\.\.\/([^']+\.woff2)'\)/g)].map(m => m[1]);
+  const fonts = [...css.matchAll(/url\('\.\.\/([^'?]+\.woff2)(?:\?[^']*)?'\)/g)].map(m => m[1]);
   assert.equal(fonts.length, 4);
   let original = 0, compressed = 0;
   for (const file of fonts) {
