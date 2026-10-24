@@ -5,11 +5,11 @@ const path = require('node:path');
 const vm = require('node:vm');
 const read = file => fs.readFileSync(path.join(__dirname, '..', file), 'utf8');
 
-test('home includes all ten existing reviews with unique source links and no photo count', () => {
+test('home includes ten complete branch reviews with unique authors and no photo count', () => {
   const home = read('index.html');
-  const cards = [...home.matchAll(/<article class="review-card[^\"]*">[\s\S]*?<\/article>/g)].map(m => m[0]);
+  const cards = [...home.matchAll(/<article class="review-card[^\"]*"[^>]*>[\s\S]*?<\/article>/g)].map(m => m[0]);
   assert.equal(cards.length, 10);
-  const ids = cards.map(card => card.match(/publicId%5D=([^&"]+)/)[1]);
+  const ids = cards.map(card => card.match(/<h3>(.*?)<\/h3>/)[1]);
   assert.equal(new Set(ids).size, 10);
   for (const card of cards) {
     assert.ok(read('reviews/index.html').includes(card.match(/<h3>(.*?)<\/h3>/)[0]));

@@ -10,7 +10,7 @@
   const more = document.querySelector('#loadMoreReviews');
   const empty = document.querySelector('.review-empty');
   const reset = document.querySelector('#resetReviews');
-  const pageSize = 6;
+  const pageSize = 10;
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   let limit = pageSize;
   let topic = 'all';
@@ -39,7 +39,7 @@
       : 'В этой теме пока нет отзывов';
     empty.hidden = matches.length > 0;
     pagination.hidden = visible.size >= matches.length;
-    more.textContent = 'Показать ещё (' + Math.min(pageSize, matches.length - visible.size) + ')';
+    more.textContent = 'Показать ещё';
     if (focusNew) {
       const next = matches.find(entry => visible.has(entry.card) && !previouslyVisible.has(entry.card));
       if (next) {
