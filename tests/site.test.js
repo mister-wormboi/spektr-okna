@@ -113,7 +113,7 @@ test('all pages declare responsive viewport; mobile assets and controls are link
     assert.equal([...home.matchAll(new RegExp(`aria-controls="${track}"`, 'g'))].length, 2);
   }
   assert.match(home, /home-solutions-marquee/);
-  assert.match(home, /src="assets\/js\/home-solutions.js" defer/);
+  assert.match(home, /src="assets\/js\/home-solutions\.js(?:\?[^"\s]+)?" defer/);
   assert.doesNotMatch(home, /src="assets\/js\/solutions-gallery.js"/);
   const reviewsSection = home.match(/<section class="reviews"[\s\S]*?<\/section>/)[0];
   assert.match(reviewsSection, /<a class="reviews-more" href="reviews\/">Все отзывы/);

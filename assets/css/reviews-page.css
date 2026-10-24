@@ -55,6 +55,9 @@ button:focus-visible, input:focus-visible, .review-card:focus-visible { outline:
 .selection-score { font: 400 clamp(64px, 7vw, 100px)/1.1 var(--serif); color: var(--green); margin-top: 24px; font-variant-numeric: lining-nums tabular-nums; }
 .selection-score span { font: var(--font-size-body) var(--sans); color: var(--muted); margin-left: 14px; }
 .selection-rating p { font-size: var(--font-size-body); }
+.selection-stars { display:flex; gap:6px; width:max-content; margin:8px 0 20px; color:var(--green); font:400 28px/1 Arial,sans-serif; }
+.selection-star-half { position:relative; color:var(--line); }
+.selection-star-half::before { content:'★'; position:absolute; inset:0; width:50%; overflow:hidden; color:var(--green); }
 .rating-caption { margin: 16px 0 10px; }
 .rating-note, .rating-updated, .rating-formula { color: var(--muted); line-height: 1.6; }
 .rating-note { margin: 0 0 24px; }
