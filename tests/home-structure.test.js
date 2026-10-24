@@ -112,7 +112,8 @@ test('home accents stay selective and use the existing theme and fonts', () => {
 test('home copy keeps functional labels, disclosures and existing real content', () => {
   assert.match(main, /href="#request">Получить помощь с расчётом/);
   assert.match(main, /id="compactExclusions"[\s\S]*?В расчёт не входят монтаж/);
-  assert.match(main, /изображения созданы с помощью ИИ, это не фотографии выполненного проекта/);
+  assert.match(main, /alt="Визуализация балкона после обновления:/);
+  assert.match(main, /alt="Визуализация того же балкона до обновления:/);
   assert.match(main, /id="homeOfficesTrack" data-card-strip/);
   assert.equal((main.match(/class="home-office-card"/g) || []).length, 6);
   assert.equal((main.match(/<article class="review-card/g) || []).length, 10);

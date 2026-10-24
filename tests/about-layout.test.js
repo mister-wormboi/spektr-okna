@@ -45,7 +45,7 @@ test('heading accents follow each logo while ordinary panel text stays neutral',
 
 test('scroll video, real photos and existing contact paths are preserved',()=>{
   assert.match(html,/class="about-video"[^>]*data-video-src="\.\.\/assets\/about-window-scroll\.mp4"/);
-  for(const match of html.matchAll(/<img[^>]+src="([^\"]+)"/g))assert.ok(fs.existsSync(path.resolve(root,'about',match[1])),match[1]);
+  for(const match of html.matchAll(/<img[^>]+src="([^\"]+)"/g))assert.ok(fs.existsSync(path.resolve(root,'about',match[1].split('?')[0])),match[1]);
   assert.match(html,/href="tel:\+79895175699"/);
   assert.match(html,/href="\.\.\/contacts\/"/);
   assert.doesNotMatch(css,/assembly-|line-art|process-steps|about-task-grid/);

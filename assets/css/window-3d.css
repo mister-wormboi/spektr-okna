@@ -1,6 +1,0 @@
-.window-3d-viewport { height: clamp(280px, 28vw, 400px); position: relative; background: radial-gradient(ellipse at 50% 50%, var(--diagram-glow), transparent 67%); }
-.window-3d-viewport canvas { display: block; position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; }
-.window-3d-viewport.is-rendered canvas { opacity: 1; }
-.window-3d-fallback { position: absolute; inset: 0; width: 100%; height: 100%; color: var(--green); opacity: .3; }
-.window-3d-fallback [data-window-layer] { transform-box: view-box; transform-origin: 0 0; }
-.window-3d-viewport.is-rendered .window-3d-fallback { visibility: hidden; }

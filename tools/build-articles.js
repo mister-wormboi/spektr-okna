@@ -1,6 +1,7 @@
 // Static HTML for the Spektr editorial articles; no browser-side rendering.
 const fs = require('node:fs');
 const path = require('node:path');
+const { versionWorkPhotos } = require('./version-work-photos');
 const root = path.resolve(__dirname, '..');
 const { articles } = JSON.parse(fs.readFileSync(path.join(root, 'content/articles.json'), 'utf8'));
 const shell = fs.readFileSync(path.join(root, 'templates/articles-shell.tpl'), 'utf8');
@@ -23,10 +24,10 @@ const readingMinutes = article => Math.max(1, Math.ceil([...article.sections.fla
 
 function render(values) {
   values = { head_extra: '', ...values };
-  return shell.replace(/\{\{([a-z_]+)\}\}/g, (_, key) => {
+  return versionWorkPhotos(shell.replace(/\{\{([a-z_]+)\}\}/g, (_, key) => {
     if (!(key in values)) throw new Error(`Missing template value: ${key}`);
     return values[key];
-  });
+  }));
 }
 
 function card(article, prefix, linkPrefix, eager = false) {

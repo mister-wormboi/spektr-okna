@@ -17,8 +17,8 @@ test('the film is deferred, has a poster and a pause control, and preserves all 
   }
   assert.match(html, /rel="preload" as="image" href="\.\.\/assets\/information-open-window-poster\.webp"/);
   const optimized = fs.statSync(path.join(root, 'assets/information-open-window.mp4')).size;
-  const original = fs.statSync(path.join(root, 'assets/4386106-uhd_3840_2160_24fps.mp4')).size;
-  assert.ok(optimized < original * .25);
+  // The unused source clip is not shipped; the playable web version stays small.
+  assert.ok(optimized < 4 * 1024 * 1024);
 });
 
 function mount(hash = '') {
