@@ -15,17 +15,21 @@
   <link rel="stylesheet" href="../assets/css/night.css?v=20261020-audit">
   <link rel="stylesheet" href="../assets/css/catalog.css?v=20261022-card-titles">
   <link rel="stylesheet" href="../assets/css/catalog-page.css?v=20261025-mobile-catalog">
-  <link rel="stylesheet" href="../assets/css/header-refresh.css?v=20261025-original-green">
+  <link rel="preload" as="image" href="../assets/catalog-window-poster.webp" fetchpriority="high">
+  <link rel="stylesheet" href="../assets/css/hero-atmosphere.css?v=20261025-catalog-film">
+  <link rel="stylesheet" href="../assets/css/header-refresh.css?v=20261025-catalog-film">
   <script src="../assets/js/header.js" defer></script>
   <link rel="stylesheet" href="../assets/css/footer.css?v=20261025-original-green">
   <link rel="stylesheet" href="../assets/css/layout.css?v=20261022-breadcrumb-surfaces">
   <link rel="stylesheet" href="../assets/css/theme.css?v=20261025-original-green">
   <link rel="stylesheet" href="../assets/css/style-experiment.css?v=20261020-audit">
   <link rel="stylesheet" href="../assets/css/page-end-actions.css?v=20261023-solid-call">
+  <link rel="stylesheet" href="../assets/css/catalog-hero.css?v=20261026-task-text">
   <link rel="stylesheet" href="../assets/css/typography.css?v=20261022-shared-theme">
-  <script src="../assets/js/products-data.js?v=20261025-mobile-catalog" defer></script>
+  <script src="../assets/js/hero-video.js?v=20261025-catalog-film" defer></script>
+  <script src="../assets/js/products-data.js?v=20261025-task-picker" defer></script>
   <script src="../assets/js/product-preview.js?v=20261025-mobile-catalog" defer></script>
-  <script src="../assets/js/products-page.js?v=20261025-mobile-catalog" defer></script>
+  <script src="../assets/js/products-page.js?v=20261025-task-picker" defer></script>
 </head>
 <body id="page-top" class="catalog-page">
   <header class="site-header">
@@ -62,18 +66,33 @@
     </div>
   </header>
   <main>
-    <section class="catalog-page-hero"><div class="wrap">
-    <nav class="breadcrumbs" aria-label="Хлебные крошки"><a href="../">Главная</a><span aria-hidden="true">/</span><span aria-current="page">Каталог</span></nav>
-
-      <div class="catalog-intro"><div class="catalog-intro-copy section-copy"><h1>Окна, двери<br><em class="heading-accent">и остекление.</em></h1><p>Выберите, что нужно для вашего дома. Цены примерные — точную стоимость рассчитаем после замера и выбора комплектации.</p></div><aside class="catalog-help" aria-labelledby="catalogHelpTitle">
-
-        <h2 id="catalogHelpTitle">Поможем<br><em class="heading-accent">с выбором.</em></h2>
-        <p>Расскажите, что хотите изменить дома. Подберём подходящий вариант и рассчитаем стоимость под ваши размеры.</p>
-        <a class="catalog-help-phone" href="tel:+79895175699" aria-label="Позвонить для подбора решения: 8 989 517 56 99"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m7 3 3 5-2.5 2.5a15 15 0 0 0 6 6L16 14l5 3c0 3-2 4-4 4C10 20 4 14 3 7c0-2 1-4 4-4Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg><span>8 989 517 56 99</span><span aria-hidden="true">↗</span></a>
-        <span class="catalog-help-note">Позвоните — обсудим детали вашего проекта.</span>
-      </aside></div>
-    </div></section>
-    <section class="catalog catalog-full" aria-labelledby="fullCatalogTitle"><div class="wrap">
+    <section class="catalog-page-hero hero-cinema catalog-video-hero" aria-labelledby="catalogHeroTitle">
+      <div class="hero-cinema-media" aria-hidden="true">
+        <img src="../assets/catalog-window-poster.webp" alt="" width="1920" height="1080" fetchpriority="high" decoding="async">
+        <video muted loop playsinline preload="none" data-src="../assets/catalog-window.mp4" data-mobile-src="../assets/catalog-window-mobile.mp4" tabindex="-1" disablepictureinpicture></video>
+      </div>
+      <nav class="breadcrumbs" aria-label="Хлебные крошки"><a href="../">Главная</a><span aria-hidden="true">/</span><span aria-current="page">Каталог</span></nav>
+      <div class="hero-cinema-heading">
+        <h1 id="catalogHeroTitle">Каталог<br><em class="heading-accent">продукции.</em></h1>
+        <p>Окна ПВХ, балконное остекление, двери, шторы и фурнитура.<br>В разделах — варианты исполнения, комплектации и примеры цен.</p>
+        <div class="catalog-hero-actions">
+          <a class="hero-cinema-call catalog-hero-call" href="tel:+79895175699" aria-label="Поможем с выбором — позвонить: 8 989 517 56 99">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m7 3 3 5-2.5 2.5a15 15 0 0 0 6 6L16 14l5 3c0 3-2 4-4 4C10 20 4 14 3 7c0-2 1-4 4-4Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+            <span class="hero-cinema-call-copy"><small>Поможем с выбором</small><strong>8 989 517 56 99</strong></span><span aria-hidden="true">↗</span>
+          </a>
+        </div>
+      </div>
+      <nav class="catalog-task-picker" aria-label="Подбор по задаче">
+        <span class="catalog-task-label">Что важно для вашего окна?</span>
+        <div class="catalog-task-links">
+          <a class="catalog-task" data-catalog-task="warmth" href="?task=warmth#catalog-products"><span class="catalog-task-copy"><strong>Сохранить тепло</strong><span>Энергосберегающие стеклопакеты</span></span><span class="catalog-task-arrow" aria-hidden="true">↗</span></a>
+          <a class="catalog-task" data-catalog-task="quiet" href="?task=quiet#catalog-products"><span class="catalog-task-copy"><strong>Уменьшить шум</strong><span>Подбор защиты от уличного шума</span></span><span class="catalog-task-arrow" aria-hidden="true">↗</span></a>
+          <a class="catalog-task" data-catalog-task="light" href="?task=light#catalog-products"><span class="catalog-task-copy"><strong>Больше света</strong><span>Панорамные и светлые проёмы</span></span><span class="catalog-task-arrow" aria-hidden="true">↗</span></a>
+        </div>
+      </nav>
+      <button class="hero-video-toggle catalog-video-toggle" type="button" hidden aria-label="Приостановить видео"><span class="catalog-video-pause" aria-hidden="true">Ⅱ</span><span class="catalog-video-play" aria-hidden="true">▷</span></button>
+    </section>
+    <section class="catalog catalog-full" id="catalog-products" aria-labelledby="fullCatalogTitle"><div class="wrap">
       <div class="product-categories" id="productCategories" role="group" aria-label="Категории продукции"></div>
       <div class="product-tools">
         <label class="product-search">Найти в каталоге<span class="product-search-field"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" stroke="currentColor" stroke-width="1.5"/><path d="m16 16 5 5" stroke="currentColor" stroke-width="1.5"/></svg><input id="catalogSearch" type="search" placeholder="Например, REHAU, двери или матовые" autocomplete="off" aria-controls="fullCatalogCards"></span></label>

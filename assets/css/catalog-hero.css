@@ -1,0 +1,47 @@
+/* Catalog film uses the same video controller and visual language as the home page. */
+.catalog-page .catalog-video-hero {
+  min-height: max(700px, 100svh); padding: 154px var(--page-gutter) 34px;
+  grid-template-rows: auto 1fr auto; border-bottom: 0; background: #202223;
+  color: #f5f3eb;
+}
+body.catalog-page main .catalog-video-hero .breadcrumbs { margin: 0; color: #f5f3eb; }
+.catalog-page .catalog-video-hero .hero-cinema-heading { padding: 24px 0; }
+.catalog-page .catalog-video-hero h1 {
+  margin: 0 0 20px; font: 400 clamp(48px, 5vw, 64px)/1.08 var(--serif);
+  letter-spacing: -.045em; text-wrap: balance; color: inherit;
+}
+.catalog-page .catalog-video-hero h1 em { color: #f0f1e9; }
+.catalog-page .catalog-video-hero p { margin: 0 auto; max-width: 620px; color: #f5f3eb; }
+.catalog-video-hero .hero-cinema-media::after {
+  background: linear-gradient(180deg, #10121466, #10121435 30%, #10121455 60%, #101214e6), linear-gradient(90deg, #10121455, #10121435);
+}
+.catalog-hero-actions { display: flex; justify-content: center; margin-top: 20px; }
+.catalog-hero-actions .catalog-hero-call { min-height: 88px; padding-block: 18px; }
+.catalog-task-picker { border-top: 1px solid #ffffff40; padding-top: 18px; padding-right: 68px; }
+.catalog-task-label { display: block; margin-bottom: 12px; color: #f0f1e9; font: 400 14px/1.5 var(--sans); }
+.catalog-task-links { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.catalog-task { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 8px 0; }
+.catalog-task-copy { display: grid; gap: 5px; min-width: 0; }
+.catalog-task-copy strong { font: 400 23px/1.25 var(--serif); }
+.catalog-task-copy > span { font: 400 14px/1.4 var(--sans); color: #f0f1e9; }
+.catalog-task-arrow { font: 400 22px/1 var(--sans); }
+.catalog-task:hover .catalog-task-copy strong, .catalog-task[aria-current="true"] .catalog-task-copy strong { text-decoration: underline; text-underline-offset: 5px; }
+.catalog-task:focus-visible { outline: 1px solid currentColor; outline-offset: 5px; }
+.catalog-video-toggle { position: absolute; right: var(--page-gutter); bottom: 36px; display: grid; place-items: center; width: 44px; height: 44px; border: 1px solid #ffffff80; background: #20222340; color: #fff; font: 400 22px/1 var(--sans); cursor: pointer; }
+.catalog-video-toggle .catalog-video-pause, .catalog-video-toggle.is-playing .catalog-video-play { display: none; }
+.catalog-video-toggle.is-playing .catalog-video-pause { display: inline; }
+#catalog-products { scroll-margin-top: 100px; }
+@media (max-width: 760px) {
+  .catalog-page .catalog-video-hero { min-height: max(740px, 100svh); padding: 108px var(--page-gutter) 24px; }
+  .catalog-page .catalog-video-hero .hero-cinema-heading { padding-block: 24px; }
+  .catalog-page .catalog-video-hero h1 { font-size: clamp(40px, 10vw, 60px); }
+  .catalog-video-hero .hero-cinema-media :is(img, video) { object-position: 64% center; }
+  .catalog-hero-actions { margin-top: 20px; }
+  .catalog-hero-actions .catalog-hero-call { width: min(100%, 340px); }
+  .catalog-task-picker { padding-right: 0; padding-top: 14px; padding-bottom: 52px; }
+  .catalog-task-links { grid-template-columns: 1fr; gap: 8px; }
+  .catalog-task { min-height: 58px; padding: 8px 0; }
+  .catalog-task-copy strong { font-size: 21px; }
+  .catalog-task-copy > span { font-size: 13px; }
+  .catalog-video-toggle { bottom: 24px; }
+}

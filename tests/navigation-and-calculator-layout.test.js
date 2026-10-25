@@ -54,7 +54,7 @@ test('full calculator keeps all five steps and options visible rather than short
 });
 
 test('breadcrumbs belong to the introduction surface, not a separate colour strip',()=>{
-  for(const [file,section] of [['reviews/index.html','reviews-hero'],['catalog/index.html','catalog-page-hero'],['solutions/index.html','solutions-intro'],['contacts/index.html','hero contacts-hero hero-cinema'],['request/index.html','request-section'],['about/index.html','about-hero wrap']]){
+  for(const [file,section] of [['reviews/index.html','reviews-hero'],['catalog/index.html','catalog-page-hero hero-cinema catalog-video-hero'],['solutions/index.html','solutions-intro'],['contacts/index.html','hero contacts-hero hero-cinema'],['request/index.html','request-section'],['about/index.html','about-hero wrap']]){
     const html=read(file);
     assert.doesNotMatch(html,/<main[^>]*>\s*<nav class="breadcrumbs/);
     assert.match(html,new RegExp(`<section class="${section}"[^>]*>[\\s\\S]*?<nav class="breadcrumbs`));

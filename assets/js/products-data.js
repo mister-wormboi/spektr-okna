@@ -22,6 +22,17 @@
     { id:'aluminium', title:'Алюминиевые конструкции', icon:'aluminium', caption:'Окна, двери, порталы, витрины, фасады и перегородки из алюминиевого профиля.' },
     { id:'components', title:'Фурнитура и комплектующие', icon:'all', caption:'Оконные и дверные ручки, петли для ПВХ-дверей и оконные уплотнители.' }
   ];
+  window.SPEKTR_PRODUCT_TASKS = [
+    { id:'warmth', title:'Сохранить тепло', category:'windows',
+      products:['optimal','comfort','energy','pro70','intelio'],
+      description:'Комплектации с теплосберегающим стеклом и профильные системы для подбора тёплого окна. Стеклопакет и монтаж согласуем под ваше помещение.' },
+    { id:'quiet', title:'Уменьшить шум', category:'windows',
+      products:['intelio','grazio','pro70'],
+      description:'Оконные системы с подбором стеклопакета и уплотнения под уличный шум. Итоговая звукоизоляция зависит от комплектации и монтажа — обсудим их при расчёте.' },
+    { id:'light', title:'Больше света', category:'all',
+      products:['delight','panoramic','al-portal'],
+      description:'Профильные системы, панорамное остекление и порталы для светлых проёмов. Размеры стекла, открывание и допустимые нагрузки уточняются по проекту.' }
+  ];
   window.SPEKTR_PRODUCT_SUBCATEGORIES = {
     components:[{id:'handles',title:'Оконные ручки',products:['window-handle','locking-handle']},{id:'door-handles',title:'Дверные ручки',products:['door-handle']},{id:'hinges',title:'Петли',products:['hinge']},{id:'seals',title:'Уплотнители',products:['seal']}],
     windows:[{id:'ready',title:'Готовые комплектации',products:['econom','optimal','comfort','energy','elite']},{id:'pro',title:'Профили PRO WINS',products:['pro58','pro70']},{id:'rehau',title:'Окна REHAU',products:['delight','grazio','intelio','blitz']},{id:'custom',title:'Нестандартные окна',products:['unusual']}],

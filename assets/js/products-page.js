@@ -16,6 +16,7 @@ if (typeof document !== 'undefined') (() => {
   const subcategories = window.SPEKTR_PRODUCT_SUBCATEGORIES || {};
   const directions = window.SPEKTR_CATALOG_DIRECTIONS || [];
   const collections = window.SPEKTR_WINDOW_COLLECTIONS || [];
+  const tasks = window.SPEKTR_PRODUCT_TASKS || [];
   const grid = document.querySelector('#fullCatalogCards');
   if (!grid) return;
   const el = (tag, cls, text) => { const node=document.createElement(tag); if(cls)node.className=cls;if(text!==undefined)node.textContent=text;return node; };
@@ -30,6 +31,8 @@ if (typeof document !== 'undefined') (() => {
   const params = new URLSearchParams(window.location.search);
   let category = categories.some(item=>item.id===params.get('category')) ? params.get('category') : 'all';
   let collection = collections.some(item=>item.id===params.get('collection')) && category==='windows' ? params.get('collection') : null;
+  let task = tasks.find(item => item.id === params.get('task')) || null;
+  if (task) { category = task.category; collection = null; }
   let limit = 9;
   let opener = null;
   search.value=params.get('q') || '';
@@ -43,19 +46,23 @@ if (typeof document !== 'undefined') (() => {
   collections.forEach(item => {
     const button=el('button','catalog-collection',item.title);button.type='button';button.dataset.collection=item.id;
     button.setAttribute('aria-controls','fullCatalogCards');
-    button.addEventListener('click',()=>{collection=item.id;limit=9;render();});collectionNav.append(button);
+    button.addEventListener('click',()=>{task=null;collection=item.id;limit=9;render();});collectionNav.append(button);
   });
-  function selectDirection(id) { category=id;collection=null;limit=9;search.value='';render(); }
+  function selectDirection(id) { task=null;category=id;collection=null;limit=9;search.value='';render(); }
   function render() {
     const selected=categories.find(item=>item.id===category);
     const selectedCollection=(subcategories[category] || []).find(item=>item.id===collection);
     const title=document.querySelector('#fullCatalogTitle');
-    title.replaceChildren(document.createTextNode(selectedCollection ? collections.find(item=>item.id===collection).title : selected?.title || 'Каталог продукции.'));
-    document.querySelector('#catalogDescription').textContent=selectedCollection
+    title.replaceChildren(document.createTextNode(task?.title || (selectedCollection ? collections.find(item=>item.id===collection).title : selected?.title || 'Каталог продукции.')));
+    document.querySelector('#catalogDescription').textContent=task ? task.description : selectedCollection
       ? collections.find(item=>item.id===collection).description
       : selected?.caption || 'От готовых окон до остекления по индивидуальному проекту.';
+    document.querySelectorAll('[data-catalog-task]').forEach(link => {
+      if (link.dataset.catalogTask === task?.id) link.setAttribute('aria-current', 'true');
+      else link.removeAttribute('aria-current');
+    });
     nav.querySelectorAll('button').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.category===category)));
-    collectionNav.hidden=category!=='windows'||!collection;
+    collectionNav.hidden=Boolean(task)||category!=='windows'||!collection;
     collectionNav.querySelectorAll('button').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.collection===collection)));
     const guide=window.SPEKTR_PRICE_GUIDES[category];
     priceGuide.hidden=!guide;
@@ -68,17 +75,17 @@ if (typeof document !== 'undefined') (() => {
       link.querySelector('span').setAttribute('aria-hidden','true');
     }
     const query=search.value.trim();
-    const source=query ? products : category==='all' ? directions : category==='windows'&&!collection ? collections : products;
-    grid.classList.toggle('is-collections',!query&&category==='windows'&&!collection);
-    const matches=selectSpektrProducts(source,{category,productIds:selectedCollection?.products,query,sort:sort.value});
+    const source=task || query ? products : category==='all' ? directions : category==='windows'&&!collection ? collections : products;
+    grid.classList.toggle('is-collections',!task&&!query&&category==='windows'&&!collection);
+    const matches=selectSpektrProducts(source,{category,productIds:task?.products || selectedCollection?.products,query,sort:sort.value});
     const shown=matches.slice(0,limit);
     grid.replaceChildren(...shown.map(product=>renderSpektrProductCard(product,{dialog:true})));
     if(!matches.length){const empty=el('div','product-empty');const clear=el('button','','Сбросить поиск');clear.type='button';clear.addEventListener('click',resetAll);empty.append(el('h3','','Ничего не найдено'),el('p','','Попробуйте другое название или выберите направление.'),clear);grid.append(empty);}
-    document.querySelector('#catalogCount').textContent=query ? `Найдено: ${matches.length}. Показано: ${shown.length}.` : '';
+    document.querySelector('#catalogCount').textContent=task ? `Подобрано вариантов: ${matches.length}. Показано: ${shown.length}.` : query ? `Найдено: ${matches.length}. Показано: ${shown.length}.` : '';
     more.hidden=limit>=matches.length;more.textContent='Показать ещё';
-    reset.hidden=category==='all'&&!query&&sort.value==='default';
+    reset.hidden=!task&&category==='all'&&!query&&sort.value==='default';
   }
-  function resetAll(){category='all';collection=null;search.value='';sort.value='default';limit=9;render();}
+  function resetAll(){task=null;category='all';collection=null;search.value='';sort.value='default';limit=9;render();}
   search.addEventListener('input',()=>{limit=9;render();});
   sort.addEventListener('change',()=>{limit=9;render();});
   reset.addEventListener('click',resetAll);
@@ -87,7 +94,7 @@ if (typeof document !== 'undefined') (() => {
     const direction=event.target.closest('[data-direction]');
     if(direction){selectDirection(direction.dataset.direction);document.querySelector('#fullCatalogTitle').focus();return;}
     const group=event.target.closest('[data-collection]');
-    if(group){collection=group.dataset.collection;limit=9;render();document.querySelector('#fullCatalogTitle').focus();return;}
+    if(group){task=null;collection=group.dataset.collection;limit=9;render();document.querySelector('#fullCatalogTitle').focus();return;}
     const button=event.target.closest('[data-product]');if(!button)return;
     const product=products.find(item=>item.id===button.dataset.product);if(product)openProduct(product,button);
   });

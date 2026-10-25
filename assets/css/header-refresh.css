@@ -1,6 +1,6 @@
 /* Shared sticky header: two desktop rows, accessible mobile disclosure. */
 html { scroll-padding-top: 148px; }
-body:not(.home-page):not(.information-page) { padding-top: 144px; }
+body:not(.home-page):not(.information-page):not(.catalog-page) { padding-top: 144px; }
 .site-header {
   position: fixed;
   top: 0;
@@ -142,7 +142,7 @@ html[data-theme="dark"] .theme-toggle .theme-moon { display: none; }
 }
 @media (max-width: 900px) {
   html { scroll-padding-top: 88px; }
-  body:not(.home-page):not(.information-page) { padding-top: 96px; }
+  body:not(.home-page):not(.information-page):not(.catalog-page) { padding-top: 96px; }
   .site-header .header-inner {
     grid-template-columns: minmax(0, 1fr) auto 44px 44px;
     grid-template-rows: 44px;
@@ -214,15 +214,15 @@ html[data-theme="dark"] .theme-toggle .theme-moon { display: none; }
   .site-header .header-nav .header-call { display: flex; justify-content: space-between; }
 }
 /* Video introductions: navigation floats over the film and folds into a solid panel. */
-:is(.home-page, .information-page) .site-header:is(.is-over-hero, :not(.is-scrolled)):not(.is-menu-open) {
+:is(.home-page, .information-page, .catalog-page) .site-header:is(.is-over-hero, :not(.is-scrolled)):not(.is-menu-open) {
   --ink: #f5f3eb; --muted: #eceee6; --green: #f5f3eb;
   --brand: #f5f3eb; --line: #ffffff35; --accent-soft: #ffffff12;
 }
-:is(.home-page, .information-page) .site-header:is(.is-over-hero, :not(.is-scrolled)):not(.is-menu-open) .header-logo img { filter: brightness(0) invert(1); }
-:is(.home-page, .information-page) .site-header:is(.is-over-hero, :not(.is-scrolled)):not(.is-menu-open) .header-inner {
+:is(.home-page, .information-page, .catalog-page) .site-header:is(.is-over-hero, :not(.is-scrolled)):not(.is-menu-open) .header-logo img { filter: brightness(0) invert(1); }
+:is(.home-page, .information-page, .catalog-page) .site-header:is(.is-over-hero, :not(.is-scrolled)):not(.is-menu-open) .header-inner {
   background: #171c1e70; outline-color: #ffffff35;
 }
-:is(.home-page, .information-page) .site-header:is(.is-over-hero, :not(.is-scrolled)):not(.is-menu-open) .theme-toggle:hover { background: #ffffff15; }
+:is(.home-page, .information-page, .catalog-page) .site-header:is(.is-over-hero, :not(.is-scrolled)):not(.is-menu-open) .theme-toggle:hover { background: #ffffff15; }
 @media (prefers-reduced-motion: reduce) {
   .site-header { animation: none; }
   .site-header, .site-header .header-inner, .site-header .header-links, .site-header .header-nav, .site-header .header-nav a, .header-menu-toggle span { transition: none; }
