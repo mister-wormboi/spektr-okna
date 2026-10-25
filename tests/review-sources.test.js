@@ -11,9 +11,10 @@ test('the home selection and full reviews page preserve complete original text a
   for (const file of ['index.html', 'reviews/index.html']) {
     const html = read(file);
     const cards = [...html.matchAll(/<article class="review-card[^\"]*"[^>]*>[\s\S]*?<\/article>/g)].map(match => match[0]);
-    assert.equal(cards.length, selected.length);
+    const expected = (file === 'index.html' ? data.displayed_authors : data.review_page_authors).map(author => data.reviews.find(review => review.author === author));
+    assert.equal(cards.length, expected.length);
     cards.forEach(card => {
-      const review = selected.find(review => card.includes(`<h3>${review.author}</h3>`));
+      const review = expected.find(review => card.includes(`<h3>${review.author}</h3>`));
       assert.ok(review);
       const id = review.organization_id || data.default_organization_id;
       assert.ok(card.includes(`<p>${escape(review.text).replaceAll('\n', '<br>')}</p>`));
@@ -26,12 +27,16 @@ test('the home selection and full reviews page preserve complete original text a
   }
 });
 
-test('only the requested Lenina branch is published on both pages', () => {
-  for (const file of ['index.html', 'reviews/index.html']) {
-    const branches = [...read(file).matchAll(/data-branch="(\d+)"/g)].map(match => match[1]);
-    assert.equal(branches.length, 10);
-    assert.ok(branches.every(id => id === data.default_organization_id));
-  }
+test('home retains Lenina only; the separate page has ten Lenina reviews and ten from other branches', () => {
+  const branches = file => [...read(file).matchAll(/data-branch="(\d+)"/g)].map(match => match[1]);
+  const home = branches('index.html');
+  assert.equal(home.length, 10);
+  assert.ok(home.every(id => id === data.default_organization_id));
+  const page = branches('reviews/index.html');
+  assert.equal(page.length, 20);
+  assert.equal(page.filter(id => id === data.default_organization_id).length, 10);
+  assert.equal(page.filter(id => id !== data.default_organization_id).length, 10);
+  assert.equal(new Set(page).size, 6);
 });
 
 test('the selection preserves the local authors while retaining remote review records', () => {

@@ -205,6 +205,18 @@ body.home-page main .hero-cinema h1 { max-width: 22ch; margin: 0 auto 20px; font
 }
 
 /* Two quiet surfaces follow the reading flow, not one stripe per section. */
+.home-page .home-solutions-marquee,
+.home-page .window-stage,
+.home-page .inside-scene { contain: layout paint; }
+
+/* Native scroll timelines avoid a JavaScript callback on every scroll frame. */
+@supports (animation-timeline: scroll()) {
+  .home-page .reading-progress span {
+    animation: home-reading-progress linear both;
+    animation-timeline: scroll(root block);
+  }
+}
+@keyframes home-reading-progress { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 body.home-page { background:var(--paper); }
 body.home-page main > :is(.home-catalog,.project-examples,.reviews,.guides,.home-contact) { background:var(--paper); }
 body.home-page main > :is(.window-story,.before-after-section,.calculator-section,.request-section) { background:var(--surface); }

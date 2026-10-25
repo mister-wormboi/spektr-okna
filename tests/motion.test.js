@@ -145,6 +145,25 @@ test('SVG playback stops offscreen, or when the WebGL renderer replaces the fall
   assert.equal(rendered.animations.length, 0);
 });
 
+test('native reading progress needs no scroll handler or page-height measurement', () => {
+  const events = {};
+  vm.runInNewContext(source('motion.js'), {
+    window: {
+      CSS: { supports: () => true },
+      matchMedia: () => ({ matches: false, addEventListener() {} }),
+      addEventListener: name => { events[name] = true; },
+    },
+    document: {
+      querySelector: s => s === '.reading-progress span' ? { style: {} } : null,
+      querySelectorAll: () => [],
+      get documentElement() { throw new Error('Native progress must not measure the page'); },
+    },
+    requestAnimationFrame: () => { throw new Error('Native progress must not schedule scroll frames'); },
+  });
+  assert.equal(events.scroll, undefined);
+  assert.equal(events.resize, undefined);
+});
+
 test('reading progress batches scroll events and reuses the measured page height', () => {
   let reads = 0;
   const frames = [];
