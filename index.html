@@ -15,31 +15,33 @@
   <link rel="preload" as="image" href="assets/hero-curtains-poster.webp" fetchpriority="high">
   <link rel="stylesheet" href="assets/css/main.css?v=20261020-audit">
   <link rel="stylesheet" href="assets/css/design.css?v=20261020-audit">
-  <link rel="stylesheet" href="assets/css/window-story.css?v=20261022-inline-numbers">
+  <link rel="stylesheet" href="assets/css/window-story.css?v=20261025-mobile-catalog">
   <link rel="stylesheet" href="assets/css/night.css?v=20261020-audit">
   <link rel="stylesheet" href="assets/css/reviews.css?v=20261020-brand">
   <link rel="stylesheet" href="assets/css/calculator.css?v=20261020-audit">
   <link rel="stylesheet" href="assets/css/catalog.css?v=20261022-card-titles">
-  <link rel="stylesheet" href="assets/css/header-refresh.css?v=20261020-mobile-arrow">
+  <link rel="stylesheet" href="assets/css/header-refresh.css?v=20261025-original-green">
   <script src="assets/js/header.js" defer></script>
   <script src="assets/js/request-theme.js" defer></script>
-  <link rel="stylesheet" href="assets/css/footer.css?v=20261020-sage">
+  <link rel="stylesheet" href="assets/css/footer.css?v=20261025-original-green">
   <link rel="stylesheet" href="assets/css/home-refresh.css?v=20261022-reviews-first">
   <link rel="stylesheet" href="assets/css/solutions.css?v=20261022-continuous">
-  <link rel="stylesheet" href="assets/css/hero-atmosphere.css?v=20261022-call-restored">
-  <script src="assets/js/hero-video.js?v=20261022-optional-control" defer></script>
+  <link rel="stylesheet" href="assets/css/hero-atmosphere.css?v=20261025-mobile-overlay">
+  <script src="assets/js/hero-video.js?v=20261025-mobile-couple" defer></script>
   <link rel="stylesheet" href="assets/css/request.css">
   <link rel="stylesheet" href="assets/css/layout.css?v=20261022-breadcrumb-surfaces">
-  <link rel="stylesheet" href="assets/css/theme.css?v=20261022-shared-theme">
+  <link rel="stylesheet" href="assets/css/theme.css?v=20261025-original-green">
   <link rel="stylesheet" href="assets/css/before-after.css">
   <link rel="stylesheet" href="assets/css/style-experiment.css?v=20261020-audit">
   <link rel="stylesheet" href="assets/css/page-end-actions.css?v=20261023-solid-call">
+  <link rel="stylesheet" href="assets/css/window-inside.css?v=20261025-home">
+  <script src="assets/js/window-inside.js?v=20261025-home" defer></script>
   <link rel="stylesheet" href="assets/css/typography.css?v=20261022-shared-theme">
   <script src="assets/js/calculator.js?v=20261022-preview" defer></script>
   <script src="assets/js/main.js?v=20261022-category-grid" defer></script>
   <script src="assets/js/card-strips.js" defer></script>
   <script src="assets/js/window-motion.js" defer></script>
-  <script src="assets/js/window-story.js?v=20261020-brand" defer></script>
+  <script src="assets/js/window-story.js?v=20261025-mobile-catalog" defer></script>
   <script src="assets/js/motion.js?v=20261020-audit" defer></script>
   <script src="assets/js/reviews.js?v=20261020-brand" defer></script>
   <script src="assets/js/home-solutions.js?v=20261024-economy" defer></script>
@@ -85,8 +87,8 @@
   <main id="top">
     <section class="hero-cinema" aria-labelledby="heroTitle">
       <div class="hero-cinema-media" aria-hidden="true">
-        <img src="assets/hero-curtains-poster.webp" alt="" width="1280" height="720" fetchpriority="high" decoding="async">
-        <video id="heroVideo" muted loop playsinline preload="none" data-src="assets/hero-curtains.mp4" tabindex="-1"></video>
+        <picture><source media="(max-width: 760px)" srcset="assets/hero-mobile-window-poster.webp" width="540" height="960"><img src="assets/hero-curtains-poster.webp" alt="" width="1280" height="720" fetchpriority="high" decoding="async"></picture>
+        <video id="heroVideo" muted loop playsinline preload="none" data-src="assets/hero-curtains.mp4" data-mobile-src="assets/hero-mobile-window.mp4" tabindex="-1"></video>
       </div>
       <div class="hero-cinema-heading">
         <h1 id="heroTitle">Окна и остекление<br><em class="heading-accent">для вашего дома.</em></h1>
@@ -290,10 +292,18 @@
         </div>
         <div class="wrap window-story-bottom">
           <p>Сравнить стоимость разных комплектаций можно в калькуляторе ниже.</p>
-          <a class="window-story-skip" href="#calculator">Рассчитать стоимость <span aria-hidden="true">↗</span></a>
+          <a class="window-story-skip" href="#window-inside">Изучить окно изнутри <span aria-hidden="true">↗</span></a>
         </div>
       </div>
     </section>
+
+    <section class="inside-home" id="window-inside" aria-labelledby="inside-title"><div class="inside wrap">
+<div class="inside-heading"><h2 id="inside-title">Окна <em class="heading-accent">изнутри.</em></h2><p>Тепло. Тишина. Лёгкое движение.<br>Посмотрите, как устроен ваш комфорт.</p></div>
+<div class="inside-tabs" role="tablist" aria-label="Детали окна"><button type="button" role="tab" id="tab-frame" aria-controls="panel-frame" aria-selected="true" tabindex="0" data-part="frame"><span>01</span>Рама</button><button type="button" role="tab" id="tab-profile" aria-controls="panel-profile" aria-selected="false" tabindex="-1" data-part="profile"><span>02</span>Профиль</button><button type="button" role="tab" id="tab-glass" aria-controls="panel-glass" aria-selected="false" tabindex="-1" data-part="glass"><span>03</span>Стеклопакет</button><button type="button" role="tab" id="tab-hardware" aria-controls="panel-hardware" aria-selected="false" tabindex="-1" data-part="hardware"><span>04</span>Фурнитура</button></div><div id="inside-panels"></div>
+<noscript><p>Включите JavaScript, чтобы изучить интерактивную схему. Рама закрепляется в проёме, профиль образует её конструкцию, стеклопакет пропускает свет, а фурнитура управляет створкой.</p><img src="assets/window-white.webp" alt="Конструкция пластикового окна" width="640"></noscript>
+<div class="inside-bottom"><p>Схематичная иллюстрация. Устройство зависит от выбранной комплектации.</p><a href="catalog/?category=windows">Выбрать окно <span aria-hidden="true">↗</span></a></div>
+
+    </div></section>
 
     <section class="calculator-section" id="calculator" aria-labelledby="calculatorTitle">
       <div class="wrap">

@@ -9,6 +9,7 @@ const pages=dir=>fs.readdirSync(dir,{withFileTypes:true}).flatMap(entry=>entry.n
 test('every internal page has exactly one static breadcrumb, while home has none',()=>{
   for(const file of pages(root)){
     const html=fs.readFileSync(file,'utf8');
+    if(html.includes('http-equiv="refresh"')) continue;
     const trails=[...html.matchAll(/<nav[^>]+aria-label="Хлебные крошки"[^>]*>[\s\S]*?<\/nav>/g)];
     if(file===path.join(root,'index.html')){assert.equal(trails.length,0);continue;}
     assert.equal(trails.length,1,file);

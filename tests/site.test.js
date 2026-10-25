@@ -27,7 +27,7 @@ function checkLink(file, value) {
 
 test('all pages have unique IDs and valid local resources and anchors', () => {
   const articles = JSON.parse(fs.readFileSync(path.join(root, 'content/articles.json'), 'utf8')).articles;
-  assert.equal(pages.length, 10 + articles.length + articles.filter(a => a.legacy_slug).length);
+  assert.equal(pages.length, 11 + articles.length + articles.filter(a => a.legacy_slug).length);
   for (const file of pages) {
     const source = fs.readFileSync(file, 'utf8');
     const pageIds = ids(source);
@@ -72,6 +72,7 @@ test('header and footer styles have a single owner; type scale is loaded last', 
     assert.doesNotMatch(fs.readFileSync(file, 'utf8'), /\.(?:site-header|site-footer|header-[\w-]+|footer-[\w-]+)\b/);
   }
   for (const file of pages) {
+    if (fs.readFileSync(file, 'utf8').includes('http-equiv="refresh"')) continue;
     const links = [...fs.readFileSync(file, 'utf8').matchAll(/<link[^>]+>/g)].map(m => attrs(m[0])).filter(a => a.rel === 'stylesheet');
     assert.ok(links.at(-1).href.split('?')[0].endsWith('typography.css'));
   }

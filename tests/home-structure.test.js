@@ -7,8 +7,8 @@ const main = read('index.html').match(/<main\b[^>]*>([\s\S]*?)<\/main>/)[1];
 
 test('home leads from products and evidence to calculation, request and practical questions',()=>{
   const order=[...main.matchAll(/<section\b[^>]*class="([^"]+)"[^>]*>/g)].map(match=>match[1]);
-  assert.deepEqual(order,['hero-cinema','catalog home-catalog','project-examples','reviews','before-after-section','window-story','calculator-section','request-section','guides','home-contact']);
-  assert.equal((main.match(/<section\b/g)||[]).length,10);
+  assert.deepEqual(order,['hero-cinema','catalog home-catalog','project-examples','reviews','before-after-section','window-story','inside-home','calculator-section','request-section','guides','home-contact']);
+  assert.equal((main.match(/<section\b/g)||[]).length,11);
   assert.equal((main.match(/data-themed-request/g)||[]).length,1);
 });
 
@@ -103,7 +103,7 @@ test('home has concrete section headings with an explanation directly underneath
 });
 
 test('home accents stay selective and use the existing theme and fonts', () => {
-  assert.equal((main.match(/<h2[^>]*>[^<]*<em class="heading-accent">/g) || []).length, 4);
+  assert.equal((main.match(/<h2[^>]*>[^<]*<em class="heading-accent">/g) || []).length, 5);
   assert.doesNotMatch(main, /<strong>предварительный расчёт<\/strong>|<strong>имя и телефон<\/strong>/);
   const css = read('assets/css/typography.css');
   assert.match(css, /> \.heading-accent\s*\{[^}]*color: var\(--green\);[^}]*font-style: italic/);

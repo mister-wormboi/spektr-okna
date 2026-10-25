@@ -4,7 +4,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
 
-function mount({ reduced = false, saveData = false, control = true } = {}) {
+function mount({ reduced = false, saveData = false, control = true, mobile = false } = {}) {
   const element = () => {
     const classes = new Set(), events = {};
     return {
@@ -12,7 +12,7 @@ function mount({ reduced = false, saveData = false, control = true } = {}) {
       addEventListener: (name, fn) => { events[name] = fn; }, setAttribute() {},
     };
   };
-  const video = { ...element(), paused: true, plays: 0, src: '', dataset: { src: 'curtains.mp4' },
+  const video = { ...element(), paused: true, plays: 0, src: '', dataset: { src: 'curtains.mp4', mobileSrc: 'couple.mp4' },
     hasAttribute() { return Boolean(this.src); },
     pause() { this.paused = true; },
     play() { this.plays++; this.paused = false; return Promise.resolve(); },
@@ -20,17 +20,28 @@ function mount({ reduced = false, saveData = false, control = true } = {}) {
   const toggle = control ? element() : null, header = element(), hero = element();
   hero.querySelector = selector => selector === 'video' ? video : toggle;
   const motion = { matches: reduced, addEventListener: (_, fn) => { motion.change = fn; } };
+  const screen = { matches: mobile, addEventListener: (_, fn) => { screen.change = fn; } };
   const connection = { saveData, addEventListener() {} };
   const events = {};
   const document = { readyState: 'loading', hidden: false, querySelector: s => s === '.hero-cinema' ? hero : header, addEventListener: (name, fn) => { events[name] = fn; } };
   let intersection;
   const window = { IntersectionObserver: true, addEventListener: (name, fn) => { events[name] = fn; } };
   vm.runInNewContext(fs.readFileSync(path.join(__dirname, '../assets/js/hero-video.js'), 'utf8'), {
-    document, window, navigator: { connection }, matchMedia: () => motion,
+    document, window, navigator: { connection }, matchMedia: query => query.includes('max-width') ? screen : motion,
     IntersectionObserver: class { constructor(fn) { intersection = fn; } observe() {} },
   });
-  return { video, toggle, hero, header, document, motion, events, enter: visible => intersection([{ isIntersecting: visible }]) };
+  return { video, toggle, hero, header, document, motion, screen, events, enter: visible => intersection([{ isIntersecting: visible }]) };
 }
+
+test('hero loads only the video for its viewport and switches when crossing the breakpoint', () => {
+  const page = mount({ mobile: true });
+  page.enter(true); page.events.load();
+  assert.equal(page.video.src, 'couple.mp4');
+  page.screen.matches = false; page.screen.change();
+  assert.equal(page.video.src, 'curtains.mp4');
+  page.screen.matches = true; page.screen.change();
+  assert.equal(page.video.src, 'couple.mp4');
+});
 
 test('hero waits for page load and visibility before requesting the video', () => {
   const page = mount();

@@ -102,3 +102,5 @@ html:has(.product-dialog[open]) { overflow:hidden; }
  .product-grid,.product-grid.is-collections { grid-template-columns:1fr; gap:16px; }
  .catalog-consult>a { flex-shrink:1; }
 }
+
+.product-specification { margin: 10px 0 12px; color: var(--green); font: 400 var(--font-size-body)/1.5 var(--sans); }

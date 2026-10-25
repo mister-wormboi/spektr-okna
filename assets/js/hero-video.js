@@ -5,17 +5,25 @@
   const header = document.querySelector('.site-header');
   if (!video) return;
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  const mobile = matchMedia('(max-width: 760px)');
   const connection = navigator.connection;
   let manual = null;
   let visible = false;
   let failed = false;
   let loaded = document.readyState === 'complete';
+  let activeSource = null;
   const wantsPlayback = () => manual ?? !(reduced.matches || connection?.saveData);
   function update() {
     if (failed) return;
     if (!visible || document.hidden || !wantsPlayback()) { video.pause(); return; }
     if (!loaded && manual !== true) return;
-    if (!video.hasAttribute('src')) { video.src = video.dataset.src; video.muted = true; }
+    const source = mobile.matches && video.dataset.mobileSrc ? video.dataset.mobileSrc : video.dataset.src;
+    if (!video.hasAttribute('src') || activeSource !== source) {
+      hero.classList.remove('is-video-ready');
+      video.src = source;
+      activeSource = source;
+      video.muted = true;
+    }
     video.play().catch(() => {}); // If autoplay is unavailable, keep the poster.
   }
   function reflect() {
@@ -34,6 +42,7 @@
   document.addEventListener('visibilitychange', update);
   window.addEventListener('load', () => { loaded = true; update(); }, { once: true });
   reduced.addEventListener('change', () => { manual = null; update(); });
+  mobile.addEventListener('change', () => { failed = false; video.pause(); hero.classList.remove('is-video-ready'); update(); });
   connection?.addEventListener('change', update);
   if ('IntersectionObserver' in window) {
     new IntersectionObserver(entries => {

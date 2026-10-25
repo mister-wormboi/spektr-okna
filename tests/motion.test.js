@@ -20,7 +20,7 @@ function story({ reduced = false, observer = true, animation = true, fallback = 
   const media = { matches: reduced, addEventListener: () => {}, removeEventListener: () => {} };
   let layoutChanged;
   const layout = { matches: mobile, addEventListener: (_, fn) => { layoutChanged = fn; } };
-  const makeLayers = () => Array.from({ length: 4 }, () => ({ style: {}, ...(animation ? {
+  const makeLayers = () => Array.from({ length: 4 }, () => ({ style: {}, getBBox: () => ({x:0,y:0,width:300,height:420}), ...(animation ? {
     animate: (keyframes, options) => {
       const a = { keyframes, options, cancelled: false, finished: new Promise(resolve => pending.push(resolve)), cancel() { this.cancelled = true; } };
       animations.push(a);
@@ -61,15 +61,15 @@ test('mobile window separates into four readable panels and reflows during playb
   const s = story({ mobile: true });
   s.trigger();
   assert.equal(s.animations[0].options.duration, 1100);
-  assert.match(s.animations[3].keyframes[1].transform, /350px, 400px/);
+  assert.match(s.animations[3].keyframes[1].transform, /380px, 405px/);
   s.resize(false);
   assert.ok(s.animations.every(a => a.cancelled));
   assert.deepEqual(s.layers.map(l => l.style.transform), [-205, -67, 94, 238].map(n => `translateX(${n}px)`));
   s.resize(true);
-  assert.match(s.layers[3].style.transform, /350px, 400px/);
+  assert.match(s.layers[3].style.transform, /380px, 405px/);
   const reduced = story({ mobile: true, reduced: true });
   assert.equal(reduced.animations.length, 0);
-  assert.match(reduced.layers[0].style.transform, /55px, 20px/);
+  assert.match(reduced.layers[0].style.transform, /60px, 25px/);
 });
 
 test('window illustration plays once and releases completed animations', async () => {

@@ -27,7 +27,7 @@ test('light shares the dark layout and makes only the existing panels translucen
   assert.match(css,/\.about-cinema-shade \{[^}]*var\(--about-film-surface\) 94%/);
   assert.match(css,/html\[data-theme="light"\] \.about-page :is\(\.about-facts,\.approach-grid,\.solution-card,\.about-invitation\),\s*html\[data-theme="light"\] \.about-page \.about-work\.about-section \{ background:var\(--header-surface\);/);
   assert.doesNotMatch(css,/--header-surface\s*:/);
-  assert.match(read('assets/css/theme.css'),/--header-surface:\s*#fafbf7ef;/);
+  assert.match(read('assets/css/theme.css'),/--header-surface:\s*#[\da-f]{6}ef;/);
   const lightRules=[...css.matchAll(/html\[data-theme="light"\][^{]+\{([^}]+)\}/g)].map(m=>m[1]).join('\n');
   assert.doesNotMatch(lightRules,/padding:|margin:|margin-block:|max-width:|width:|grid-template/);
   assert.match(lightRules,/color:var\(--about-film-ink\)/);

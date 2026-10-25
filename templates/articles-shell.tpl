@@ -19,11 +19,11 @@
   <link rel="stylesheet" href="{{prefix}}assets/css/night.css?v=20261020-audit">
   <link rel="stylesheet" href="{{prefix}}assets/css/articles.css?v=20261024-cards">
   {{detail_css}}
-  <link rel="stylesheet" href="{{prefix}}assets/css/header-refresh.css?v=20261020-mobile-arrow">
+  <link rel="stylesheet" href="{{prefix}}assets/css/header-refresh.css?v=20261025-original-green">
   <script src="{{prefix}}assets/js/header.js" defer></script>
-  <link rel="stylesheet" href="{{prefix}}assets/css/footer.css?v=20261020-sage">
+  <link rel="stylesheet" href="{{prefix}}assets/css/footer.css?v=20261025-original-green">
   <link rel="stylesheet" href="{{prefix}}assets/css/layout.css?v=20261022-breadcrumb-surfaces">
-  <link rel="stylesheet" href="{{prefix}}assets/css/theme.css?v=20261022-shared-theme">
+  <link rel="stylesheet" href="{{prefix}}assets/css/theme.css?v=20261025-original-green">
   <link rel="stylesheet" href="{{prefix}}assets/css/style-experiment.css?v=20261020-audit">
   <link rel="stylesheet" href="{{prefix}}assets/css/typography.css?v=20261022-shared-theme">
   {{structured_data}}

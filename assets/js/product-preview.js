@@ -31,7 +31,9 @@ function renderSpektrProductCard(product) {
   title.append(action);
   const features = el('ul', 'product-feature-chips');
   product.features.slice(0,2).forEach(text => features.append(el('li', '', text)));
-  body.append(title,el('p', 'product-description', product.description),features);
+  body.append(title);
+  if (!browsing && product.subtitle) body.append(el('p', 'product-specification', product.subtitle));
+  body.append(el('p', 'product-description', product.description),features);
   if (product.priceGuide) {
     const bottom = el('div', 'product-bottom');
     const price = el('div', 'product-price');

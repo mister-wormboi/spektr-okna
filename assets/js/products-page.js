@@ -35,7 +35,7 @@ if (typeof document !== 'undefined') (() => {
   search.value=params.get('q') || '';
   sort.value=['az','za'].includes(params.get('sort')) ? params.get('sort') : 'default';
   categories.forEach(item => {
-    const button=el('button','product-category',item.id==='windows'?'Пластиковые окна':item.title);
+    const button=el('button','product-category',item.title);
     button.type='button';button.dataset.category=item.id;
     button.setAttribute('aria-controls','fullCatalogCards');
     button.addEventListener('click',()=>selectDirection(item.id));nav.append(button);
@@ -50,7 +50,7 @@ if (typeof document !== 'undefined') (() => {
     const selected=categories.find(item=>item.id===category);
     const selectedCollection=(subcategories[category] || []).find(item=>item.id===collection);
     const title=document.querySelector('#fullCatalogTitle');
-    title.replaceChildren(document.createTextNode('Выберите '),el('em','heading-accent',selectedCollection?'комплектацию.':'решение.'));
+    title.replaceChildren(document.createTextNode(selectedCollection ? collections.find(item=>item.id===collection).title : selected?.title || 'Каталог продукции.'));
     document.querySelector('#catalogDescription').textContent=selectedCollection
       ? collections.find(item=>item.id===collection).description
       : selected?.caption || 'От готовых окон до остекления по индивидуальному проекту.';

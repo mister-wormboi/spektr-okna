@@ -32,7 +32,7 @@
     <linearGradient id="ws-metal"><stop stop-color="#68796f"/><stop offset=".2" stop-color="#e5e9e2"/><stop offset=".45" stop-color="#99a69d"/><stop offset=".65" stop-color="#f7f9f4"/><stop offset="1" stop-color="#7e8d82"/></linearGradient>
     <linearGradient id="ws-glass" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#abcac7" stop-opacity=".5"/><stop offset=".3" stop-color="#e9f3ed" stop-opacity=".16"/><stop offset=".65" stop-color="#87b2ab" stop-opacity=".26"/><stop offset="1" stop-color="#c4dad0" stop-opacity=".65"/></linearGradient>
     <radialGradient id="ws-shadow"><stop stop-color="#3b5241" stop-opacity=".24"/><stop offset="1" stop-color="#3b5241" stop-opacity="0"/></radialGradient>
-    <marker id="ws-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" orient="auto" markerUnits="userSpaceOnUse"><path d="M1 1L7 4L1 7" fill="none" stroke="#b4cfaa" stroke-width="1.2"/></marker>
+    <marker id="ws-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" orient="auto" markerUnits="userSpaceOnUse"><path d="M1 1L7 4L1 7" fill="none" stroke="var(--green)" stroke-width="1.2"/></marker>
   </defs>
   <ellipse class="ws-ground" cx="500" cy="500" rx="365" ry="33" opacity=".7" fill="url(#ws-shadow)"/>
   <g class="ws-guides" opacity="0" stroke="#738c77" stroke-width=".7" stroke-dasharray="3 6" fill="none">
@@ -69,7 +69,7 @@
       <path d="M53 53H247V367H53Z" fill="none" stroke="#455b4e" stroke-width="2"/>
     </g></g>
   </g>
-  <g class="window-connectors" stroke="#b4cfaa" stroke-opacity=".65" stroke-width="1" fill="none" marker-end="url(#ws-arrow)">
+  <g class="window-connectors" stroke="var(--green)" stroke-opacity=".65" stroke-width="1" fill="none" marker-end="url(#ws-arrow)">
     <path d="M125 574V508L218 433"/>
     <path d="M375 574V500L364 433"/>
     <path d="M625 574V508L564 436"/>
@@ -91,10 +91,17 @@
     const layers = [...svg.querySelectorAll('[data-window-layer]')];
     const mobile = window.matchMedia('(max-width: 760px)');
     const isMobile = () => !isFallback && mobile.matches;
-    const mobilePositions = [[55, 20], [350, 20], [55, 400], [350, 400]];
-    const finalTransform = index => isMobile()
-      ? `translate(${mobilePositions[index][0]}px, ${mobilePositions[index][1]}px) scale(.72)`
-      : `translateX(${offsets[index]}px)`;
+    // Fit each actual part into the same cell. Glass and beads start at different
+    // local coordinates, so applying the same scale/offset misaligns them.
+    const mobileCenters = [[160, 165], [480, 165], [160, 545], [480, 545]];
+    const bounds = layers.map(layer => layer.getBBox());
+    const finalTransform = index => {
+      if (!isMobile()) return `translateX(${offsets[index]}px)`;
+      const b = bounds[index];
+      const scale = Math.min(230 / b.width, 280 / b.height);
+      const [cx, cy] = mobileCenters[index];
+      return `translate(${cx - (b.x + b.width / 2) * scale}px, ${cy - (b.y + b.height / 2) * scale}px) scale(${scale})`;
+    };
     function setViewBox() {
       if (!isFallback) svg.setAttribute('viewBox', isMobile() ? '0 0 640 760' : '0 0 1000 580');
     }
