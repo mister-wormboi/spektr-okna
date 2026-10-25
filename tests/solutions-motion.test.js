@@ -19,17 +19,19 @@ function setup({ reduced = false, observer = true, saveData = false } = {}) {
   const track = element(), marquee = element(), document = element(), media = element();
   let intersection;
   let decodes = 0;
+  let inFlight = 0, peak = 0;
   track.style = { setProperty: (key, value) => { track.props[key] = value; } };
   track.children = Array.from({ length: 16 }, (_, i) => {
     const link = element();
-    const image = { loading: 'lazy', decode: async () => { decodes++; } };
+    const image = { loading: 'lazy', decode: async () => { decodes++; peak = Math.max(peak, ++inFlight); await Promise.resolve(); inFlight--; } };
     link.querySelector = () => image;
-    link.getBoundingClientRect = () => ({ left: i * 116 });
+    link.getBoundingClientRect = () => ({ left: i * 116, width: 100 });
     link.cloneNode = () => Object.assign(element(), { getBoundingClientRect: () => ({ left: (i + 16) * 116 }) });
     return link;
   });
   track.querySelector = () => track.children.find(child => child.dataset.clone);
   marquee.querySelector = () => track;
+  marquee.getBoundingClientRect = () => ({ width: 350 });
   document.querySelector = () => marquee;
   document.hidden = false;
   let button;
@@ -39,8 +41,8 @@ function setup({ reduced = false, observer = true, saveData = false } = {}) {
     constructor(fn) { intersection = fn; }
     observe() {}
   }
-  vm.runInNewContext(source, { document, matchMedia: () => media, window: { ...(observer ? { IntersectionObserver: Observer } : {}), navigator: { connection: { saveData } } }, IntersectionObserver: Observer });
-  return { track, marquee, document, media, button, decodes: () => decodes, intersect: visible => intersection?.([{ isIntersecting: visible }]) };
+  vm.runInNewContext(source, { document, matchMedia: () => media, window: { requestIdleCallback: callback => callback(), ...(observer ? { IntersectionObserver: Observer } : {}), navigator: { connection: { saveData } } }, IntersectionObserver: Observer });
+  return { track, marquee, document, media, button, decodes: () => decodes, peak: () => peak, intersect: visible => intersection?.([{ isIntersecting: visible }]) };
 }
 const settle = () => new Promise(resolve => setImmediate(resolve));
 
@@ -61,13 +63,14 @@ test('marquee decodes and duplicates only once, after entering view; loop includ
   s.intersect(true);
   await settle();
   assert.equal(s.decodes(), 16);
-  assert.equal(s.track.children.length, 32);
+  assert.equal(s.track.children.length, 21);
+  assert.ok(s.peak() <= 2, 'decode work is limited to two images at a time');
   assert.equal(s.track.props['--loop-distance'], '1856px');
   assert.ok(s.track.classList.contains('is-running'));
   assert.ok(s.track.children.slice(16).every(clone => clone.tabIndex === -1 && clone.attrs['aria-hidden'] === 'true'));
   s.intersect(false); s.intersect(true);
   await settle();
-  assert.equal(s.track.children.length, 32);
+  assert.equal(s.track.children.length, 21);
 });
 
 test('marquee pauses offscreen and in hidden tabs without adding a play/pause button', async () => {

@@ -1,6 +1,7 @@
 (() => {
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
   const progress = document.querySelector('.reading-progress span');
+  const nativeProgress = window.CSS?.supports?.('animation-timeline: scroll()');
   let queued = false;
   let pageHeight = 1;
   const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
@@ -17,14 +18,16 @@
     pageHeight = Math.max(1, document.documentElement.scrollHeight - innerHeight);
     requestDraw();
   }
-  window.addEventListener('scroll', requestDraw, { passive: true });
-  window.addEventListener('resize', measure, { passive: true });
-  window.addEventListener('load', measure, { once: true });
-  document.addEventListener('visibilitychange', () => { if (!document.hidden) measure(); });
-  if ('ResizeObserver' in window) new ResizeObserver(measure).observe(document.body);
+  if (progress && !nativeProgress) {
+    window.addEventListener('scroll', requestDraw, { passive: true });
+    window.addEventListener('resize', measure, { passive: true });
+    window.addEventListener('load', measure, { once: true });
+    document.addEventListener('visibilitychange', () => { if (!document.hidden) measure(); });
+    if ('ResizeObserver' in window) new ResizeObserver(measure).observe(document.body);
+  }
   const updateMotion = () => {
     priceAnimation?.cancel();
-    measure();
+    if (progress && !nativeProgress) measure();
   };
   if (reduced.addEventListener) reduced.addEventListener('change', updateMotion);
   else reduced.addListener(updateMotion);
@@ -53,5 +56,5 @@
     });
   });
 
-  measure();
+  if (progress && !nativeProgress) measure();
 })();
