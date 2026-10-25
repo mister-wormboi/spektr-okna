@@ -62,8 +62,16 @@ const selected = data.displayed_authors?.map(author => {
   if (!review) throw new Error(`Unknown selected author: ${author}`);
   return review;
 });
-for (const file of ['index.html', 'reviews/index.html']) {
-  const reviews = selected || (file === 'index.html' ? homeSelection(data.reviews) : mixReviews(data.reviews));
+const pageSelected = data.review_page_authors?.map(author => {
+  const review = data.reviews.find(review => review.author === author);
+  if (!review) throw new Error(`Unknown reviews-page author: ${author}`);
+  return review;
+});
+const requestedPage = process.argv.find(argument => argument.startsWith('--page='))?.slice(7);
+if (requestedPage && !['home', 'reviews'].includes(requestedPage)) throw new Error('Use --page=home or --page=reviews');
+const files = requestedPage ? [requestedPage === 'home' ? 'index.html' : 'reviews/index.html'] : ['index.html', 'reviews/index.html'];
+for (const file of files) {
+  const reviews = file === 'index.html' ? (selected || homeSelection(data.reviews)) : (pageSelected || selected || mixReviews(data.reviews));
   const cards = reviews.map(card).join('\n          ');
   const filename = path.join(root, file);
   let html = fs.readFileSync(filename, 'utf8');
@@ -73,5 +81,5 @@ for (const file of ['index.html', 'reviews/index.html']) {
   const first = oldCards[0], last = oldCards.at(-1);
   html = html.slice(0, first.index) + cards + html.slice(last.index + last[0].length);
   fs.writeFileSync(filename, html);
+  console.log(`Published ${reviews.length} complete originals in ${file}.`);
 }
-console.log(`Published ${selected?.length || 10} complete originals on the home page and ${selected?.length || data.reviews.length} on /reviews/.`);
