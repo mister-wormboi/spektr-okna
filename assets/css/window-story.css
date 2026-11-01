@@ -93,7 +93,6 @@
   .window-story-heading > p br { display: none; }
   .window-visual { margin-top: 20px; }
   .window-stage { aspect-ratio: 640 / 760; max-width: 480px; margin-inline: auto; }
-  .window-stage .ws-projection { transform: none; }
   .window-stage :is(.ws-ground, .ws-guides) { display: none; }
   .ws-mobile-labels { fill: var(--green); font: 24px var(--sans); }
   .window-story:not(.is-complete) .ws-mobile-labels { opacity: 0; }

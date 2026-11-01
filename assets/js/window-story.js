@@ -75,7 +75,7 @@
     <path d="M625 574V508L564 436"/>
     <path d="M875 574V522L756 468"/>
   </g>
-  <g class="ws-mobile-labels" text-anchor="middle"><text x="160" y="350">1 · Рама</text><text x="470" y="350">2 · Створка</text><text x="160" y="730">3 · Стеклопакет</text><text x="470" y="730">4 · Штапик</text></g>`;
+  <g class="ws-mobile-labels" text-anchor="middle"><text x="160" y="350">1 · Рама</text><text x="480" y="350">2 · Створка</text><text x="160" y="730">3 · Стеклопакет</text><text x="480" y="730">4 · Штапик</text></g>`;
   stage.replaceChildren(svg);
   section.classList.add('is-enhanced');
 
@@ -95,6 +95,8 @@
     // local coordinates, so applying the same scale/offset misaligns them.
     const mobileCenters = [[160, 165], [480, 165], [160, 545], [480, 545]];
     const bounds = layers.map(layer => layer.getBBox());
+    const projection = svg.querySelector('.ws-projection');
+    const desktopProjection = projection?.getAttribute('transform');
     const finalTransform = index => {
       if (!isMobile()) return `translateX(${offsets[index]}px)`;
       const b = bounds[index];
@@ -103,7 +105,21 @@
       return `translate(${cx - (b.x + b.width / 2) * scale}px, ${cy - (b.y + b.height / 2) * scale}px) scale(${scale})`;
     };
     function setViewBox() {
-      if (!isFallback) svg.setAttribute('viewBox', isMobile() ? '0 0 640 760' : '0 0 1000 580');
+      if (!isFallback) {
+        svg.setAttribute('viewBox', isMobile() ? '0 0 640 760' : '0 0 1000 580');
+        projection?.setAttribute('transform', isMobile() ? 'matrix(1 0 0 1 0 0)' : desktopProjection);
+      }
+    }
+    function placeLayer(layer, index) {
+      if (isMobile()) {
+        // SVG attributes use local coordinates consistently in iOS WebKit.
+        // Do not combine CSS transforms with the parent's SVG projection.
+        layer.style.removeProperty('transform');
+        layer.setAttribute('transform', finalTransform(index).replaceAll('px', ''));
+      } else {
+        layer.removeAttribute('transform');
+        layer.style.transform = finalTransform(index);
+      }
     }
     setViewBox();
     let state = 'idle';
@@ -117,7 +133,7 @@
       observer?.disconnect();
       rendererObserver?.disconnect();
       layers.forEach((layer, index) => {
-        layer.style.transform = finalTransform(index);
+        placeLayer(layer, index);
       });
       // Keep only final transforms; release animation objects and observers.
       animations.forEach(animation => {
@@ -144,7 +160,7 @@
       if (state !== 'idle') return;
       state = 'playing';
       const fallbackHidden = isFallback && stage.classList.contains('is-rendered');
-      if (motion.matches || document.hidden || fallbackHidden || layers.some(layer => typeof layer.animate !== 'function')) {
+      if (isMobile() || motion.matches || document.hidden || fallbackHidden || layers.some(layer => typeof layer.animate !== 'function')) {
         complete();
         return;
       }
@@ -179,7 +195,7 @@
     function onLayoutChange() {
       setViewBox();
       if (state === 'playing') complete();
-      if (state === 'complete') layers.forEach((layer, index) => { layer.style.transform = finalTransform(index); });
+      if (state === 'complete') layers.forEach(placeLayer);
     }
     if (!isFallback) {
       if (mobile.addEventListener) mobile.addEventListener('change', onLayoutChange);

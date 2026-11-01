@@ -73,7 +73,30 @@ export function createInsideExhibit(host) {
       cam.rotation.x=Math.PI/2; cam.position.set(-.621,y,.112); mechanism.add(cam);
       box(mechanism,.032,.085,.02,.62,y,.114,green);
     }
-    const arm=box(mechanism,.53,.018,.028,.35,.867,.13,steel);
+    // The stay belongs to the fixed frame, with its other end attached to the sash.
+    const stay=new THREE.Group(); fixed.add(stay);
+    box(stay,.55,.018,.035,.405,.91,.15,steel);
+    const arm=box(stay,1,.018,.028,0,0,0,steel);
+    const framePin=new THREE.Mesh(new THREE.SphereGeometry(.022,12,8),steel);
+    const sashPin=framePin.clone();stay.add(framePin,sashPin);
+    const anchor=new THREE.Vector3(.14,.85,.11),end=new THREE.Vector3(),start=new THREE.Vector3();
+    const direction=new THREE.Vector3(),axis=new THREE.Vector3(1,0,0);
+    function updateStay(tilt,open,detail) {
+      stay.visible=hardware && open<.001 && (tilt>.001 || detail>.01);
+      if(!stay.visible)return;
+      // Convert the moving attachment into the frame's coordinates, including the pivot.
+      fixed.updateWorldMatrix(true,true);
+      end.copy(anchor);sash.localToWorld(end);fixed.worldToLocal(end);
+      // A sliding shoe travels along the top rail; the metal arm keeps its length.
+      const length=.52,dy=end.y-.91,dz=end.z-.15;
+      start.set(end.x+Math.sqrt(Math.max(0,length*length-dy*dy-dz*dz)),.91,.15);
+      direction.subVectors(end,start);
+      arm.position.copy(start).add(end).multiplyScalar(.5);
+      arm.scale.set(direction.length(),1,1);
+      arm.quaternion.setFromUnitVectors(axis,direction.normalize());
+      framePin.position.copy(start);sashPin.position.copy(end);
+    }
+    stay.visible=false;
     const handle=new THREE.Group(); handle.position.set(-.586,0,.151); sash.add(handle);
     box(sash,.042,.12,.022,-.586,0,.125,pvc);
     const neck=new THREE.Mesh(new THREE.CylinderGeometry(.014,.014,.05,24),steel);
@@ -85,7 +108,7 @@ export function createInsideExhibit(host) {
       hinge.position.set(.66,y,.13); fixed.add(hinge);
     }
     mechanism.visible=hardware;
-    return {fixed,pivot,sash,handle,mechanism,arm};
+    return {fixed,pivot,sash,handle,mechanism,arm,updateStay};
   }
   function root(key) { const group=new THREE.Group(); group.rotation.set(.09,-.42,0); scene.add(group); models[key]=group; return group; }
   const frameRoot=root('frame'); frameRoot.rotation.y=.2;
@@ -291,40 +314,63 @@ export function createInsideExhibit(host) {
   const motion=matchMedia('(prefers-reduced-motion: reduce)');
   function apply(values) {
     const d=values.detail;
+    if(key==='frame') {
     full.visible=false;
     section.visible=true; section.scale.setScalar(1.28); section.position.x=0;
     // Outer cover and the steel core slide out to expose the hollow structure.
     cap.position.y=.245+d*.25; rubber.position.x=.39+d*.23;
     reinforcement.position.z=d*.5;
     sashSection.position.y=.47+d*.13;
+    } else if(key==='profile') {
     surround.visible=d>.01; surround.scale.setScalar(.94+d*.06);
     surround.position.z=-.5*(1-d); installed.fixed.position.z=d*.13;
     sill.position.z=.12+d*.08;
+    } else if(key==='glass') {
     layers.forEach((layer,i)=>{layer.position.z=(i-2)*(.042+d*.32); layer.position.x=(i-2)*d*.07;});
-    hw.pivot.rotation.y=-values.open*1.12;
+    } else if(key==='hardware') {
+    // Right-side hinge: positive yaw brings the free left edge toward the viewer.
+    hw.pivot.rotation.y=values.open*1.12;
     hw.pivot.rotation.x=values.tilt*.24;
     hw.handle.rotation.z=values.open*Math.PI/2+values.tilt*Math.PI;
     hw.mechanism.visible=values.mech>.01;
     hw.mechanism.traverse(obj=>{ if(obj.isMesh) {obj.scale.z=1+values.mech*.6;} });
-    hw.arm.rotation.y=-values.tilt*.7;
-    hw.arm.position.z=.13+values.tilt*.1;
+    hw.updateStay(values.tilt,values.open,values.mech);
+    }
   }
   function draw(now) {
     frame=0; if(lost || !visible || document.hidden) return;
     const t=motion.matches?1:Math.min(1,(now-start)/1050);
     const ease=1-Math.pow(1-t,4);
     for(const property of Object.keys(target)) current[property]=from[property]+(target[property]-from[property])*ease;
+    // Close the previous opening axis before engaging the other hinge mode.
+    if((from.open>0 && target.tilt>0)||(from.tilt>0 && target.open>0)) {
+      const closing=1-Math.pow(1-Math.min(1,t*2),4);
+      const opening=1-Math.pow(1-Math.max(0,t*2-1),4);
+      current.open=from.open*(1-closing)+target.open*opening;
+      current.tilt=from.tilt*(1-closing)+target.tilt*opening;
+    }
     apply(current); renderer.render(scene,camera); updateArrow();
     if(t<1) frame=requestAnimationFrame(draw);
   }
   function animate() {
-    cancelAnimationFrame(frame); from={...current}; start=performance.now(); frame=requestAnimationFrame(draw);
+    cancelAnimationFrame(frame);
+    if(lost || !visible || document.hidden)return;
+    from={...current};
+    if(Object.keys(target).every(property=>Math.abs(target[property]-current[property])<.0001)) {
+      apply(current);renderView();return;
+    }
+    start=performance.now(); frame=requestAnimationFrame(draw);
   }
+  let lastRenderSize="";
   function resize() {
     const w=Math.max(1,mount.clientWidth),h=Math.max(1,mount.clientHeight);
     const mobile=matchMedia('(max-width: 700px)').matches;
     if(active){const destination=mobile?active:active.querySelector('.inside-copy');if(inspector.parentNode!==destination)destination.append(inspector);}
-    renderer.setPixelRatio(Math.min(devicePixelRatio||1,mobile?1.5:2,Math.sqrt((mobile?650000:2200000)/(w*h)))); renderer.setSize(w,h,false);
+    const ratio=Math.min(devicePixelRatio||1,mobile?1.5:2,Math.sqrt((mobile?650000:2200000)/(w*h)));
+    const renderSize=`${w}:${h}:${ratio}`;
+    if(renderSize!==lastRenderSize){
+      renderer.setPixelRatio(ratio);renderer.setSize(w,h,false);lastRenderSize=renderSize;
+    }
     camera.aspect=w/h;
     const distance=Math.max(5.6,1.85/(Math.tan(THREE.MathUtils.degToRad(camera.fov/2))*Math.min(camera.aspect,1)));
     camera.position.set(0,.15,distance); camera.lookAt(0,0,0); camera.updateProjectionMatrix();

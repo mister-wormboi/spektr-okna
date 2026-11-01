@@ -227,3 +227,9 @@ html[data-theme="dark"] .theme-toggle .theme-moon { display: none; }
   .site-header { animation: none; }
   .site-header, .site-header .header-inner, .site-header .header-links, .site-header .header-nav, .site-header .header-nav a, .header-menu-toggle span { transition: none; }
 }
+
+/* Keep scrolling content from showing through the mobile navigation. */
+@media (max-width: 900px) {
+  .home-page .site-header.is-scrolled:not(.is-over-hero) { background: var(--surface); }
+  .home-page .site-header.is-scrolled:not(.is-over-hero) .header-inner { background: var(--surface); }
+}

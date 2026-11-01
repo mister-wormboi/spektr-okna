@@ -20,7 +20,7 @@ function story({ reduced = false, observer = true, animation = true, fallback = 
   const media = { matches: reduced, addEventListener: () => {}, removeEventListener: () => {} };
   let layoutChanged;
   const layout = { matches: mobile, addEventListener: (_, fn) => { layoutChanged = fn; } };
-  const makeLayers = () => Array.from({ length: 4 }, () => ({ style: {}, getBBox: () => ({x:0,y:0,width:300,height:420}), ...(animation ? {
+  const makeLayers = () => Array.from({ length: 4 }, () => ({ attributes: {}, setAttribute(k,v) {this.attributes[k]=v;}, removeAttribute(k) {delete this.attributes[k];}, style: {removeProperty(k) {delete this[k];}}, getBBox: () => ({x:0,y:0,width:300,height:420}), ...(animation ? {
     animate: (keyframes, options) => {
       const a = { keyframes, options, cancelled: false, finished: new Promise(resolve => pending.push(resolve)), cancel() { this.cancelled = true; } };
       animations.push(a);
@@ -30,8 +30,8 @@ function story({ reduced = false, observer = true, animation = true, fallback = 
   const layers = makeLayers();
   const fallbackLayers = makeLayers();
   const viewport = { classList: classList() };
-  const fallbackSvg = { querySelectorAll: () => fallbackLayers, closest: () => viewport };
-  const svg = { setAttribute() {}, querySelectorAll: () => layers };
+  const fallbackSvg = { querySelector: () => null, querySelectorAll: () => fallbackLayers, closest: () => viewport };
+  const svg = { querySelector: () => null, setAttribute() {}, querySelectorAll: () => layers };
   const stage = { replaceChildren() {} };
   const section = { classList: classList(), querySelector: () => stage };
   const document = {
@@ -60,16 +60,23 @@ function story({ reduced = false, observer = true, animation = true, fallback = 
 test('mobile window separates into four readable panels and reflows during playback', () => {
   const s = story({ mobile: true });
   s.trigger();
-  assert.equal(s.animations[0].options.duration, 1100);
-  assert.match(s.animations[3].keyframes[1].transform, /380px, 405px/);
+  assert.equal(s.animations.length, 0);
+  assert.deepEqual(s.layers.map(l => l.attributes.transform), [
+    'translate(60, 25) scale(0.6666666666666666)',
+    'translate(380, 25) scale(0.6666666666666666)',
+    'translate(60, 405) scale(0.6666666666666666)',
+    'translate(380, 405) scale(0.6666666666666666)',
+  ]);
+  assert.ok(s.layers.every(l => !l.style.transform));
   s.resize(false);
   assert.ok(s.animations.every(a => a.cancelled));
   assert.deepEqual(s.layers.map(l => l.style.transform), [-205, -67, 94, 238].map(n => `translateX(${n}px)`));
   s.resize(true);
-  assert.match(s.layers[3].style.transform, /380px, 405px/);
+  assert.match(s.layers[3].attributes.transform, /380, 405/);
+  assert.ok(s.layers.every(l => !l.style.transform));
   const reduced = story({ mobile: true, reduced: true });
   assert.equal(reduced.animations.length, 0);
-  assert.match(reduced.layers[0].style.transform, /60px, 25px/);
+  assert.match(reduced.layers[0].attributes.transform, /60, 25/);
 });
 
 test('window illustration plays once and releases completed animations', async () => {
