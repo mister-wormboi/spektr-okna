@@ -3,10 +3,10 @@
   const host = document.querySelector('#inside-panels');
   if (!host) return;
   const parts = [
-    ['frame','Рама','Основа вашего окна.','Рама закрепляется в проёме и держит конструкцию. Рассмотрите соединение в углу.'],
-    ['profile','Профиль','Главное — внутри.','Внутренние камеры и усиление помогают сохранять тепло и жёсткость конструкции.'],
-    ['glass','Стеклопакет','Больше, чем стекло.','Стёкла и камеры между ними работают вместе. Посмотрите, как собран двухкамерный стеклопакет.'],
-    ['hardware','Фурнитура','Удобство в движении.','Одна ручка управляет створкой. Выберите режим и посмотрите, как меняется её положение.']
+    ['frame','Рама','Прочность в разрезе.','Снаружи — гладкий профиль. Внутри — камеры, сталь и уплотнение. Разберите конструкцию и рассмотрите каждую деталь.'],
+    ['profile','Профиль','На своём месте.','Окно становится частью дома. Посмотрите, как рама соединяется со стеной, подоконником и отливом.'],
+    ['glass','Стеклопакет','Три стекла. Две камеры.','Тепло и тишина складываются из слоёв. Раздвиньте их, чтобы увидеть, что находится между стёклами.'],
+    ['hardware','Фурнитура','Одно движение. Три режима.','Поверните ручку прямо на модели — или выберите режим внизу. Рассмотрите движение створки с любого ракурса.']
   ];
   function ring(x,y,w,h,b) {
     return `<path d="M${x} ${y}h${w}v${h}h-${w}Z M${x+b} ${y+b}v${h-2*b}h${w-2*b}v-${h-2*b}Z" fill="url(#pvc)" fill-rule="evenodd" stroke="#9ba89f"/><path d="M${x+w} ${y}l14 -10v${h}l-14 10" fill="#aebbb0" stroke="#8f9e94"/><path d="M${x} ${y}l14 -10h${w}l-14 10" fill="#fafbf7"/>`;
@@ -20,17 +20,46 @@
   const hardware = `${ring(270,55,310,415,24)}<g class="sash">${ring(295,80,260,365,20)}${pane}<path class="mechanism" d="M304 95H545V432H304Z" fill="none" stroke="url(#metal)" stroke-width="7"/><g class="mechanism" fill="var(--green)">${[150,350].map(y=>`<circle cx="304" cy="${y}" r="7"/>`).join('')}</g><rect x="318" y="246" width="16" height="45" rx="7" fill="url(#pvc)" stroke="#97a99c"/><g class="handle"><path d="M326 268v49" stroke="#71877b" stroke-width="13" stroke-linecap="round"/><path d="M326 268v47" stroke="#f6f8f0" stroke-width="9" stroke-linecap="round"/></g></g><path class="guide" d="M570 195h55"/><text class="label" x="600" y="180">Петли</text>`;
   const art = {frame,profile,glass,hardware};
   const controls = {
-    frame:'<button type="button" data-detail aria-pressed="false" data-on="Общий вид" data-off="Показать угол">Показать угол</button><span class="hint">Рассмотрите деталь ближе</span>',
-    profile:'<button type="button" data-detail aria-pressed="false" data-on="Собрать профиль" data-off="Открыть срез">Открыть срез</button><label>Ракурс <input type="range" min="-25" max="25" value="0" aria-label="Ракурс профиля"></label>',
+    frame:'<button type="button" data-detail aria-pressed="false" data-on="Собрать раму" data-off="Разобрать конструкцию">Разобрать конструкцию</button><span class="hint">Камеры · усиление · уплотнение</span>',
+    profile:'<button type="button" data-detail aria-pressed="false" data-on="Вернуть окно" data-off="Показать в проёме">Показать в проёме</button><span class="hint">Рама · створка · монтажный шов</span>',
     glass:'<button type="button" data-detail aria-pressed="false" data-on="Собрать стеклопакет" data-off="Разделить слои">Разделить слои</button><span class="hint">Двухкамерная конструкция</span>',
     hardware:'<button type="button" data-mode="closed" aria-pressed="true">Закрыто</button><button type="button" data-mode="open" aria-pressed="false">Открыто</button><button type="button" data-mode="tilt" aria-pressed="false">Проветривание</button><button type="button" data-detail aria-pressed="false" data-on="Скрыть механизм" data-off="Показать механизм">Показать механизм</button>'
   };
   // IDs are scoped per illustration to avoid duplicate gradient IDs in hidden panels.
   host.innerHTML = parts.map(([key,name,title,copy],i)=>`<section class="inside-panel" id="panel-${key}" role="tabpanel" aria-labelledby="tab-${key}" ${i?'hidden':''} tabindex="0" data-mode="closed"><div class="inside-copy"><small>0${i+1} / ${name}</small><h3>${title}</h3><p>${copy}</p></div><div class="inside-scene"><svg viewBox="0 0 800 550" role="img" aria-label="${name}: схематичный вид конструкции">${(defs+`<ellipse cx="440" cy="490" rx="235" ry="28" fill="url(#shadow)"/>`+art[key]).replace(/id="(pvc|glass|metal|shadow)"/g,`id="$1-${key}"`).replace(/url\(#(pvc|glass|metal|shadow)\)/g,`url(#$1-${key})`)}</svg></div><div class="inside-controls">${controls[key]}</div></section>`).join('');
-  const tabs = [...document.querySelectorAll('[data-part]')];
+  const notes = {
+    frame: ['01 / ПВХ-оболочка', '02 / Воздушные камеры', '03 / Стальное усиление', '04 / Уплотнитель'],
+    profile: ['01 / Стена и проём', '02 / Рама и створка', '03 / Монтажный шов', '04 / Подоконник'],
+    glass: ['01 / Наружное стекло', '02 / Первая камера и рамка', '03 / Среднее стекло', '04 / Вторая камера и рамка', '05 / Внутреннее стекло'],
+    hardware: []
+  };
+  Object.entries(notes).forEach(([key, items]) => {
+    const panel = document.getElementById(`panel-${key}`);
+    panel.dataset.part = key;
+    panel.querySelector('.inside-scene').insertAdjacentHTML('beforeend', `<div class="inside-scene-caption" aria-hidden="true"><span>Рассмотрите ближе</span><span>0${Object.keys(notes).indexOf(key)+1} / 04</span></div>`);
+    panel.querySelector('.inside-controls').insertAdjacentHTML('beforebegin', `<div class="inside-legend" aria-label="Элементы конструкции">${items.map((item,i)=>`<button type="button" data-inspect="${i}" aria-pressed="false"><span class="inside-part-number" aria-hidden="true">0${i+1}</span>${item.replace(/^0\d \/ /, "")}</button>`).join('')}</div><p class="inside-status" role="status" aria-live="polite"></p>`);
+  });
+  let exhibit;
+  let loading;
+  async function enhance() {
+    if (loading) return loading;
+    loading = import('./window-inside-3d.js?v=20261102-selection').then(module => {
+      exhibit = module.createInsideExhibit(host);
+      exhibit.update();
+    }).catch(error => { console.warn('Inside exhibit:', error.message); });
+    return loading;
+  }
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(entries => {
+      if (entries.some(entry => entry.isIntersecting)) { observer.disconnect(); enhance(); }
+    }, {rootMargin:'200px'});
+    observer.observe(host);
+  } else enhance();
+  const tabs = [...document.querySelectorAll('.inside-tabs [data-part]')];
   const select = tab => {
     tabs.forEach(t=>{const active=t===tab;t.setAttribute('aria-selected',active);t.tabIndex=active?0:-1;document.getElementById(t.getAttribute('aria-controls')).hidden=!active;});
     const panel=document.getElementById(tab.getAttribute('aria-controls'));
+    exhibit?.update();
     if (!matchMedia('(prefers-reduced-motion: reduce)').matches && panel.animate) panel.animate([{opacity:.3},{opacity:1}],{duration:350});
   };
   tabs.forEach((tab,i)=>{
@@ -41,13 +70,13 @@
     });
   });
   host.addEventListener('click',event=>{
-    const button=event.target.closest('button');if(!button)return;
+    const button=event.target.closest('button');if(!button || (!button.hasAttribute('data-detail') && !button.dataset.mode))return;
     const panel=button.closest('.inside-panel');
     if(button.hasAttribute('data-detail')){
       const active=panel.classList.toggle('is-detail');button.setAttribute('aria-pressed',active);button.textContent=active?button.dataset.on:button.dataset.off;
     } else if(button.dataset.mode){
       panel.dataset.mode=button.dataset.mode;panel.querySelectorAll('button[data-mode]').forEach(b=>b.setAttribute('aria-pressed',b===button));
     }
+    exhibit?.update();
   });
-  host.addEventListener('input',event=>{if(event.target.type==='range')host.querySelector('.profile-object').style.transform=`translateX(${Number(event.target.value)*.5}px) skewY(${Number(event.target.value)*.2}deg)`;});
 })();
