@@ -180,7 +180,7 @@ export function createInsideExhibit(host) {
   const inspector=document.createElement('div'); inspector.className='inside-inspector'; inspector.setAttribute('role','status'); inspector.hidden=true;
   const canvas=renderer.domElement;
   canvas.tabIndex=0; canvas.removeAttribute('aria-hidden'); canvas.setAttribute('role','img');
-  canvas.setAttribute('aria-label','Объёмная модель окна. Вращайте стрелками или перетаскиванием. Выберите деталь нажатием.');
+  canvas.setAttribute('aria-label','Объёмная модель окна. Вращайте стрелками или горизонтальным движением пальца. Выберите деталь нажатием.');
   let selectedObject=null, selectedPoint=null;
   const arrow=document.createElementNS('http://www.w3.org/2000/svg','svg');
   arrow.classList.add('inside-selection-arrow'); arrow.setAttribute('aria-hidden','true');
@@ -199,9 +199,12 @@ export function createInsideExhibit(host) {
     const w=mount.clientWidth,h=mount.clientHeight,x=(anchor.x+1)*w/2,y=(1-anchor.y)*h/2;
     if(anchor.z>1 || x<8 || x>w-8 || y<8 || y>h-8){arrow.style.display=arrowLabel.style.display='none';return;}
     arrow.setAttribute('viewBox',`0 0 ${w} ${h}`);
-    const left=x>w*.5, labelWidth=Math.min(190,w*.45), labelX=left?22:w-labelWidth-22;
-    const labelY=Math.max(65,Math.min(h-135,y-85));
-    arrowLabel.style.width=labelWidth+'px';arrowLabel.style.left=labelX+'px';arrowLabel.style.top=labelY+'px';
+    const compact=w<500,padding=compact?8:22;
+    const left=x>w*.5, labelWidth=Math.min(190,w*(compact?.48:.45)), labelX=left?padding:w-labelWidth-padding;
+    arrowLabel.style.width=labelWidth+'px';arrowLabel.style.left=labelX+'px';
+    const labelHeight=arrowLabel.offsetHeight;
+    const labelY=Math.max(compact?8:65,Math.min(h-labelHeight-12,y-labelHeight-22));
+    arrowLabel.style.top=labelY+'px';
     const sx=left?labelX+labelWidth:labelX,sy=labelY+arrowLabel.offsetHeight/2;
     const elbow=left?Math.min(sx+30,x-12):Math.max(sx-30,x+12);
     const d=`M ${sx} ${sy} L ${elbow} ${sy} L ${x} ${y}`;
@@ -230,15 +233,25 @@ export function createInsideExhibit(host) {
     object?.traverse(mesh=>{if(!mesh.isMesh || !mesh.material.emissive)return;if(part==='windowStructure' && !['pvc','seal'].includes(mesh.material.userData.part))return;const material=mesh.material.clone();material.emissive.setHex(0x208a45);material.emissiveIntensity=.24;highlighted.push({mesh,original:mesh.material,material});mesh.material=material;});
     renderView();
   }
-  canvas.addEventListener('pointerdown',event=>{dragging={x:event.clientX,y:event.clientY,moved:0};canvas.setPointerCapture(event.pointerId);});
+  canvas.addEventListener('pointerdown',event=>{
+    if(!event.isPrimary || (event.pointerType==='mouse' && event.button!==0)){dragging=null;return;}
+    dragging={id:event.pointerId,x:event.clientX,y:event.clientY,startX:event.clientX,startY:event.clientY,moved:0,touch:event.pointerType==='touch',locked:false};
+    canvas.setPointerCapture(event.pointerId);
+  });
   canvas.addEventListener('pointermove',event=>{
-    if(!dragging)return;
+    if(!dragging || dragging.id!==event.pointerId)return;
+    if(dragging.touch && !dragging.locked){
+      const horizontal=Math.abs(event.clientX-dragging.startX),vertical=Math.abs(event.clientY-dragging.startY);
+      if(Math.max(horizontal,vertical)<7)return;
+      if(vertical>horizontal){dragging=null;canvas.releasePointerCapture(event.pointerId);return;}
+      dragging.locked=true;
+    }
     const dx=event.clientX-dragging.x,dy=event.clientY-dragging.y;
     dragging.moved+=Math.abs(dx)+Math.abs(dy);dragging.x=event.clientX;dragging.y=event.clientY;
-    models[key].rotation.y+=dx*.008;models[key].rotation.x=THREE.MathUtils.clamp(models[key].rotation.x+dy*.006,-.65,.65);renderView();
+    models[key].rotation.y+=dx*.008;models[key].rotation.x=THREE.MathUtils.clamp(models[key].rotation.x+(dragging.touch?0:dy*.006),-.65,.65);renderView();
   });
   canvas.addEventListener('pointerup',event=>{
-    if(dragging?.moved<6){
+    if(dragging?.id===event.pointerId && dragging.moved<6){
       const rect=canvas.getBoundingClientRect();pointer.set((event.clientX-rect.left)/rect.width*2-1,-(event.clientY-rect.top)/rect.height*2+1);
       raycaster.setFromCamera(pointer,camera);
       const hit=raycaster.intersectObject(models[key],true).find(hit=>{let node=hit.object;while(node){if(!node.visible)return false;node=node.parent;}return true;});
@@ -249,6 +262,7 @@ export function createInsideExhibit(host) {
     }dragging=null;
   });
   canvas.addEventListener('pointercancel',()=>{dragging=null;});
+  canvas.addEventListener('lostpointercapture',()=>{dragging=null;});
   canvas.addEventListener('keydown',event=>{if(!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(event.key))return;event.preventDefault();models[key].rotation.y+=event.key==='ArrowLeft'?-.12:event.key==='ArrowRight'?.12:0;models[key].rotation.x=THREE.MathUtils.clamp(models[key].rotation.x+(event.key==='ArrowUp'?-.1:event.key==='ArrowDown'?.1:0),-.65,.65);renderView();});
   host.querySelectorAll('.inside-panel').forEach(panel=>{
     const choices={frame:[[body.children[0],'pvc'],[airChambers,'chambers'],[reinforcement,'reinforcement'],[rubber,'seal']],profile:[[openingWalls,'opening'],[installed.fixed,'windowStructure'],[installationJoint,'installationJoint'],[sill,'windowSill']],glass:layers.map((layer,i)=>[layer,layerParts[i]]),hardware:[]};
@@ -308,8 +322,12 @@ export function createInsideExhibit(host) {
   }
   function resize() {
     const w=Math.max(1,mount.clientWidth),h=Math.max(1,mount.clientHeight);
-    renderer.setPixelRatio(Math.min(devicePixelRatio||1,2,Math.sqrt(2200000/(w*h)))); renderer.setSize(w,h,false);
-    camera.aspect=w/h; camera.position.set(0,.15,camera.aspect<1?6.7:5.6); camera.lookAt(0,0,0); camera.updateProjectionMatrix();
+    const mobile=matchMedia('(max-width: 700px)').matches;
+    if(active){const destination=mobile?active:active.querySelector('.inside-copy');if(inspector.parentNode!==destination)destination.append(inspector);}
+    renderer.setPixelRatio(Math.min(devicePixelRatio||1,mobile?1.5:2,Math.sqrt((mobile?650000:2200000)/(w*h)))); renderer.setSize(w,h,false);
+    camera.aspect=w/h;
+    const distance=Math.max(5.6,1.85/(Math.tan(THREE.MathUtils.degToRad(camera.fov/2))*Math.min(camera.aspect,1)));
+    camera.position.set(0,.15,distance); camera.lookAt(0,0,0); camera.updateProjectionMatrix();
     animate();
   }
   const statuses={

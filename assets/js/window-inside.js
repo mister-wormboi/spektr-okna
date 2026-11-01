@@ -43,7 +43,7 @@
   let loading;
   async function enhance() {
     if (loading) return loading;
-    loading = import('./window-inside-3d.js?v=20261102-selection').then(module => {
+    loading = import('./window-inside-3d.js?v=20261102-mobile').then(module => {
       exhibit = module.createInsideExhibit(host);
       exhibit.update();
     }).catch(error => { console.warn('Inside exhibit:', error.message); });
