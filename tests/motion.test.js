@@ -9,11 +9,13 @@ const classList = () => {
   return { add: v => values.add(v), remove: v => values.delete(v), contains: v => values.has(v), toggle: (v, on) => on ? values.add(v) : values.delete(v) };
 };
 
-function story({ reduced = false, observer = true, animation = true, fallback = false, mobile = false } = {}) {
+function story({ reduced = false, observer = true, animation = true, fallback = false, mobile = false, mobilePlayback = false } = {}) {
+  const frames=new Map();let frameId=0;
   const pending = [];
   const animations = [];
   const listeners = new Map();
   let trigger;
+  let revealTrigger;
   let connected = false;
   const observers = new Map();
   let rendererChanged;
@@ -43,16 +45,19 @@ function story({ reduced = false, observer = true, animation = true, fallback = 
     observe(target) {
       connected = true;
       observers.set(target, (ratio = 1) => this.callback([{ isIntersecting: ratio > 0, intersectionRatio: ratio }]));
-      if (target === stage) trigger = observers.get(target);
+      if (target === stage) {
+        if (!revealTrigger) revealTrigger = observers.get(target);
+        trigger = observers.get(target);
+      }
     }
     disconnect() { connected = false; }
   }
   vm.runInNewContext(source('window-story.js'), {
-    document, window: { matchMedia: query => query.includes('max-width') ? layout : media, MutationObserver: true, ...(observer ? { IntersectionObserver: Observer } : {}) },
+    document, window: { ...(mobilePlayback ? {requestAnimationFrame(fn){frames.set(++frameId,fn);return frameId;},cancelAnimationFrame(id){frames.delete(id);}} : {}), matchMedia: query => query.includes('max-width') ? layout : media, MutationObserver: true, ...(observer ? { IntersectionObserver: Observer } : {}) },
     IntersectionObserver: Observer,
     MutationObserver: class { constructor(fn) { rendererChanged = fn; } observe() {} disconnect() {} },
   });
-  return { section, layers, animations, pending, listeners, document, trigger, resize: value => { layout.matches = value; layoutChanged(); }, connected: () => connected,
+  return { step(time){const queued=[...frames.values()];frames.clear();queued.forEach(fn=>fn(time));}, frames, section, layers, animations, pending, listeners, document, trigger, reveal: ratio => revealTrigger(ratio), resize: value => { layout.matches = value; layoutChanged(); }, connected: () => connected,
     viewport, fallbackLayers, enterFallback: ratio => observers.get(viewport)?.(ratio), rendererChanged: () => rendererChanged?.() };
 }
 
@@ -221,4 +226,33 @@ test('reading progress does no background work in a hidden tab and catches up on
   events.visibilitychange();
   frames.shift()();
   assert.equal(progress.style.transform, 'scaleX(0.5)');
+});
+
+test('mobile reveal resets offscreen and starts again on reentry', () => {
+  const s=story({mobile:true});
+  s.reveal(.1);
+  assert.equal(s.section.classList.contains('is-mobile-visible'),false);
+  s.reveal(.3);s.trigger(.3);
+  assert.equal(s.section.classList.contains('is-mobile-visible'),true);
+  s.reveal(0);
+  assert.equal(s.section.classList.contains('is-mobile-visible'),false);
+  s.reveal(.3);
+  assert.equal(s.section.classList.contains('is-mobile-visible'),true);
+  assert.ok(s.layers.every(layer=>!layer.style.transform));
+});
+
+test('mobile assembly moves from a single window to four cells and replays after scrolling',()=>{
+  const s=story({mobile:true,mobilePlayback:true});
+  s.reveal(.5);s.trigger(.5);s.step(0);
+  assert.ok(s.layers.every(l=>l.attributes.transform==='translate(212 209) scale(0.72)'));
+  s.step(800);
+  assert.notEqual(s.layers[0].attributes.transform,s.layers[3].attributes.transform);
+  s.step(1800);
+  assert.ok(s.section.classList.contains('is-complete'));
+  assert.equal(s.frames.size,0);
+  assert.match(s.layers[3].attributes.transform,/380, 405/);
+  s.reveal(0);s.trigger(0);s.reveal(.5);s.trigger(.5);s.step(2000);
+  assert.ok(s.layers.every(l=>l.attributes.transform==='translate(212 209) scale(0.72)'));
+  s.trigger(0);
+  assert.equal(s.frames.size,0);
 });

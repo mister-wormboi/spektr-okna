@@ -36,14 +36,25 @@
   Object.entries(notes).forEach(([key, items]) => {
     const panel = document.getElementById(`panel-${key}`);
     panel.dataset.part = key;
-    panel.querySelector('.inside-scene').insertAdjacentHTML('beforeend', `<div class="inside-scene-caption" aria-hidden="true"><span>Рассмотрите ближе</span><span>0${Object.keys(notes).indexOf(key)+1} / 04</span></div>`);
+    panel.querySelector('.inside-scene').insertAdjacentHTML('beforeend', `<div class="inside-scene-caption" aria-hidden="true"><span>${key==='profile'?'Вид со стороны комнаты':'Рассмотрите ближе'}</span><span>0${Object.keys(notes).indexOf(key)+1} / 04</span></div>`);
     panel.querySelector('.inside-controls').insertAdjacentHTML('beforebegin', `<div class="inside-legend" aria-label="Элементы конструкции">${items.map((item,i)=>`<button type="button" data-inspect="${i}" aria-pressed="false"><span class="inside-part-number" aria-hidden="true">0${i+1}</span>${item.replace(/^0\d \/ /, "")}</button>`).join('')}</div><p class="inside-status" role="status" aria-live="polite"></p>`);
   });
+  // Reveal each scene only once it reaches the viewport, not during lazy preload.
+  if ('IntersectionObserver' in window) {
+    const revealObserver=new IntersectionObserver(entries=>{
+      entries.forEach(entry=>{
+        if(!entry.isIntersecting)return;
+        entry.target.classList.add('is-revealed');
+        revealObserver.unobserve(entry.target);
+      });
+    },{threshold:.15});
+    host.querySelectorAll('.inside-scene').forEach(scene=>revealObserver.observe(scene));
+  } else host.querySelectorAll('.inside-scene').forEach(scene=>scene.classList.add('is-revealed'));
   let exhibit;
   let loading;
   async function enhance() {
     if (loading) return loading;
-    loading = import('./window-inside-3d.js?v=20261102-stay-v3').then(module => {
+    loading = import('./window-inside-3d.js?v=20261102-room-v4').then(module => {
       exhibit = module.createInsideExhibit(host);
       exhibit.update();
     }).catch(error => { console.warn('Inside exhibit:', error.message); });
@@ -60,7 +71,7 @@
     tabs.forEach(t=>{const active=t===tab;t.setAttribute('aria-selected',active);t.tabIndex=active?0:-1;document.getElementById(t.getAttribute('aria-controls')).hidden=!active;});
     const panel=document.getElementById(tab.getAttribute('aria-controls'));
     exhibit?.update();
-    if (!matchMedia('(prefers-reduced-motion: reduce)').matches && panel.animate) panel.animate([{opacity:.3},{opacity:1}],{duration:350});
+    if (!matchMedia('(max-width: 700px), (prefers-reduced-motion: reduce)').matches && panel.animate) panel.animate([{opacity:.3},{opacity:1}],{duration:350});
   };
   tabs.forEach((tab,i)=>{
     tab.addEventListener('click',()=>select(tab));

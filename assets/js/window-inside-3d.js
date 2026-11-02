@@ -162,11 +162,11 @@ export function createInsideExhibit(host) {
   const installed=windowModel(profileRoot);
   const surround=new THREE.Group(); profileRoot.add(surround);
   const openingWalls=new THREE.Group();surround.add(openingWalls);
-  box(openingWalls,.4,2.6,.48,-1.02,0,-.11,wall); box(openingWalls,.4,2.6,.48,1.02,0,-.11,wall);
-  box(openingWalls,1.66,.3,.48,0,1.15,-.11,wall); box(openingWalls,1.66,.3,.48,0,-1.15,-.11,wall);
-  const installationJoint=ring(surround,1.64,2.14,.065,.15,-.015,foam);
-  const sill=box(surround,2,.055,.65,0,-1.065,.12,pvc);
-  const apron=box(surround,1.65,.025,.26,0,-1.075,-.43,steel); apron.rotation.x=-.12;
+  box(openingWalls,.4,2.6,.75,-1.02,0,.025,wall); box(openingWalls,.4,2.6,.75,1.02,0,.025,wall);
+  box(openingWalls,1.66,.3,.75,0,1.15,.025,wall); box(openingWalls,1.66,.3,.75,0,-1.15,.025,wall);
+  const installationJoint=ring(surround,1.64,2.14,.065,.15,-.15,foam);
+  const sill=box(surround,2,.055,.9,0,-1.065,.25,pvc);
+  const apron=box(surround,1.65,.025,.32,0,-1.075,-.44,steel); apron.rotation.x=-.12;
 
   const glassRoot=root('glass'); glassRoot.rotation.y=-.65;
   const layers=[];
@@ -244,9 +244,9 @@ export function createInsideExhibit(host) {
     selectedObject=part?object:null;selectedPoint=hitPoint && object?object.worldToLocal(hitPoint.clone()):null;
     if(!hitPoint && object===body.children[0] && part==='pvc')selectedPoint=new THREE.Vector3(-.435,.19,.655);
     if(!hitPoint && object===airChambers)selectedPoint=new THREE.Vector3(-.32,0,.655);
-    if(!hitPoint && object===openingWalls)selectedPoint=new THREE.Vector3(-1.02,.35,.14);
+    if(!hitPoint && object===openingWalls)selectedPoint=new THREE.Vector3(-1.02,.35,.4);
     if(!hitPoint && object===installed.fixed)selectedPoint=new THREE.Vector3(-.7,.35,.1);
-    if(!hitPoint && object===installationJoint)selectedPoint=new THREE.Vector3(-.79,.35,.075);
+    if(!hitPoint && object===installationJoint)selectedPoint=new THREE.Vector3(-.79,.35,-.075);
     if(!hitPoint && ['outerGap','innerGap'].includes(partOverride))selectedPoint=new THREE.Vector3(-.635,.25,.033);
     active?.querySelectorAll('[data-inspect]').forEach(button=>button.setAttribute('aria-pressed',String(Boolean(part) && button.dataset.inspectPart===part)));
     if(!part){inspector.hidden=true;renderView();return;}
@@ -322,9 +322,9 @@ export function createInsideExhibit(host) {
     reinforcement.position.z=d*.5;
     sashSection.position.y=.47+d*.13;
     } else if(key==='profile') {
-    surround.visible=d>.01; surround.scale.setScalar(.94+d*.06);
-    surround.position.z=-.5*(1-d); installed.fixed.position.z=d*.13;
-    sill.position.z=.12+d*.08;
+    surround.visible=d>.01; surround.scale.setScalar(1);
+    surround.position.z=-.5*(1-d); installed.fixed.position.z=-d*.15;
+    sill.position.z=.25;
     } else if(key==='glass') {
     layers.forEach((layer,i)=>{layer.position.z=(i-2)*(.042+d*.32); layer.position.x=(i-2)*d*.07;});
     } else if(key==='hardware') {

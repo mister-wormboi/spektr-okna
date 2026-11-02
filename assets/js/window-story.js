@@ -79,6 +79,18 @@
   stage.replaceChildren(svg);
   section.classList.add('is-enhanced');
 
+  // Keep the mobile reveal observer alive so scrolling back replays the entrance.
+  // Only opacity is animated: SVG attachment transforms remain untouched on iOS.
+  if ('IntersectionObserver' in window) {
+    const revealObserver=new IntersectionObserver(entries=>{
+      entries.forEach(entry=>{
+        if(!entry.isIntersecting)section.classList.remove('is-mobile-visible');
+        else if(entry.intersectionRatio>=.15)section.classList.add('is-mobile-visible');
+      });
+    },{threshold:[0,.15]});
+    revealObserver.observe(stage);
+  } else section.classList.add('is-mobile-visible');
+
   animateWindow(section, stage, svg, [-205, -67, 94, 238]);
   const fallback = document.querySelector('.window-3d-fallback');
   if (fallback) {
@@ -126,13 +138,17 @@
     let observer;
     let rendererObserver;
     let animations = [];
+    let mobileFrame = 0;
 
     function complete() {
       if (state === 'complete') return;
       state = 'complete';
-      observer?.disconnect();
+      if (!isMobile()) observer?.disconnect();
+      if (mobileFrame) window.cancelAnimationFrame(mobileFrame);
+      mobileFrame=0;
       rendererObserver?.disconnect();
       layers.forEach((layer, index) => {
+        layer.style.removeProperty('opacity');
         placeLayer(layer, index);
       });
       // Keep only final transforms; release animation objects and observers.
@@ -160,8 +176,39 @@
       if (state !== 'idle') return;
       state = 'playing';
       const fallbackHidden = isFallback && stage.classList.contains('is-rendered');
-      if (isMobile() || motion.matches || document.hidden || fallbackHidden || layers.some(layer => typeof layer.animate !== 'function')) {
+      if (motion.matches || document.hidden || fallbackHidden || layers.some(layer => typeof layer.animate !== 'function')) {
         complete();
+        return;
+      }
+      if(isMobile()) {
+        if(!window.requestAnimationFrame){complete();return;}
+        section.classList.remove('is-complete');
+        section.classList.add('is-playing');
+        document.addEventListener('visibilitychange',onVisibilityChange);
+        if(motion.addEventListener)motion.addEventListener('change',onMotionChange);
+        else motion.addListener(onMotionChange);
+        let began;
+        const position=(elapsed)=>layers.forEach((layer,index)=>{
+          const progress=Math.max(0,Math.min(1,(elapsed-150-index*80)/1000));
+          const ease=progress*progress*(3-2*progress);
+          const b=bounds[index],scale=Math.min(230/b.width,280/b.height);
+          const [cx,cy]=mobileCenters[index];
+          const x=cx-(b.x+b.width/2)*scale,y=cy-(b.y+b.height/2)*scale;
+          // Same local SVG coordinates for the assembled window and the four cells.
+          layer.style.removeProperty('transform');
+          layer.setAttribute('transform',`translate(${212+(x-212)*ease} ${209+(y-209)*ease}) scale(${.72+(scale-.72)*ease})`);
+          layer.style.opacity=String(Math.min(1,elapsed/240));
+        });
+        position(0);
+        const tick=now=>{
+          if(state!=='playing')return;
+          if(began===undefined)began=now;
+          const elapsed=now-began;
+          position(elapsed);
+          if(elapsed<1390)mobileFrame=window.requestAnimationFrame(tick);
+          else {layers.forEach(layer=>layer.style.removeProperty('opacity'));complete();}
+        };
+        mobileFrame=window.requestAnimationFrame(tick);
         return;
       }
       section.classList.add('is-playing');
@@ -208,7 +255,10 @@
       complete();
     } else {
       observer = new IntersectionObserver(entries => {
-        if (state === 'playing' && entries.some(entry => !entry.isIntersecting)) complete();
+        if (entries.some(entry => !entry.isIntersecting)) {
+          if(state==='playing')complete();
+          if(isMobile()&&!motion.matches)state='idle';
+        }
         else if (entries.some(entry => entry.isIntersecting && entry.intersectionRatio >= .3)) play();
       }, { threshold: [0, .3] });
       observer.observe(stage);

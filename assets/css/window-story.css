@@ -110,3 +110,9 @@
   .window-connectors, .ws-guides, .window-part-labels > li { transition: none; }
   .window-story.is-enhanced:not(.is-complete) .window-part-labels > li { opacity: 1; transform: none; }
 }
+
+@media(max-width:760px) and (prefers-reduced-motion:no-preference) {
+ .window-story.is-enhanced:not(.is-mobile-visible) .window-stage [data-window-layer],
+ .window-story.is-enhanced:not(.is-mobile-visible) .ws-mobile-labels { opacity:0; }
+ .ws-mobile-labels { transition:opacity .35s ease; }
+}
