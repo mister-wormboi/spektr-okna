@@ -79,6 +79,11 @@ html[data-theme] .about-page main :is(h1,h2) > .heading-accent { color:var(--bra
 .about-page .about-invitation .invitation-actions > a[href] { color:var(--ink); border-color:var(--line); background:var(--panel-raised); }
 .about-page .about-invitation .invitation-actions > a[href]:hover { color:var(--ink); border-color:var(--muted); background:var(--panel); }
 .about-page .about-invitation .page-end-action:hover .page-end-action-arrow { color:inherit; background:transparent; border-color:var(--line); }
+.about-page main .about-invitation a.page-end-action-text:any-link .page-end-action-arrow {
+  border: 0;
+  background: transparent;
+  color: inherit;
+}
 
 /* Both themes share one layout; only existing panels change their surface. */
 .about-cinema { display:none; position:fixed; inset:0; z-index:-1; pointer-events:none; overflow:hidden; }

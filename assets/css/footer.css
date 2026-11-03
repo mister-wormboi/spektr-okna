@@ -60,6 +60,23 @@ html[data-theme="light"] .site-footer .footer-logo img { content: url('../logo-l
 }
 .footer-phone > span { flex: none; font-size: var(--font-size-body); }
 .footer-phone:hover { color: var(--ink); }
+.site-footer .footer-request {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+  width: fit-content;
+  max-width: 100%;
+  min-height: 44px;
+  padding: 10px 16px;
+  border: 1px solid var(--line);
+  background: var(--accent-soft);
+  color: var(--green);
+  font: 500 var(--font-size-body)/1.4 var(--sans);
+  text-decoration: none;
+}
+.site-footer .footer-request:hover { border-color: var(--green); }
+.site-footer .footer-request > span { flex: none; }
 
 .footer-bottom {
   display: flex;
