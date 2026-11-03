@@ -31,11 +31,13 @@ html[data-theme="light"] .inside {
 .inside-copy h3 { font:400 var(--font-size-title)/1.15 var(--serif); letter-spacing:-.025em; margin:0 0 20px; }
 .inside-copy p { color:var(--muted); font-size:var(--font-size-body); line-height:1.6; margin:0; }
 .inside-scene { grid-column:2; grid-row:1 / 3; position:relative; min-width:0; height:570px; background:radial-gradient(ellipse at 48% 35%,var(--studio-center) 0%,var(--studio-mid) 55%,var(--studio-edge) 100%); overflow:hidden; }
-.inside-scene > svg { position:absolute; inset:0; width:100%; height:100%; }
-.inside-scene.has-3d > svg { visibility:hidden; }
 .inside-scene .label { fill:var(--studio-accent); font:var(--font-size-body) var(--sans); }
 .inside-scene .guide { stroke:var(--studio-accent); fill:none; }
-.inside-webgl { position:absolute; inset:0; }
+.inside-webgl { position:absolute; inset:0; opacity:0; }
+.inside-scene.is-revealed.has-3d .inside-webgl { opacity:1; }
+.inside-scene::after { content:"Подготавливаем модель"; position:absolute; inset:0; display:grid; place-items:center; color:var(--studio-subtle); font-size:14px; letter-spacing:.02em; pointer-events:none; }
+.inside-scene.has-3d::after { display:none; }
+.inside-scene.is-unavailable::after { content:"Не удалось загрузить 3D-модель"; }
 .inside-webgl canvas { display:block; width:100%; height:100%; touch-action:pan-y; cursor:grab; }
 .inside-webgl canvas:active { cursor:grabbing; }
 .inside-scene-caption { position:absolute; left:26px; right:26px; top:22px; display:flex; justify-content:space-between; color:var(--studio-text); pointer-events:none; font-size:var(--font-size-body); }
@@ -73,18 +75,6 @@ html[data-theme="light"] .inside {
 .inside-bottom p { color:var(--muted); max-width:490px; font-size:var(--font-size-body); }
 .inside-bottom a { color:var(--green); padding:12px 0; border-bottom:1px solid var(--line); }
 .inside-bottom a span { margin-left:30px; }
-.glass-layer,.profile-shell,.sash,.handle { transition:transform .7s; }
-.is-detail .glass-layer:first-child { transform:translateX(-100px); }
-.is-detail .glass-layer:last-child { transform:translateX(100px); }
-.is-detail .profile-shell { transform:translateY(-80px); }
-.sash { transform-origin:565px 265px; }
-[data-mode=open] .sash { transform:translateX(40px) skewY(-8deg) scaleX(.7); }
-[data-mode=tilt] .sash { transform:translate(12px,12px) skewX(-5deg) scaleY(.94); }
-.handle { transform-origin:326px 268px; }
-[data-mode=open] .handle { transform:rotate(90deg); }
-[data-mode=tilt] .handle { transform:rotate(180deg); }
-.mechanism { opacity:0; }
-.is-detail .mechanism { opacity:1; }
 @media(min-width:1500px) { .inside-scene{height:630px} }
 @media(max-width:1000px) { .inside-panel{grid-template-columns:35% 65%}.inside-copy{padding:28px 22px 0}.inside-legend{padding:24px 22px}.inside-scene{height:550px}.inside-view-tools span{max-width:180px} }
 @media(max-width:700px) {
@@ -93,7 +83,7 @@ html[data-theme="light"] .inside {
  .inside-panel{display:flex;flex-direction:column;min-width:0}.inside-panel>*{box-sizing:border-box;min-width:0;max-width:100%}
  .inside-copy{padding:22px 18px 20px}.inside-copy small{margin-bottom:10px}.inside-copy h3{margin-bottom:12px}
  .inside-scene{height:clamp(350px,110vw,440px);width:100%;flex:none;order:1}
- .inside-webgl{top:44px;bottom:62px}.inside-scene > svg{top:44px;height:calc(100% - 106px)}
+ .inside-webgl{top:44px;bottom:62px}
  .inside-controls{order:2;padding:16px;gap:10px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));width:100%}
  .inside-controls button{min-width:0;white-space:normal;overflow-wrap:anywhere;padding:12px;min-height:48px;line-height:1.4}
  .inside-controls button[data-detail]{grid-column:1 / -1}.inside-controls button[data-detail]::after{margin-left:8px}
@@ -118,12 +108,9 @@ html[data-theme="light"] .inside {
  from { opacity:0; transform:translateY(14px); }
  to { opacity:1; transform:translateY(0); }
 }
-@media(max-width:700px) and (prefers-reduced-motion:no-preference) {
- .inside-scene:not(.is-revealed) .inside-webgl,
- .inside-scene:not(.is-revealed) > svg { opacity:0; }
- .inside-scene.is-revealed.has-3d .inside-webgl,
- .inside-scene.is-revealed:not(.has-3d) > svg {
-  animation:inside-mobile-enter 650ms cubic-bezier(.22,1,.36,1) both;
+@media(prefers-reduced-motion:no-preference) {
+ .inside-scene.is-revealed.has-3d .inside-webgl {
+  animation:inside-mobile-enter 450ms cubic-bezier(.22,1,.36,1) both;
  }
 }
 

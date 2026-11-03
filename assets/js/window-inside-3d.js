@@ -333,6 +333,10 @@ export function createInsideExhibit(host) {
   }
   function renderScene(){
     renderer.render(scene,camera);updateArrow();
+    // Reveal only after the first real frame, never the temporary SVG or blank canvas.
+    const readyScene=active?.querySelector('.inside-scene');
+    readyScene?.classList.remove('is-unavailable');
+    readyScene?.classList.add('has-3d');
   }
   function cancelRendering(){
     cancelAnimationFrame(frame);cancelAnimationFrame(viewFrame);frame=0;viewFrame=0;
@@ -515,13 +519,12 @@ export function createInsideExhibit(host) {
     status.textContent=key==='hardware'?`${open?'Створка открыта на боковых петлях.':tilt?'Верх створки откинут внутрь для проветривания.':'Створка закрыта, ручка направлена вниз.'}${mech?' Подсвечены запорная обвязка и точки прижима.':''}`:statuses[key][detail];
     panel.querySelector('.inside-legend').classList.toggle('is-expanded',Boolean(detail));
     if(changed)resize();else animate();
-    panel.querySelector('.inside-scene').classList.add('has-3d');
   }
   new ResizeObserver(resize).observe(mount);
   const observer=new IntersectionObserver(entries=>{visible=entries.some(e=>e.isIntersecting); if(visible)animate();else cancelRendering();}); observer.observe(mount);
   document.addEventListener('visibilitychange',()=>{if(document.hidden)cancelRendering();else animate();});
   motion.addEventListener('change',animate);
-  renderer.domElement.addEventListener('webglcontextlost',event=>{event.preventDefault();lost=true;cancelRendering();active?.querySelector('.inside-scene').classList.remove('has-3d');});
+  renderer.domElement.addEventListener('webglcontextlost',event=>{event.preventDefault();lost=true;cancelRendering();active?.querySelector('.inside-scene').classList.remove('has-3d');active?.querySelector('.inside-scene').classList.add('is-unavailable');});
   renderer.domElement.addEventListener('webglcontextrestored',()=>{lost=false;update();});
   new MutationObserver(()=>{updateBackdrop();renderView();}).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
   return {update};
