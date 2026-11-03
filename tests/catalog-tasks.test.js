@@ -12,13 +12,14 @@ const products = context.window.SPEKTR_PRODUCTS;
 
 test('every task selects existing product cards rather than category or collection cards', () => {
   const html = fs.readFileSync(path.join(root, 'catalog/index.html'), 'utf8');
+  assert.doesNotMatch(html, /<video|catalog-video-hero|catalog-task-picker|assets\/js\/hero-video\.js/);
+  assert.match(html, /class="catalog-intro"/);
   assert.equal(tasks.length, 3);
   for (const task of tasks) {
     const matches = selectSpektrProducts(products, { category: task.category, productIds: task.products });
     assert.equal(matches.length, task.products.length, task.id);
     assert.ok(matches.length > 1 && matches.length < products.length);
     assert.ok(matches.every(product => !product.isCollection && !product.isDirection));
-    assert.ok(html.includes(`?task=${task.id}#catalog-products`));
   }
 });
 
