@@ -1,24 +1,85 @@
-import { THREE, createRenderer, environment, box } from './scene-runtime.js';
+import { THREE, createRenderer, environment, box } from './scene-runtime.js?v=20261103-studio';
 
 // One shared, lazy WebGL context. Frames are requested only during an interaction.
 export function createInsideExhibit(host) {
+  // Keep the same quality tier through rotation: avoid shader recompilation on resize.
+  const compactDevice=matchMedia('(max-width: 700px), (pointer: coarse) and (max-width: 1100px)').matches;
+  const lowPower=compactDevice || navigator.connection?.saveData || (navigator.deviceMemory && navigator.deviceMemory<=4);
   const mount = document.createElement('div');
   mount.className = 'inside-webgl';
   const renderer = createRenderer(mount, true);
-  renderer.toneMappingExposure = .95;
+  renderer.toneMappingExposure = .92;
+  // A single bounded shadow map gives the hollow sections real depth.
+  renderer.shadowMap.enabled = !lowPower;
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   const scene = new THREE.Scene();
-  scene.environment = environment(renderer, true);
-  scene.add(new THREE.HemisphereLight(0xffffff, 0x344f40, 1.3));
-  const light = new THREE.DirectionalLight(0xfff8ec, 2.5);
+  scene.environment = environment(renderer, 'neutral');
+  scene.add(new THREE.HemisphereLight(0xffffff, 0x626566, .65));
+  const light = new THREE.DirectionalLight(0xfff8ef, 2.0);
   light.position.set(-3, 5, 6); scene.add(light);
-  const rim = new THREE.DirectionalLight(0xdaeeff, 1.8);
+  light.castShadow=true;
+  light.shadow.mapSize.set(1024,1024);
+  Object.assign(light.shadow.camera,{left:-2.6,right:2.6,top:2.8,bottom:-2.8,near:.5,far:15});
+  light.shadow.bias=-.00015;light.shadow.normalBias=.009;
+  const rim = new THREE.DirectionalLight(0xe4edff, 1.1);
   rim.position.set(4, 2, -2); scene.add(rim);
   const camera = new THREE.PerspectiveCamera(32, 1, .1, 40);
   const mat = (color, roughness = .3, metalness = 0) => new THREE.MeshStandardMaterial({color, roughness, metalness});
-  const pvc = mat(0xf1f3ed), cut = mat(0xd5dfd5), seal = mat(0x25362e, .8);
-  const steel = mat(0x9aaeb0, .25, .85), green = mat(0x27b45b, .4), wall = mat(0xb7beb0, .95);
+  const pvc = new THREE.MeshPhysicalMaterial({color:0xf0f0eb,roughness:.27,metalness:0,clearcoat:.18,clearcoatRoughness:.32});
+  const cut = mat(0xd9dcd8,.48), seal = mat(0x202422, .92);
+  const steel = mat(0xb8bdc0, .28, .95), green = mat(0x27b45b, .4), wall = mat(0xb7beb0, .95);
   const foam = mat(0xc1b58b, 1);
-  const glass = new THREE.MeshPhysicalMaterial({color:0xa5d8d1, metalness:.12, roughness:.035, transparent:true, opacity:.32, side:THREE.DoubleSide, depthWrite:false});
+  // Physical transmission bends the rendered surroundings through each pane.
+  // Keep the surface nearly colourless; tint belongs to the volume and edges.
+  const glass = new THREE.MeshPhysicalMaterial({
+    color:0xf7fffc,metalness:0,roughness:.055,ior:1.46,
+    transmission:lowPower?0:.96,thickness:.045,attenuationColor:0xb8e7d8,attenuationDistance:2.8,
+    clearcoat:1,clearcoatRoughness:.075,envMapIntensity:1.65,
+    specularIntensity:1,transparent:true,opacity:lowPower?.23:1,
+    side:THREE.DoubleSide,depthWrite:false,forceSinglePass:true
+  });
+  // Mobile keeps angle-dependent highlights without an extra scene render per frame.
+  if(lowPower){
+    glass.onBeforeCompile=shader=>{
+      shader.fragmentShader=shader.fragmentShader.replace('#include <opaque_fragment>',`
+        float grazing=pow(1.0-abs(dot(normalize(normal),normalize(vViewPosition))),4.0);
+        diffuseColor.a=mix(diffuseColor.a,0.72,grazing);
+        #include <opaque_fragment>
+      `);
+    };
+    glass.customProgramCacheKey=()=> 'inside-mobile-glass-v1';
+  }
+  const glassEdge=new THREE.MeshPhysicalMaterial({
+    color:0xc1e8dc,metalness:0,roughness:.08,ior:1.46,
+    clearcoat:1,clearcoatRoughness:.08,envMapIntensity:1.8,
+    transparent:true,opacity:.48,depthWrite:false
+  });
+  glassEdge.userData.part='glass';
+  // Transmission needs a rendered background, rather than only the CSS behind
+  // the transparent canvas. Match the studio palette in both site themes.
+  const backdropCanvas=document.createElement('canvas');
+  backdropCanvas.width=512;backdropCanvas.height=512;
+  const backdropContext=backdropCanvas.getContext('2d');
+  const backdrop=new THREE.CanvasTexture(backdropCanvas);
+  backdrop.colorSpace=THREE.SRGBColorSpace;scene.background=backdrop;
+  function updateBackdrop(){
+    const style=getComputedStyle(host.closest('.inside') || host);
+    const gradient=backdropContext.createRadialGradient(246,180,0,246,180,380);
+    gradient.addColorStop(0,style.getPropertyValue('--studio-center').trim() || '#30483a');
+    gradient.addColorStop(.55,style.getPropertyValue('--studio-mid').trim() || '#203127');
+    gradient.addColorStop(1,style.getPropertyValue('--studio-edge').trim() || '#15221a');
+    backdropContext.fillStyle=gradient;backdropContext.fillRect(0,0,512,512);backdrop.needsUpdate=true;
+  }
+  updateBackdrop();
+  // Subtle deterministic grain, shared by all metal pieces (one tiny texture).
+  const metalCanvas=document.createElement('canvas');metalCanvas.width=128;metalCanvas.height=128;
+  const metalContext=metalCanvas.getContext('2d');
+  const grain=metalContext.createImageData(128,128);let seed=17;
+  for(let i=0;i<grain.data.length;i+=4){seed=(seed*1664525+1013904223)>>>0;const v=185+(seed%55);grain.data[i]=grain.data[i+1]=grain.data[i+2]=v;grain.data[i+3]=255;}
+  metalContext.putImageData(grain,0,0);
+  const metalTexture=new THREE.CanvasTexture(metalCanvas);
+  metalTexture.wrapS=metalTexture.wrapT=THREE.RepeatWrapping;metalTexture.repeat.set(3,12);
+  steel.roughnessMap=metalTexture;steel.roughness=.4;
   const models = {};
   const descriptions = {
     pvc:['ПВХ-оболочка','Твёрдые наружные стенки профиля. Они формируют его поверхность и защищают внутренние камеры и усиление.'],
@@ -38,25 +99,41 @@ export function createInsideExhibit(host) {
   pvc.userData.part='pvc'; steel.userData.part='steel'; seal.userData.part='seal'; glass.userData.part='glass'; wall.userData.part='wall'; foam.userData.part='foam';
   const shadowCanvas=document.createElement('canvas'); shadowCanvas.width=128; shadowCanvas.height=128;
   const ctx=shadowCanvas.getContext('2d'), gradient=ctx.createRadialGradient(64,64,0,64,64,64);
-  gradient.addColorStop(0,'rgba(0,0,0,.32)'); gradient.addColorStop(1,'rgba(0,0,0,0)'); ctx.fillStyle=gradient; ctx.fillRect(0,0,128,128);
+  gradient.addColorStop(0,'rgba(0,0,0,.15)'); gradient.addColorStop(1,'rgba(0,0,0,0)'); ctx.fillStyle=gradient; ctx.fillRect(0,0,128,128);
   const shadow=new THREE.Mesh(new THREE.PlaneGeometry(3.5,2),new THREE.MeshBasicMaterial({map:new THREE.CanvasTexture(shadowCanvas),transparent:true,depthWrite:false}));
   shadow.rotation.x=-Math.PI/2; shadow.position.y=-1.34; scene.add(shadow);
-  const rectangle = (w,h) => {
-    const path = new THREE.Shape(); path.moveTo(-w/2,-h/2); path.lineTo(w/2,-h/2); path.lineTo(w/2,h/2); path.lineTo(-w/2,h/2); path.closePath(); return path;
+  const floor=new THREE.Mesh(new THREE.PlaneGeometry(7,7),new THREE.ShadowMaterial({opacity:.2}));
+  floor.rotation.x=-Math.PI/2;floor.position.y=-1.335;floor.receiveShadow=true;scene.add(floor);
+  const rectangle = (w,h,r=.004) => {
+    r=Math.min(r,w/4,h/4);
+    const path=new THREE.Shape();
+    path.moveTo(-w/2+r,-h/2);path.lineTo(w/2-r,-h/2);
+    path.quadraticCurveTo(w/2,-h/2,w/2,-h/2+r);path.lineTo(w/2,h/2-r);
+    path.quadraticCurveTo(w/2,h/2,w/2-r,h/2);path.lineTo(-w/2+r,h/2);
+    path.quadraticCurveTo(-w/2,h/2,-w/2,h/2-r);path.lineTo(-w/2,-h/2+r);
+    path.quadraticCurveTo(-w/2,-h/2,-w/2+r,-h/2);path.closePath();return path;
   };
+  // Small radiused extrusions catch light without the sharp block-like edges.
+  function moulding(parent,w,h,d,x,y,z,material=pvc) {
+    const radius=Math.min(.006,w*.18,h*.18,d*.18);
+    const geometry=new THREE.ExtrudeGeometry(rectangle(w-2*radius,h-2*radius,radius),{
+      depth:d-2*radius,bevelEnabled:true,bevelSize:radius,bevelThickness:radius,bevelSegments:3,curveSegments:4,steps:1
+    });
+    geometry.translate(0,0,-(d-2*radius)/2);
+    const mesh=new THREE.Mesh(geometry,material);mesh.position.set(x,y,z);parent.add(mesh);return mesh;
+  }
   function ring(parent,w,h,b,d,z,material=pvc) {
     const shape=rectangle(w,h); shape.holes.push(rectangle(w-2*b,h-2*b));
-    const geometry=new THREE.ExtrudeGeometry(shape,{depth:d,bevelEnabled:true,bevelSize:.006,bevelThickness:.006,bevelSegments:3,steps:1});
+    const bevel=Math.min(.004,b*.2,d*.2);
+    const geometry=new THREE.ExtrudeGeometry(shape,{depth:d,bevelEnabled:true,bevelSize:bevel,bevelThickness:bevel,bevelSegments:3,curveSegments:4,steps:1});
     geometry.translate(0,0,-d/2);
     const mesh=new THREE.Mesh(geometry,material); mesh.position.z=z; parent.add(mesh); return mesh;
   }
   function pane(parent,w,h,z) {
-    box(parent,w,h,.012,0,0,z,glass);
-    // Thin strips give the glass a clear edge and a studio reflection.
-    box(parent,.005,h,.015,-w/2,0,z,cut);
-    const shape=new THREE.Shape(); shape.moveTo(-w*.43,-h*.32); shape.lineTo(w*.42,h*.24); shape.lineTo(w*.42,h*.35); shape.lineTo(-w*.43,-h*.21); shape.closePath();
-    const reflection=new THREE.Mesh(new THREE.ShapeGeometry(shape),new THREE.MeshBasicMaterial({color:0xffffff,transparent:true,opacity:.14,side:THREE.DoubleSide,depthWrite:false}));
-    reflection.position.z=z+.009; parent.add(reflection);
+    moulding(parent,w,h,.012,0,0,z,glass);
+    // The slight green tint is concentrated along the polished glass edges.
+    for(const x of [-w/2,w/2]) box(parent,.0025,h,.012,x,0,z,glassEdge);
+    for(const y of [-h/2,h/2]) box(parent,w,.0025,.012,0,y,z,glassEdge);
   }
   function windowModel(parent, hardware=false) {
     const fixed=new THREE.Group(); parent.add(fixed);
@@ -112,13 +189,13 @@ export function createInsideExhibit(host) {
   }
   function root(key) { const group=new THREE.Group(); group.rotation.set(.09,-.42,0); scene.add(group); models[key]=group; return group; }
   const frameRoot=root('frame'); frameRoot.rotation.y=.2;
-  const full=windowModel(frameRoot).fixed;
+  // The frame tab displays only its cross-section; no hidden full window is built.
   const section=new THREE.Group(); frameRoot.add(section);
   // Extruded hollow PVC sections: actual open chambers, not painted dark rectangles.
   function hollow(parent,w,h,d,holes,material=pvc) {
     const shape=rectangle(w,h);
-    for(const [x,y,cw,ch] of holes) {const hole=new THREE.Path(); hole.moveTo(x-cw/2,y-ch/2); hole.lineTo(x+cw/2,y-ch/2); hole.lineTo(x+cw/2,y+ch/2); hole.lineTo(x-cw/2,y+ch/2); hole.closePath(); shape.holes.push(hole);}
-    const geo=new THREE.ExtrudeGeometry(shape,{depth:d,bevelEnabled:true,bevelSize:.002,bevelThickness:.002,bevelSegments:2,steps:1}); geo.translate(0,0,-d/2);
+    for(const [x,y,cw,ch] of holes) {const hole=rectangle(cw,ch,.009);const points=hole.getPoints(4);const offset=new THREE.Path(points.map(point=>point.add(new THREE.Vector2(x,y))));shape.holes.push(offset);}
+    const geo=new THREE.ExtrudeGeometry(shape,{depth:d,bevelEnabled:true,bevelSize:.002,bevelThickness:.002,bevelSegments:3,curveSegments:4,steps:1}); geo.translate(0,0,-d/2);
     const mesh=new THREE.Mesh(geo,material); parent.add(mesh); return mesh;
   }
   const body=new THREE.Group(); section.add(body);
@@ -140,22 +217,35 @@ export function createInsideExhibit(host) {
     box(body,.018,.035,1.3,x,-.24,0,pvc);
     box(body,.012,.016,1.3,x,-.265,0,cut);
   }
-  for(const z of [-.66,.66]) {
-    const end=new THREE.LineSegments(new THREE.EdgesGeometry(body.children[0].geometry,25),new THREE.LineBasicMaterial({color:0x70877b,transparent:true,opacity:.38}));
-    if(z<0)body.add(end);
-  }
-  const cap=box(section,.93,.035,1.32,0,.245,0,pvc);
-  const rubber=box(section,.025,.065,1.34,.39,.29,0,seal);
+  // Rounded glazing bead and flexible seal lips, rather than rectangular strips.
+  const cap=moulding(section,.93,.035,1.32,0,.245,0,pvc);
+  const rubber=moulding(section,.025,.065,1.34,.39,.29,0,seal);
+  moulding(rubber,.018,.014,1.34,-.014,.025,0,seal);
+  moulding(rubber,.012,.012,1.34,-.018,.012,0,seal);
   const sashSection=new THREE.Group(); section.add(sashSection);
   hollow(sashSection,.53,.34,1.3,[[-.14,0,.13,.24],[.075,0,.23,.24]]);
   sashSection.position.set(.12,.47,0);
   for(const x of [-.12,.24]) {
-    box(sashSection,.045,.055,1.31,x,.192,0,pvc);
-    box(sashSection,.025,.018,1.32,x,.225,0,seal);
+    moulding(sashSection,.045,.055,1.31,x,.192,0,pvc);
+    moulding(sashSection,.025,.018,1.32,x,.225,0,seal);
   }
   box(sashSection,.016,.25,1.3,-.282,-.015,0,pvc);
   hollow(sashSection,.19,.21,1.31,[[0,0,.15,.17]],steel).position.x=.075;
-  for(const x of [-.01,.07,.15]) box(sashSection,.012,.5,1.28,x,.4,0,glass);
+  for(const x of [-.01,.07,.15]) {
+    moulding(sashSection,.012,.5,1.28,x,.4,0,glass);
+    for(const z of [-.641,.641]) box(sashSection,.012,.5,.0025,x,.4,z,glassEdge);
+  }
+  // Two spacer rails and their dark butyl seals sit between the three panes.
+  for(const x of [.03,.11]) {
+    moulding(sashSection,.056,.04,1.27,x,.177,0,steel);
+    for(const dx of [-.03,.03]) moulding(sashSection,.006,.046,1.275,x+dx,.177,0,seal);
+    for(let i=0;i<18;i++) box(sashSection,.01,.0015,.009,x,.198,-.59+i*.069,seal);
+  }
+  // Clip-in feet and channels along the outer PVC wall.
+  for(const x of [-.43,.42]) {
+    moulding(body,.035,.018,1.3,x,-.25,0,pvc);
+    moulding(body,.012,.022,1.3,x,-.268,0,pvc);
+  }
   section.rotation.set(.24,-.55,0); section.position.set(0,-.36,0);
 
   const profileRoot=root('profile');
@@ -196,8 +286,15 @@ export function createInsideExhibit(host) {
     windowSill:['Подоконник','Горизонтальная деталь со стороны комнаты под нижней частью рамы. Снаружи окна расположен отдельный отлив.']
   });
   const hardwareRoot=root('hardware'); const hw=windowModel(hardwareRoot,true);
+  // Transparent panes and selection overlays must not cast opaque rectangular shadows.
+  Object.values(models).forEach(model=>model.traverse(mesh=>{
+    if(!mesh.isMesh)return;
+    mesh.castShadow=!mesh.material.transparent;
+    mesh.receiveShadow=!mesh.material.transparent;
+  }));
   let active, key='frame', detail=0, open=0, tilt=0, mech=0, frame=0, start=0, from={}, target={}, current={detail:0,open:0,tilt:0,mech:0};
   let lost=false, visible=true;
+  let viewFrame=0,lastDraw=0;
   let zoom=1, dragging=null, highlighted=null;
   const raycaster=new THREE.Raycaster(), pointer=new THREE.Vector2();
   const inspector=document.createElement('div'); inspector.className='inside-inspector'; inspector.setAttribute('role','status'); inspector.hidden=true;
@@ -234,7 +331,21 @@ export function createInsideExhibit(host) {
     arrow.querySelectorAll('path[class]').forEach(path=>path.setAttribute('d',d));
     const dot=arrow.querySelector('circle');dot.setAttribute('cx',x);dot.setAttribute('cy',y);
   }
-  function renderView(){ if(!lost && visible && !document.hidden){renderer.render(scene,camera);updateArrow();} }
+  function renderScene(){
+    renderer.render(scene,camera);updateArrow();
+  }
+  function cancelRendering(){
+    cancelAnimationFrame(frame);cancelAnimationFrame(viewFrame);frame=0;viewFrame=0;
+  }
+  function renderView(){
+    if(lost || !visible || document.hidden || viewFrame || frame)return;
+    viewFrame=requestAnimationFrame(function paint(now){
+      viewFrame=0;
+      if(lost || !visible || document.hidden)return;
+      if(lowPower && now-lastDraw<30){viewFrame=requestAnimationFrame(paint);return;}
+      lastDraw=now;renderScene();
+    });
+  }
   function inspect(object, partOverride, hitPoint){
     // A scene element has its own identity, even when several elements share a material.
     if(!partOverride && object){let node=object;while(node){if(node.userData.selectionPart){object=node;partOverride=node.userData.selectionPart;break;}node=node.parent;}}
@@ -253,7 +364,7 @@ export function createInsideExhibit(host) {
     const [title,description]=descriptions[part] || descriptions.pvc; inspector.hidden=false;arrowLabel.textContent=title;
     inspector.textContent=''; const heading=document.createElement('strong');heading.textContent=title;const copy=document.createElement('p');copy.textContent=description;inspector.append(heading,copy);
     highlighted=[];
-    object?.traverse(mesh=>{if(!mesh.isMesh || !mesh.material.emissive)return;if(part==='windowStructure' && !['pvc','seal'].includes(mesh.material.userData.part))return;const material=mesh.material.clone();material.emissive.setHex(0x208a45);material.emissiveIntensity=.24;highlighted.push({mesh,original:mesh.material,material});mesh.material=material;});
+    object?.traverse(mesh=>{if(!mesh.isMesh || !mesh.material.emissive)return;if(part==='windowStructure' && !['pvc','seal'].includes(mesh.material.userData.part))return;const material=mesh.material.clone();material.onBeforeCompile=mesh.material.onBeforeCompile;material.customProgramCacheKey=mesh.material.customProgramCacheKey;material.emissive.setHex(0x208a45);material.emissiveIntensity=.24;highlighted.push({mesh,original:mesh.material,material});mesh.material=material;});
     renderView();
   }
   canvas.addEventListener('pointerdown',event=>{
@@ -306,7 +417,7 @@ export function createInsideExhibit(host) {
       panel.querySelector('.inside-controls').append(label);
       label.querySelector('input').addEventListener('input',event=>{
         const value=Number(event.target.value)/100;label.querySelector('output').value=Math.round(value*100)+'%';
-        cancelAnimationFrame(frame);current.detail=value;target.detail=value;apply(current);renderView();
+        cancelRendering();current.detail=value;target.detail=value;apply(current);renderView();
         panel.classList.toggle('is-detail',value>.5);const button=panel.querySelector('[data-detail]');button.setAttribute('aria-pressed',value>.5);button.textContent=value>.5?button.dataset.on:button.dataset.off;
       });
     }
@@ -315,7 +426,6 @@ export function createInsideExhibit(host) {
   function apply(values) {
     const d=values.detail;
     if(key==='frame') {
-    full.visible=false;
     section.visible=true; section.scale.setScalar(1.28); section.position.x=0;
     // Outer cover and the steel core slide out to expose the hollow structure.
     cap.position.y=.245+d*.25; rubber.position.x=.39+d*.23;
@@ -340,6 +450,9 @@ export function createInsideExhibit(host) {
   function draw(now) {
     frame=0; if(lost || !visible || document.hidden) return;
     const t=motion.matches?1:Math.min(1,(now-start)/1050);
+    if(lowPower && t<1 && now-lastDraw<30){frame=requestAnimationFrame(draw);return;}
+    lastDraw=now;
+    cancelAnimationFrame(viewFrame);viewFrame=0;
     const ease=1-Math.pow(1-t,4);
     for(const property of Object.keys(target)) current[property]=from[property]+(target[property]-from[property])*ease;
     // Close the previous opening axis before engaging the other hinge mode.
@@ -349,11 +462,11 @@ export function createInsideExhibit(host) {
       current.open=from.open*(1-closing)+target.open*opening;
       current.tilt=from.tilt*(1-closing)+target.tilt*opening;
     }
-    apply(current); renderer.render(scene,camera); updateArrow();
+    apply(current); renderScene();
     if(t<1) frame=requestAnimationFrame(draw);
   }
   function animate() {
-    cancelAnimationFrame(frame);
+    cancelRendering();
     if(lost || !visible || document.hidden)return;
     from={...current};
     if(Object.keys(target).every(property=>Math.abs(target[property]-current[property])<.0001)) {
@@ -365,8 +478,9 @@ export function createInsideExhibit(host) {
   function resize() {
     const w=Math.max(1,mount.clientWidth),h=Math.max(1,mount.clientHeight);
     const mobile=matchMedia('(max-width: 700px)').matches;
+    renderer.transmissionResolutionScale=lowPower?.35:.75;
     if(active){const destination=mobile?active:active.querySelector('.inside-copy');if(inspector.parentNode!==destination)destination.append(inspector);}
-    const ratio=Math.min(devicePixelRatio||1,mobile?1.5:2,Math.sqrt((mobile?650000:2200000)/(w*h)));
+    const ratio=Math.min(devicePixelRatio||1,lowPower?1.25:2,Math.sqrt((lowPower?350000:2200000)/(w*h)));
     const renderSize=`${w}:${h}:${ratio}`;
     if(renderSize!==lastRenderSize){
       renderer.setPixelRatio(ratio);renderer.setSize(w,h,false);lastRenderSize=renderSize;
@@ -404,10 +518,11 @@ export function createInsideExhibit(host) {
     panel.querySelector('.inside-scene').classList.add('has-3d');
   }
   new ResizeObserver(resize).observe(mount);
-  const observer=new IntersectionObserver(entries=>{visible=entries.some(e=>e.isIntersecting); if(visible)animate();else cancelAnimationFrame(frame);}); observer.observe(host);
-  document.addEventListener('visibilitychange',()=>{if(document.hidden)cancelAnimationFrame(frame);else animate();});
+  const observer=new IntersectionObserver(entries=>{visible=entries.some(e=>e.isIntersecting); if(visible)animate();else cancelRendering();}); observer.observe(mount);
+  document.addEventListener('visibilitychange',()=>{if(document.hidden)cancelRendering();else animate();});
   motion.addEventListener('change',animate);
-  renderer.domElement.addEventListener('webglcontextlost',event=>{event.preventDefault();lost=true;cancelAnimationFrame(frame);active?.querySelector('.inside-scene').classList.remove('has-3d');});
+  renderer.domElement.addEventListener('webglcontextlost',event=>{event.preventDefault();lost=true;cancelRendering();active?.querySelector('.inside-scene').classList.remove('has-3d');});
   renderer.domElement.addEventListener('webglcontextrestored',()=>{lost=false;update();});
+  new MutationObserver(()=>{updateBackdrop();renderView();}).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
   return {update};
 }

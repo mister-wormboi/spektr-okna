@@ -17,14 +17,14 @@ test('opening moves the free edge toward the viewer while the right hinge stays 
 });
 test('opening and tilting never overlap during a mode transition',()=>{
   for(const [from,target] of [[{open:1,tilt:0},{open:0,tilt:1}],[{open:0,tilt:1},{open:1,tilt:0}]]){
-    const state={frame:0,lost:false,visible:true,document:{hidden:false},motion:{matches:false},start:0,from,target,current:{},apply(){},renderer:{render(){}},scene:{},camera:{},updateArrow(){},requestAnimationFrame(){return 1;}};
+    const state={frame:0,viewFrame:0,lastDraw:0,lowPower:false,cancelAnimationFrame(){},renderScene(){},lost:false,visible:true,document:{hidden:false},motion:{matches:false},start:0,from,target,current:{},apply(){},renderer:{render(){}},scene:{},camera:{},updateArrow(){},requestAnimationFrame(){return 1;}};
     vm.createContext(state);vm.runInContext(source.slice(source.indexOf('  function draw('),source.indexOf('  function animate(')),state);
     for(let t=0;t<=1050;t+=25){state.draw(t);assert.ok(state.current.open===0||state.current.tilt===0);}
     assert.equal(state.current.open,target.open);assert.equal(state.current.tilt,target.tilt);
   }
 });
 test('idle and hidden scenes do not schedule animation frames',()=>{
-  const state={frame:0,lost:false,visible:true,document:{hidden:false},from:{},current:{open:0},target:{open:0},cancelAnimationFrame(){},apply(){},renderView(){},performance:{now(){return 0;}},requestAnimationFrame(){throw Error('unexpected animation');}};
+  const state={frame:0,lost:false,visible:true,document:{hidden:false},from:{},current:{open:0},target:{open:0},cancelRendering(){},apply(){},renderView(){},performance:{now(){return 0;}},requestAnimationFrame(){throw Error('unexpected animation');}};
   vm.createContext(state);vm.runInContext(source.slice(source.indexOf('  function animate('),source.indexOf('  let lastRenderSize')),state);
   state.animate();state.visible=false;state.target.open=1;state.animate();
 });

@@ -15,6 +15,21 @@ export function environment(renderer, studio = false) {
   ctx.fillStyle = '#fff9e7'; ctx.fillRect(280,170,180,400);
   ctx.fillStyle = '#e2f5f4'; ctx.fillRect(1190,120,90,440);
   ctx.fillStyle = '#ffffff'; ctx.fillRect(1660,240,240,140);
+  if (studio === 'neutral') {
+    // Neutral photographic studio with broad windows and dark mullions.
+    const sky = ctx.createLinearGradient(0,0,0,1024);
+    sky.addColorStop(0,'#cbd3dc'); sky.addColorStop(.48,'#9a9fa4');
+    sky.addColorStop(.54,'#53575b'); sky.addColorStop(1,'#242629');
+    ctx.fillStyle=sky; ctx.fillRect(0,0,2048,1024);
+    for (const [x,y,w,h] of [[260,120,390,550],[1230,170,180,460]]) {
+      const softbox=ctx.createLinearGradient(x,0,x+w,0);
+      softbox.addColorStop(0,'#aeb9c3'); softbox.addColorStop(.15,'#f5f7fa');
+      softbox.addColorStop(.85,'#ffffff'); softbox.addColorStop(1,'#b9c4ce');
+      ctx.fillStyle=softbox;ctx.fillRect(x,y,w,h);
+      ctx.fillStyle='#555e67';ctx.fillRect(x+w*.5-5,y,10,h);
+      ctx.fillRect(x,y+h*.5-5,w,10);
+    }
+  }
   const texture = new THREE.CanvasTexture(canvas);
   texture.mapping = THREE.EquirectangularReflectionMapping;
   texture.colorSpace = THREE.SRGBColorSpace;

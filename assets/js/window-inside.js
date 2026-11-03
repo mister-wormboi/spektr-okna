@@ -26,18 +26,18 @@
     hardware:'<button type="button" data-mode="closed" aria-pressed="true">Закрыто</button><button type="button" data-mode="open" aria-pressed="false">Открыто</button><button type="button" data-mode="tilt" aria-pressed="false">Проветривание</button><button type="button" data-detail aria-pressed="false" data-on="Скрыть механизм" data-off="Показать механизм">Показать механизм</button>'
   };
   // IDs are scoped per illustration to avoid duplicate gradient IDs in hidden panels.
-  host.innerHTML = parts.map(([key,name,title,copy],i)=>`<section class="inside-panel" id="panel-${key}" role="tabpanel" aria-labelledby="tab-${key}" ${i?'hidden':''} tabindex="0" data-mode="closed"><div class="inside-copy"><small>0${i+1} / ${name}</small><h3>${title}</h3><p>${copy}</p></div><div class="inside-scene"><svg viewBox="0 0 800 550" role="img" aria-label="${name}: схематичный вид конструкции">${(defs+`<ellipse cx="440" cy="490" rx="235" ry="28" fill="url(#shadow)"/>`+art[key]).replace(/id="(pvc|glass|metal|shadow)"/g,`id="$1-${key}"`).replace(/url\(#(pvc|glass|metal|shadow)\)/g,`url(#$1-${key})`)}</svg></div><div class="inside-controls">${controls[key]}</div></section>`).join('');
+  host.innerHTML = parts.map(([key,name,title,copy],i)=>`<section class="inside-panel" id="panel-${key}" role="tabpanel" aria-labelledby="tab-${key}" ${i?'hidden':''} tabindex="0" data-mode="closed"><div class="inside-copy"><small>${name}</small><h3>${title}</h3><p>${copy}</p></div><div class="inside-scene"><svg viewBox="0 0 800 550" role="img" aria-label="${name}: схематичный вид конструкции">${(defs+`<ellipse cx="440" cy="490" rx="235" ry="28" fill="url(#shadow)"/>`+art[key]).replace(/id="(pvc|glass|metal|shadow)"/g,`id="$1-${key}"`).replace(/url\(#(pvc|glass|metal|shadow)\)/g,`url(#$1-${key})`)}</svg></div><div class="inside-controls">${controls[key]}</div></section>`).join('');
   const notes = {
-    frame: ['01 / ПВХ-оболочка', '02 / Воздушные камеры', '03 / Стальное усиление', '04 / Уплотнитель'],
-    profile: ['01 / Стена и проём', '02 / Рама и створка', '03 / Монтажный шов', '04 / Подоконник'],
-    glass: ['01 / Наружное стекло', '02 / Первая камера и рамка', '03 / Среднее стекло', '04 / Вторая камера и рамка', '05 / Внутреннее стекло'],
+    frame: ['ПВХ-оболочка', 'Воздушные камеры', 'Стальное усиление', 'Уплотнитель'],
+    profile: ['Стена и проём', 'Рама и створка', 'Монтажный шов', 'Подоконник'],
+    glass: ['Наружное стекло', 'Первая камера и рамка', 'Среднее стекло', 'Вторая камера и рамка', 'Внутреннее стекло'],
     hardware: []
   };
   Object.entries(notes).forEach(([key, items]) => {
     const panel = document.getElementById(`panel-${key}`);
     panel.dataset.part = key;
-    panel.querySelector('.inside-scene').insertAdjacentHTML('beforeend', `<div class="inside-scene-caption" aria-hidden="true"><span>${key==='profile'?'Вид со стороны комнаты':'Рассмотрите ближе'}</span><span>0${Object.keys(notes).indexOf(key)+1} / 04</span></div>`);
-    panel.querySelector('.inside-controls').insertAdjacentHTML('beforebegin', `<div class="inside-legend" aria-label="Элементы конструкции">${items.map((item,i)=>`<button type="button" data-inspect="${i}" aria-pressed="false"><span class="inside-part-number" aria-hidden="true">0${i+1}</span>${item.replace(/^0\d \/ /, "")}</button>`).join('')}</div><p class="inside-status" role="status" aria-live="polite"></p>`);
+    panel.querySelector('.inside-scene').insertAdjacentHTML('beforeend', `<div class="inside-scene-caption" aria-hidden="true"><span>${key==='profile'?'Вид со стороны комнаты':'Рассмотрите ближе'}</span><span>${Object.keys(notes).indexOf(key)+1} / ${Object.keys(notes).length}</span></div>`);
+    panel.querySelector('.inside-controls').insertAdjacentHTML('beforebegin', `<div class="inside-legend" aria-label="Элементы конструкции">${items.map((item,i)=>`<button type="button" data-inspect="${i}" aria-pressed="false">${item}</button>`).join('')}</div><p class="inside-status" role="status" aria-live="polite"></p>`);
   });
   // Reveal each scene only once it reaches the viewport, not during lazy preload.
   if ('IntersectionObserver' in window) {
@@ -54,7 +54,7 @@
   let loading;
   async function enhance() {
     if (loading) return loading;
-    loading = import('./window-inside-3d.js?v=20261102-room-v4').then(module => {
+    loading = import('./window-inside-3d.js?v=20261103-mobile-v4').then(module => {
       exhibit = module.createInsideExhibit(host);
       exhibit.update();
     }).catch(error => { console.warn('Inside exhibit:', error.message); });
