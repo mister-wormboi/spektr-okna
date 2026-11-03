@@ -12,8 +12,8 @@
   <meta property="og:description" content="{{description}}">
   <meta property="og:type" content="{{og_type}}">
   <title>{{title}}</title>
-  <link rel="icon" type="image/png" sizes="128x128" href="{{prefix}}assets/favicon.png?v=3">
-  <link rel="icon" type="image/svg+xml" sizes="any" href="{{prefix}}assets/favicon.svg?v=3">
+  <link rel="icon" type="image/png" sizes="128x128" href="{{prefix}}assets/favicon.png?v=4">
+  <link rel="icon" type="image/svg+xml" sizes="any" href="{{prefix}}assets/favicon.svg?v=4">
   <link rel="stylesheet" href="{{prefix}}assets/css/main.css?v=20261020-audit">
   <link rel="stylesheet" href="{{prefix}}assets/css/design.css?v=20261020-audit">
   <link rel="stylesheet" href="{{prefix}}assets/css/night.css?v=20261020-audit">
@@ -21,7 +21,7 @@
   {{detail_css}}
   <link rel="stylesheet" href="{{prefix}}assets/css/header-refresh.css?v=20261025-original-green">
   <script src="{{prefix}}assets/js/header.js" defer></script>
-  <link rel="stylesheet" href="{{prefix}}assets/css/footer.css?v=20261104-no-social">
+  <link rel="stylesheet" href="{{prefix}}assets/css/footer.css?v=20261104-request">
   <link rel="stylesheet" href="{{prefix}}assets/css/layout.css?v=20261022-breadcrumb-surfaces">
   <link rel="stylesheet" href="{{prefix}}assets/css/theme.css?v=20261025-original-green">
   <link rel="stylesheet" href="{{prefix}}assets/css/style-experiment.css?v=20261020-audit">
@@ -62,7 +62,7 @@
   <footer class="site-footer"><div class="wrap footer-inner"><div class="footer-brand"><a class="logo footer-logo" href="{{prefix}}" aria-label="Спектр — на главную"><img src="{{prefix}}assets/logo-white.webp" alt="Спектр" loading="lazy" decoding="async" width="720" height="269"></a><p>Производим и устанавливаем окна<br><span>с 2004 года</span></p>
         </div><nav class="footer-navigation" aria-label="Нижнее меню"><span class="footer-label">Разделы сайта</span><div class="footer-links"><a href="{{prefix}}catalog/">Каталог</a><a href="{{prefix}}about/">О нас</a><a href="{{prefix}}solutions/">Примеры решений</a><a href="{{prefix}}contacts/">Филиалы</a><a href="{{prefix}}calculator/">Калькулятор</a><a href="{{prefix}}reviews/">Отзывы</a><a href="{{prefix}}information/">Полезное</a><a aria-current="{{nav_current}}" href="{{articles_href}}">Статьи</a>          <a href="{{prefix}}window-inside/">Окна изнутри</a>
         </div></nav><div class="footer-contact"><span class="footer-label">Будем на связи</span><a class="footer-phone" href="tel:+79895175699">8 989 517 56 99 <span aria-hidden="true">↗</span></a>
-        <a class="footer-request" href="{{prefix}}#request">Сделать заявку <span aria-hidden="true">↗</span></a><p>Ростовская область<br>и Краснодарский край</p>
+        <a class="footer-request" href="{{prefix}}#request">Оставить заявку</a><p>Ростовская область<br>и Краснодарский край</p>
         </div></div><div class="wrap footer-bottom"><span>© Спектр</span><a href="#page-top">Наверх <span aria-hidden="true">↑</span></a></div></footer>
 </body>
 </html>

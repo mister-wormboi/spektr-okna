@@ -1,8 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
   <title>Спектр</title>
   <style>
-    .frame { fill: #202c25; }
-    @media (prefers-color-scheme: dark) { .frame { fill: #edf0e7; } }
+    .frame { fill: #ffffff; }
   </style>
   <!-- The angled window emblem, without the wordmark. -->
   <g transform="translate(36 8) scale(.9)">
