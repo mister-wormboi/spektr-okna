@@ -500,19 +500,42 @@ export function createInsideExhibit(host) {
     profile:['Рама и подвижная створка в сборе.','Окно в проёме: монтажный шов по периметру, подоконник внутри и отлив снаружи.'],
     glass:['Двухкамерный стеклопакет в сборе: три стекла и две камеры.','Слои разделены: стекло, дистанционная рамка, стекло, дистанционная рамка, стекло.']
   };
-  function update() {
-    const panel=host.querySelector('.inside-panel:not([hidden])'); if(!panel)return;
+  const panelStates = new WeakMap();
+  function preservePanel() {
+    if (!active) return;
+    panelStates.set(active, { values: {...current}, zoom });
+    if (lost) return;
+    // A still frame keeps the previous block complete while the one WebGL
+    // context moves to the next study. No extra 3D scenes or idle render loops.
+    const studio = active.querySelector('.inside-scene');
+    let preview = studio.querySelector('.inside-scene-preview');
+    if (!preview) {
+      preview = document.createElement('canvas');
+      preview.className = 'inside-scene-preview';
+      preview.setAttribute('aria-hidden', 'true');
+      studio.append(preview);
+    }
+    renderer.render(scene, camera);
+    preview.width = canvas.width; preview.height = canvas.height;
+    preview.getContext('2d').drawImage(canvas, 0, 0);
+    studio.classList.add('has-preview');
+  }
+  function update(panel = active || host.querySelector('.inside-panel')) {
+    if(!panel)return;
+    if(active!==panel) { cancelRendering(); preservePanel(); }
     const changed=active!==panel; active=panel; key=panel.dataset.part;
     if(changed) {
-      inspect(null); zoom=1;camera.zoom=1;camera.updateProjectionMatrix();
+      inspect(null); zoom=panelStates.get(panel)?.zoom || 1;camera.zoom=zoom;camera.updateProjectionMatrix();
       host.querySelectorAll('.inside-scene').forEach(el=>el.classList.remove('has-3d'));
       panel.querySelector('.inside-scene').append(mount);
       panel.querySelector('.inside-copy').append(inspector);
       host.querySelectorAll('[data-inspect]').forEach(button=>button.setAttribute('aria-pressed','false'));
       Object.entries(models).forEach(([name,model])=>{model.visible=name===key;});
-      current={detail:0,open:0,tilt:0,mech:0};
+      current=panelStates.get(panel)?.values || {detail:0,open:0,tilt:0,mech:0};
+      const rect = panel.querySelector('.inside-scene').getBoundingClientRect();
+      visible = rect.bottom > 0 && rect.top < innerHeight;
     }
-    detail=Number(panel.classList.contains('is-detail'));
+    detail=changed && panelStates.has(panel) ? current.detail : Number(panel.classList.contains('is-detail'));
     open=Number(panel.dataset.mode==='open'); tilt=Number(panel.dataset.mode==='tilt'); mech=key==='hardware'?detail:0;
     target={detail,open,tilt,mech};
     const scrubber=panel.querySelector('.inside-scrubber');if(scrubber){scrubber.querySelector('input').value=detail*100;scrubber.querySelector('output').value=(detail*100)+'%';}
@@ -523,6 +546,16 @@ export function createInsideExhibit(host) {
   }
   new ResizeObserver(resize).observe(mount);
   const observer=new IntersectionObserver(entries=>{visible=entries.some(e=>e.isIntersecting); if(visible)animate();else cancelRendering();}); observer.observe(mount);
+  const visibleStudies = new Map();
+  const studiesObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => visibleStudies.set(entry.target, entry.isIntersecting ? entry.intersectionRatio : 0));
+    const best = [...visibleStudies].sort((a,b) => b[1] - a[1])[0];
+    if (best?.[1] > 0) {
+      const panel = best[0].closest('.inside-panel');
+      if (panel !== active) update(panel);
+    }
+  }, { threshold: [0, .15, .35, .6, 1] });
+  host.querySelectorAll('.inside-scene').forEach(studio => studiesObserver.observe(studio));
   document.addEventListener('visibilitychange',()=>{if(document.hidden)cancelRendering();else animate();});
   motion.addEventListener('change',animate);
   renderer.domElement.addEventListener('webglcontextlost',event=>{event.preventDefault();lost=true;cancelRendering();active?.querySelector('.inside-scene').classList.remove('has-3d');active?.querySelector('.inside-scene').classList.add('is-unavailable');});

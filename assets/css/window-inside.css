@@ -12,17 +12,37 @@ html[data-theme="light"] .inside {
  --studio-label:#f8fcf4f5; --studio-accent:#187c36; --studio-halo:#f8fcf4;
 }
 /* Four product studies, one quiet studio. */
-.inside-home { background:var(--surface); padding-top:24px; scroll-margin-top:110px; }
+.inside-page { background:var(--surface); }
+.inside-page-content { padding-top:24px; }
 .inside { padding-bottom:70px; }
 .inside-heading { display:flex; justify-content:space-between; align-items:end; gap:32px; padding:32px 0 40px; }
 .inside-heading :is(h1,h2) { font:400 var(--font-size-display)/1.05 var(--serif); letter-spacing:-.045em; margin:0; }
 .inside-heading em { color:var(--green); }
 .inside-heading p { margin:0; color:var(--muted); }
-.inside-tabs { display:grid; grid-template-columns:repeat(4,1fr); gap:0; padding-bottom:20px; }
-.inside-tabs button { display:flex; align-items:center; gap:18px; padding:20px 16px; text-align:left; background:transparent; color:var(--muted); border:0; border-bottom:1px solid var(--line); font:inherit; cursor:pointer; transition:color .2s,border-color .2s; }
-.inside-tabs button span { color:var(--muted); font-size:var(--font-size-body); }
-.inside-tabs button[aria-selected=true] { color:var(--ink); border-bottom:2px solid var(--green); }
-.inside-tabs button[aria-selected=true] span { color:var(--green); }
+.inside-section-nav { display:flex; flex-wrap:wrap; gap:12px; padding:0 0 24px; }
+.inside-section-nav a { display:inline-flex; align-items:center; gap:18px; min-height:48px; padding:12px 18px; border:1px solid var(--line); color:var(--ink); text-decoration:none; }
+.inside-section-nav a span { color:var(--green); }
+.inside-section-nav a:hover { border-color:var(--green); background:var(--accent-soft); }
+.inside-study { padding-top:32px; margin-bottom:48px; scroll-margin-top:24px; }
+.inside-study-heading { display:flex; align-items:baseline; gap:20px; padding:0 0 24px; }
+.inside-study-heading > span { color:var(--green); font-variant-numeric:tabular-nums; }
+.inside-study-heading h2 { margin:0; font:400 var(--font-size-display)/1.1 var(--serif); }
+.inside-explanation { padding:32px; border:1px solid var(--line); border-top:0; background:var(--panel); }
+.inside-explanation h3 { margin:0 0 16px; font:400 var(--font-size-title)/1.25 var(--serif); }
+.inside-explanation p { max-width:85ch; margin:0 0 18px; color:var(--muted); line-height:1.7; }
+.inside-explanation > :last-child { margin-bottom:0; }
+.inside-facts { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:28px; margin-block:24px; }
+.inside-facts strong,.inside-tip strong { font-weight:500; color:var(--ink); }
+.inside-facts p,.inside-tip p { margin:10px 0 0; }
+.inside-comparison { margin-block:24px; overflow-x:auto; }
+.inside-comparison table { width:100%; border-collapse:collapse; font:inherit; text-align:left; }
+.inside-comparison caption { text-align:left; color:var(--muted); margin-bottom:12px; font-size:14px; }
+.inside-comparison th,.inside-comparison td { padding:16px 12px; border-bottom:1px solid var(--line); }
+.inside-comparison th { font-weight:500; }
+.inside-comparison thead { background:var(--accent-soft); }
+.inside-tip { border-left:2px solid var(--green); padding-left:20px; }
+.inside-source { margin:20px 0 0; color:var(--muted); font-size:14px; }
+.inside-source a { color:inherit; text-underline-offset:3px; }
 .inside button:focus-visible,.inside a:focus-visible,.inside input:focus-visible,.inside canvas:focus-visible { outline:2px solid var(--green); outline-offset:4px; }
 .inside-panel { display:grid; grid-template-columns:32% 68%; grid-template-rows:auto 1fr auto; position:relative; background:var(--paper); border:1px solid var(--line); overflow:hidden; }
 .inside-panel[hidden] { display:none; }
@@ -33,7 +53,10 @@ html[data-theme="light"] .inside {
 .inside-scene { grid-column:2; grid-row:1 / 3; position:relative; min-width:0; height:570px; background:radial-gradient(ellipse at 48% 35%,var(--studio-center) 0%,var(--studio-mid) 55%,var(--studio-edge) 100%); overflow:hidden; }
 .inside-scene .label { fill:var(--studio-accent); font:var(--font-size-body) var(--sans); }
 .inside-scene .guide { stroke:var(--studio-accent); fill:none; }
-.inside-webgl { position:absolute; inset:0; opacity:0; }
+.inside-webgl { position:absolute; inset:0; opacity:0; z-index:1; }
+.inside-scene-preview { position:absolute; inset:0; width:100%; height:100%; pointer-events:none; }
+.inside-scene.has-preview::after { display:none; }
+.inside-scene-caption { z-index:2; }
 .inside-scene.is-revealed.has-3d .inside-webgl { opacity:1; }
 .inside-scene::after { content:"Подготавливаем модель"; position:absolute; inset:0; display:grid; place-items:center; color:var(--studio-subtle); font-size:14px; letter-spacing:.02em; pointer-events:none; }
 .inside-scene.has-3d::after { display:none; }
@@ -79,11 +102,15 @@ html[data-theme="light"] .inside {
 @media(max-width:1000px) { .inside-panel{grid-template-columns:35% 65%}.inside-copy{padding:28px 22px 0}.inside-legend{padding:24px 22px}.inside-scene{height:550px}.inside-view-tools span{max-width:180px} }
 @media(max-width:700px) {
  .inside{padding-bottom:40px;min-width:0}.inside-heading{display:block;padding:24px 0}.inside-heading p{margin-top:16px}
- .inside-tabs{padding-bottom:12px;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 12px}.inside-tabs button{min-width:0;min-height:48px;padding:12px 8px;gap:10px;font-size:var(--font-size-body)}
+ .inside-section-nav{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.inside-section-nav a{gap:10px;padding:12px;justify-content:space-between}
+ .inside-study{padding-top:20px;margin-bottom:28px}.inside-study-heading{gap:14px;padding-bottom:18px}
+ .inside-explanation{padding:22px 18px}.inside-facts{grid-template-columns:1fr;gap:20px;margin-block:20px}
+ .inside-comparison th,.inside-comparison td{padding:14px 8px;font-size:14px}
  .inside-panel{display:flex;flex-direction:column;min-width:0}.inside-panel>*{box-sizing:border-box;min-width:0;max-width:100%}
  .inside-copy{padding:22px 18px 20px}.inside-copy small{margin-bottom:10px}.inside-copy h3{margin-bottom:12px}
  .inside-scene{height:clamp(350px,110vw,440px);width:100%;flex:none;order:1}
  .inside-webgl{top:44px;bottom:62px}
+ .inside-scene-preview{top:44px;height:calc(100% - 106px)}
  .inside-controls{order:2;padding:16px;gap:10px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));width:100%}
  .inside-controls button{min-width:0;white-space:normal;overflow-wrap:anywhere;padding:12px;min-height:48px;line-height:1.4}
  .inside-controls button[data-detail]{grid-column:1 / -1}.inside-controls button[data-detail]::after{margin-left:8px}
