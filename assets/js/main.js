@@ -25,10 +25,7 @@
     if (element.matches('.calculator')) element.classList.add('reveal-right');
   });
 
-  if (!canReveal) {
-    revealItems.forEach((element) => element.classList.add('is-visible'));
-    return;
-  }
+  if (!canReveal) return;
 
   const revealObserver = new IntersectionObserver((entries, currentObserver) => {
     entries.forEach((entry) => {

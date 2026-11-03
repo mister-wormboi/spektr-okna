@@ -96,7 +96,12 @@ test('shared headers have the requested row order, a labelled disclosure and def
     const actions = html.match(/<div class="header-actions">([\s\S]*?)<\/div>/)[1];
     assert.match(actions, /Оставить заявку[\s\S]*?tel:\+79895175699[\s\S]*?>Калькулятор<\/a>[\s\S]*?>Филиалы<\/a>/);
     const links = html.match(/<div class="header-links">([\s\S]*?)<\/div>/)[1];
-    assert.deepEqual([...links.matchAll(/<a[^>]*>([^<]+)<\/a>/g)].map(m => m[1]), ['Каталог', 'Примеры работ', 'О нас', 'Отзывы', 'Полезная информация', 'Статьи']);
+    assert.deepEqual([...links.matchAll(/<a[^>]*>([^<]+)<\/a>/g)].map(m => m[1]), ['Каталог', 'Примеры работ', 'О нас', 'Окна изнутри', 'Отзывы', 'Полезная информация', 'Статьи']);
+    const footer = html.match(/<footer class="site-footer">([\s\S]*?)<\/footer>/)?.[1];
+    if (footer) {
+      assert.match(footer, /class="footer-links"[\s\S]*?>Окна изнутри<\/a>/);
+      assert.doesNotMatch(footer, /footer-social|Наши социальные сети|vk\.com/);
+    }
     assert.match(html, /class="header-menu-toggle"[^>]*aria-expanded="false"[^>]*aria-controls="headerMenu"/);
     assert.equal((html.match(/id="headerMenu"/g) || []).length, 1);
     assert.equal((html.match(/assets\/js\/header\.js" defer/g) || []).length, 1);

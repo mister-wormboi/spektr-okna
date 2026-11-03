@@ -9,6 +9,7 @@
   let visible = false, ready = false, preparing = false;
   let preparedCount = 0;
   const clones = [];
+  let measuredWidth = 0;
   // Decode in small batches between rendering tasks rather than asking the
   // browser to decompress the entire photo strip in the same scroll frame.
   const yieldToBrowser = () => new Promise(resolve => {
@@ -44,6 +45,9 @@
   }
   function measure() {
     if (!ready || motion.matches) return;
+    const width = marquee.getBoundingClientRect().width;
+    if (width === measuredWidth) return;
+    measuredWidth = width;
     syncClones();
     const clone = track.querySelector('[data-clone]');
     if (!clone || motion.matches) return;
@@ -65,9 +69,8 @@
       preparedCount = index + 2;
     }
     ready = true;
-    syncClones();
-    update();
     measure();
+    update();
     if ('ResizeObserver' in window) new ResizeObserver(measure).observe(marquee);
   }
   new IntersectionObserver(entries => {
@@ -76,5 +79,5 @@
     update();
   }).observe(marquee);
   document.addEventListener('visibilitychange', () => { if (visible && !document.hidden) prepare(); update(); });
-  motion.addEventListener('change', () => { if (visible) prepare(); update(); measure(); });
+  motion.addEventListener('change', () => { measuredWidth = 0; if (visible) prepare(); update(); measure(); });
 })();
