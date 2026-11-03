@@ -30,5 +30,15 @@ test('mobile animation throttles high refresh screens but always reaches its fin
   for(let t=8;t<1050;t+=8)run.step(t);
   run.step(1050);
   assert.equal(run.state.current.detail,1);assert.equal(run.queue.size,0);
-  assert.ok(run.renders<=35,'avoid rendering 120 frames per second on a high-refresh phone');
+  assert.ok(run.renders>=60 && run.renders<=66,'target about 60 fps rather than 30 or 120');
+});
+
+test('rotation renders on every 60 Hz frame without an alternating-frame delay',()=>{
+  const run=setup();
+  for(let i=1;i<=60;i++){
+    for(let event=0;event<4;event++)run.state.renderView();
+    run.step(i*1000/60);
+    assert.equal(run.renders,i);
+    assert.equal(run.queue.size,0);
+  }
 });

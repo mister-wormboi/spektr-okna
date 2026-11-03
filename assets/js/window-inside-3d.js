@@ -341,12 +341,13 @@ export function createInsideExhibit(host) {
   function cancelRendering(){
     cancelAnimationFrame(frame);cancelAnimationFrame(viewFrame);frame=0;viewFrame=0;
   }
+  // Allow every 60 Hz display frame; tolerate timestamp jitter to avoid dropping to 30 Hz.
   function renderView(){
     if(lost || !visible || document.hidden || viewFrame || frame)return;
     viewFrame=requestAnimationFrame(function paint(now){
       viewFrame=0;
       if(lost || !visible || document.hidden)return;
-      if(lowPower && now-lastDraw<30){viewFrame=requestAnimationFrame(paint);return;}
+      if(lowPower && now-lastDraw<1000/60-1){viewFrame=requestAnimationFrame(paint);return;}
       lastDraw=now;renderScene();
     });
   }
@@ -454,7 +455,7 @@ export function createInsideExhibit(host) {
   function draw(now) {
     frame=0; if(lost || !visible || document.hidden) return;
     const t=motion.matches?1:Math.min(1,(now-start)/1050);
-    if(lowPower && t<1 && now-lastDraw<30){frame=requestAnimationFrame(draw);return;}
+    if(lowPower && t<1 && now-lastDraw<1000/60-1){frame=requestAnimationFrame(draw);return;}
     lastDraw=now;
     cancelAnimationFrame(viewFrame);viewFrame=0;
     const ease=1-Math.pow(1-t,4);

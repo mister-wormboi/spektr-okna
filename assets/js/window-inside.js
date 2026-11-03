@@ -42,7 +42,7 @@
   let loading;
   async function enhance() {
     if (loading) return loading;
-    loading = import('./window-inside-3d.js?v=20261103-only-3d-v6').then(module => {
+    loading = import('./window-inside-3d.js?v=20261103-mobile-60fps-v7').then(module => {
       exhibit = module.createInsideExhibit(host);
       exhibit.update();
     }).catch(error => { host.querySelectorAll('.inside-scene').forEach(scene=>scene.classList.add('is-unavailable')); console.warn('Inside exhibit:', error.message); });
