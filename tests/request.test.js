@@ -10,15 +10,15 @@ test('home request follows the calculator with text on the left and the form on 
   const calculator = sections.findIndex(section => section.includes('id="calculator"'));
   const request = sections[calculator + 1];
   assert.match(request, /id="request"/);
-  assert.match(request, /data-b24-form="inline\/5\/q69y9k"/);
+  assert.match(request, /data-b24-form="inline\/3\/gmh4uz"/);
   assert.match(request, /class="request-copy(?: [^"]+)?"[\s\S]*class="request-panel"/);
   assert.doesNotMatch(request, /window-3d-viewport|window-3d-fallback/);
   assert.doesNotMatch(html, /window-showroom|window3dTitle/);
   assert.match(html, /id="window-details"/);
 });
 
-test('home uses forms 5 and 9; the request page uses forms 3 and 7 for light and dark themes', () => {
-  for (const [file, form, loader] of [['index.html', 'inline/5/q69y9k', 5], ['index.html', 'inline/9/h54l7f', 9], ['request/index.html', 'inline/3/gmh4uz', 3], ['request/index.html', 'inline/7/key9wr', 7]]) {
+test('only home embeds Bitrix forms 3 and 7 for light and dark themes', () => {
+  for (const [file, form, loader] of [['index.html', 'inline/3/gmh4uz', 3], ['index.html', 'inline/7/key9wr', 7]]) {
     const html = read(file);
     const scripts = [...html.matchAll(/<script data-b24-form="([^"]+)"([^>]*)>([\s\S]*?)<\/script>/g)];
     assert.equal(scripts.length, 2, file);
@@ -38,12 +38,13 @@ test('home uses forms 5 and 9; the request page uses forms 3 and 7 for light and
     assert.match(html, /<noscript>[\s\S]*?JavaScript[\s\S]*?<\/noscript>/);
     assert.match(html, /class="request-fallback"[^>]*>[\s\S]*?href="tel:\+79895175699"/);
   }
-  assert.match(read('index.html'), /href="request\/"/);
-  const heading = read('request/index.html').match(/<h1 id="requestTitle">([\s\S]*?)<\/h1>/)[1].replace(/<[^>]+>/g, '');
-  assert.equal(heading, 'Оставить заявку.');
+  assert.doesNotMatch(read('index.html'), /href="request\/"|Открыть форму на отдельной странице/);
+  const redirect = read('request/index.html');
+  assert.match(redirect, /http-equiv="refresh" content="0;url=\.\.\/#request"/);
+  assert.doesNotMatch(redirect, /data-b24-form|loader_[37]\.js/);
 });
 
-test('every shared header links to the request page, including nested articles', () => {
+test('every shared header targets the home request section, including nested articles', () => {
   const root = path.resolve(__dirname, '..');
   const walk = dir => fs.readdirSync(dir, { withFileTypes: true }).flatMap(entry => {
     if (entry.name.startsWith('.') || entry.name === 'node_modules') return [];
@@ -52,12 +53,15 @@ test('every shared header links to the request page, including nested articles',
   });
   for (const file of walk(root)) {
     const html = fs.readFileSync(file, 'utf8');
+    if (file !== path.join(root, 'index.html')) assert.doesNotMatch(html, /data-b24-form=/, file);
     const nav = html.match(/<nav class="header-nav"[^>]*>([\s\S]*?)<\/nav>/)?.[1];
     if (!nav) continue;
     const links = [...nav.matchAll(/<a class="header-request-link" href="([^"]+)"[^>]*>Оставить заявку<\/a>/g)];
     assert.equal(links.length, 1, file);
-    assert.equal(path.resolve(path.dirname(file), links[0][1]), path.join(root, 'request'), file);
+    const destination = new URL(links[0][1], 'file://' + file);
+    const target = decodeURIComponent(destination.pathname);
+    assert.equal(target.endsWith('/') ? target + 'index.html' : target, path.join(root, 'index.html'), file);
+    assert.equal(destination.hash, '#request', file);
   }
-  assert.match(read('templates/articles-shell.tpl'), /class="header-request-link" href="\{\{prefix\}\}request\/"/);
-  assert.match(read('request/index.html'), /class="header-request-link"[^>]*aria-current="page"/);
+  assert.match(read('templates/articles-shell.tpl'), /class="header-request-link" href="\{\{prefix\}\}#request"/);
 });

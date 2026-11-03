@@ -70,7 +70,7 @@ if (typeof document !== 'undefined') (() => {
       document.querySelector('#catalogPriceTitle').textContent=guide.title;
       document.querySelector('#catalogPriceValue').textContent=guide.label;
       const link=priceGuide.querySelector('a');
-      link.href=category==='windows'?'../calculator/':'../request/';
+      link.href=category==='windows'?'../calculator/':'../#request';
       link.replaceChildren(document.createTextNode(category==='windows'?'Рассчитать своё окно ':'Получить расчёт '),el('span','','↗'));
       link.querySelector('span').setAttribute('aria-hidden','true');
     }
