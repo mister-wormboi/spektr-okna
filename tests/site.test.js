@@ -27,7 +27,7 @@ function checkLink(file, value) {
 
 test('all pages have unique IDs and valid local resources and anchors', () => {
   const articles = JSON.parse(fs.readFileSync(path.join(root, 'content/articles.json'), 'utf8')).articles;
-  assert.equal(pages.length, 11 + articles.length + articles.filter(a => a.legacy_slug).length);
+  assert.equal(pages.length, 18 + articles.length + articles.filter(a => a.legacy_slug).length);
   for (const file of pages) {
     const source = fs.readFileSync(file, 'utf8');
     const pageIds = ids(source);
@@ -41,12 +41,12 @@ test('all pages have unique IDs and valid local resources and anchors', () => {
   }
 });
 
-test('footers keep VK but do not link to Telegram, including the article template', () => {
+test('footers omit the removed social networks, including the article template', () => {
   for (const file of [...pages, path.join(root, 'templates/articles-shell.tpl')]) {
     const footer = fs.readFileSync(file, 'utf8').match(/<footer class="site-footer"[\s\S]*?<\/footer>/)?.[0];
     if (!footer) continue;
     assert.doesNotMatch(footer, /t\.me\/|Telegram/);
-    assert.match(footer, /https:\/\/vk\.com\//);
+    assert.doesNotMatch(footer, /vk\.com|Наши социальные сети/);
   }
 });
 

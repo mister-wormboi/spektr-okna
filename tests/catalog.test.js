@@ -57,7 +57,8 @@ test('category reveal releases a target after it appears',()=>{
 test('home offers every category as a direct schematic link, without product controls or photos',()=>{
   const html=fs.readFileSync(path.join(__dirname,'../index.html'),'utf8');
   const catalog=html.match(/<section class="catalog home-catalog"[\s\S]*?<\/section>/)[0];
-  const links=[...catalog.matchAll(/<a class="home-category-card" href="catalog\/\?category=([^"]+)"[^>]*>([\s\S]*?)<\/a>/g)];
+  const links=[...catalog.replace('href="catalog/okna/"','href="catalog/?category=windows"').matchAll(/<a class="home-category-card" href="catalog\/\?category=([^"]+)"[^>]*>([\s\S]*?)<\/a>/g)];
+  assert.match(catalog, /href="catalog\/okna\/"/);
   assert.deepEqual(links.map(item=>item[1]).sort(),['windows','balconies','doors','gates','ceilings','blinds','aluminium','components'].sort());
   links.forEach(item=>{assert.match(item[2],/<svg[^>]+aria-hidden="true"/);assert.match(item[2],/<h3>/);});
   assert.doesNotMatch(catalog,/<img|homeCatalogSearch|homeCatalogSort|Подробнее|product-price/);

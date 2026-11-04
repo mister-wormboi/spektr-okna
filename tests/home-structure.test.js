@@ -95,15 +95,18 @@ test('home has concrete section headings with an explanation directly underneath
   for (const [id, title] of Object.entries(headings)) {
     const heading = main.match(new RegExp(`class="[^"]*home-section-heading[^"]*">\\s*<h2 id="${id}">([\\s\\S]*?)<\\/h2>\\s*<p(?: [^>]*)?>`));
     assert.ok(heading, id);
-    assert.equal(heading[1].replace(/<[^>]+>/g, ''), title);
+    assert.equal(heading[1].replace(/<br\s*\/?>/g, ' ').replace(/<[^>]+>/g, ''), title);
   }
   assert.doesNotMatch(main, /class="eyebrow"|class="hero-cinema-kicker"|>FAQ</);
   assert.equal((main.match(/<h1\b/g) || []).length, 1);
-  assert.match(main, /<h1 id="heroTitle">Окна и остекление<br><em class="heading-accent">для вашего дома\.<\/em><\/h1>\s*<p class="home-hero-lead">/);
+  assert.match(main, /<h1 id="heroTitle">Пластиковые окна<br><em class="heading-accent">для вашего дома\.<\/em><\/h1>\s*<p class="home-hero-lead">/);
 });
 
-test('home accents stay selective and use the existing theme and fonts', () => {
-  assert.equal((main.match(/<h2[^>]*>[^<]*<em class="heading-accent">/g) || []).length, 4);
+test('home titles keep their original line structure and share accent styling', () => {
+  assert.equal((main.match(/<h2[^>]*>[^<]*(?:<br>)?<em class="heading-accent">/g) || []).length, 9);
+  for (const id of ['catalogTitle','projectExamplesTitle','reviewsTitle','windowStoryTitle','guidesTitle']) {
+    assert.doesNotMatch(main.match(new RegExp(`<h2 id="${id}">([\\s\\S]*?)<\\/h2>`))[1], /<br>/);
+  }
   assert.doesNotMatch(main, /<strong>предварительный расчёт<\/strong>|<strong>имя и телефон<\/strong>/);
   const css = read('assets/css/typography.css');
   assert.match(css, /> \.heading-accent\s*\{[^}]*color: var\(--green\);[^}]*font-style: italic/);

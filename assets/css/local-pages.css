@@ -1,0 +1,33 @@
+/* Shared typography and theme tokens, with no video or client-side content dependency. */
+.local-main { padding-top: 24px; padding-bottom: var(--space-section); }
+.local-heading { max-width: 960px; padding-block: 24px 48px; }
+.local-heading h1 { margin: 0 0 24px; font: 400 var(--font-size-display)/1.08 var(--serif); }
+.local-heading > p, .local-lead { max-width: 76ch; color: var(--muted); line-height: 1.7; }
+.local-section { padding-block: 40px; border-top: 1px solid var(--line); scroll-margin-top: 150px; }
+.local-section h2 { margin: 0 0 24px; font: 400 var(--font-size-display)/1.2 var(--serif); }
+.local-section h3 { margin: 0 0 16px; font: 400 var(--font-size-title)/1.25 var(--serif); }
+.local-section p { line-height: 1.7; color: var(--muted); }
+.local-section a, .local-related a { color: var(--green); text-underline-offset: 5px; }
+.local-grid, .local-offices { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+.local-grid > *, .local-office { min-width: 0; border: 1px solid var(--line); background: var(--panel); }
+.local-grid > * { padding: 28px; }
+.local-office img { display: block; width: 100%; height: auto; aspect-ratio: 16/10; object-fit: cover; }
+.local-office > div { padding: 28px; }
+.local-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 24px; margin-top: 24px; }
+.local-page .local-button { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; width: fit-content; max-width: 100%; padding: 10px 18px; color: var(--green); border: 1px solid var(--brand); background: transparent; font: 500 var(--font-size-body)/1.4 var(--sans); text-decoration: none; }
+.local-page .local-button:hover { background: var(--accent-soft); }
+.local-related, .local-cities { display: flex; flex-wrap: wrap; gap: 16px 28px; }
+.local-related { padding-top: 36px; border-top: 1px solid var(--line); }
+.local-cities a, .local-related a { min-height: 44px; padding-block: 8px; }
+.local-list, .local-steps { padding-left: 24px; line-height: 1.7; }
+.local-list li { margin-block: 12px; }
+.local-steps li { margin-bottom: 28px; padding-left: 12px; }
+.local-page a:focus-visible { outline: 2px solid var(--green); outline-offset: 4px; }
+.local-skip { position: fixed; top: -100px; left: 16px; z-index: 60; padding: 12px; background: var(--paper); color: var(--ink); }
+.local-skip:focus { top: 16px; }
+@media (max-width: 760px) {
+  .local-heading { padding-bottom: 32px; }
+  .local-grid, .local-offices { grid-template-columns: minmax(0, 1fr); }
+  .local-grid > *, .local-office > div { padding: 20px; }
+  .local-section { padding-block: 28px; scroll-margin-top: 100px; }
+}

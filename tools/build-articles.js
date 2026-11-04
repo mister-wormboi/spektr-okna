@@ -93,3 +93,6 @@ articles.forEach(article => {
   }
 });
 console.log(`Built article listing and ${articles.length} article pages.`);
+
+// Preserve publication metadata after regenerating the visible content.
+require('./build-seo').applySeo();
