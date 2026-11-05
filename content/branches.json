@@ -1,0 +1,269 @@
+[
+  {
+    "id": "rostov-aleksandrovka",
+    "city": "Ростов-на-Дону",
+    "slug": "rostov-na-donu",
+    "region": "Ростовская область",
+    "street": "проспект 40-летия Победы, 89",
+    "phones": [
+      {
+        "number": "+79882530344",
+        "display": "8 988 253 03 44"
+      }
+    ],
+    "hours": "Пн–Пт: 09:00–18:00<br>Сб: 09:00–14:00<br>Вс: выходной",
+    "mapImage": "contacts/assets/rostov-aleksandrovka.webp",
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday"
+        ],
+        "opens": "09:00",
+        "closes": "18:00"
+      },
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Saturday"
+        ],
+        "opens": "09:00",
+        "closes": "14:00"
+      }
+    ]
+  },
+  {
+    "id": "rostov-zorge",
+    "city": "Ростов-на-Дону",
+    "slug": "rostov-na-donu",
+    "region": "Ростовская область",
+    "street": "ул. Зорге, 48",
+    "phones": [
+      {
+        "number": "+79896164445",
+        "display": "8 989 616 44 45"
+      }
+    ],
+    "hours": "Пн–Пт: 09:00–18:00, перерыв 13:00–14:00<br>Сб: 09:00–14:00<br>Вс: выходной",
+    "mapImage": "contacts/assets/rostov-zorge.webp",
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday"
+        ],
+        "opens": "09:00",
+        "closes": "13:00"
+      },
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday"
+        ],
+        "opens": "14:00",
+        "closes": "18:00"
+      },
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Saturday"
+        ],
+        "opens": "09:00",
+        "closes": "14:00"
+      }
+    ]
+  },
+  {
+    "id": "azov",
+    "city": "Азов",
+    "slug": "azov",
+    "region": "Ростовская область",
+    "street": "г. Азов, ул. Ленина, 66",
+    "phones": [
+      {
+        "number": "+79895175699",
+        "display": "8 989 517 56 99"
+      },
+      {
+        "number": "+79885636555",
+        "display": "8 988 563 65 55"
+      }
+    ],
+    "hours": "Пн–Пт: 08:00–17:00<br>Сб–Вс: 08:00–14:00",
+    "mapImage": "contacts/assets/azov.webp",
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday"
+        ],
+        "opens": "08:00",
+        "closes": "17:00"
+      },
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Saturday",
+          "Sunday"
+        ],
+        "opens": "08:00",
+        "closes": "14:00"
+      }
+    ]
+  },
+  {
+    "id": "kuleshovka",
+    "city": "Кулешовка",
+    "slug": "kuleshovka",
+    "region": "Ростовская область",
+    "street": "с. Кулешовка, ул. Матросова, 11",
+    "phones": [
+      {
+        "number": "+79896350069",
+        "display": "8 989 635 00 69"
+      }
+    ],
+    "hours": "Пн–Пт: 08:00–17:00, перерыв 12:00–13:00<br>Сб: 08:00–13:00<br>Вс: выходной",
+    "mapImage": "contacts/assets/kuleshovka.webp",
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday"
+        ],
+        "opens": "08:00",
+        "closes": "12:00"
+      },
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday"
+        ],
+        "opens": "13:00",
+        "closes": "17:00"
+      },
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Saturday"
+        ],
+        "opens": "08:00",
+        "closes": "13:00"
+      }
+    ]
+  },
+  {
+    "id": "bataysk",
+    "city": "Батайск",
+    "slug": "bataysk",
+    "region": "Ростовская область",
+    "street": "ул. М. Горького, 152 / ул. Куйбышева, 143",
+    "phones": [
+      {
+        "number": "+79885636444",
+        "display": "8 988 563 64 44"
+      }
+    ],
+    "hours": "Пн–Пт: 09:00–18:00<br>Сб: 09:00–14:00<br>Вс: выходной",
+    "mapImage": "contacts/assets/bataysk.webp",
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday"
+        ],
+        "opens": "09:00",
+        "closes": "18:00"
+      },
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Saturday"
+        ],
+        "opens": "09:00",
+        "closes": "14:00"
+      }
+    ]
+  },
+  {
+    "id": "eysk",
+    "city": "Ейск",
+    "slug": "eysk",
+    "region": "Краснодарский край",
+    "street": "г. Ейск, ул. К. Либкнехта, 70",
+    "phones": [
+      {
+        "number": "+78613233656",
+        "display": "(86132) 3 36 56"
+      },
+      {
+        "number": "+79182104069",
+        "display": "8 918 210 40 69"
+      }
+    ],
+    "hours": "Пн–Пт: 09:00–18:00, перерыв 13:00–14:00<br>Сб: 09:00–14:00<br>Вс: выходной",
+    "mapImage": "contacts/assets/eysk.webp",
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday"
+        ],
+        "opens": "09:00",
+        "closes": "13:00"
+      },
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday"
+        ],
+        "opens": "14:00",
+        "closes": "18:00"
+      },
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Saturday"
+        ],
+        "opens": "09:00",
+        "closes": "14:00"
+      }
+    ]
+  }
+]

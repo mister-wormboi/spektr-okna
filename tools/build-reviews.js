@@ -83,3 +83,6 @@ for (const file of files) {
   fs.writeFileSync(filename, html);
   console.log(`Published ${reviews.length} complete originals in ${file}.`);
 }
+
+// Preserve publication metadata after regenerating the visible content.
+require('./build-seo').applySeo();

@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /tools/
+Disallow: /tests/
+Disallow: /templates/
+Disallow: /content/
+Disallow: /docs/
+
+Sitemap: https://spektr-okna.ru/sitemap.xml
