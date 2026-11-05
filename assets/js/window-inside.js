@@ -20,7 +20,7 @@
   Object.entries(notes).forEach(([key, items]) => {
     const panel = document.getElementById(`panel-${key}`);
     panel.dataset.part = key;
-    panel.querySelector('.inside-scene').insertAdjacentHTML('beforeend', `<div class="inside-scene-caption" aria-hidden="true"><span>${key==='profile'?'Вид со стороны комнаты':'Рассмотрите ближе'}</span><span>${Object.keys(notes).indexOf(key)+1} / ${Object.keys(notes).length}</span></div>`);
+    panel.querySelector('.inside-scene').insertAdjacentHTML('beforeend', `<div class="inside-scene-caption" aria-hidden="true"><span>${key==='profile'?'Вид со стороны комнаты':'Рассмотрите ближе'}</span></div>`);
     panel.querySelector('.inside-controls').insertAdjacentHTML('beforebegin', `<div class="inside-legend" aria-label="Элементы конструкции">${items.map((item,i)=>`<button type="button" data-inspect="${i}" aria-pressed="false">${item}</button>`).join('')}</div><p class="inside-status" role="status" aria-live="polite"></p>`);
   });
   // Reveal each scene only once it reaches the viewport, not during lazy preload.
