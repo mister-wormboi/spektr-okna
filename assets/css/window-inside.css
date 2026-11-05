@@ -25,7 +25,6 @@ html[data-theme="light"] .inside {
 .inside-section-nav a:hover { border-color:var(--green); background:var(--accent-soft); }
 .inside-study { padding-top:32px; margin-bottom:48px; scroll-margin-top:24px; }
 .inside-study-heading { display:flex; align-items:baseline; gap:20px; padding:0 0 24px; }
-.inside-study-heading > span { color:var(--green); font-variant-numeric:tabular-nums; }
 .inside-study-heading h2 { margin:0; font:400 var(--font-size-display)/1.1 var(--serif); }
 .inside-explanation { padding:32px; border:1px solid var(--line); border-top:0; background:var(--panel); }
 .inside-explanation h3 { margin:0 0 16px; font:400 var(--font-size-title)/1.25 var(--serif); }
