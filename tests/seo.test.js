@@ -74,7 +74,7 @@ test('catalogue directions and window choices exist in HTML without executing cl
   const grid = html.match(/<div class="product-grid" id="fullCatalogCards">([\s\S]*?)<button class="product-more"/)[1];
   assert.equal((grid.match(/class="card product-card"/g) || []).length, 8);
   assert.match(grid, /href="okna\/"/);
-  for (const text of ['Окна ПВХ', 'Алюминиевые конструкции', 'Балконная дверь']) assert.ok(grid.includes(text));
+  for (const text of ['ПВХ конструкции', 'Алюминиевые конструкции', 'Балконная дверь']) assert.ok(grid.includes(text));
   const windows = read('catalog/okna/index.html');
   for (const text of ['REHAU', 'PRO WINS', '6 500', 'без монтажа и доставки']) assert.ok(windows.includes(text));
   assert.match(read('ustanovka-okon/index.html'), /Калькулятор на сайте считает только изделие/);

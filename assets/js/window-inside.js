@@ -38,7 +38,7 @@
   let loading;
   async function enhance() {
     if (loading) return loading;
-    loading = import('./window-inside-3d.js?v=20261104-blocks').then(module => {
+    loading = import('./window-inside-3d.js?v=20261105-realism').then(module => {
       exhibit = module.createInsideExhibit(host);
       exhibit.update();
     }).catch(error => { host.querySelectorAll('.inside-scene').forEach(scene=>scene.classList.add('is-unavailable')); console.warn('Inside exhibit:', error.message); });

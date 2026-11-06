@@ -1,4 +1,4 @@
-import { THREE, createRenderer, environment, box } from './scene-runtime.js?v=20261103-studio';
+import { THREE, createRenderer, environment, surfaceTexture, box } from './scene-runtime.js?v=20261105-realism';
 
 // One shared, lazy WebGL context. Frames are requested only during an interaction.
 export function createInsideExhibit(host) {
@@ -20,15 +20,20 @@ export function createInsideExhibit(host) {
   light.castShadow=true;
   light.shadow.mapSize.set(1024,1024);
   Object.assign(light.shadow.camera,{left:-2.6,right:2.6,top:2.8,bottom:-2.8,near:.5,far:15});
-  light.shadow.bias=-.00015;light.shadow.normalBias=.009;
+  light.shadow.bias=-.0001;light.shadow.normalBias=.002;
   const rim = new THREE.DirectionalLight(0xe4edff, 1.1);
   rim.position.set(4, 2, -2); scene.add(rim);
   const camera = new THREE.PerspectiveCamera(32, 1, .1, 40);
   const mat = (color, roughness = .3, metalness = 0) => new THREE.MeshStandardMaterial({color, roughness, metalness});
-  const pvc = new THREE.MeshPhysicalMaterial({color:0xf0f0eb,roughness:.27,metalness:0,clearcoat:.18,clearcoatRoughness:.32});
-  const cut = mat(0xd9dcd8,.48), seal = mat(0x202422, .92);
-  const steel = mat(0xb8bdc0, .28, .95), green = mat(0x27b45b, .4), wall = mat(0xb7beb0, .95);
-  const foam = mat(0xc1b58b, 1);
+  const pvc = new THREE.MeshPhysicalMaterial({color:0xf4f3ef,roughness:.29,metalness:0,clearcoat:.26,clearcoatRoughness:.25,envMapIntensity:.85});
+  const cut = mat(0xd9dcd8,.48), seal = mat(0x181b1c, .88);
+  const steel = new THREE.MeshPhysicalMaterial({color:0xb8bdc0,roughness:.33,metalness:.96,anisotropy:lowPower?0:.45,anisotropyRotation:Math.PI/2,envMapIntensity:1.15});
+  const wall = mat(0xc7c4bb, .96);
+  const foam = mat(0xd3bf84, 1);
+  const pvcTexture=surfaceTexture('pvc');pvc.bumpMap=pvc.roughnessMap=pvcTexture;pvc.bumpScale=.0006;
+  seal.bumpMap=surfaceTexture('rubber');seal.bumpScale=.0008;
+  wall.bumpMap=surfaceTexture('plaster');wall.bumpScale=.004;
+  foam.bumpMap=surfaceTexture('foam');foam.bumpScale=.007;
   // Physical transmission bends the rendered surroundings through each pane.
   // Keep the surface nearly colourless; tint belongs to the volume and edges.
   const glass = new THREE.MeshPhysicalMaterial({
@@ -71,15 +76,8 @@ export function createInsideExhibit(host) {
     backdropContext.fillStyle=gradient;backdropContext.fillRect(0,0,512,512);backdrop.needsUpdate=true;
   }
   updateBackdrop();
-  // Subtle deterministic grain, shared by all metal pieces (one tiny texture).
-  const metalCanvas=document.createElement('canvas');metalCanvas.width=128;metalCanvas.height=128;
-  const metalContext=metalCanvas.getContext('2d');
-  const grain=metalContext.createImageData(128,128);let seed=17;
-  for(let i=0;i<grain.data.length;i+=4){seed=(seed*1664525+1013904223)>>>0;const v=185+(seed%55);grain.data[i]=grain.data[i+1]=grain.data[i+2]=v;grain.data[i+3]=255;}
-  metalContext.putImageData(grain,0,0);
-  const metalTexture=new THREE.CanvasTexture(metalCanvas);
-  metalTexture.wrapS=metalTexture.wrapT=THREE.RepeatWrapping;metalTexture.repeat.set(3,12);
-  steel.roughnessMap=metalTexture;steel.roughness=.4;
+  const metalTexture=surfaceTexture('metal');
+  steel.roughnessMap=steel.bumpMap=metalTexture;steel.bumpScale=.00015;
   const models = {};
   const descriptions = {
     pvc:['ПВХ-оболочка','Твёрдые наружные стенки профиля. Они формируют его поверхность и защищают внутренние камеры и усиление.'],
@@ -120,14 +118,16 @@ export function createInsideExhibit(host) {
       depth:d-2*radius,bevelEnabled:true,bevelSize:radius,bevelThickness:radius,bevelSegments:3,curveSegments:4,steps:1
     });
     geometry.translate(0,0,-(d-2*radius)/2);
-    const mesh=new THREE.Mesh(geometry,material);mesh.position.set(x,y,z);parent.add(mesh);return mesh;
+    const mesh=new THREE.Mesh(geometry,material);mesh.position.set(x,y,z);
+    mesh.castShadow=mesh.receiveShadow=!material.transparent;parent.add(mesh);return mesh;
   }
   function ring(parent,w,h,b,d,z,material=pvc) {
     const shape=rectangle(w,h); shape.holes.push(rectangle(w-2*b,h-2*b));
     const bevel=Math.min(.004,b*.2,d*.2);
     const geometry=new THREE.ExtrudeGeometry(shape,{depth:d,bevelEnabled:true,bevelSize:bevel,bevelThickness:bevel,bevelSegments:3,curveSegments:4,steps:1});
     geometry.translate(0,0,-d/2);
-    const mesh=new THREE.Mesh(geometry,material); mesh.position.z=z; parent.add(mesh); return mesh;
+    const mesh=new THREE.Mesh(geometry,material); mesh.position.z=z;
+    mesh.castShadow=mesh.receiveShadow=!material.transparent;parent.add(mesh);return mesh;
   }
   function pane(parent,w,h,z) {
     moulding(parent,w,h,.012,0,0,z,glass);
@@ -148,7 +148,15 @@ export function createInsideExhibit(host) {
     for(const y of [-.57,0,.57]) {
       const cam=new THREE.Mesh(new THREE.CylinderGeometry(.021,.021,.025,20),steel);
       cam.rotation.x=Math.PI/2; cam.position.set(-.621,y,.112); mechanism.add(cam);
-      box(mechanism,.032,.085,.02,.62,y,.114,green);
+      box(mechanism,.032,.085,.02,.62,y,.114,steel);
+    }
+    // Recessed fastener heads give the locking rail its actual assembled scale.
+    const screwGeometry=new THREE.CylinderGeometry(.008,.008,.003,12);
+    const slotGeometry=new THREE.BoxGeometry(.009,.0014,.001);
+    for(const x of [-.62,.62]) for(const y of [-.71,-.32,.32,.71]) {
+      const head=new THREE.Mesh(screwGeometry,steel);head.rotation.x=Math.PI/2;
+      head.position.set(x,y,.103);mechanism.add(head);
+      if(!lowPower){const slot=new THREE.Mesh(slotGeometry,seal);slot.position.set(x,y,.105);slot.rotation.z=.45;mechanism.add(slot);}
     }
     // The stay belongs to the fixed frame, with its other end attached to the sash.
     const stay=new THREE.Group(); fixed.add(stay);
@@ -196,7 +204,7 @@ export function createInsideExhibit(host) {
     const shape=rectangle(w,h);
     for(const [x,y,cw,ch] of holes) {const hole=rectangle(cw,ch,.009);const points=hole.getPoints(4);const offset=new THREE.Path(points.map(point=>point.add(new THREE.Vector2(x,y))));shape.holes.push(offset);}
     const geo=new THREE.ExtrudeGeometry(shape,{depth:d,bevelEnabled:true,bevelSize:.002,bevelThickness:.002,bevelSegments:3,curveSegments:4,steps:1}); geo.translate(0,0,-d/2);
-    const mesh=new THREE.Mesh(geo,material); parent.add(mesh); return mesh;
+    const mesh=new THREE.Mesh(geo,material);mesh.castShadow=mesh.receiveShadow=!material.transparent;parent.add(mesh);return mesh;
   }
   const body=new THREE.Group(); section.add(body);
   hollow(body,.91,.45,1.3,[[-.32,0,.17,.33],[-.05,0,.31,.33],[.23,.09,.15,.15],[.23,-.12,.15,.15],[.38,0,.07,.33]]);

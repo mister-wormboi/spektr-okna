@@ -19,7 +19,7 @@
   :root { --font-size-display: 26px; }
 }
 
-html { font-size: var(--font-size-body); scrollbar-gutter: stable; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+html { font-size: var(--font-size-body); scrollbar-gutter: stable; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; font-kerning: normal; }
 /* Layout uses native viewport dimensions and crisp, unscaled text. */
 
 @supports not (scrollbar-gutter: stable) {
@@ -31,6 +31,10 @@ html { font-size: var(--font-size-body); scrollbar-gutter: stable; -webkit-text-
 :where(body, button, input, select, textarea) { font-size: var(--font-size-body); }
 body main { --font-size-body: 16px; font-size: var(--font-size-body); }
 :where(h1, h2) { font-size: var(--font-size-display); line-height: 1.1; }
+body:not(.home-page) main h1 { font-size: clamp(40px, 3.6vw, 54px) !important; }
+@media (max-width: 760px) {
+  body:not(.home-page) main h1 { font-size: var(--font-size-display) !important; }
+}
 :where(h3, h4, h5, h6) { font-size: var(--font-size-title); line-height: 1.25; }
 
 /* Section labels share the body face instead of looking like a third type style. */
@@ -82,15 +86,30 @@ body main :is(.article-body,.article-card,.information-checklist,.catalog-help,.
 body main p { line-height:var(--line-height-body) !important; }
 html[data-theme] body main p { font-family: var(--sans); font-size: var(--font-size-body); font-style: normal; font-weight: 400; }
 
-/* One accent treatment across all pages. Video copy stays light for contrast. */
-html[data-theme] body main :is(h1, h2) > .heading-accent {
-  color: var(--green);
-  font-family: var(--serif);
-  font-style: italic;
-  font-weight: 400;
+/* Headings use the site's display face and one theme color. */
+html[data-theme] body main :is(h1, h2, h3, h4, h5, h6) {
+  color: var(--ink);
+  font-family: var(--display);
+  font-style: normal;
+  font-weight: 600;
+  letter-spacing: -.025em;
+}
+/* Page headlines and their continuations share one weight and color. */
+html[data-theme] body main :is(h1, h2) {
+  color: var(--ink);
+  font-weight: 600;
+  letter-spacing: -.04em;
+  text-wrap: balance;
+}
+html[data-theme] body main :is(h1, h2, h3, h4, h5, h6) :is(.heading-accent, em, span, strong, b, a) {
+  color: inherit;
+  font-family: inherit;
+  font-style: inherit;
+  font-weight: inherit;
   letter-spacing: inherit;
 }
-html[data-theme] body main .hero-cinema :is(h1, h2) > .heading-accent { color: #f0f1e9; }
+html[data-theme] body.home-page main .hero-cinema h1 { font-weight: 600; }
+html[data-theme] body main .hero-cinema :is(h1, h2, h3, h4, h5, h6) { color: #ffffff; }
 html[data-theme] body main p :is(strong, b, em) { color: inherit; font-family: inherit; font-weight: inherit; font-style: normal; }
 
 /* Heading and explanation stay together, in the same reading order. */

@@ -33,8 +33,8 @@ body:not(.home-page):not(.information-page) { padding-top: 144px; }
 }
 .site-header.is-scrolled .header-inner { box-shadow: 0 10px 28px #0002; }
 .site-header .header-logo { display: block; grid-column: 1; grid-row: 1; width: 125px; min-width: 0; margin: 0; padding: 0; background: transparent; }
-.site-header .header-logo img { display: block; width: 100%; height: auto; content: url('../logo-white.webp?v=original-green'); }
-html[data-theme="light"] .site-header .header-logo img { content: url('../logo-light.webp?v=original-green'); }
+.site-header .header-logo img { display: block; width: 100%; height: auto; content:url('../logo-white.webp'); filter: none; }
+html[data-theme="light"] .site-header .header-logo img { content:url('../logo-light.webp'); }
 .site-header .header-nav { display: contents; min-width: 0; margin: 0; padding: 0; }
 .header-actions, .header-links {
   display: flex;
@@ -213,16 +213,6 @@ html[data-theme="dark"] .theme-toggle .theme-moon { display: none; }
   .site-header .theme-toggle, .site-header .header-menu-toggle { width: 40px; }
   .site-header .header-nav .header-call { display: flex; justify-content: space-between; }
 }
-/* Video introductions: navigation floats over the film and folds into a solid panel. */
-:is(.home-page, .information-page) .site-header:is(.is-over-hero, :not(.is-scrolled)):not(.is-menu-open) {
-  --ink: #f5f3eb; --muted: #eceee6; --green: #f5f3eb;
-  --brand: #f5f3eb; --line: #ffffff35; --accent-soft: #ffffff12;
-}
-:is(.home-page, .information-page) .site-header:is(.is-over-hero, :not(.is-scrolled)):not(.is-menu-open) .header-logo img { filter: brightness(0) invert(1); }
-:is(.home-page, .information-page) .site-header:is(.is-over-hero, :not(.is-scrolled)):not(.is-menu-open) .header-inner {
-  background: #171c1e70; outline-color: #ffffff35;
-}
-:is(.home-page, .information-page) .site-header:is(.is-over-hero, :not(.is-scrolled)):not(.is-menu-open) .theme-toggle:hover { background: #ffffff15; }
 @media (prefers-reduced-motion: reduce) {
   .site-header { animation: none; }
   .site-header, .site-header .header-inner, .site-header .header-links, .site-header .header-nav, .site-header .header-nav a, .header-menu-toggle span { transition: none; }

@@ -4,7 +4,7 @@
 
   <meta charset="utf-8">
   <script src="{{prefix}}assets/js/theme.js"></script>
-  <link rel="stylesheet" href="{{prefix}}assets/css/fonts.css?v=20261024-subset">
+  <link rel="stylesheet" href="{{prefix}}assets/css/fonts.css?v=20261105-font-pair">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   {{head_extra}}
   <meta name="description" content="{{description}}">
@@ -19,21 +19,21 @@
   <link rel="stylesheet" href="{{prefix}}assets/css/night.css?v=20261020-audit">
   <link rel="stylesheet" href="{{prefix}}assets/css/articles.css?v=20261024-cards">
   {{detail_css}}
-  <link rel="stylesheet" href="{{prefix}}assets/css/header-refresh.css?v=20261025-original-green">
+  <link rel="stylesheet" href="{{prefix}}assets/css/header-refresh.css?v=20261106-heading-accents">
   <script src="{{prefix}}assets/js/header.js" defer></script>
-  <link rel="stylesheet" href="{{prefix}}assets/css/footer.css?v=20261104-request">
+  <link rel="stylesheet" href="{{prefix}}assets/css/footer.css?v=20261105-client">
   <link rel="stylesheet" href="{{prefix}}assets/css/layout.css?v=20261022-breadcrumb-surfaces">
   <link rel="stylesheet" href="{{prefix}}assets/css/theme.css?v=20261025-original-green">
   <link rel="stylesheet" href="{{prefix}}assets/css/style-experiment.css?v=20261020-audit">
-  <link rel="stylesheet" href="{{prefix}}assets/css/typography.css?v=20261022-shared-theme">
+  <link rel="stylesheet" href="{{prefix}}assets/css/typography.css?v=20261106-semibold-headings">
   {{structured_data}}
 </head>
 <body id="page-top" class="articles-page {{body_class}}">
   <a class="articles-skip" href="#content">Перейти к содержимому</a>
   <header class="site-header">
     <div class="wrap header-inner">
-      <a class="logo header-logo" href="{{prefix}}" aria-label="Спектр — на главную"><img src="{{prefix}}assets/logo-white.webp" alt="Спектр" width="720" height="269" decoding="async"></a>
-      <a class="header-mobile-call" href="tel:+79895175699" aria-label="Позвонить в Спектр: 8 989 517 56 99"><span>8 989 517 56 99</span></a>
+      <a class="logo header-logo" href="{{prefix}}" aria-label="Спектр — на главную"><img src="{{prefix}}assets/logo-light.webp" alt="Спектр" width="720" height="269" decoding="async"></a>
+      <a class="header-mobile-call" href="tel:+79895175699" aria-label="Позвонить в Спектр: 8 (989) 517-56-99"><span>8 (989) 517-56-99</span></a>
       <button class="theme-toggle" type="button" data-theme-toggle hidden aria-label="Включить светлую тему" aria-pressed="true" title="Включить светлую тему">
         <svg class="theme-moon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20.8 13.2A8.8 8.8 0 0 1 10.8 3.2a8.8 8.8 0 1 0 10 10Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
         <svg class="theme-sun" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.6"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.4 1.4m11.2 11.2L19 19M5 19l1.4-1.4M17.6 6.4 19 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
@@ -42,7 +42,7 @@
       <nav class="header-nav" id="headerMenu" aria-label="Основная навигация">
         <div class="header-actions">
           <a class="header-request-link" href="{{prefix}}#request">Оставить заявку</a>
-          <a class="header-call" href="tel:+79895175699"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m7 3 3 5-2.5 2.5a15 15 0 0 0 6 6L16 14l5 3c0 3-2 4-4 4C10 20 4 14 3 7c0-2 1-4 4-4Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg><span class="header-call-copy"><span>Позвонить в «Спектр»</span><small>8 989 517 56 99</small></span><span class="header-call-arrow" aria-hidden="true">↗</span></a>
+          <a class="header-call" href="tel:+79895175699"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m7 3 3 5-2.5 2.5a15 15 0 0 0 6 6L16 14l5 3c0 3-2 4-4 4C10 20 4 14 3 7c0-2 1-4 4-4Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg><span class="header-call-copy"><span>Позвонить в «Спектр»</span><small>8 (989) 517-56-99</small></span><span class="header-call-arrow" aria-hidden="true">↗</span></a>
           <a class="header-calculator-link" href="{{prefix}}calculator/">Калькулятор</a>
           <a href="{{prefix}}contacts/">Филиалы</a>
         </div>
@@ -59,9 +59,9 @@
     </div>
   </header>
   {{main}}
-  <footer class="site-footer"><div class="wrap footer-inner"><div class="footer-brand"><a class="logo footer-logo" href="{{prefix}}" aria-label="Спектр — на главную"><img src="{{prefix}}assets/logo-white.webp" alt="Спектр" loading="lazy" decoding="async" width="720" height="269"></a><p>Производим и устанавливаем окна<br><span>с 2004 года</span></p>
+  <footer class="site-footer"><div class="wrap footer-inner"><div class="footer-brand"><a class="logo footer-logo" href="{{prefix}}" aria-label="Спектр — на главную"><img src="{{prefix}}assets/logo-light.webp" alt="Спектр" loading="lazy" decoding="async" width="720" height="269"></a><p>Производим и устанавливаем МПК<br><span>с 2004 года</span></p>
         </div><nav class="footer-navigation" aria-label="Нижнее меню"><span class="footer-label">Разделы сайта</span><div class="footer-links"><a href="{{prefix}}catalog/">Каталог</a><a href="{{prefix}}about/">О нас</a><a href="{{prefix}}solutions/">Примеры решений</a><a href="{{prefix}}contacts/">Филиалы</a><a href="{{prefix}}calculator/">Калькулятор</a><a href="{{prefix}}reviews/">Отзывы</a><a href="{{prefix}}information/">Полезное</a><a aria-current="{{nav_current}}" href="{{articles_href}}">Статьи</a>          <a href="{{prefix}}window-inside/">Окна изнутри</a>
-        </div></nav><div class="footer-contact"><span class="footer-label">Будем на связи</span><a class="footer-phone" href="tel:+79895175699">8 989 517 56 99 <span aria-hidden="true">↗</span></a>
+        </div></nav><div class="footer-contact"><span class="footer-label">Будем на связи</span><a class="footer-phone" href="tel:+79895175699">8 (989) 517-56-99 <span aria-hidden="true">↗</span></a>
         <a class="footer-request" href="{{prefix}}#request">Оставить заявку</a><p>Ростовская область<br>и Краснодарский край</p>
         </div></div><div class="wrap footer-bottom"><span>© Спектр</span><a href="#page-top">Наверх <span aria-hidden="true">↑</span></a></div></footer>
 </body>

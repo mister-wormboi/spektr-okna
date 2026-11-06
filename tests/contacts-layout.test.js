@@ -9,8 +9,8 @@ const css=read('assets/css/contacts.css');
 
 test('contacts combines office information, facts and call action in the film hero',()=>{
   const hero=html.match(/<section class="hero contacts-hero hero-cinema"[\s\S]*?<\/section>/)[0];
-  for(const text of ['Наши офисы.','Поможем выбрать удобный офис.','Позвоните по единому номеру','офисов продаж','региона присутствия','единый стандарт качества','class="page-end-action"'])assert.ok(hero.includes(text),text);
-  assert.equal((html.match(/Поможем выбрать удобный офис/g)||[]).length,1);
+  for(const text of ['Наши офисы','Поможем выбрать <em class="heading-accent">удобный офис</em>','Позвоните по единому номеру','офисов продаж','региона присутствия','единый стандарт качества','class="page-end-action"'])assert.ok(hero.includes(text),text);
+  assert.equal((html.match(/Поможем выбрать <em class="heading-accent">удобный офис<\/em>/g)||[]).length,1);
   assert.doesNotMatch(html,/<section class="contact-banner"/);
   assert.equal((html.match(/class="office-card"/g)||[]).length,6);
 });

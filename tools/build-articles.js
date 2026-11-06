@@ -6,6 +6,7 @@ const root = path.resolve(__dirname, '..');
 const { articles } = JSON.parse(fs.readFileSync(path.join(root, 'content/articles.json'), 'utf8'));
 const shell = fs.readFileSync(path.join(root, 'templates/articles-shell.tpl'), 'utf8');
 const escape = value => String(value).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;');
+const heading = (value, accent) => accent ? escape(value).replace(escape(accent), `<em class="heading-accent">${escape(accent)}</em>`) : escape(value);
 const date = value => value.split('-').reverse().join('.');
 const jsonLd = value => `<script type="application/ld+json">${JSON.stringify(value).replaceAll('<', '\\u003c')}</script>`;
 
@@ -34,7 +35,7 @@ function card(article, prefix, linkPrefix, eager = false) {
   return `<article class="article-card">
     <a class="article-card-link" href="${linkPrefix}${article.slug}/" aria-label="${escape(article.title)}">
       <div class="article-image"><img src="${prefix}${article.image.path}" alt="" width="${article.image.width}" height="${article.image.height}" ${eager ? 'fetchpriority="high"' : 'loading="lazy"'} decoding="async"></div>
-      <div class="article-copy"><div class="article-meta"><time datetime="${article.published_on}">${date(article.published_on)}</time></div><h2>${escape(article.title)}</h2><p>${escape(article.description)}</p></div>
+      <div class="article-copy"><div class="article-meta"><time datetime="${article.published_on}">${date(article.published_on)}</time></div><h2>${heading(article.title, article.title_accent)}</h2><p>${escape(article.description)}</p></div>
     </a>
   </article>`;
 }
@@ -42,7 +43,7 @@ function card(article, prefix, linkPrefix, eager = false) {
 const listing = `<main id="content" class="articles-main wrap">
   <nav class="breadcrumbs" aria-label="Хлебные крошки"><a href="../">Главная</a><span aria-hidden="true">/</span><span aria-current="page">Статьи</span></nav>
   <section class="articles-intro" aria-labelledby="articles-title">
-    <div class="section-copy"><h1 id="articles-title">Об окнах —<br><em class="heading-accent">простыми словами.</em></h1><p>Как выбрать окна, разобраться в стоимости и подготовиться к установке.</p></div>
+    <div class="section-copy"><h1 id="articles-title">Об окнах —<br><em class="heading-accent">простыми словами</em></h1><p>Как выбрать окна, разобраться в стоимости и подготовиться к установке.</p></div>
   </section>
   <section class="articles-grid" aria-label="Превью статей">${articles.map((a, i) => card(a, '../', './', i === 0)).join('\n')}</section>
 </main>`;
@@ -58,11 +59,11 @@ articles.forEach(article => {
   const coverSources = coverPath !== article.image.path && article.image.full_width
     ? ` srcset="../../${escape(encodeURI(article.image.path))} ${article.image.width}w, ../../${escape(encodeURI(coverPath))} ${article.image.full_width}w" sizes="(max-width: 480px) calc(100vw - 32px), (max-width: 760px) calc(100vw - 40px), (max-width: 1100px) calc(100vw - 56px), (max-width: 1416px) calc(100vw - 96px), 1320px"`
     : '';
-  const sections = article.sections.map((s, i) => `<section id="section-${i + 1}"><h2>${escape(s.heading)}</h2>${s.paragraphs.map(p => `<p>${escape(p)}</p>`).join('')}${s.items ? `<ul>${s.items.map(item => `<li>${escape(item)}</li>`).join('')}</ul>` : ''}${s.photo ? `<figure class="article-example"><a href="../../${escape(s.photo.full)}" target="_blank" rel="noopener"><img src="../../${escape(s.photo.thumb)}" alt="${escape(s.photo.alt)}" width="${s.photo.width}" height="${s.photo.height}" loading="lazy" decoding="async"></a><figcaption>${escape(s.photo.caption)}</figcaption></figure>` : ''}</section>`).join('\n');
+  const sections = article.sections.map((s, i) => `<section id="section-${i + 1}"><h2>${heading(s.heading, s.heading_accent)}</h2>${s.paragraphs.map(p => `<p>${escape(p)}</p>`).join('')}${s.items ? `<ul>${s.items.map(item => `<li>${escape(item)}</li>`).join('')}</ul>` : ''}${s.photo ? `<figure class="article-example"><a href="../../${escape(s.photo.full)}" target="_blank" rel="noopener"><img src="../../${escape(s.photo.thumb)}" alt="${escape(s.photo.alt)}" width="${s.photo.width}" height="${s.photo.height}" loading="lazy" decoding="async"></a><figcaption>${escape(s.photo.caption)}</figcaption></figure>` : ''}</section>`).join('\n');
   const main = `<main id="content" class="article-detail wrap">
     <nav class="article-breadcrumbs" aria-label="Хлебные крошки"><a href="../../">Главная</a><span aria-hidden="true">/</span><a href="../">Статьи</a><span aria-hidden="true">/</span><span aria-current="page">${escape(article.category)}</span></nav>
     <article>
-      <header class="article-heading"><h1>${escape(article.title)}</h1><div class="article-heading-meta"><span><time datetime="${article.published_on}">${date(article.published_on)}</time></span><span>Чтение: около ${readingMinutes(article)} мин</span></div></header>
+      <header class="article-heading"><h1>${heading(article.title, article.title_accent)}</h1><div class="article-heading-meta"><span><time datetime="${article.published_on}">${date(article.published_on)}</time></span><span>Чтение: около ${readingMinutes(article)} мин</span></div></header>
       <div class="article-content">
       <figure class="article-cover"><img src="../../${coverPath}"${coverSources} alt="${escape(article.image.alt)}" width="${article.image.full_width || article.image.width}" height="${article.image.full_height || article.image.height}" fetchpriority="high" decoding="async"><figcaption>${escape(article.image.caption || 'Фото из галереи «Спектра»')}</figcaption></figure>
       <div class="article-body">${sections}<aside class="article-takeaway"><span class="eyebrow">Главная мысль</span><p>${escape(article.takeaway)}</p></aside>
@@ -88,7 +89,7 @@ articles.forEach(article => {
       title: escape(article.title + ' — Спектр'), description: escape(article.description), prefix: '../../', articles_href: '../',
       nav_current: 'location', body_class: 'article-detail-page', og_type: 'website', detail_css: '', structured_data: '',
       head_extra: `<meta name="robots" content="noindex, follow"><meta http-equiv="refresh" content="0; url=../${article.slug}/">`,
-      main: `<main id="content" class="articles-main wrap"><nav class="breadcrumbs" aria-label="Хлебные крошки"><a href="../../">Главная</a><span aria-hidden="true">/</span><a href="../">Статьи</a><span aria-hidden="true">/</span><span aria-current="page">${escape(article.category)}</span></nav><section class="articles-intro"><div><h1>Статья обновлена</h1><p><a href="../${article.slug}/">${escape(article.title)}</a></p></div></section></main>`,
+      main: `<main id="content" class="articles-main wrap"><nav class="breadcrumbs" aria-label="Хлебные крошки"><a href="../../">Главная</a><span aria-hidden="true">/</span><a href="../">Статьи</a><span aria-hidden="true">/</span><span aria-current="page">${escape(article.category)}</span></nav><section class="articles-intro"><div><h1>Статья <em class="heading-accent">обновлена</em></h1><p><a href="../${article.slug}/">${escape(article.title)}</a></p></div></section></main>`,
     }));
   }
 });

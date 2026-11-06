@@ -26,7 +26,8 @@ function setup({ reduced = false, observer = true, saveData = false } = {}) {
     const image = { loading: 'lazy', decode: async () => { decodes++; peak = Math.max(peak, ++inFlight); await Promise.resolve(); inFlight--; } };
     link.querySelector = () => image;
     link.getBoundingClientRect = () => ({ left: i * 116, width: 100 });
-    link.cloneNode = () => Object.assign(element(), { getBoundingClientRect: () => ({ left: (i + 16) * 116 }) });
+    link.offsetLeft = i * 116;
+    link.cloneNode = () => Object.assign(element(), { offsetLeft: (i + 16) * 116 });
     return link;
   });
   track.querySelector = () => track.children.find(child => child.dataset.clone);
@@ -41,7 +42,7 @@ function setup({ reduced = false, observer = true, saveData = false } = {}) {
     constructor(fn) { intersection = fn; }
     observe() {}
   }
-  vm.runInNewContext(source, { document, matchMedia: () => media, window: { requestIdleCallback: callback => callback(), ...(observer ? { IntersectionObserver: Observer } : {}), navigator: { connection: { saveData } } }, IntersectionObserver: Observer });
+  vm.runInNewContext(source, { document, matchMedia: () => media, getComputedStyle: () => ({ columnGap: '16px' }), window: { requestIdleCallback: callback => callback(), ...(observer ? { IntersectionObserver: Observer } : {}), navigator: { connection: { saveData } } }, IntersectionObserver: Observer });
   return { track, marquee, document, media, button, decodes: () => decodes, peak: () => peak, intersect: visible => intersection?.([{ isIntersecting: visible }]) };
 }
 const settle = () => new Promise(resolve => setImmediate(resolve));

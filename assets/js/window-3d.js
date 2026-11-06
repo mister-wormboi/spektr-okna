@@ -1,5 +1,5 @@
 // Keep Three.js out of the initial module graph; the SVG remains the fallback.
-let THREE, createRenderer, environment, box, playback;
+let THREE, createRenderer, environment, surfaceTexture, box, playback;
 
 const viewport = document.querySelector('.window-3d-viewport');
 if (viewport) {
@@ -9,7 +9,7 @@ if (viewport) {
     started = true;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || navigator.connection?.saveData) return;
     try {
-      ({ THREE, createRenderer, environment, box, playback } = await import('./scene-runtime.js'));
+      ({ THREE, createRenderer, environment, surfaceTexture, box, playback } = await import('./scene-runtime.js?v=20261105-realism'));
       buildWindow(viewport);
     } catch (error) { console.warn('Window preview unavailable:',error.message); }
   };
@@ -25,18 +25,20 @@ function buildWindow(viewport) {
   const renderer = createRenderer(viewport,true);
   renderer.setClearColor(0,0);
   const scene = new THREE.Scene();
-  scene.environment = environment(renderer,true);
+  scene.environment = environment(renderer,'neutral');
   const camera = new THREE.PerspectiveCamera(32,1,.1,50);
   camera.position.set(0,.35,4.5); camera.lookAt(0,0,0);
-  scene.add(new THREE.HemisphereLight(0xffffff,0x4c6854,2));
-  const key = new THREE.DirectionalLight(0xfff5de,4.5);
+  scene.add(new THREE.HemisphereLight(0xffffff,0x636b70,.9));
+  const key = new THREE.DirectionalLight(0xfff5e9,2.8);
   key.position.set(-3,5,5);
   scene.add(key);
   const rim = new THREE.DirectionalLight(0xd0e9ff,2.2); rim.position.set(3,2,-3); scene.add(rim);
-  const pvc = new THREE.MeshStandardMaterial({color:0xf6f6ee,roughness:.24,metalness:0});
-  const seal = new THREE.MeshStandardMaterial({color:0x28352e,roughness:.8});
-  const aluminium = new THREE.MeshStandardMaterial({color:0xb8c6bd,metalness:.86,roughness:.22});
-  const glass = new THREE.MeshStandardMaterial({color:0x719b94,roughness:.025,metalness:.15,transparent:true,opacity:.18,envMapIntensity:1.3,side:THREE.DoubleSide,depthWrite:false});
+  const pvc = new THREE.MeshPhysicalMaterial({color:0xf4f3ef,roughness:.28,metalness:0,clearcoat:.24,clearcoatRoughness:.25,envMapIntensity:.85});
+  pvc.bumpMap=pvc.roughnessMap=surfaceTexture('pvc');pvc.bumpScale=.0006;
+  const seal = new THREE.MeshStandardMaterial({color:0x181b1c,roughness:.88});
+  const aluminium = new THREE.MeshPhysicalMaterial({color:0xbdc1c5,metalness:.96,roughness:.32,envMapIntensity:1.2});
+  aluminium.roughnessMap=surfaceTexture('metal');
+  const glass = new THREE.MeshPhysicalMaterial({color:0xf3faf8,roughness:.045,metalness:0,ior:1.5,clearcoat:1,transparent:true,opacity:.16,envMapIntensity:1.6,side:THREE.DoubleSide,depthWrite:false});
   glass.forceSinglePass = true;
   const model = new THREE.Group(); scene.add(model);
   // Keep one fixed viewing angle while the window separates and reassembles.
@@ -69,18 +71,12 @@ function buildWindow(viewport) {
   for (const z of [.044,.066,.088]) {
     const pane=box(layers[2],.876,1.346,.006,0,0,z,glass); pane.castShadow=false;
   }
-  // Analytic softbox reflection stays crisp at any size and angle.
-  const reflection = new THREE.Mesh(new THREE.PlaneGeometry(.872,1.342),new THREE.ShaderMaterial({
-    transparent:true,depthWrite:false,side:THREE.DoubleSide,forceSinglePass:true,
-    vertexShader:'varying vec2 uvGlass; void main(){uvGlass=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}',
-    fragmentShader:`varying vec2 uvGlass; void main(){
-      float diagonal=uvGlass.x+uvGlass.y*.42;
-      float band=smoothstep(.38,.40,diagonal)*(1.-smoothstep(.55,.57,diagonal));
-      float hairline=smoothstep(.79,.80,diagonal)*(1.-smoothstep(.82,.83,diagonal));
-      gl_FragColor=vec4(.85,.97,.94,band*.19+hairline*.12);
-    }`
-  }));
-  reflection.position.z=.094; layers[2].add(reflection);
+  // Polished glass edges pick up the studio rather than painted diagonal stripes.
+  const edgeGlass=new THREE.MeshPhysicalMaterial({color:0xa2cfbd,roughness:.08,metalness:0,transparent:true,opacity:.55,depthWrite:false,envMapIntensity:1.4});
+  for(const z of [.044,.066,.088]) {
+    for(const x of [-.438,.438]) box(layers[2],.002,1.346,.006,x,0,z,edgeGlass);
+    for(const y of [-.673,.673]) box(layers[2],.876,.002,.006,0,y,z,edgeGlass);
+  }
   ring(layers[3],.925,1.395,.022,.026,.113,pvc);
   ring(layers[3],.885,1.355,.007,.01,.125,seal);
   // Smooth hardware, with separate hinges and a rounded lever.

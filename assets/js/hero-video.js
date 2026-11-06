@@ -3,7 +3,14 @@
   const video = hero?.querySelector('video');
   const toggle = hero?.querySelector('.hero-video-toggle');
   const header = document.querySelector('.site-header');
-  if (!video) return;
+  if (!hero) return;
+  // Photo-led heroes still need the floating navigation to track their visibility.
+  if (!video) {
+    if ('IntersectionObserver' in window) new IntersectionObserver(entries => {
+      header?.classList.toggle('is-over-hero', entries[0].isIntersecting);
+    }, { threshold: 0, rootMargin: '-84px 0px 0px' }).observe(hero);
+    return;
+  }
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   const mobile = matchMedia('(max-width: 760px)');
   const connection = navigator.connection;

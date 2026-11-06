@@ -1,33 +1,20 @@
-/* Local fonts: loaded only when the corresponding face is used. */
+/* Supplied local variable fonts: Manrope for display, Golos Text for reading. */
 :root {
-  --serif: 'Noto Serif', serif;
-  --sans: 'Onest', sans-serif;
+  --sans: 'Golos Text', Arial, sans-serif;
+  --display: 'Manrope', Arial, sans-serif;
+  --serif: var(--display);
 }
 @font-face {
-  font-family: 'Onest';
-  src: url('../fonts/Onest/Onest-VariableFont_wght.woff2?v=20261024') format('woff2');
+  font-family: 'Golos Text';
+  src: url('../fonts/Golos_Text/GolosText-VariableFont_wght.woff?v=20261105-pair') format('woff');
   font-style: normal;
-  font-weight: 100 900;
+  font-weight: 400 900;
   font-display: swap;
 }
 @font-face {
-  font-family: 'Noto Serif';
-  src: url('../fonts/Noto_Serif/static/NotoSerif-Regular.woff2?v=20261024') format('woff2');
+  font-family: 'Manrope';
+  src: url('../fonts/Manrope/Manrope-VariableFont_wght.woff?v=20261105-pair') format('woff');
   font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Noto Serif';
-  src: url('../fonts/Noto_Serif/static/NotoSerif-Bold.woff2?v=20261024') format('woff2');
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Noto Serif';
-  src: url('../fonts/Noto_Serif/static/NotoSerif-Italic.woff2?v=20261024') format('woff2');
-  font-style: italic;
-  font-weight: 400;
+  font-weight: 200 800;
   font-display: swap;
 }

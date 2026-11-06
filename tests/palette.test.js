@@ -39,17 +39,19 @@ test('both palettes keep body text, secondary text and action labels readable', 
   }
 });
 
-test('local webfonts use WOFF2 and are substantially smaller than the preserved originals', () => {
+test('local Manrope and Golos Text webfonts are compressed and preserve their TTF originals', () => {
   const css = read('assets/css/fonts.css');
+  assert.match(css, /--sans: 'Golos Text'/);
+  assert.match(css, /--display: 'Manrope'/);
   assert.doesNotMatch(css, /url\([^)]*\.ttf/);
-  const fonts = [...css.matchAll(/url\('\.\.\/([^'?]+\.woff2)(?:\?[^']*)?'\)/g)].map(m => m[1]);
-  assert.equal(fonts.length, 4);
+  const fonts = [...css.matchAll(/url\('\.\.\/([^'?]+\.woff2?)(?:\?[^']*)?'\)/g)].map(m => m[1]);
+  assert.equal(fonts.length, 2);
   let original = 0, compressed = 0;
   for (const file of fonts) {
     const bytes = fs.readFileSync(path.join(root, 'assets', file));
-    assert.equal(bytes.subarray(0, 4).toString(), 'wOF2');
+    assert.equal(bytes.subarray(0, 4).toString(), 'wOFF');
     compressed += bytes.length;
-    original += fs.statSync(path.join(root, 'assets', file.replace('.woff2', '.ttf'))).size;
+    original += fs.statSync(path.join(root, 'assets', file.replace(/\.woff2?$/, '.ttf'))).size;
   }
-  assert.ok(compressed < original * .4);
+  assert.ok(compressed < original * .5);
 });

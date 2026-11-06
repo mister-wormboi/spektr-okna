@@ -1,12 +1,12 @@
 /* The transparent WebGL canvas inherits this studio palette instantly. */
 .inside {
- --studio-center:#30483a; --studio-mid:#203127; --studio-edge:#15221a;
+ --studio-center:#42484a; --studio-mid:#2a3032; --studio-edge:#191f21;
  --studio-text:#c5d3c9; --studio-subtle:#9cad9f;
  --studio-button:#263a2e; --studio-hover:#34513e; --studio-border:#a8c9b33d;
  --studio-label:#17291ff2; --studio-accent:#69d58b; --studio-halo:#17291f;
 }
 html[data-theme="light"] .inside {
- --studio-center:#f8faf4; --studio-mid:#e0e6df; --studio-edge:#cad4cb;
+ --studio-center:#faf9f6; --studio-mid:#e6e5e1; --studio-edge:#cecfcb;
  --studio-text:#536358; --studio-subtle:#62756a;
  --studio-button:#f7faf3e6; --studio-hover:#fff; --studio-border:#53635830;
  --studio-label:#f8fcf4f5; --studio-accent:#187c36; --studio-halo:#f8fcf4;

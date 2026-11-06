@@ -23,8 +23,8 @@ test('home groups related sections on two shared theme surfaces without new pale
 test('hero call button keeps its original quiet outline and accessible number', () => {
   const call = main.match(/<a class="hero-cinema-call"[\s\S]*?<\/a>/)[0];
   assert.match(call, /href="tel:\+79895175699"/);
-  assert.match(call, /aria-label="Позвонить в Спектр: 8 989 517 56 99"/);
-  assert.match(call, /<strong>8 989 517 56 99<\/strong>/);
+  assert.match(call, /aria-label="Позвонить в Спектр: 8 \(989\) 517-56-99"/);
+  assert.match(call, /<strong>8 \(989\) 517-56-99<\/strong>/);
   assert.match(call, /class="hero-cinema-call-arrow" aria-hidden="true">↗/);
   const css = read('assets/css/hero-atmosphere.css');
   assert.match(css, /\.hero-cinema-call svg \{ width: 26px; height: 26px; \}/);
@@ -34,13 +34,13 @@ test('hero call button keeps its original quiet outline and accessible number', 
   assert.doesNotMatch(css, /animation:|backdrop-filter|will-change/);
 });
 
-test('hero title and call to action are centered while the facts keep their own grid', () => {
+test('hero copy stays centered while the facts keep their own grid', () => {
   const hero = read('assets/css/hero-atmosphere.css');
   assert.match(hero, /\.hero-cinema-heading \{ align-self: center; text-align: center;/);
   assert.match(hero, /\.hero-cinema-call \{[^}]*text-align: left;/);
   const css = read('assets/css/home-refresh.css');
-  assert.match(css, /\.hero-cinema h1 \{[^}]*margin: 0 auto 20px;/);
-  assert.match(css, /\.home-hero-lead \{[^}]*margin: 0 auto 26px;/);
+  assert.match(css, /\.hero-cinema h1 \{[^}]*margin:0 0 24px;/);
+  assert.match(css, /\.home-hero-lead \{[^}]*margin:0 auto 30px;/);
 });
 
 test('hero contains three company facts and no former lower toolbar or separate strip', () => {
@@ -83,23 +83,23 @@ test('home action links use northeast arrows without changing directional contro
 test('home has concrete section headings with an explanation directly underneath', () => {
   const headings = {
     windowStoryTitle: 'Из чего состоит окно?',
-    calculatorTitle: 'Рассчитайте стоимость окна.',
-    requestTitle: 'Поможем выбрать окна.',
-    catalogTitle: 'Окна, двери и остекление.',
+    calculatorTitle: 'Рассчитайте стоимость окна',
+    requestTitle: 'Подберём решение под вашу задачу',
+    catalogTitle: 'Окна, двери и остекление',
     beforeAfterTitle: 'Как может измениться балкон?',
-    projectExamplesTitle: 'Наши работы.',
-    reviewsTitle: 'Отзывы клиентов.',
-    guidesTitle: 'Вопросы перед заказом.',
-    homeContactTitle: 'Обсудим ваши окна.',
+    projectExamplesTitle: 'Наши работы',
+    reviewsTitle: 'Отзывы клиентов',
+    guidesTitle: 'Вопросы перед заказом',
+    homeContactTitle: 'Подберём конкретное решение',
   };
   for (const [id, title] of Object.entries(headings)) {
     const heading = main.match(new RegExp(`class="[^"]*home-section-heading[^"]*">\\s*<h2 id="${id}">([\\s\\S]*?)<\\/h2>\\s*<p(?: [^>]*)?>`));
     assert.ok(heading, id);
     assert.equal(heading[1].replace(/<br\s*\/?>/g, ' ').replace(/<[^>]+>/g, ''), title);
   }
-  assert.doesNotMatch(main, /class="eyebrow"|class="hero-cinema-kicker"|>FAQ</);
+  assert.doesNotMatch(main, /class="eyebrow"|>FAQ</);
   assert.equal((main.match(/<h1\b/g) || []).length, 1);
-  assert.match(main, /<h1 id="heroTitle">Пластиковые окна<br><em class="heading-accent">для вашего дома\.<\/em><\/h1>\s*<p class="home-hero-lead">/);
+  assert.match(main, /<h1 id="heroTitle">Производим и устанавливаем МПК<br><em class="heading-accent">по вашим размерам<\/em><\/h1>\s*<p class="home-hero-lead">/);
 });
 
 test('home titles keep their original line structure and share accent styling', () => {
@@ -109,7 +109,7 @@ test('home titles keep their original line structure and share accent styling', 
   }
   assert.doesNotMatch(main, /<strong>предварительный расчёт<\/strong>|<strong>имя и телефон<\/strong>/);
   const css = read('assets/css/typography.css');
-  assert.match(css, /> \.heading-accent\s*\{[^}]*color: var\(--green\);[^}]*font-style: italic/);
+  assert.match(css, /body main :is\(h1, h2, h3, h4, h5, h6\)\s*\{[^}]*color: var\(--ink\);[^}]*font-style: normal/);
 });
 
 test('home copy keeps functional labels, disclosures and existing real content', () => {

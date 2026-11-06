@@ -4,7 +4,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
 
-function mount({ reduced = false, saveData = false, control = true, mobile = false } = {}) {
+function mount({ reduced = false, saveData = false, control = true, mobile = false, photo = false } = {}) {
   const element = () => {
     const classes = new Set(), events = {};
     return {
@@ -18,7 +18,7 @@ function mount({ reduced = false, saveData = false, control = true, mobile = fal
     play() { this.plays++; this.paused = false; return Promise.resolve(); },
   };
   const toggle = control ? element() : null, header = element(), hero = element();
-  hero.querySelector = selector => selector === 'video' ? video : toggle;
+  hero.querySelector = selector => selector === 'video' ? (photo ? null : video) : toggle;
   const motion = { matches: reduced, addEventListener: (_, fn) => { motion.change = fn; } };
   const screen = { matches: mobile, addEventListener: (_, fn) => { screen.change = fn; } };
   const connection = { saveData, addEventListener() {} };
@@ -32,6 +32,13 @@ function mount({ reduced = false, saveData = false, control = true, mobile = fal
   });
   return { video, toggle, hero, header, document, motion, screen, events, enter: visible => intersection([{ isIntersecting: visible }]) };
 }
+
+test('photographic hero still tracks the floating header without loading a video', () => {
+  const page = mount({photo:true});
+  page.enter(true);assert.ok(page.header.classList.contains('is-over-hero'));
+  page.enter(false);assert.ok(!page.header.classList.contains('is-over-hero'));
+  assert.equal(page.video.plays,0);
+});
 
 test('hero loads only the video for its viewport and switches when crossing the breakpoint', () => {
   const page = mount({ mobile: true });

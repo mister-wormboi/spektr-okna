@@ -50,6 +50,34 @@ export function createRenderer(container, transparent = false) {
   return renderer;
 }
 
+// Small repeatable surface maps: subtle manufacturing texture, not photographic noise.
+// Textures are created once per material and shared by all of its meshes.
+export function surfaceTexture(kind = 'pvc') {
+  const canvas = document.createElement('canvas');
+  canvas.width = canvas.height = 128;
+  const context = canvas.getContext('2d');
+  const pixels = context.createImageData(128,128);
+  let seed = 817;
+  for (let y=0;y<128;y++) for (let x=0;x<128;x++) {
+    seed = (seed*1664525+1013904223)>>>0;
+    const noise = ((seed>>>16)&255)/255;
+    let value;
+    if (kind === 'metal') value = 170 + Math.sin(y*2.7)*22 + noise*16;
+    else if (kind === 'foam') value = noise < .13 ? 58 : 175 + noise*65;
+    else if (kind === 'rubber') value = 140 + noise*50;
+    else if (kind === 'plaster') value = 160 + noise*70;
+    else value = 196 + noise*12;
+    const index = (y*128+x)*4;
+    pixels.data[index]=pixels.data[index+1]=pixels.data[index+2]=value;
+    pixels.data[index+3]=255;
+  }
+  context.putImageData(pixels,0,0);
+  const texture = new THREE.CanvasTexture(canvas);
+  texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+  texture.repeat.set(kind === 'metal' ? 2 : 5,kind === 'metal' ? 12 : 5);
+  return texture;
+}
+
 export function box(parent, width, height, depth, x, y, z, material) {
   const mesh = new THREE.Mesh(new THREE.BoxGeometry(width,height,depth), material);
   mesh.position.set(x,y,z);

@@ -51,7 +51,9 @@
     syncClones();
     const clone = track.querySelector('[data-clone]');
     if (!clone || motion.matches) return;
-    const distance = clone.getBoundingClientRect().left - originals[0].getBoundingClientRect().left;
+    const gap = parseFloat(getComputedStyle(track).columnGap) || 0;
+    const distance = originals.reduce((total, item) => total + item.getBoundingClientRect().width + gap, 0);
+    if (distance <= 0) return;
     track.style.setProperty('--loop-distance', distance + 'px');
     track.style.setProperty('--loop-duration', distance / 32 + 's');
   }

@@ -106,7 +106,7 @@ test('shared headers have the requested row order, a labelled disclosure and def
     assert.equal((html.match(/id="headerMenu"/g) || []).length, 1);
     assert.equal((html.match(/assets\/js\/header\.js" defer/g) || []).length, 1);
     assert.match(html, /class="header-mobile-call" href="tel:\+79895175699"/);
-    assert.match(html, /class="header-mobile-call"[^>]*><span>8 989 517 56 99<\/span><\/a>/);
+    assert.match(html, /class="header-mobile-call"[^>]*><span>8 \(989\) 517-56-99<\/span><\/a>/);
     assert.doesNotMatch(html.match(/<nav class="header-nav"[\s\S]*?<\/nav>/)[0], /data-theme-toggle/);
     assert.equal((html.match(/data-theme-toggle/g) || []).length, 1);
   }

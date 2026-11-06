@@ -1,0 +1,8 @@
+Options -Indexes
+DirectoryIndex index.html index.php
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteRule (^|/)\. - [R=404,L]
+  RewriteRule ^(?:database|tools|tests|docs|content|templates|node_modules)(?:/|$) - [R=404,L,NC]
+  RewriteRule ^admin/(?:lib(?:/|$)|config\.example\.php$) - [R=404,L,NC]
+</IfModule>

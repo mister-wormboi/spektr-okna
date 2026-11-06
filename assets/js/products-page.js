@@ -53,7 +53,7 @@ if (typeof document !== 'undefined') (() => {
     const selected=categories.find(item=>item.id===category);
     const selectedCollection=(subcategories[category] || []).find(item=>item.id===collection);
     const title=document.querySelector('#fullCatalogTitle');
-    title.replaceChildren(document.createTextNode(task?.title || (selectedCollection ? collections.find(item=>item.id===collection).title : selected?.title || 'Каталог продукции.')));
+    title.replaceChildren(document.createTextNode(task?.title || (selectedCollection ? collections.find(item=>item.id===collection).title : selected?.title || 'Каталог продукции')));
     document.querySelector('#catalogDescription').textContent=task ? task.description : selectedCollection
       ? collections.find(item=>item.id===collection).description
       : selected?.caption || 'От готовых окон до остекления по индивидуальному проекту.';

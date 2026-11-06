@@ -18,7 +18,7 @@ test('home contact heading stays in normal flow and outside the reveal animation
   assert.match(copy, /position: static/);
   assert.doesNotMatch(css, /\.home-contact-copy\s*\{[^}]*position: sticky/);
   const html = read('index.html');
-  const title = html.match(/<h2 id="homeContactTitle">([\s\S]*?)<\/h2>/)[1].replace(/<[^>]+>/g, '');
-  assert.equal(title, 'Обсудим ваши окна.');
+  const title = html.match(/<h2 id="homeContactTitle">([\s\S]*?)<\/h2>/)[1].replace(/<br>/g, ' ').replace(/<[^>]+>/g, '');
+  assert.equal(title, 'Подберём конкретное решение');
   assert.doesNotMatch(read('assets/js/main.js'), /['"]\.home-contact(?:-copy|\s)/);
 });

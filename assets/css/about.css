@@ -100,6 +100,7 @@ html[data-theme="light"] .about-page .principles li > span { color:var(--ink); }
   .about-cinema { display:block; background:var(--paper) url('../about-window-poster.webp') center / cover; }
   .about-page main { background:transparent; }
   html[data-theme="light"] .about-page :is(.about-intro,.about-tasks,.about-approach > .about-section-heading,.about-solutions .about-section-heading,.about-range-note) { color:var(--about-film-ink); }
+  html[data-theme="light"] .about-page :is(.about-intro,.about-tasks,.about-approach > .about-section-heading,.about-solutions .about-section-heading) :is(h1,h2) { color:var(--about-film-ink); }
   html[data-theme="light"] .about-page :is(.about-intro,.about-tasks) p,
   html[data-theme="light"] .about-page .about-range-note { color:var(--about-film-muted); }
   html[data-theme="light"] .about-page :is(.about-intro,.about-tasks,.about-approach > .about-section-heading,.about-solutions .about-section-heading) .heading-accent,

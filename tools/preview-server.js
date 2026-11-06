@@ -4,7 +4,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { createArticleViewStore } = require('./article-view-store');
 const root = path.resolve(__dirname, '..');
-const types = { '.xml': 'application/xml; charset=utf-8', '.txt': 'text/plain; charset=utf-8', '.html': 'text/html; charset=utf-8', '.css': 'text/css', '.js': 'text/javascript', '.webp': 'image/webp', '.mp4': 'video/mp4', '.png': 'image/png', '.svg': 'image/svg+xml', '.woff2': 'font/woff2', '.ttf': 'font/ttf' };
+const types = { '.xml': 'application/xml; charset=utf-8', '.txt': 'text/plain; charset=utf-8', '.html': 'text/html; charset=utf-8', '.css': 'text/css', '.js': 'text/javascript', '.webp': 'image/webp', '.mp4': 'video/mp4', '.png': 'image/png', '.svg': 'image/svg+xml', '.woff': 'font/woff', '.woff2': 'font/woff2', '.ttf': 'font/ttf' };
 function createServer({ views } = {}) {
   if (!views) {
     const articles = JSON.parse(fs.readFileSync(path.join(root, 'content/articles.json'), 'utf8')).articles;
@@ -13,6 +13,12 @@ function createServer({ views } = {}) {
   }
   return http.createServer((req, res) => {
   const pathname = new URL(req.url, 'http://localhost').pathname;
+  // A static Node preview must never expose PHP source or administrative files.
+  let decoded;
+  try { decoded = decodeURIComponent(pathname); } catch { res.writeHead(400).end(); return; }
+  if (/^\/(?:admin|database)(?:\/|$)/i.test(decoded) || /\.php(?:\/|$)/i.test(decoded)) {
+    res.writeHead(404).end(); return;
+  }
   if (pathname === '/api/article-views' || pathname.startsWith('/api/article-views/')) {
     const respond = (status, value, extra = {}) => {
       res.writeHead(status, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store', ...extra });

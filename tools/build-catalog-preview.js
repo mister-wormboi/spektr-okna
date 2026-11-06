@@ -16,6 +16,6 @@ const cards = window.SPEKTR_CATALOG_DIRECTIONS.map(product => {
 const file = path.join(root, 'catalog/index.html');
 let html = fs.readFileSync(file, 'utf8');
 html = html.replace(/<div class="product-grid" id="fullCatalogCards">[\s\S]*?<\/div>\s*(?=<button class="product-more")/, `<div class="product-grid" id="fullCatalogCards">${cards}</div>\n      `);
-html = html.replace(/<noscript>[\s\S]*?<\/noscript>/, '<noscript><p>Каталог направлений доступен выше. Для поиска и сравнения отдельных комплектаций включите JavaScript или <a href="tel:+79895175699">позвоните 8 989 517 56 99</a>.</p></noscript>');
+html = html.replace(/<noscript>[\s\S]*?<\/noscript>/, '<noscript><p>Каталог направлений доступен выше. Для поиска и сравнения отдельных комплектаций включите JavaScript или <a href="tel:+79895175699">позвоните 8 (989) 517-56-99</a>.</p></noscript>');
 fs.writeFileSync(file, html);
 console.log('Built eight static catalogue directions.');

@@ -22,7 +22,7 @@ test('home includes ten complete branch reviews with unique authors and no photo
 test('Three.js is imported once near the window, never on initial load or in economy modes', async () => {
   for (const mode of ['normal', 'reduced', 'saveData', 'failure']) {
     let intersection, imports = 0, disconnected = false;
-    const source = read('assets/js/window-3d.js').replace("await import('./scene-runtime.js')", 'await loadRuntime()');
+    const source = read('assets/js/window-3d.js').replace(/await import\('\.\/scene-runtime\.js(?:\?[^']*)?'\)/, 'await loadRuntime()');
     assert.doesNotMatch(source, /^import .*from/m);
     vm.runInNewContext(source, {
       document: { querySelector: () => ({}) },
