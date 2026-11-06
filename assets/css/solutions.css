@@ -1,10 +1,7 @@
-.solutions-intro { padding: 48px 0 38px; background: var(--paper); }
 .solutions-back { display: inline-block; margin-bottom: 34px; color: var(--green); font-size: var(--font-size-body); text-underline-offset: 4px; }
-.solutions-intro h1 { margin: 14px 0; font: 400 var(--font-size-display)/1.04 var(--serif); letter-spacing: -.045em; }
-.solutions-intro p { max-width: 650px; margin: 0; color: var(--muted); line-height: 1.75; }
 .solutions-gallery { padding: 48px 0 96px; background: var(--surface); }
 .solutions-gallery-heading { max-width: 720px; margin-bottom: 34px; }
-.solutions-gallery-heading h2 { margin: 14px 0 12px; font: 400 var(--font-size-title)/1.08 var(--serif); letter-spacing: -.04em; }
+.solutions-gallery-heading h1 { margin: 14px 0 12px; font: 400 var(--font-size-title)/1.08 var(--serif); letter-spacing: -.04em; }
 .solutions-gallery-heading p { margin: 0; max-width: 560px; color: var(--muted); line-height: 1.7; }
 
 /* A scrollable fallback also serves reduced-motion users. */
@@ -23,9 +20,6 @@
 
 /* Masonry: retain each photo's proportions and the existing gutters. */
 .solutions-page .solutions-marquee { overflow: visible; }
-.solutions-page .portfolio-marquee { overflow: hidden; margin-top: 28px; }
-.solutions-page .portfolio-marquee:not(.is-animated) { overflow-x: auto; }
-.portfolio-marquee a:focus-visible { outline: 2px solid var(--green); outline-offset: -3px; }
 .solutions-page .solutions-gallery-track { width: auto; display: block; column-count: 3; column-gap: 24px; }
 .solutions-page .solutions-gallery-track a { height: auto; margin: 0 0 24px; break-inside: avoid; cursor: zoom-in; transition: opacity .7s ease, transform .7s cubic-bezier(.22, 1, .36, 1); }
 .solutions-page .solutions-gallery-track a.is-awaiting-reveal { opacity: 0; transform: translateY(24px); }
@@ -48,10 +42,9 @@
 @media (max-width: 1100px) { .solutions-page .solutions-gallery-track { column-count: 2; } }
 @media (max-width: 700px) { .solutions-page .solutions-gallery-track { column-gap: 16px; } .solutions-page .solutions-gallery-track a { margin-bottom: 16px; } }
 @media (max-width: 600px) {
-  .solutions-intro { padding-block: 32px; }
   .solutions-back { margin-bottom: 22px; }
   .solutions-gallery { padding-block: 28px 56px; }
-  .solutions-gallery-heading h2 { font-size: var(--font-size-title); }
+  .solutions-gallery-heading h1 { font-size: var(--font-size-title); }
   .solutions-gallery-track, .photo-marquee-track { gap: 10px; }
   .solutions-gallery-track a { height: 260px; }
   .home-solutions-marquee :is(.solutions-gallery-track, .photo-marquee-track) a { height: 390px; }
@@ -68,14 +61,7 @@
   .solutions-lightbox[open] { animation: none; }
 }
 /* Portfolio introduction above the shared, proportion-preserving photo strip. */
-.solutions-hero { display: grid; grid-template-columns: 1.4fr .8fr; gap: clamp(32px, 5vw, 80px); align-items: end; }
-.solutions-page .solutions-intro { padding-block: 48px 64px; }
-.solutions-hero-copy { min-width: 0; }
-.solutions-page .solutions-intro h1 { font-size: clamp(36px, 4.3vw, 64px); margin-block: 20px 0; }
 .solutions-page em { color: var(--green); font-style: normal; }
-.solutions-hero-summary p { max-width: 470px; }
-.solutions-explore { display: inline-flex; align-items: center; gap: 28px; color: var(--ink); text-decoration: none; padding-block: 20px 12px; margin-top: 14px; border-bottom: 1px solid var(--green); }
-.solutions-explore:hover { color: var(--green); }
 .solutions-gallery-heading { max-width: none; display: grid; grid-template-columns: 1fr 1fr; gap: 0 40px; align-items: end; }
 .solutions-gallery-heading .eyebrow { grid-column: 1 / -1; }
 .solutions-gallery-heading p { padding-bottom: 14px; }
@@ -84,7 +70,6 @@
 .solutions-filters button { border: 1px solid var(--line); border-radius: 40px; background: transparent; color: var(--ink); padding: 11px 21px; font: inherit; cursor: pointer; }
 .solutions-filters button[aria-pressed="true"] { background: var(--green); color: var(--on-accent); border-color: var(--green); }
 .solutions-filters button:hover { border-color: var(--green); }
-.solutions-filters button:focus-visible, .solutions-explore:focus-visible, .solutions-help a:focus-visible { outline: 2px solid var(--green); outline-offset: 4px; }
 .solutions-result { color: var(--muted); font-size: 13px; margin: 10px 0 24px; }
 .solutions-page .solutions-gallery-track a { overflow: hidden; border-radius: 12px; border: 1px solid var(--line); text-decoration: none; color: var(--ink); }
 .solutions-page .solutions-gallery-track a[hidden] { display: none; }
@@ -100,12 +85,9 @@
 .solutions-help a { color: var(--green); font-size: clamp(21px, 2.7vw, 36px); white-space: nowrap; text-decoration: none; border-bottom: 1px solid var(--line); padding-block: 14px; }
 .solutions-lightbox-count { width: calc(100% - 200px); text-align: center; letter-spacing: .02em; }
 @media (max-width: 900px) {
- .solutions-hero { gap: 24px; }
  .solutions-help { align-items: flex-start; flex-direction: column; }
 }
 @media (max-width: 600px) {
- .solutions-page .solutions-intro { padding-block: 28px 36px; }
- .solutions-hero { grid-template-columns: 1fr; gap: 32px; }
  .solutions-gallery-heading { display: block; }
  .solutions-gallery-heading p { padding: 0; }
  .solutions-filters button { padding: 10px 15px; font-size: 14px; }

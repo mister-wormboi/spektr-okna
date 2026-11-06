@@ -4,9 +4,9 @@ const fs = require('node:fs');
 const path = require('node:path');
 const read = file => fs.readFileSync(path.join(__dirname, '..', file), 'utf8');
 
-test('section labels and hero kicker use the body font without all-caps or wide tracking', () => {
+test('section labels use the body font without all-caps or wide tracking', () => {
   const css = read('assets/css/typography.css');
-  const labels = css.match(/body main \.eyebrow,\s*body main \.reviews \.eyebrow,\s*body main \.hero-cinema-kicker\s*\{([^}]+)\}/)[1];
+  const labels = css.match(/body main \.eyebrow,\s*body main \.reviews \.eyebrow\s*\{([^}]+)\}/)[1];
   assert.match(labels, /font: 500 var\(--font-size-body\)\/1\.5 var\(--sans\)/);
   assert.match(labels, /letter-spacing: normal/);
   assert.match(labels, /text-transform: none/);

@@ -490,9 +490,8 @@ export function createInsideExhibit(host) {
   let lastRenderSize="";
   function resize() {
     const w=Math.max(1,mount.clientWidth),h=Math.max(1,mount.clientHeight);
-    const mobile=matchMedia('(max-width: 700px)').matches;
     renderer.transmissionResolutionScale=lowPower?.35:.75;
-    if(active){const destination=mobile?active:active.querySelector('.inside-copy');if(inspector.parentNode!==destination)destination.append(inspector);}
+    if(active&&inspector.parentNode!==active)active.append(inspector);
     const ratio=Math.min(devicePixelRatio||1,lowPower?1.25:2,Math.sqrt((lowPower?350000:2200000)/(w*h)));
     const renderSize=`${w}:${h}:${ratio}`;
     if(renderSize!==lastRenderSize){
@@ -536,7 +535,7 @@ export function createInsideExhibit(host) {
       inspect(null); zoom=panelStates.get(panel)?.zoom || 1;camera.zoom=zoom;camera.updateProjectionMatrix();
       host.querySelectorAll('.inside-scene').forEach(el=>el.classList.remove('has-3d'));
       panel.querySelector('.inside-scene').append(mount);
-      panel.querySelector('.inside-copy').append(inspector);
+      panel.append(inspector);
       host.querySelectorAll('[data-inspect]').forEach(button=>button.setAttribute('aria-pressed','false'));
       Object.entries(models).forEach(([name,model])=>{model.visible=name===key;});
       current=panelStates.get(panel)?.values || {detail:0,open:0,tilt:0,mech:0};

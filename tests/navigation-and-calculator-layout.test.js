@@ -9,7 +9,7 @@ const pages=dir=>fs.readdirSync(dir,{withFileTypes:true}).flatMap(entry=>entry.n
 test('every internal page has exactly one static breadcrumb, while home has none',()=>{
   for(const file of pages(root)){
     const html=fs.readFileSync(file,'utf8');
-    if(html.includes('http-equiv="refresh"')) continue;
+    if(html.includes('http-equiv="refresh"')||html.includes('name="robots" content="noindex, nofollow"')) continue;
     const trails=[...html.matchAll(/<nav[^>]+aria-label="Хлебные крошки"[^>]*>[\s\S]*?<\/nav>/g)];
     if(file===path.join(root,'index.html')){assert.equal(trails.length,0);continue;}
     assert.equal(trails.length,1,file);
@@ -54,10 +54,10 @@ test('full calculator keeps all five steps and options visible rather than short
 });
 
 test('breadcrumbs belong to the introduction surface, not a separate colour strip',()=>{
-  for(const [file,section] of [['reviews/index.html','reviews-hero'],['catalog/index.html','catalog-page-hero'],['solutions/index.html','solutions-intro'],['contacts/index.html','hero contacts-hero hero-cinema'],['about/index.html','about-hero wrap']]){
+  for(const [file,section] of [['reviews/index.html','reviews-hero'],['catalog/index.html','catalog-page-hero'],['solutions/index.html','solutions-gallery'],['contacts/index.html','hero contacts-hero hero-cinema'],['about/index.html','about-hero wrap']]){
     const html=read(file);
     assert.doesNotMatch(html,/<main[^>]*>\s*<nav class="breadcrumbs/);
-    assert.match(html,new RegExp(`<section class="${section}"[^>]*>[\\s\\S]*?<nav class="breadcrumbs`));
+    assert.match(html,new RegExp(`<section[^>]*class="${section}"[^>]*>[\\s\\S]*?<nav class="breadcrumbs`));
   }
 });
 

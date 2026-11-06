@@ -6,10 +6,10 @@ const vm = require('node:vm');
 const root = path.resolve(__dirname, '..');
 const html = fs.readFileSync(path.join(root, 'information/index.html'), 'utf8');
 
-test('the film is deferred, has a poster and a pause control, and preserves all 20 answers', () => {
+test('the film is deferred, plays automatically and preserves all 20 answers', () => {
   assert.match(html, /class="information-cinema hero-cinema wrap"/);
   assert.match(html, /<video muted loop playsinline preload="none"[^>]*poster="\.\.\/assets\/information-open-window-poster\.webp"[^>]*data-src="\.\.\/assets\/information-open-window\.mp4"/);
-  assert.match(html, /class="hero-video-toggle"[^>]*aria-label=/);
+  assert.doesNotMatch(html, /class="hero-video-toggle"/);
   assert.match(html, /assets\/js\/hero-video\.js[^\"]*" defer/);
   assert.equal((html.match(/<details\b/g) || []).length, 20);
   for (const link of html.matchAll(/href="#([^\"]+)" data-faq-link/g)) {

@@ -33,7 +33,7 @@ function loadRecords() {
   const window = {};
   vm.runInNewContext(read('assets/js/products-data.js'), { window, Intl }, { timeout: 3000 });
   const catalog = Object.fromEntries(Object.entries(window).map(([key, value]) => [key.replace(/^SPEKTR_/, '').toLowerCase(), value]));
-  return pages().map(file => {
+  return pages().filter(file => !fs.readFileSync(file, 'utf8').includes('name="robots" content="noindex, nofollow"')).map(file => {
     const source = fs.readFileSync(file, 'utf8');
     const relative = path.relative(root, file).split(path.sep).join('/');
     const route = '/' + relative.replace(/index\.html$/, '');

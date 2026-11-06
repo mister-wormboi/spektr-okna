@@ -34,7 +34,7 @@ body main :is(.breadcrumbs, .article-breadcrumbs) a:hover { color:var(--ink); te
 body main :is(.breadcrumbs, .article-breadcrumbs) a:focus-visible { outline:2px solid currentColor; outline-offset:4px; }
 body main :is(.breadcrumbs, .article-breadcrumbs) [aria-current] { min-width:0; overflow-wrap:break-word; }
 .information-cinema-top .breadcrumbs { margin:0; color:inherit; }
-body main :is(.reviews-hero,.catalog-page-hero,.solutions-intro,.hero,.request-section,.about-hero) .breadcrumbs { margin-top:0; margin-bottom:32px; }
+body main :is(.reviews-hero,.catalog-page-hero,.hero,.request-section,.about-hero) .breadcrumbs { margin-top:0; margin-bottom:32px; }
 .about-hero>.breadcrumbs { grid-column:1/-1; }
 @media(min-width:761px) { html[data-theme="light"] .about-page .about-hero>.breadcrumbs { color:#f0f1e9; } }
 @media(max-width:760px) { body main :is(.breadcrumbs, .article-breadcrumbs) { gap:6px 10px; margin-top:12px; } body main .information-cinema-top .breadcrumbs { margin:0; } }
@@ -42,7 +42,7 @@ body main :is(.reviews-hero,.catalog-page-hero,.solutions-intro,.hero,.request-s
 .catalog-page-hero,
 .contacts-page .hero,
 .reviews-hero,
-.solutions-intro,
+
 .information-hero,
 .articles-intro { padding-block: var(--space-intro); }
 .calculator-page-main { padding-block: var(--space-intro) var(--space-section); }

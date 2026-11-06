@@ -19,6 +19,7 @@ test('all indexable pages have one self canonical and one unique title and descr
   const titles = new Set(), descriptions = new Set();
   for (const file of pages) {
     const html = fs.readFileSync(file, 'utf8');
+    if (html.includes('name="robots" content="noindex, nofollow"')) continue;
     const canonical = [...html.matchAll(/<link rel="canonical" href="([^"]+)">/g)];
     assert.equal(canonical.length, 1, file);
     assert.ok(!canonical[0][1].includes('#'), 'canonical must not contain a fragment');
@@ -41,7 +42,10 @@ test('all indexable pages have one self canonical and one unique title and descr
 
 test('sitemap contains exactly the canonical indexable HTML pages, excluding redirects and filters', () => {
   const urls = [...read('sitemap.xml').matchAll(/<loc>(.*?)<\/loc>/g)].map(m => m[1]);
-  const expected = pages.filter(file => !fs.readFileSync(file, 'utf8').includes('http-equiv="refresh"')).map(file =>
+  const expected = pages.filter(file => {
+    const html = fs.readFileSync(file, 'utf8');
+    return !html.includes('http-equiv="refresh"') && !html.includes('name="robots" content="noindex, nofollow"');
+  }).map(file =>
     'https://spektr-okna.ru/' + path.relative(root, file).split(path.sep).join('/').replace(/index\.html$/, ''));
   assert.deepEqual(urls.sort(), expected.sort());
   assert.equal(new Set(urls).size, urls.length);

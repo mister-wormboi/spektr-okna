@@ -40,7 +40,7 @@ test('hero copy stays centered while the facts keep their own grid', () => {
   assert.match(hero, /\.hero-cinema-call \{[^}]*text-align: left;/);
   const css = read('assets/css/home-refresh.css');
   assert.match(css, /\.hero-cinema h1 \{[^}]*margin:0 0 24px;/);
-  assert.match(css, /\.home-hero-lead \{[^}]*margin:0 auto 30px;/);
+  assert.doesNotMatch(css, /\.home-hero-lead|\.hero-cinema-kicker/);
 });
 
 test('hero contains three company facts and no former lower toolbar or separate strip', () => {
@@ -99,7 +99,8 @@ test('home has concrete section headings with an explanation directly underneath
   }
   assert.doesNotMatch(main, /class="eyebrow"|>FAQ</);
   assert.equal((main.match(/<h1\b/g) || []).length, 1);
-  assert.match(main, /<h1 id="heroTitle">Производим и устанавливаем МПК<br><em class="heading-accent">по вашим размерам<\/em><\/h1>\s*<p class="home-hero-lead">/);
+  assert.match(main, /<h1 id="heroTitle">Производим и устанавливаем МПК<br><em class="heading-accent">по вашим размерам<\/em><\/h1>\s*<a class="hero-cinema-call"/);
+  assert.doesNotMatch(main, /home-hero-lead|hero-cinema-kicker/);
 });
 
 test('home titles keep their original line structure and share accent styling', () => {

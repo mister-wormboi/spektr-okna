@@ -39,8 +39,7 @@ body:not(.home-page) main h1 { font-size: clamp(40px, 3.6vw, 54px) !important; }
 
 /* Section labels share the body face instead of looking like a third type style. */
 body main .eyebrow,
-body main .reviews .eyebrow,
-body main .hero-cinema-kicker {
+body main .reviews .eyebrow {
   display: block;
   margin: 0;
   font: 500 var(--font-size-body)/1.5 var(--sans);
@@ -69,7 +68,7 @@ body main .hero-cinema-kicker {
 
 /* Page titles share the same rhythm, including photographic hero titles. */
 body main h1[class],
-body main :is(.hero-copy, .about-intro, .catalog-intro-copy, .calculator-heading, .reviews-hero, .solutions-intro, .information-hero, .articles-intro, .article-heading) h1,
+body main :is(.hero-copy, .about-intro, .catalog-intro-copy, .calculator-heading, .reviews-hero, .information-hero, .articles-intro, .article-heading) h1,
 .home-page .hero-atmosphere h1,
 .calculator-page h1 { line-height: 1.1; margin-block: var(--heading-label-gap) 24px; }
 
@@ -78,7 +77,7 @@ body main :is(h1,h2,h3,h4,h5,h6) { line-height:var(--line-height-title) !importa
 body main :is(h1,h2) { line-height:var(--line-height-display) !important; }
 body main :is(.article-body,.article-card,.information-checklist,.catalog-help,.calculator-heading) h2 { line-height:var(--line-height-title) !important; }
 .home-page .calculator-compact .calculator-heading h2 { font-size:var(--font-size-title); }
-.solutions-page .solutions-gallery-heading h2,
+.solutions-page .solutions-gallery-heading h1,
 .articles-page .articles-help h2 { font-size:var(--font-size-display); }
 .reviews-page .review-top h3,
 .home-page .reviews.is-slider .review-top h3,

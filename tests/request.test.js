@@ -53,7 +53,7 @@ test('every shared header targets the home request section, including nested art
   });
   for (const file of walk(root)) {
     const html = fs.readFileSync(file, 'utf8');
-    if (file !== path.join(root, 'index.html')) assert.doesNotMatch(html, /data-b24-form=/, file);
+    if (file !== path.join(root, 'index.html') && !html.includes('name="robots" content="noindex, nofollow"')) assert.doesNotMatch(html, /data-b24-form=/, file);
     const nav = html.match(/<nav class="header-nav"[^>]*>([\s\S]*?)<\/nav>/)?.[1];
     if (!nav) continue;
     const links = [...nav.matchAll(/<a class="header-request-link" href="([^"]+)"[^>]*>Оставить заявку<\/a>/g)];
