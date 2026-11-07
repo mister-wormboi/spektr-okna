@@ -29,6 +29,13 @@
 .home-page .catalog-more span { color:var(--green); font-size:var(--font-size-body); }
 
 .home-page .solutions-more { margin-top: 24px; }
+.home-page .project-examples-footer { display: flex; align-items: center; justify-content: space-between; gap: 32px; margin-top: 24px; }
+.home-page .project-examples-footer .project-examples-note { margin: 0; }
+.home-page .project-examples-footer .solutions-more { flex: 0 0 260px; margin: 0; }
+@media (max-width: 600px) {
+  .home-page .project-examples-footer { align-items: flex-start; flex-direction: column; gap: 12px; }
+  .home-page .project-examples-footer .solutions-more { flex-basis: auto; align-self: flex-end; }
+}
 .card-strip-controls { display: none; }
 .home-contact-branches { min-width: 0; }
 .card-strip-controls[hidden] { display: none; }
@@ -248,14 +255,14 @@ html[data-theme] body.home-page main h3 { font-weight: 550; }
 }
 .home-page .reviews.is-slider .review-card { min-height: 390px; padding: 48px; border-top: 2px solid var(--green); }
 .home-page .reviews.is-slider .reviews-heading { padding-block: 8px 24px; }
-.home-page .balcony-comparison { padding: 12px; border: 1px solid var(--line); background: var(--paper); }
+.home-page .balcony-comparison { padding: 0; border: 0; background: transparent; }
 
 .home-page .window-visual { margin-top: 48px; }
 .home-page .window-part-labels > li { padding-top: 24px; }
 .home-page .window-part-index { font-family: var(--sans); font-weight: 600; }
 .home-page .calculator-compact { padding: 40px; border: 1px solid var(--line); background: var(--panel-raised); }
 .home-page .calculator-compact .calculator-fields :is(input, select) { min-height: 52px; }
-.home-page .request-panel { padding: 32px; border: 1px solid var(--line); background: var(--paper); }
+.home-page .request-panel { padding: 0; border: 0; background: transparent; }
 .home-page .guides details { border-color: var(--line); }
 .home-page .guides summary { padding-block: 26px; }
 .home-page .home-contact-offices { gap: 20px; }
@@ -278,10 +285,10 @@ html[data-theme] body.home-page main h3 { font-weight: 550; }
   .home-page .home-solutions-marquee :is(.solutions-gallery-track, .photo-marquee-track) { gap: 12px; }
   .home-page .home-solutions-marquee :is(.solutions-gallery-track, .photo-marquee-track) a { height: 360px; }
   .home-page .reviews.is-slider .review-card { min-height: 0; padding: 28px 24px; }
-  .home-page .balcony-comparison { padding: 6px; }
+  .home-page .balcony-comparison { padding: 0; }
   .home-page .window-visual { margin-top: 28px; }
   .home-page .calculator-compact { padding: 24px; }
-  .home-page .request-panel { padding: 20px; }
+  .home-page .request-panel { padding: 0; }
   .home-page .guides summary { padding-block: 20px; }
   .home-page .home-contact-offices .home-office-card > div { padding: 20px; }
 }
@@ -304,14 +311,18 @@ html[data-theme] body.home-page main h3 { font-weight: 550; }
   .home-page .hero-cinema .hero-cinema-call { min-height: 80px; }
   .home-page .hero-cinema .hero-cinema-facts { gap: 12px; padding-top: 16px; }
   .home-page .hero-cinema .hero-cinema-facts > div { gap: 4px; }
-  .home-page .hero-cinema .hero-cinema-facts > div + div { padding-top: 12px; }
+  .home-page .hero-cinema .hero-cinema-facts > div + div { padding-top: 12px; padding-left: 0; }
   .home-page .hero-cinema .hero-cinema-facts strong { font-size: 16px; }
   .home-page .hero-cinema .hero-cinema-facts span { font-size: 12px; line-height: 1.5; }
 }
 
+.home-page main { background: var(--paper); }
 html[data-theme] body.home-page main :is(.home-category-card, .window-part-labels, .compact-preview-heading, .home-office-card, .review-card) h3 { color: var(--ink); }
 .home-page :is(.reviews-more, .guides-more, .window-story-skip, .home-contact-all) { color: var(--ink); }
 .home-page :is(.reviews-more, .guides-more, .window-story-skip, .home-contact-all):hover { color: var(--green); }
+.home-page .window-story-bottom { justify-content: flex-end; }
+.home-page :is(.reviews-more, .guides-more, .home-contact-all) { justify-self: end; text-align: right; }
+.home-page .catalog-more { min-width: 240px; }
 
 .home-contact-layout { grid-template-columns: minmax(0, 1fr); gap: 48px; }
 .home-page .home-contact-copy.home-section-heading {
@@ -322,9 +333,9 @@ html[data-theme] body.home-page main :is(.home-category-card, .window-part-label
   padding: 0;
 }
 .home-page .home-contact-copy h2 { grid-column: 1; grid-row: 1 / span 2; max-width: none; margin: 0; }
-.home-page .home-contact-copy > p { grid-column: 2; grid-row: 1; align-self: end; margin: 0; }
-.home-page .home-contact-copy > .home-contact-phone { grid-column: 3; grid-row: 1 / span 2; width: 100%; margin: 0; }
-.home-page .home-contact-copy > .home-contact-all { grid-column: 2; grid-row: 2; align-self: start; margin: 0; }
+.home-page .home-contact-copy > p { grid-column: 2; grid-row: 1 / span 2; align-self: center; margin: 0; }
+.home-page .home-contact-copy > .home-contact-phone { grid-column: 3; grid-row: 1; width: 100%; margin: 0; }
+.home-page .home-contact-copy > .home-contact-all { grid-column: 3; grid-row: 2; align-self: start; margin: 0; }
 .home-page .home-contact-offices { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 @media (max-width: 1100px) {
   .home-page .home-contact-copy.home-section-heading { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -357,8 +368,8 @@ html[data-theme] body.home-page main :is(.home-category-card, .window-part-label
   .home-page .window-story-bottom { margin-top: 24px; padding-top: 20px; }
   .home-page .calculator-compact .calculator-content { gap: 24px; }
   .home-page .calculator-compact .calculator-fields { gap: 18px; }
-  .home-page .calculator-compact,
-  .home-page .request-panel { padding: 20px 16px; }
+  .home-page .calculator-compact { padding: 20px 16px; }
+  .home-page .request-panel { padding: 0; }
   .home-page .guides summary { padding-block: 18px; }
   .home-page .home-contact { padding-block: 44px; }
 }

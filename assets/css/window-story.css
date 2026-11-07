@@ -75,8 +75,8 @@
   flex-wrap: wrap;
   gap: 16px 32px;
   margin-top: 40px;
-  padding-top: 24px;
-  border-top: 1px solid var(--line);
+  padding-top: 0;
+  border-top: 0;
 }
 .window-story-bottom p { margin: 0; color: var(--muted); font-size: var(--font-size-body); }
 .window-story-skip { display: inline-flex; align-items: center; gap: 22px; padding-block: 10px; border-bottom: 1px solid var(--green); color: var(--green); font-size: var(--font-size-body); }

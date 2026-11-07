@@ -63,6 +63,6 @@
         </div><nav class="footer-navigation" aria-label="Нижнее меню"><span class="footer-label">Разделы сайта</span><div class="footer-links"><a href="{{prefix}}catalog/">Каталог</a><a href="{{prefix}}about/">О нас</a><a href="{{prefix}}solutions/">Примеры решений</a><a href="{{prefix}}contacts/">Филиалы</a><a href="{{prefix}}calculator/">Калькулятор</a><a href="{{prefix}}reviews/">Отзывы</a><a href="{{prefix}}information/">Полезное</a><a aria-current="{{nav_current}}" href="{{articles_href}}">Статьи</a>          <a href="{{prefix}}window-inside/">Окна изнутри</a>
         </div></nav><div class="footer-contact"><span class="footer-label">Будем на связи</span><a class="footer-phone" href="tel:+79895175699">8 (989) 517-56-99 <span aria-hidden="true">↗</span></a>
         <a class="footer-request" href="{{prefix}}#request">Оставить заявку</a><p>Ростовская область<br>и Краснодарский край</p>
-        </div></div><div class="wrap footer-bottom"><span>© Спектр</span><a href="#page-top">Наверх <span aria-hidden="true">↑</span></a></div></footer>
+        </div></div></footer>
 </body>
 </html>

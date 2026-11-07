@@ -73,22 +73,17 @@ test('home action links use northeast arrows without changing directional contro
   for (const link of main.matchAll(/<a\b[^>]*>([\s\S]*?)<\/a>/g)) {
     assert.doesNotMatch(link[1], /[←→↑↓↘↙↖]/);
   }
-  for (const selector of ['window-story-skip', 'secondary-link', 'home-contact-all']) {
+  for (const selector of ['window-story-skip', 'home-contact-all']) {
     assert.match(main, new RegExp(`class="${selector}"[^>]*>[\\s\\S]*?<span aria-hidden="true">↗<\\/span><\\/a>`));
   }
+  assert.match(main, /class="catalog-more" href="calculator\/">Более подробный расчёт <span>↗<\/span><\/a>/);
   assert.match(main, /data-strip-step="-1"[^>]*>←<\/button>/);
   assert.match(main, /data-strip-step="1"[^>]*>→<\/button>/);
 });
 
-test('home has concrete section headings with an explanation directly underneath', () => {
+test('home keeps concrete headings and removes the selected explanations', () => {
   const headings = {
-    windowStoryTitle: 'Из чего состоит окно?',
-    calculatorTitle: 'Рассчитайте стоимость окна',
     requestTitle: 'Подберём решение под вашу задачу',
-    catalogTitle: 'Окна, двери и остекление',
-    beforeAfterTitle: 'Как может измениться балкон?',
-    projectExamplesTitle: 'Наши работы',
-    reviewsTitle: 'Отзывы клиентов',
     guidesTitle: 'Вопросы перед заказом',
     homeContactTitle: 'Подберём конкретное решение',
   };
@@ -96,6 +91,11 @@ test('home has concrete section headings with an explanation directly underneath
     const heading = main.match(new RegExp(`class="[^"]*home-section-heading[^"]*">\\s*<h2 id="${id}">([\\s\\S]*?)<\\/h2>\\s*<p(?: [^>]*)?>`));
     assert.ok(heading, id);
     assert.equal(heading[1].replace(/<br\s*\/?>/g, ' ').replace(/<[^>]+>/g, ''), title);
+  }
+  assert.match(main, /<div class="project-examples-footer">\s*<p class="project-examples-note">Фотографии с реальных объектов:<br>квартиры, частные дома и другие помещения<\/p>\s*<a class="catalog-more solutions-more"/);
+  for (const id of ['windowStoryTitle', 'catalogTitle', 'beforeAfterTitle', 'projectExamplesTitle', 'reviewsTitle', 'calculatorTitle']) {
+    const heading = main.match(new RegExp(`<h2 id="${id}">([\\s\\S]*?)<\\/h2>\\s*<\\/div>`));
+    assert.ok(heading, id);
   }
   assert.doesNotMatch(main, /class="eyebrow"|>FAQ</);
   assert.equal((main.match(/<h1\b/g) || []).length, 1);
@@ -114,7 +114,7 @@ test('home titles keep their original line structure and share accent styling', 
 });
 
 test('home copy keeps functional labels, disclosures and existing real content', () => {
-  assert.match(main, /href="#request">Получить помощь с расчётом/);
+  assert.match(main, /href="calculator\/">Более подробный расчёт/);
   assert.match(main, /id="compactExclusions"[\s\S]*?В расчёт не входят монтаж/);
   assert.match(main, /alt="Визуализация балкона после обновления:/);
   assert.match(main, /alt="Визуализация того же балкона до обновления:/);
