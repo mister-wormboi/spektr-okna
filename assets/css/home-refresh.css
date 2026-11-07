@@ -321,7 +321,7 @@ html[data-theme] body.home-page main :is(.home-category-card, .window-part-label
 .home-page :is(.reviews-more, .guides-more, .window-story-skip, .home-contact-all) { color: var(--ink); }
 .home-page :is(.reviews-more, .guides-more, .window-story-skip, .home-contact-all):hover { color: var(--green); }
 .home-page .window-story-bottom { justify-content: flex-end; }
-.home-page :is(.reviews-more, .guides-more, .home-contact-all) { justify-self: end; text-align: right; }
+.home-page .reviews-more { justify-self: end; text-align: right; }
 .home-page .catalog-more { min-width: 240px; }
 
 .home-contact-layout { grid-template-columns: minmax(0, 1fr); gap: 48px; }
@@ -333,9 +333,9 @@ html[data-theme] body.home-page main :is(.home-category-card, .window-part-label
   padding: 0;
 }
 .home-page .home-contact-copy h2 { grid-column: 1; grid-row: 1 / span 2; max-width: none; margin: 0; }
-.home-page .home-contact-copy > p { grid-column: 2; grid-row: 1 / span 2; align-self: center; margin: 0; }
-.home-page .home-contact-copy > .home-contact-phone { grid-column: 3; grid-row: 1; width: 100%; margin: 0; }
-.home-page .home-contact-copy > .home-contact-all { grid-column: 3; grid-row: 2; align-self: start; margin: 0; }
+.home-page .home-contact-copy > p { grid-column: 2; grid-row: 1; align-self: end; margin: 0; }
+.home-page .home-contact-copy > .home-contact-phone { grid-column: 3; grid-row: 1 / span 2; width: 100%; margin: 0; }
+.home-page .home-contact-copy > .home-contact-all { grid-column: 2; grid-row: 2; align-self: start; margin: 0; }
 .home-page .home-contact-offices { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 @media (max-width: 1100px) {
   .home-page .home-contact-copy.home-section-heading { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -389,6 +389,7 @@ html[data-theme] body.home-page main :is(.home-category-card, .window-part-label
   .home-page .home-contact-offices .home-office-card > img { height: 100%; min-height: 100%; aspect-ratio: auto; }
   .home-page .home-contact-offices .home-office-card > div { padding: 16px; }
   .home-page .home-contact-offices .home-office-card h3 { margin-top: 0; }
+  .home-page .home-contact-offices .office-call :is(.office-call-icon, .office-call-arrow) { display: none; }
 }
 @media (max-width: 400px) {
   .home-page .home-contact-offices .home-office-card { grid-template-columns: 120px minmax(0, 1fr); }
