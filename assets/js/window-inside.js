@@ -63,8 +63,10 @@
   let loading;
   async function enhance() {
     if (loading) return loading;
-    loading = import('./window-inside-3d.js?v=20261105-realism').then(module => {
+    loading = import('./window-inside-3d.js?v=20261105-realism').then(async module => {
       exhibit = module.createInsideExhibit(host);
+      exhibit.update();
+      await exhibit.ready;
       exhibit.update();
       requestAnimationFrame(()=>requestAnimationFrame(()=>document.body.classList.remove('is-loading')));
     }).catch(error => { document.body.classList.remove('is-loading');host.querySelectorAll('.inside-scene').forEach(scene=>scene.classList.add('is-unavailable')); console.warn('Inside exhibit:', error.message); });

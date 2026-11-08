@@ -294,6 +294,16 @@ export function createInsideExhibit(host) {
     windowSill:['Подоконник','Горизонтальная деталь со стороны комнаты под нижней частью рамы. Снаружи окна расположен отдельный отлив.']
   });
   const hardwareRoot=root('hardware'); const hw=windowModel(hardwareRoot,true);
+  const proceduralChildren=Object.fromEntries(Object.entries(models).map(([name,model])=>[name,[...model.children]]));
+  const glbModels={};
+  const ready=Promise.all(Object.keys(models).map(async name=>{
+    const {loadGLB}=await import('./load-glb.js');
+    const model=await loadGLB(`../assets/models/${name}.glb`);
+    model.traverse(mesh=>{if(mesh.isMesh){mesh.castShadow=!mesh.material.transparent;mesh.receiveShadow=!mesh.material.transparent;}});
+    glbModels[name]=model;models[name].add(model);
+    proceduralChildren[name].forEach(child=>child.visible=false);
+    if(key===name){apply(current);renderView();}
+  }).catch(error=>console.warn(`GLB ${name}:`,error.message)));
   // Transparent panes and selection overlays must not cast opaque rectangular shadows.
   Object.values(models).forEach(model=>model.traverse(mesh=>{
     if(!mesh.isMesh)return;
@@ -459,6 +469,12 @@ export function createInsideExhibit(host) {
     hw.mechanism.traverse(obj=>{ if(obj.isMesh) {obj.scale.z=1+values.mech*.6;} });
     hw.updateStay(values.tilt,values.open,values.mech);
     }
+    const glb=glbModels[key];
+    if(glb) {
+      const assembled=values.detail<.01&&values.open<.01&&values.tilt<.01;
+      glb.visible=assembled;
+      proceduralChildren[key].forEach(child=>child.visible=!assembled);
+    }
   }
   function draw(now) {
     frame=0; if(lost || !visible || document.hidden) return;
@@ -597,5 +613,5 @@ export function createInsideExhibit(host) {
     models[key].rotation.x=.09+Math.sin(value*Math.PI)*.12;
     apply(current);renderView();
   }
-  return {update,scroll};
+  return {update,scroll,ready};
 }

@@ -5,7 +5,7 @@ const fs=require('node:fs');
 const source=fs.readFileSync('assets/js/window-inside-3d.js','utf8');
 test('opening moves the free edge toward the viewer while the right hinge stays fixed',()=>{
   const hw={updateStay(){},pivot:{rotation:{}},handle:{rotation:{}},mechanism:{traverse(){}},arm:{rotation:{},position:{}}};
-  const state={key:'hardware',hw};vm.createContext(state);
+  const state={key:'hardware',hw,glbModels:{},proceduralChildren:{hardware:[]}};vm.createContext(state);
   vm.runInContext(source.slice(source.indexOf('  function apply('),source.indexOf('  function draw(')),state);
   state.apply({open:1,tilt:0,mech:0,detail:0});
   const freeEdgeZ=-Math.sin(hw.pivot.rotation.y)*(-1.28);
@@ -34,7 +34,7 @@ test('scroll drives construction progress and hardware modes without a timed tra
   const input={},output={};
   const panel={dataset:{part:'glass'},classList:{toggle(){}},querySelector(selector){return selector==='[data-detail]'?button:selector.includes('input')?input:output;}};
   const state={THREE,key:'glass',active:panel,lost:false,current:{},target:{},models:{glass:{rotation:{}}},panel,cancelRendering(){state.cancelled=true;},apply(values){state.applied={...values};},renderView(){state.rendered=true;}};
-  vm.createContext(state);vm.runInContext(source.slice(source.indexOf('  function scroll('),source.indexOf('  return {update,scroll};')),state);
+  vm.createContext(state);vm.runInContext(source.slice(source.indexOf('  function scroll('),source.indexOf('  return {update,scroll,ready};')),state);
   state.scroll(panel,.5);
   assert.ok(state.applied.detail>0&&state.applied.detail<1);
   assert.equal(state.cancelled,true);assert.equal(state.rendered,true);
