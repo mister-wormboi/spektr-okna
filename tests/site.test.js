@@ -122,11 +122,11 @@ test('all pages declare responsive viewport; mobile assets and controls are link
   const data = fs.readFileSync(path.join(root, 'assets/js/catalog-data.js'), 'utf8');
   for (const match of data.matchAll(/image:\s*'([^']+)'/g)) checkLink(path.join(root, 'index.html'), match[1].replace('.webp', '-small.webp'));
   assert.match(home, /href="assets\/hero-curtains-poster.webp" fetchpriority="high"/);
-  assert.match(home, /srcset="assets\/hero-mobile-window-poster.webp"/);
+  assert.doesNotMatch(home, /hero-mobile-window-poster\.webp/);
   const heroVideo = attrs(home.match(/<video\b[^>]*>/)[0]);
   assert.equal(heroVideo.preload, 'none');
   assert.ok(!heroVideo.src, 'Playback preferences are checked before requesting the video');
   checkLink(path.join(root, 'index.html'), heroVideo['data-src']);
-  checkLink(path.join(root, 'index.html'), heroVideo['data-mobile-src']);
+  assert.equal(heroVideo['data-mobile-src'], undefined);
   assert.equal(heroVideo.id, 'heroVideo');
 });

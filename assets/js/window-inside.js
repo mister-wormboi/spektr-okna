@@ -66,7 +66,8 @@
     loading = import('./window-inside-3d.js?v=20261105-realism').then(module => {
       exhibit = module.createInsideExhibit(host);
       exhibit.update();
-    }).catch(error => { host.querySelectorAll('.inside-scene').forEach(scene=>scene.classList.add('is-unavailable')); console.warn('Inside exhibit:', error.message); });
+      requestAnimationFrame(()=>requestAnimationFrame(()=>document.body.classList.remove('is-loading')));
+    }).catch(error => { document.body.classList.remove('is-loading');host.querySelectorAll('.inside-scene').forEach(scene=>scene.classList.add('is-unavailable')); console.warn('Inside exhibit:', error.message); });
     return loading;
   }
   if ('IntersectionObserver' in window) {

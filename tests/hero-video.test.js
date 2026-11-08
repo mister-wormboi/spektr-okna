@@ -12,7 +12,7 @@ function mount({ reduced = false, saveData = false, control = true, mobile = fal
       addEventListener: (name, fn) => { events[name] = fn; }, setAttribute() {},
     };
   };
-  const video = { ...element(), paused: true, plays: 0, src: '', dataset: { src: 'curtains.mp4', mobileSrc: 'couple.mp4' },
+  const video = { ...element(), paused: true, plays: 0, src: '', dataset: { src: 'curtains.mp4' },
     hasAttribute() { return Boolean(this.src); },
     pause() { this.paused = true; },
     play() { this.plays++; this.paused = false; return Promise.resolve(); },
@@ -40,14 +40,14 @@ test('photographic hero still tracks the floating header without loading a video
   assert.equal(page.video.plays,0);
 });
 
-test('hero loads only the video for its viewport and switches when crossing the breakpoint', () => {
+test('hero uses one video source on desktop and mobile without a second request', () => {
   const page = mount({ mobile: true });
   page.enter(true); page.events.load();
-  assert.equal(page.video.src, 'couple.mp4');
+  assert.equal(page.video.src, 'curtains.mp4');
   page.screen.matches = false; page.screen.change();
   assert.equal(page.video.src, 'curtains.mp4');
   page.screen.matches = true; page.screen.change();
-  assert.equal(page.video.src, 'couple.mp4');
+  assert.equal(page.video.src, 'curtains.mp4');
 });
 
 test('hero waits for page load and visibility before requesting the video', () => {

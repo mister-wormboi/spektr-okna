@@ -24,7 +24,7 @@
     if (failed) return;
     if (!visible || document.hidden || !wantsPlayback()) { video.pause(); return; }
     if (!loaded && manual !== true) return;
-    const source = mobile.matches && video.dataset.mobileSrc ? video.dataset.mobileSrc : video.dataset.src;
+    const source = video.dataset.src;
     if (!video.hasAttribute('src') || activeSource !== source) {
       hero.classList.remove('is-video-ready');
       video.src = source;
