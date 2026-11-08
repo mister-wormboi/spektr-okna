@@ -568,5 +568,34 @@ export function createInsideExhibit(host) {
   renderer.domElement.addEventListener('webglcontextlost',event=>{event.preventDefault();lost=true;cancelRendering();active?.querySelector('.inside-scene').classList.remove('has-3d');active?.querySelector('.inside-scene').classList.add('is-unavailable');});
   renderer.domElement.addEventListener('webglcontextrestored',()=>{lost=false;update();});
   new MutationObserver(()=>{updateBackdrop();renderView();}).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
-  return {update};
+  function scroll(panel, progress) {
+    if (!panel || lost) return;
+    if (active !== panel) update(panel);
+    cancelRendering();
+    const value=THREE.MathUtils.clamp(progress,0,1);
+    const detailValue=THREE.MathUtils.smoothstep(value,.08,.78);
+    current=key==='hardware'?{
+      detail:0,
+      open:THREE.MathUtils.smoothstep(value,.18,.42)*(1-THREE.MathUtils.smoothstep(value,.62,.78)),
+      tilt:THREE.MathUtils.smoothstep(value,.62,.88),mech:0
+    }:{detail:detailValue,open:0,tilt:0,mech:0};
+    target={...current};
+    panel.classList.toggle('is-detail',current.detail>.5);
+    if(key!=='hardware') {
+      const button=panel.querySelector('[data-detail]');
+      button.setAttribute('aria-pressed',String(current.detail>.5));
+      button.textContent=current.detail>.5?button.dataset.on:button.dataset.off;
+      const input=panel.querySelector('.inside-scrubber input');
+      const output=panel.querySelector('.inside-scrubber output');
+      input.value=Math.round(current.detail*100);output.value=Math.round(current.detail*100)+'%';
+    } else {
+      panel.dataset.mode=current.tilt>.5?'tilt':current.open>.1?'open':'closed';
+      panel.querySelectorAll('button[data-mode]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.mode===panel.dataset.mode)));
+    }
+    const baseRotation=key==='glass'?-.65:key==='frame'?.2:-.42;
+    models[key].rotation.y=baseRotation+value*.85;
+    models[key].rotation.x=.09+Math.sin(value*Math.PI)*.12;
+    apply(current);renderView();
+  }
+  return {update,scroll};
 }

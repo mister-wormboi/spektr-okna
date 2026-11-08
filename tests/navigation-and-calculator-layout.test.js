@@ -6,11 +6,12 @@ const root=path.resolve(__dirname,'..');
 const read=file=>fs.readFileSync(path.join(root,file),'utf8');
 const pages=dir=>fs.readdirSync(dir,{withFileTypes:true}).flatMap(entry=>entry.name.startsWith('.')?[]:entry.isDirectory()?pages(path.join(dir,entry.name)):entry.name==='index.html'?[path.join(dir,entry.name)]:[]);
 
-test('every internal page has exactly one static breadcrumb, while home has none',()=>{
+test('internal pages have breadcrumbs except the immersive window exhibit and home',()=>{
   for(const file of pages(root)){
     const html=fs.readFileSync(file,'utf8');
     if(html.includes('http-equiv="refresh"')||html.includes('name="robots" content="noindex, nofollow"')) continue;
     const trails=[...html.matchAll(/<nav[^>]+aria-label="Хлебные крошки"[^>]*>[\s\S]*?<\/nav>/g)];
+    if(file===path.join(root,'window-inside/index.html')){assert.equal(trails.length,0);assert.match(html,/class="inside-back" href="\.\.\/"[^>]*>.*Назад<\/a>/);continue;}
     if(file===path.join(root,'index.html')){assert.equal(trails.length,0);continue;}
     assert.equal(trails.length,1,file);
     assert.match(trails[0][0],/>Главная<\/a>/);

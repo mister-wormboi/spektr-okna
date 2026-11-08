@@ -28,6 +28,21 @@ test('idle and hidden scenes do not schedule animation frames',()=>{
   vm.createContext(state);vm.runInContext(source.slice(source.indexOf('  function animate('),source.indexOf('  let lastRenderSize')),state);
   state.animate();state.visible=false;state.target.open=1;state.animate();
 });
+test('scroll drives construction progress and hardware modes without a timed transition',()=>{
+  const THREE={MathUtils:{clamp:(v,min,max)=>Math.max(min,Math.min(max,v)),smoothstep(v,min,max){const x=Math.max(0,Math.min(1,(v-min)/(max-min)));return x*x*(3-2*x);}}};
+  const button={dataset:{on:'Собрать',off:'Разобрать'},setAttribute(name,value){this[name]=value;}};
+  const input={},output={};
+  const panel={dataset:{part:'glass'},classList:{toggle(){}},querySelector(selector){return selector==='[data-detail]'?button:selector.includes('input')?input:output;}};
+  const state={THREE,key:'glass',active:panel,lost:false,current:{},target:{},models:{glass:{rotation:{}}},panel,cancelRendering(){state.cancelled=true;},apply(values){state.applied={...values};},renderView(){state.rendered=true;}};
+  vm.createContext(state);vm.runInContext(source.slice(source.indexOf('  function scroll('),source.indexOf('  return {update,scroll};')),state);
+  state.scroll(panel,.5);
+  assert.ok(state.applied.detail>0&&state.applied.detail<1);
+  assert.equal(state.cancelled,true);assert.equal(state.rendered,true);
+  assert.ok(state.models.glass.rotation.y>-.65);
+  state.key='hardware';state.models.hardware={rotation:{}};panel.dataset.part='hardware';panel.querySelectorAll=()=>[];
+  state.scroll(panel,.5);assert.ok(state.applied.open>0);assert.equal(state.applied.tilt,0);
+  state.scroll(panel,.9);assert.equal(state.applied.open,0);assert.equal(state.applied.tilt,1);
+});
 test('stay endpoints remain attached through the full tilt travel and model rotation',async()=>{
   const THREE=await import('../assets/vendor/three/three.module.min.js');
   const fixed=new THREE.Group(),pivot=new THREE.Group(),sash=new THREE.Group();

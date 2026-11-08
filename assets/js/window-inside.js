@@ -105,4 +105,46 @@
     }, {rootMargin:'-15% 0px -65%', threshold:0});
     host.querySelectorAll('.inside-study').forEach(section => sectionObserver.observe(section));
   }
+  const reducedMotion=matchMedia('(prefers-reduced-motion: reduce)');
+  const studies=[...host.querySelectorAll('.inside-study')];
+  const journey=host.closest('.inside-journey');
+  let scrollFrame=0;
+  let journeyTop=0;
+  let journeyDistance=1;
+  let activeIndex=-1;
+  function measure() {
+    journeyTop=host.getBoundingClientRect().top+scrollY;
+    journeyDistance=Math.max(1,host.offsetHeight-innerHeight);
+    scheduleScroll();
+  }
+  function paintScroll() {
+    scrollFrame=0;
+    const progress=Math.max(0,Math.min(1,(scrollY-journeyTop)/journeyDistance));
+    const position=progress*studies.length;
+    const index=Math.min(studies.length-1,Math.floor(position));
+    const localProgress=Math.min(1,position-index);
+    journey.style.setProperty('--journey-progress',progress);
+    if(index!==activeIndex) {
+      activeIndex=index;
+      studies.forEach((study,i)=>{
+        study.classList.toggle('is-active',i===index);
+        study.inert=i!==index;
+        study.setAttribute('aria-hidden',String(i!==index));
+      });
+      setCurrentSection(studies[index].id);
+    }
+    if(!reducedMotion.matches)exhibit?.scroll(studies[index].querySelector('.inside-panel'),localProgress);
+  }
+  function scheduleScroll() {
+    if(!scrollFrame)scrollFrame=requestAnimationFrame(paintScroll);
+  }
+  addEventListener('scroll',scheduleScroll,{passive:true});
+  addEventListener('resize',measure);
+  reducedMotion.addEventListener('change',scheduleScroll);
+  new ResizeObserver(measure).observe(host);
+  sectionLinks.forEach((link,index)=>link.addEventListener('click',event=>{
+    event.preventDefault();
+    scrollTo({top:journeyTop+(index/studies.length)*journeyDistance+2,behavior:reducedMotion.matches?'instant':'smooth'});
+  }));
+  measure();
 })();
