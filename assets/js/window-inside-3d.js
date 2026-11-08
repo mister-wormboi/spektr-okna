@@ -296,7 +296,7 @@ export function createInsideExhibit(host) {
   const hardwareRoot=root('hardware'); const hw=windowModel(hardwareRoot,true);
   const proceduralChildren=Object.fromEntries(Object.entries(models).map(([name,model])=>[name,[...model.children]]));
   const glbModels={};
-  const ready=Promise.all(Object.keys(models).map(async name=>{
+  const ready=compactDevice?Promise.resolve():Promise.all(Object.keys(models).map(async name=>{
     const {loadGLB}=await import('./load-glb.js');
     const model=await loadGLB(`../assets/models/${name}.glb`);
     model.traverse(mesh=>{if(mesh.isMesh){mesh.castShadow=!mesh.material.transparent;mesh.receiveShadow=!mesh.material.transparent;}});
