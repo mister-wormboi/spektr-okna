@@ -308,8 +308,7 @@ export function createInsideExhibit(host) {
   const raycaster=new THREE.Raycaster(), pointer=new THREE.Vector2();
   const inspector=document.createElement('div'); inspector.className='inside-inspector'; inspector.setAttribute('role','status'); inspector.hidden=true;
   const canvas=renderer.domElement;
-  canvas.tabIndex=0; canvas.removeAttribute('aria-hidden'); canvas.setAttribute('role','img');
-  canvas.setAttribute('aria-label','Объёмная модель окна. Вращайте стрелками или горизонтальным движением пальца. Выберите деталь нажатием.');
+  canvas.tabIndex=-1; canvas.setAttribute('aria-hidden','true');
   let selectedObject=null, selectedPoint=null;
   const arrow=document.createElementNS('http://www.w3.org/2000/svg','svg');
   arrow.classList.add('inside-selection-arrow'); arrow.setAttribute('aria-hidden','true');
@@ -328,14 +327,14 @@ export function createInsideExhibit(host) {
     const w=mount.clientWidth,h=mount.clientHeight,x=(anchor.x+1)*w/2,y=(1-anchor.y)*h/2;
     if(anchor.z>1 || x<8 || x>w-8 || y<8 || y>h-8){arrow.style.display=arrowLabel.style.display='none';return;}
     arrow.setAttribute('viewBox',`0 0 ${w} ${h}`);
-    const compact=w<500,padding=compact?8:22;
-    const left=x>w*.5, labelWidth=Math.min(190,w*(compact?.48:.45)), labelX=left?padding:w-labelWidth-padding;
+    const compact=w<500,padding=compact?14:32;
+    const labelWidth=Math.min(170,w*(compact?.44:.32)),labelX=w-labelWidth-padding;
     arrowLabel.style.width=labelWidth+'px';arrowLabel.style.left=labelX+'px';
     const labelHeight=arrowLabel.offsetHeight;
-    const labelY=Math.max(compact?8:65,Math.min(h-labelHeight-12,y-labelHeight-22));
+    const labelY=compact?48:h-labelHeight-70;
     arrowLabel.style.top=labelY+'px';
-    const sx=left?labelX+labelWidth:labelX,sy=labelY+arrowLabel.offsetHeight/2;
-    const elbow=left?Math.min(sx+30,x-12):Math.max(sx-30,x+12);
+    const sx=labelX,sy=labelY+labelHeight/2;
+    const elbow=Math.max(x+12,sx-30);
     const d=`M ${sx} ${sy} L ${elbow} ${sy} L ${x} ${y}`;
     arrow.querySelectorAll('path[class]').forEach(path=>path.setAttribute('d',d));
     const dot=arrow.querySelector('circle');dot.setAttribute('cx',x);dot.setAttribute('cy',y);
@@ -436,6 +435,13 @@ export function createInsideExhibit(host) {
       });
     }
   });
+  const scrollCallouts={
+    hardware:[[.12,hw.handle,'handle'],[.42,hw.sash,'swing'],[.72,hw.sash,'tilting']],
+    glass:[[.16,layers[0],'outerPane'],[.43,layers[2],'middlePane'],[.72,layers[4],'innerPane']],
+    profile:[[.16,openingWalls,'opening'],[.43,installationJoint,'installationJoint'],[.72,sill,'windowSill']],
+    frame:[[.16,airChambers,'chambers'],[.43,reinforcement,'reinforcement'],[.72,rubber,'seal']]
+  };
+  let scrollPart=null;
   const motion=matchMedia('(prefers-reduced-motion: reduce)');
   function apply(values) {
     if(Number.isFinite(values.rotationY))models[key].rotation.y=values.rotationY;
@@ -523,6 +529,7 @@ export function createInsideExhibit(host) {
     glass:['Двухкамерный стеклопакет в сборе: три стекла и две камеры.','Слои разделены: стекло, дистанционная рамка, стекло, дистанционная рамка, стекло.']
   };
   const panelStates = new WeakMap();
+  let scrollDirection=1;
   function preservePanel() {
     if (!active) return;
     panelStates.set(active, { values: {...current}, zoom });
@@ -547,15 +554,15 @@ export function createInsideExhibit(host) {
     if(active!==panel) { cancelRendering(); preservePanel(); }
     const changed=active!==panel; active=panel; key=panel.dataset.part;
     if(changed) {
-      inspect(null); zoom=panelStates.get(panel)?.zoom || 1;camera.zoom=zoom;camera.updateProjectionMatrix();
+      inspect(null);scrollPart=null;zoom=panelStates.get(panel)?.zoom || 1;camera.zoom=zoom;camera.updateProjectionMatrix();
       host.querySelectorAll('.inside-scene').forEach(el=>el.classList.remove('has-3d'));
       panel.querySelector('.inside-scene').append(mount);
       mount.getAnimations().forEach(animation=>animation.cancel());
       if(!motion.matches)mount.animate([
         {opacity:0,easing:'cubic-bezier(.4,0,.2,1)'},
-        {opacity:0,offset:.5,easing:'cubic-bezier(.4,0,.2,1)'},
+        {opacity:0,offset:scrollDirection<0?.2:.5,easing:'cubic-bezier(.4,0,.2,1)'},
         {opacity:1}
-      ],{duration:1800});
+      ],{duration:scrollDirection<0?900:1800});
       panel.append(inspector);
       host.querySelectorAll('[data-inspect]').forEach(button=>button.setAttribute('aria-pressed','false'));
       Object.entries(models).forEach(([name,model])=>{model.visible=name===key;});
@@ -590,8 +597,9 @@ export function createInsideExhibit(host) {
   renderer.domElement.addEventListener('webglcontextlost',event=>{event.preventDefault();lost=true;cancelRendering();active?.querySelector('.inside-scene').classList.remove('has-3d');active?.querySelector('.inside-scene').classList.add('is-unavailable');});
   renderer.domElement.addEventListener('webglcontextrestored',()=>{lost=false;update();});
   new MutationObserver(()=>{updateBackdrop();renderView();}).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
-  function scroll(panel, progress) {
+  function scroll(panel, progress, direction=1) {
     if (!panel || lost) return;
+    scrollDirection=direction;
     if (active !== panel) update(panel);
     cancelRendering();
     const value=THREE.MathUtils.clamp(progress,0,1);
@@ -619,6 +627,13 @@ export function createInsideExhibit(host) {
     } else {
       panel.dataset.mode=target.tilt>.5?'tilt':target.open>.1?'open':'closed';
       panel.querySelectorAll('button[data-mode]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.mode===panel.dataset.mode)));
+    }
+    const callout=[...scrollCallouts[key]].reverse().find(([threshold])=>value>=threshold);
+    const nextPart=value>=.96?null:callout?.[2]||null;
+    if(nextPart!==scrollPart) {
+      scrollPart=nextPart;
+      const selected=scrollCallouts[key].find(([,object,part])=>part===nextPart);
+      inspect(selected?.[1],selected?.[2]);
     }
     current={...target};apply(current);renderView();
   }
