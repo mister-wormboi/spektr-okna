@@ -63,11 +63,12 @@
   let loading;
   async function enhance() {
     if (loading) return loading;
-    loading = import('./window-inside-3d.js?v=20261109-balanced-scroll').then(async module => {
+    loading = import('./window-inside-3d.js?v=20261110-scene-pacing').then(async module => {
       exhibit = module.createInsideExhibit(host);
       exhibit.update();
       await exhibit.ready;
       exhibit.update();
+      scheduleScroll();
       requestAnimationFrame(()=>requestAnimationFrame(()=>document.body.classList.remove('is-loading')));
     }).catch(error => { document.body.classList.remove('is-loading');host.querySelectorAll('.inside-scene').forEach(scene=>scene.classList.add('is-unavailable')); console.warn('Inside exhibit:', error.message); });
     return loading;
@@ -102,12 +103,6 @@
     else link.removeAttribute('aria-current');
   });
   setCurrentSection(host.querySelector('.inside-study').id);
-  if ('IntersectionObserver' in window) {
-    const sectionObserver = new IntersectionObserver(entries => {
-      entries.forEach(entry => { if (entry.isIntersecting) setCurrentSection(entry.target.id); });
-    }, {rootMargin:'-15% 0px -65%', threshold:0});
-    host.querySelectorAll('.inside-study').forEach(section => sectionObserver.observe(section));
-  }
   const reducedMotion=matchMedia('(prefers-reduced-motion: reduce)');
   const studies=[...host.querySelectorAll('.inside-study')];
   const journey=host.closest('.inside-journey');

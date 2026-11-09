@@ -560,9 +560,9 @@ export function createInsideExhibit(host) {
       mount.getAnimations().forEach(animation=>animation.cancel());
       if(!motion.matches)mount.animate([
         {opacity:0,easing:'cubic-bezier(.4,0,.2,1)'},
-        {opacity:0,offset:scrollDirection<0?.2:.5,easing:'cubic-bezier(.4,0,.2,1)'},
+        {opacity:0,offset:scrollDirection<0?.3:.65,easing:'cubic-bezier(.4,0,.2,1)'},
         {opacity:1}
-      ],{duration:scrollDirection<0?900:1800});
+      ],{duration:scrollDirection<0?1400:2600});
       panel.append(inspector);
       host.querySelectorAll('[data-inspect]').forEach(button=>button.setAttribute('aria-pressed','false'));
       Object.entries(models).forEach(([name,model])=>{model.visible=name===key;});
