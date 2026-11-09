@@ -297,13 +297,16 @@ export function createInsideExhibit(host) {
   const proceduralChildren=Object.fromEntries(Object.entries(models).map(([name,model])=>[name,[...model.children]]));
   const glbModels={};
   const ready=Promise.all(Object.keys(models).map(async name=>{
-    const {loadGLB}=await import('./load-glb.js');
-    const model=await loadGLB(new URL(`../models/${name}.glb`,import.meta.url));
-    model.traverse(mesh=>{if(mesh.isMesh){mesh.castShadow=!mesh.material.transparent;mesh.receiveShadow=!mesh.material.transparent;}});
-    glbModels[name]=model;models[name].add(model);
-    proceduralChildren[name].forEach(child=>child.visible=false);
-    if(key===name){apply(current);renderView();}
-  }).catch(error=>console.warn(`GLB ${name}:`,error.message)));
+    try {
+      const {loadGLB}=await import('./load-glb.js');
+      const model=await loadGLB(new URL(`../models/${name}.glb`,import.meta.url));
+      model.traverse(mesh=>{if(mesh.isMesh){mesh.castShadow=!mesh.material.transparent;mesh.receiveShadow=!mesh.material.transparent;}});
+      glbModels[name]=model;models[name].add(model);
+      proceduralChildren[name].forEach(child=>child.visible=false);
+    } catch(error) {
+      console.warn(`GLB ${name}:`,error.message);
+    }
+  }));
   // Transparent panes and selection overlays must not cast opaque rectangular shadows.
   Object.values(models).forEach(model=>model.traverse(mesh=>{
     if(!mesh.isMesh)return;

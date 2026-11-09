@@ -63,7 +63,7 @@
   let loading;
   async function enhance() {
     if (loading) return loading;
-    loading = import('./window-inside-3d.js?v=20261105-realism').then(async module => {
+    loading = import('./window-inside-3d.js?v=20261109-local-models').then(async module => {
       exhibit = module.createInsideExhibit(host);
       exhibit.update();
       await exhibit.ready;
