@@ -63,7 +63,7 @@
   let loading;
   async function enhance() {
     if (loading) return loading;
-    loading = import('./window-inside-3d.js?v=20261109-local-models').then(async module => {
+    loading = import('./window-inside-3d.js?v=20261109-smooth-cycle').then(async module => {
       exhibit = module.createInsideExhibit(host);
       exhibit.update();
       await exhibit.ready;
@@ -115,6 +115,21 @@
   let journeyTop=0;
   let journeyDistance=1;
   let activeIndex=-1;
+  let previousScrollY=scrollY;
+  let cycling=false;
+  const sticky=journey.querySelector('.inside-sticky');
+  async function cycleTo(top) {
+    if(cycling)return;
+    cycling=true;
+    if(!reducedMotion.matches)await sticky.animate([{opacity:1},{opacity:0}],{duration:280,easing:'ease-in',fill:'forwards'}).finished.catch(()=>{});
+    scrollTo({top,behavior:'instant'});
+    previousScrollY=top;
+    requestAnimationFrame(()=>{
+      cycling=false;
+      scheduleScroll();
+      if(!reducedMotion.matches)sticky.animate([{opacity:0},{opacity:1}],{duration:520,easing:'ease-out',fill:'forwards'});
+    });
+  }
   function measure() {
     journeyTop=host.getBoundingClientRect().top+scrollY;
     journeyDistance=Math.max(1,host.offsetHeight-innerHeight);
@@ -122,6 +137,17 @@
   }
   function paintScroll() {
     scrollFrame=0;
+    if(cycling)return;
+    const direction=scrollY-previousScrollY;
+    previousScrollY=scrollY;
+    if(scrollY>=journeyTop+journeyDistance-2) {
+      cycleTo(journeyTop+10);
+      return;
+    }
+    if(scrollY<=journeyTop+1&&direction<0) {
+      cycleTo(journeyTop+journeyDistance-10);
+      return;
+    }
     const progress=Math.max(0,Math.min(1,(scrollY-journeyTop)/journeyDistance));
     const position=progress*studies.length;
     const index=Math.min(studies.length-1,Math.floor(position));

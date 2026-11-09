@@ -294,19 +294,7 @@ export function createInsideExhibit(host) {
     windowSill:['Подоконник','Горизонтальная деталь со стороны комнаты под нижней частью рамы. Снаружи окна расположен отдельный отлив.']
   });
   const hardwareRoot=root('hardware'); const hw=windowModel(hardwareRoot,true);
-  const proceduralChildren=Object.fromEntries(Object.entries(models).map(([name,model])=>[name,[...model.children]]));
-  const glbModels={};
-  const ready=Promise.all(Object.keys(models).map(async name=>{
-    try {
-      const {loadGLB}=await import('./load-glb.js');
-      const model=await loadGLB(new URL(`../models/${name}.glb`,import.meta.url));
-      model.traverse(mesh=>{if(mesh.isMesh){mesh.castShadow=!mesh.material.transparent;mesh.receiveShadow=!mesh.material.transparent;}});
-      glbModels[name]=model;models[name].add(model);
-      proceduralChildren[name].forEach(child=>child.visible=false);
-    } catch(error) {
-      console.warn(`GLB ${name}:`,error.message);
-    }
-  }));
+  const ready=Promise.resolve();
   // Transparent panes and selection overlays must not cast opaque rectangular shadows.
   Object.values(models).forEach(model=>model.traverse(mesh=>{
     if(!mesh.isMesh)return;
@@ -450,6 +438,10 @@ export function createInsideExhibit(host) {
   });
   const motion=matchMedia('(prefers-reduced-motion: reduce)');
   function apply(values) {
+    if(Number.isFinite(values.rotationY))models[key].rotation.y=values.rotationY;
+    if(Number.isFinite(values.rotationX))models[key].rotation.x=values.rotationX;
+    if(Number.isFinite(values.scale))models[key].scale.setScalar(values.scale);
+    if(Number.isFinite(values.lift))models[key].position.y=values.lift;
     const d=values.detail;
     if(key==='frame') {
     section.visible=true; section.scale.setScalar(1.28); section.position.x=0;
@@ -458,11 +450,12 @@ export function createInsideExhibit(host) {
     reinforcement.position.z=d*.5;
     sashSection.position.y=.47+d*.13;
     } else if(key==='profile') {
-    surround.visible=d>.01; surround.scale.setScalar(1);
-    surround.position.z=-.5*(1-d); installed.fixed.position.z=-d*.15;
-    sill.position.z=.25;
+    surround.visible=d>.01; surround.scale.setScalar(.95+d*.05);
+    surround.position.z=-.65*(1-d); installed.fixed.position.z=-d*.35;
+    installed.pivot.rotation.y=d*.35;
+    sill.position.z=.25+d*.2;
     } else if(key==='glass') {
-    layers.forEach((layer,i)=>{layer.position.z=(i-2)*(.042+d*.32); layer.position.x=(i-2)*d*.07;});
+    layers.forEach((layer,i)=>{layer.position.z=(i-2)*(.042+d*.58); layer.position.x=(i-2)*d*.18;layer.position.y=(i-2)*d*.06;});
     } else if(key==='hardware') {
     // Right-side hinge: positive yaw brings the free left edge toward the viewer.
     hw.pivot.rotation.y=values.open*1.12;
@@ -472,20 +465,22 @@ export function createInsideExhibit(host) {
     hw.mechanism.traverse(obj=>{ if(obj.isMesh) {obj.scale.z=1+values.mech*.6;} });
     hw.updateStay(values.tilt,values.open,values.mech);
     }
-    const glb=glbModels[key];
-    if(glb) {
-      const assembled=values.detail<.01&&values.open<.01&&values.tilt<.01;
-      glb.visible=assembled;
-      proceduralChildren[key].forEach(child=>child.visible=!assembled);
-    }
   }
+  let transitionDuration=1050,scrollDriven=false;
   function draw(now) {
     frame=0; if(lost || !visible || document.hidden) return;
-    const t=motion.matches?1:Math.min(1,(now-start)/1050);
+    const t=scrollDriven?0:motion.matches?1:Math.min(1,(now-start)/(transitionDuration||1050));
     if(lowPower && t<1 && now-lastDraw<1000/60-1){frame=requestAnimationFrame(draw);return;}
     lastDraw=now;
     cancelAnimationFrame(viewFrame);viewFrame=0;
-    const ease=1-Math.pow(1-t,4);
+    if(scrollDriven) {
+      const easing=motion.matches?1:.18;
+      for(const property of Object.keys(target))current[property]+=(target[property]-current[property])*easing;
+      apply(current);renderScene();
+      if(Object.keys(target).some(property=>Math.abs(target[property]-current[property])>.001))frame=requestAnimationFrame(draw);
+      return;
+    }
+    const ease=t*t*t*(t*(t*6-15)+10);
     for(const property of Object.keys(target)) current[property]=from[property]+(target[property]-from[property])*ease;
     // Close the previous opening axis before engaging the other hinge mode.
     if((from.open>0 && target.tilt>0)||(from.tilt>0 && target.open>0)) {
@@ -497,9 +492,10 @@ export function createInsideExhibit(host) {
     apply(current); renderScene();
     if(t<1) frame=requestAnimationFrame(draw);
   }
-  function animate() {
+  function animate(duration=1050,scrub=false) {
     cancelRendering();
     if(lost || !visible || document.hidden)return;
+    transitionDuration=duration;scrollDriven=scrub;
     from={...current};
     if(Object.keys(target).every(property=>Math.abs(target[property]-current[property])<.0001)) {
       apply(current);renderView();return;
@@ -554,16 +550,23 @@ export function createInsideExhibit(host) {
       inspect(null); zoom=panelStates.get(panel)?.zoom || 1;camera.zoom=zoom;camera.updateProjectionMatrix();
       host.querySelectorAll('.inside-scene').forEach(el=>el.classList.remove('has-3d'));
       panel.querySelector('.inside-scene').append(mount);
+      mount.getAnimations().forEach(animation=>animation.cancel());
+      if(!motion.matches)mount.animate([
+        {opacity:0,easing:'cubic-bezier(.4,0,.2,1)'},
+        {opacity:0,offset:.5,easing:'cubic-bezier(.4,0,.2,1)'},
+        {opacity:1}
+      ],{duration:1800});
       panel.append(inspector);
       host.querySelectorAll('[data-inspect]').forEach(button=>button.setAttribute('aria-pressed','false'));
       Object.entries(models).forEach(([name,model])=>{model.visible=name===key;});
-      current=panelStates.get(panel)?.values || {detail:0,open:0,tilt:0,mech:0};
+      current=panelStates.get(panel)?.values || {detail:0,open:0,tilt:0,mech:0,rotationY:models[key].rotation.y,rotationX:models[key].rotation.x,scale:1,lift:0};
       const rect = panel.querySelector('.inside-scene').getBoundingClientRect();
       visible = rect.bottom > 0 && rect.top < innerHeight;
     }
     detail=changed && panelStates.has(panel) ? current.detail : Number(panel.classList.contains('is-detail'));
     open=Number(panel.dataset.mode==='open'); tilt=Number(panel.dataset.mode==='tilt'); mech=key==='hardware'?detail:0;
-    target={detail,open,tilt,mech};
+    const baseRotation=key==='glass'?-.65:key==='frame'?.2:-.42;
+    target={detail,open,tilt,mech,rotationY:current.rotationY??baseRotation,rotationX:current.rotationX??.09,scale:current.scale??1,lift:current.lift??0};
     const scrubber=panel.querySelector('.inside-scrubber');if(scrubber){scrubber.querySelector('input').value=detail*100;scrubber.querySelector('output').value=(detail*100)+'%';}
     const status=panel.querySelector('.inside-status');
     status.textContent=key==='hardware'?`${open?'Створка открыта на боковых петлях.':tilt?'Верх створки откинут внутрь для проветривания.':'Створка закрыта, ручка направлена вниз.'}${mech?' Подсвечены запорная обвязка и точки прижима.':''}`:statuses[key][detail];
@@ -593,28 +596,31 @@ export function createInsideExhibit(host) {
     cancelRendering();
     const value=THREE.MathUtils.clamp(progress,0,1);
     const detailValue=THREE.MathUtils.smoothstep(value,.08,.78);
-    current=key==='hardware'?{
+    const baseRotation=key==='glass'?-.65:key==='frame'?.2:-.42;
+    const presentation={
+      rotationY:baseRotation+value*1.65,
+      rotationX:.09+Math.sin(value*Math.PI)*.22,
+      scale:.88+.18*THREE.MathUtils.smoothstep(value,0,.7),
+      lift:Math.sin(value*Math.PI)*.1
+    };
+    target=key==='hardware'?{
       detail:0,
       open:THREE.MathUtils.smoothstep(value,.18,.42)*(1-THREE.MathUtils.smoothstep(value,.62,.78)),
-      tilt:THREE.MathUtils.smoothstep(value,.62,.88),mech:0
-    }:{detail:detailValue,open:0,tilt:0,mech:0};
-    target={...current};
-    panel.classList.toggle('is-detail',current.detail>.5);
+      tilt:THREE.MathUtils.smoothstep(value,.62,.88),mech:0,...presentation
+    }:{detail:detailValue,open:0,tilt:0,mech:0,...presentation};
+    panel.classList.toggle('is-detail',target.detail>.5);
     if(key!=='hardware') {
       const button=panel.querySelector('[data-detail]');
-      button.setAttribute('aria-pressed',String(current.detail>.5));
-      button.textContent=current.detail>.5?button.dataset.on:button.dataset.off;
+      button.setAttribute('aria-pressed',String(target.detail>.5));
+      button.textContent=target.detail>.5?button.dataset.on:button.dataset.off;
       const input=panel.querySelector('.inside-scrubber input');
       const output=panel.querySelector('.inside-scrubber output');
-      input.value=Math.round(current.detail*100);output.value=Math.round(current.detail*100)+'%';
+      input.value=Math.round(target.detail*100);output.value=Math.round(target.detail*100)+'%';
     } else {
-      panel.dataset.mode=current.tilt>.5?'tilt':current.open>.1?'open':'closed';
+      panel.dataset.mode=target.tilt>.5?'tilt':target.open>.1?'open':'closed';
       panel.querySelectorAll('button[data-mode]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.mode===panel.dataset.mode)));
     }
-    const baseRotation=key==='glass'?-.65:key==='frame'?.2:-.42;
-    models[key].rotation.y=baseRotation+value*.85;
-    models[key].rotation.x=.09+Math.sin(value*Math.PI)*.12;
-    apply(current);renderView();
+    current={...target};apply(current);renderView();
   }
   return {update,scroll,ready};
 }

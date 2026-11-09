@@ -17,7 +17,7 @@ test('opening moves the free edge toward the viewer while the right hinge stays 
 });
 test('opening and tilting never overlap during a mode transition',()=>{
   for(const [from,target] of [[{open:1,tilt:0},{open:0,tilt:1}],[{open:0,tilt:1},{open:1,tilt:0}]]){
-    const state={frame:0,viewFrame:0,lastDraw:0,lowPower:false,cancelAnimationFrame(){},renderScene(){},lost:false,visible:true,document:{hidden:false},motion:{matches:false},start:0,from,target,current:{},apply(){},renderer:{render(){}},scene:{},camera:{},updateArrow(){},requestAnimationFrame(){return 1;}};
+    const state={frame:0,viewFrame:0,lastDraw:0,lowPower:false,cancelAnimationFrame(){},renderScene(){},lost:false,visible:true,document:{hidden:false},motion:{matches:false},transitionDuration:1050,scrollDriven:false,start:0,from,target,current:{},apply(){},renderer:{render(){}},scene:{},camera:{},updateArrow(){},requestAnimationFrame(){return 1;}};
     vm.createContext(state);vm.runInContext(source.slice(source.indexOf('  function draw('),source.indexOf('  function animate(')),state);
     for(let t=0;t<=1050;t+=25){state.draw(t);assert.ok(state.current.open===0||state.current.tilt===0);}
     assert.equal(state.current.open,target.open);assert.equal(state.current.tilt,target.tilt);
@@ -28,17 +28,17 @@ test('idle and hidden scenes do not schedule animation frames',()=>{
   vm.createContext(state);vm.runInContext(source.slice(source.indexOf('  function animate('),source.indexOf('  let lastRenderSize')),state);
   state.animate();state.visible=false;state.target.open=1;state.animate();
 });
-test('scroll drives construction progress and hardware modes without a timed transition',()=>{
+test('scroll directly drives construction, hardware modes and rotation',()=>{
   const THREE={MathUtils:{clamp:(v,min,max)=>Math.max(min,Math.min(max,v)),smoothstep(v,min,max){const x=Math.max(0,Math.min(1,(v-min)/(max-min)));return x*x*(3-2*x);}}};
   const button={dataset:{on:'Собрать',off:'Разобрать'},setAttribute(name,value){this[name]=value;}};
   const input={},output={};
   const panel={dataset:{part:'glass'},classList:{toggle(){}},querySelector(selector){return selector==='[data-detail]'?button:selector.includes('input')?input:output;}};
-  const state={THREE,key:'glass',active:panel,lost:false,current:{},target:{},models:{glass:{rotation:{}}},panel,cancelRendering(){state.cancelled=true;},apply(values){state.applied={...values};},renderView(){state.rendered=true;}};
+  const state={THREE,key:'glass',active:panel,lost:false,current:{rotationY:-.65,rotationX:.09},target:{},models:{glass:{rotation:{}}},panel,cancelRendering(){state.cancelled=true;},apply(values){state.applied={...values};},renderView(){state.rendered=true;}};
   vm.createContext(state);vm.runInContext(source.slice(source.indexOf('  function scroll('),source.indexOf('  return {update,scroll,ready};')),state);
   state.scroll(panel,.5);
   assert.ok(state.applied.detail>0&&state.applied.detail<1);
   assert.equal(state.cancelled,true);assert.equal(state.rendered,true);
-  assert.ok(state.models.glass.rotation.y>-.65);
+  assert.ok(state.applied.rotationY>-.65);
   state.key='hardware';state.models.hardware={rotation:{}};panel.dataset.part='hardware';panel.querySelectorAll=()=>[];
   state.scroll(panel,.5);assert.ok(state.applied.open>0);assert.equal(state.applied.tilt,0);
   state.scroll(panel,.9);assert.equal(state.applied.open,0);assert.equal(state.applied.tilt,1);

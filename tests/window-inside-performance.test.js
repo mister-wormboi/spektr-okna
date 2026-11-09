@@ -24,7 +24,7 @@ test('hidden or offscreen scenes cancel pending work and cannot schedule renderi
   run.state.visible=true;run.state.document.hidden=true;run.state.renderView();assert.equal(run.queue.size,0);
 });
 test('mobile animation throttles high refresh screens but always reaches its final state',()=>{
-  const run=setup();Object.assign(run.state,{motion:{matches:false},start:0,from:{detail:0},target:{detail:1},current:{detail:0},apply(){}});
+  const run=setup();Object.assign(run.state,{motion:{matches:false},transitionDuration:1050,scrollDriven:false,start:0,from:{detail:0},target:{detail:1},current:{detail:0},apply(){}});
   vm.runInContext(source.slice(source.indexOf('  function draw('),source.indexOf('  function animate(')),run.state);
   run.state.draw(0);
   for(let t=8;t<1050;t+=8)run.step(t);
