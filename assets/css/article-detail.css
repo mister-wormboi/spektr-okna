@@ -8,7 +8,7 @@
 .article-heading-meta { display: flex; flex-wrap: wrap; gap: 12px 32px; margin-top: 28px; color: var(--muted); }
 .article-content { display:block; width:100%; }
 .article-cover { width:100%; margin:0 0 48px; }
-.article-cover img { display:block; width:100%; height:clamp(240px,42vw,520px); object-fit:cover; object-position:center; }
+.article-cover img { display:block; width:100%; height:auto; }
 .article-cover figcaption { padding-top: 12px; color: var(--muted); }
 .article-detail .article-body { --font-size-body:20px; --font-size-title:30px; --line-height-body:1.75; min-width:0; width:100%; max-width:none; margin:0; font-size:var(--font-size-body); }
 .article-body > section { margin-bottom: 40px; scroll-margin-top: 28px; }

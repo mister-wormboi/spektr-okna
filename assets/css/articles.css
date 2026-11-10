@@ -11,8 +11,8 @@
 .articles-page .article-card:hover { transform:none; }
 .article-card-link { display: flex; flex-direction: column; height: 100%; color: inherit; text-decoration: none; }
 .article-card-link:focus-visible { outline: 2px solid var(--green); outline-offset: 6px; }
-.article-image { position: relative; flex: none; aspect-ratio: 16 / 10; overflow: hidden; background: var(--paper); }
-.article-image img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform .35s ease; }
+.article-image { position: relative; flex: none; overflow: hidden; background: var(--paper); }
+.article-image img { display: block; width: 100%; height: auto; transition: transform .35s ease; }
 .article-card-link:hover .article-image img { transform: scale(1.035); }
 .article-copy { display: flex; flex-direction: column; flex: 1; gap:14px; padding:28px; }
 .article-meta { display:flex; flex-wrap:wrap; gap:8px 16px; color:var(--muted); font:400 14px/1.5 var(--sans); }
