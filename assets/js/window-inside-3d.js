@@ -294,6 +294,10 @@ export function createInsideExhibit(host) {
     windowSill:['Подоконник','Горизонтальная деталь со стороны комнаты под нижней частью рамы. Снаружи окна расположен отдельный отлив.']
   });
   const hardwareRoot=root('hardware'); const hw=windowModel(hardwareRoot,true);
+  const initialVisibility=new Map(Object.entries(models).map(([name,model])=>[name,model.visible]));
+  Object.values(models).forEach(model=>{model.visible=true;});
+  renderer.compile(scene,camera);
+  Object.entries(models).forEach(([name,model])=>{model.visible=initialVisibility.get(name);});
   const ready=Promise.resolve();
   // Transparent panes and selection overlays must not cast opaque rectangular shadows.
   Object.values(models).forEach(model=>model.traverse(mesh=>{
@@ -566,9 +570,9 @@ export function createInsideExhibit(host) {
       mount.getAnimations().forEach(animation=>animation.cancel());
       if(!motion.matches)mount.animate([
         {opacity:0,easing:'cubic-bezier(.4,0,.2,1)'},
-        {opacity:0,offset:scrollDirection<0?.3:.65,easing:'cubic-bezier(.4,0,.2,1)'},
+        {opacity:0,offset:.18,easing:'cubic-bezier(.4,0,.2,1)'},
         {opacity:1}
-      ],{duration:scrollDirection<0?1400:2600});
+      ],{duration:scrollDirection<0?450:600});
       panel.append(inspector);
       host.querySelectorAll('[data-inspect]').forEach(button=>button.setAttribute('aria-pressed','false'));
       Object.entries(models).forEach(([name,model])=>{model.visible=name===key;});

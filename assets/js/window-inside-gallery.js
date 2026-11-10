@@ -1,7 +1,7 @@
 (() => {
   const cards = [...document.querySelectorAll('[data-gallery-model]')];
   let exhibitModule;
-  const loadExhibit = () => exhibitModule ||= import('./window-inside-3d.js?v=20261110-scene-pacing');
+  const loadExhibit = () => exhibitModule ||= import('./window-inside-3d.js?v=20261110-precompiled');
 
   async function initialize(card) {
     if (card.dataset.initialized) return;

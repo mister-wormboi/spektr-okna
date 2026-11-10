@@ -63,9 +63,8 @@
   let loading;
   async function enhance() {
     if (loading) return loading;
-    loading = import('./window-inside-3d.js?v=20261110-model-spacing').then(async module => {
+    loading = import('./window-inside-3d.js?v=20261110-precompiled').then(async module => {
       exhibit = module.createInsideExhibit(host);
-      exhibit.update();
       await exhibit.ready;
       exhibit.update();
       scheduleScroll();
