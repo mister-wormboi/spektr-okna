@@ -519,6 +519,12 @@ export function createInsideExhibit(host) {
       renderer.setPixelRatio(ratio);renderer.setSize(w,h,false);lastRenderSize=renderSize;
     }
     camera.aspect=w/h;
+    // Give the desktop story headings room without moving the gallery models.
+    if (innerWidth > 900 && active?.closest('.inside-study')) {
+      camera.setViewOffset(w,h,-w*.10,0,w,h);
+    } else {
+      camera.clearViewOffset();
+    }
     const distance=Math.max(5.6,1.85/(Math.tan(THREE.MathUtils.degToRad(camera.fov/2))*Math.min(camera.aspect,1)));
     camera.position.set(0,.15,distance); camera.lookAt(0,0,0); camera.updateProjectionMatrix();
     animate();

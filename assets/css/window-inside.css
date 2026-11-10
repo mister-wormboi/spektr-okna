@@ -42,7 +42,8 @@ body:not(.home-page):not(.information-page).inside-page { padding-top:0; backgro
 .inside-journey { position:relative; }
 .inside-breadcrumbs { position:sticky; top:160px; z-index:25; height:0; margin-left:max(6vw,32px); }
 .inside-breadcrumbs a,.inside-breadcrumbs span { color:var(--studio-subtle); }
-#inside-panels { height:480svh; }
+/* Double the scroll distance per model so its motion and final pose have room. */
+#inside-panels { height:860svh; }
 .inside-sticky { position:sticky; top:0; height:100svh; height:100dvh; overflow:hidden; background:var(--studio-edge); }
 .inside-sticky::after { content:""; position:absolute; inset:0; z-index:1; pointer-events:none; background:linear-gradient(90deg,#080d0be8 0%,#080d0b80 26%,transparent 55%),linear-gradient(0deg,#080d0bba,transparent 32%); }
 html[data-theme="light"] .inside-sticky::after { background:linear-gradient(90deg,#e8f0eaf2 0%,#e8f0ea9c 26%,transparent 55%),linear-gradient(0deg,#dce8dfa8,transparent 32%); }
@@ -151,7 +152,7 @@ html[data-theme="light"] .inside-controls { background:#f5fff4dc; }
  .inside-study-heading > p { display:none; }
  .inside-chapter { font-size:8px; }
  .inside-scene-caption { display:none; }
- #inside-panels { height:600svh; height:600dvh; }
+ #inside-panels { height:1100svh; height:1100dvh; }
  .inside-study { transition:none; }
  .inside-scene-preview { display:none; }
  .inside-study-heading { transition-duration:.4s; }
