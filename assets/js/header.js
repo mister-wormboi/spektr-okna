@@ -47,3 +47,38 @@
     }).observe(sentinel);
   }
 })();
+
+/* Reading progress */
+(() => {
+  let bar = document.querySelector('.reading-progress');
+  if (!bar) {
+    bar = document.createElement('div');
+    bar.className = 'reading-progress';
+    bar.setAttribute('aria-hidden', 'true');
+    bar.innerHTML = '<span></span>';
+    document.body.prepend(bar);
+  }
+  if (document.body.classList.contains('home-page')) return;
+  const fill = bar.querySelector('span');
+  const nativeProgress = window.CSS?.supports?.('animation-timeline: scroll()');
+  if (nativeProgress) return;
+  let queued = false;
+  let pageHeight = 1;
+  function draw() {
+    queued = false;
+    if (!document.hidden) fill.style.transform = `scaleX(${Math.min(1, Math.max(0, scrollY / pageHeight))})`;
+  }
+  function requestDraw() {
+    if (!queued && !document.hidden) { queued = true; requestAnimationFrame(draw); }
+  }
+  function measure() {
+    pageHeight = Math.max(1, document.documentElement.scrollHeight - innerHeight);
+    requestDraw();
+  }
+  addEventListener('scroll', requestDraw, { passive: true });
+  addEventListener('resize', measure, { passive: true });
+  addEventListener('load', measure, { once: true });
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) measure(); });
+  if ('ResizeObserver' in window) new ResizeObserver(measure).observe(document.body);
+  measure();
+})();

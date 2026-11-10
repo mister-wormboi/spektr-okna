@@ -21,19 +21,19 @@ test('gallery models initialize lazily and fail independently', () => {
   assert.match(gallery, /card\.classList\.add\('is-unavailable'\)/);
 });
 
-test('page has chrome, breadcrumbs and two scroll progress segments', () => {
+test('page has chrome, breadcrumbs and the shared reading progress', () => {
   assert.match(html, /class="site-header"/);
   assert.match(html, /class="site-footer"/);
   assert.match(html, /Главная<\/a>.*Окна изнутри<\/span>/);
-  assert.match(html, /class="inside-progress"[^>]*><span><\/span><i><\/i>/);
-  assert.match(gallery, /--content-progress/);
+  assert.doesNotMatch(html, /class="inside-progress"/);
+  assert.match(html, /assets\/js\/header\.js/);
 });
 
-test('all four model cards have real controls and explanatory content', () => {
-  for (const part of ['hardware', 'glass', 'profile', 'frame']) {
-    assert.match(html, new RegExp(`data-gallery-model="${part}"[\\s\\S]*?inside-model-tip`));
+test('all four model cards have controls and concise element descriptions', () => {
+  for (const [part, title] of [['hardware', 'Фурнитура'], ['glass', 'Стеклопакет'], ['profile', 'Профиль'], ['frame', 'Рама']]) {
+    assert.match(html, new RegExp(`data-gallery-model="${part}"[\\s\\S]*?<h3>${title}</h3><p>[^<]+</p>`));
   }
-  assert.equal((html.match(/class="inside-model-fact"/g) || []).length, 4);
+  assert.doesNotMatch(html, /inside-model-fact|inside-model-tip/);
   assert.match(html, /data-mode="open"/);
   assert.match(html, /data-detail/);
   assert.match(html, /data-inspect/);

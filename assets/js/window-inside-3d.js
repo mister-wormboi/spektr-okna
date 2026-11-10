@@ -306,7 +306,7 @@ export function createInsideExhibit(host) {
     mesh.receiveShadow=!mesh.material.transparent;
   }));
   let active, key='frame', detail=0, open=0, tilt=0, mech=0, frame=0, start=0, from={}, target={}, current={detail:0,open:0,tilt:0,mech:0};
-  let lost=false, visible=true;
+  let lost=false, visible=true, disposed=false;
   let viewFrame=0,lastDraw=0;
   let zoom=1, dragging=null, highlighted=null;
   const raycaster=new THREE.Raycaster(), pointer=new THREE.Vector2();
@@ -355,7 +355,7 @@ export function createInsideExhibit(host) {
   }
   // Allow every 60 Hz display frame; tolerate timestamp jitter to avoid dropping to 30 Hz.
   function renderView(){
-    if(lost || !visible || document.hidden || viewFrame || frame)return;
+    if(disposed || lost || !visible || document.hidden || viewFrame || frame)return;
     viewFrame=requestAnimationFrame(function paint(now){
       viewFrame=0;
       if(lost || !visible || document.hidden)return;
@@ -560,7 +560,7 @@ export function createInsideExhibit(host) {
     studio.classList.add('has-preview');
   }
   function update(panel = active || host.querySelector('.inside-panel')) {
-    if(!panel)return;
+    if(disposed || !panel)return;
     if(active!==panel) { cancelRendering(); preservePanel(); }
     const changed=active!==panel; active=panel; key=panel.dataset.part;
     if(changed) {
@@ -590,7 +590,7 @@ export function createInsideExhibit(host) {
     panel.querySelector('.inside-legend').classList.toggle('is-expanded',Boolean(detail));
     if(changed)resize();else animate();
   }
-  new ResizeObserver(resize).observe(mount);
+  const resizeObserver=new ResizeObserver(resize);resizeObserver.observe(mount);
   const observer=new IntersectionObserver(entries=>{visible=entries.some(e=>e.isIntersecting); if(visible)animate();else cancelRendering();}); observer.observe(mount);
   const visibleStudies = new Map();
   const studiesObserver = new IntersectionObserver(entries => {
@@ -602,11 +602,12 @@ export function createInsideExhibit(host) {
     }
   }, { threshold: [0, .15, .35, .6, 1] });
   host.querySelectorAll('.inside-scene').forEach(studio => studiesObserver.observe(studio));
-  document.addEventListener('visibilitychange',()=>{if(document.hidden)cancelRendering();else animate();});
+  const onVisibilityChange=()=>{if(document.hidden)cancelRendering();else if(!disposed)animate();};
+  document.addEventListener('visibilitychange',onVisibilityChange);
   motion.addEventListener('change',animate);
   renderer.domElement.addEventListener('webglcontextlost',event=>{event.preventDefault();lost=true;cancelRendering();active?.querySelector('.inside-scene').classList.remove('has-3d');active?.querySelector('.inside-scene').classList.add('is-unavailable');});
   renderer.domElement.addEventListener('webglcontextrestored',()=>{lost=false;update();});
-  new MutationObserver(()=>{updateBackdrop();renderView();}).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+  const themeObserver=new MutationObserver(()=>{if(!disposed){updateBackdrop();renderView();}});themeObserver.observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
   function scroll(panel, progress, direction=1) {
     if (!panel || lost) return;
     scrollDirection=direction;
@@ -647,5 +648,21 @@ export function createInsideExhibit(host) {
     }
     current={...target};apply(current);renderView();
   }
-  return {update,scroll,ready};
+  function destroy() {
+    if(disposed)return;
+    disposed=true;visible=false;cancelRendering();
+    resizeObserver.disconnect();observer.disconnect();studiesObserver.disconnect();themeObserver.disconnect();
+    document.removeEventListener('visibilitychange',onVisibilityChange);motion.removeEventListener('change',animate);
+    const geometries=new Set(),materials=new Set(),textures=new Set();
+    scene.traverse(object=>{
+      if(object.geometry)geometries.add(object.geometry);
+      if(object.material)(Array.isArray(object.material)?object.material:[object.material]).forEach(material=>{
+        materials.add(material);
+        Object.values(material).forEach(value=>{if(value?.isTexture)textures.add(value);});
+      });
+    });
+    geometries.forEach(geometry=>geometry.dispose());materials.forEach(material=>material.dispose());textures.forEach(texture=>texture.dispose());
+    scene.environment?.dispose();backdrop.dispose();active=null;inspector.remove();mount.remove();renderer.dispose();renderer.forceContextLoss();
+  }
+  return {update,scroll,ready,destroy};
 }

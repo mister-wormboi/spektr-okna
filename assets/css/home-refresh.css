@@ -207,7 +207,7 @@ html[data-theme] body.home-page main h2 :is(.heading-accent,em) { color:inherit;
 
 /* Native scroll timelines avoid a JavaScript callback on every scroll frame. */
 @supports (animation-timeline: scroll()) {
-  .home-page .reading-progress span {
+  .reading-progress span {
     animation: home-reading-progress linear both;
     animation-timeline: scroll(root block);
   }

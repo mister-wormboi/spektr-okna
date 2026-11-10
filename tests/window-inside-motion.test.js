@@ -34,7 +34,7 @@ test('scroll directly drives construction, hardware modes and rotation',()=>{
   const input={},output={};
   const panel={dataset:{part:'glass'},classList:{toggle(){}},querySelector(selector){return selector==='[data-detail]'?button:selector.includes('input')?input:output;}};
   const state={THREE,key:'glass',active:panel,lost:false,scrollCallouts:{glass:[],hardware:[]},scrollPart:null,inspect(){},current:{rotationY:-.65,rotationX:.09},target:{},models:{glass:{rotation:{}}},panel,cancelRendering(){state.cancelled=true;},apply(values){state.applied={...values};},renderView(){state.rendered=true;}};
-  vm.createContext(state);vm.runInContext(source.slice(source.indexOf('  function scroll('),source.indexOf('  return {update,scroll,ready};')),state);
+  vm.createContext(state);vm.runInContext(source.slice(source.indexOf('  function scroll('),source.indexOf('  return {update,scroll,ready,destroy};')),state);
   state.scroll(panel,.5);
   assert.ok(state.applied.detail>0&&state.applied.detail<1);
   assert.equal(state.cancelled,true);assert.equal(state.rendered,true);

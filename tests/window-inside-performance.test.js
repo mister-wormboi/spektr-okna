@@ -5,7 +5,7 @@ const vm=require('node:vm');
 const source=fs.readFileSync('assets/js/window-inside-3d.js','utf8');
 function setup(){
   let id=0,renders=0;const queue=new Map();
-  const state={active:null,frame:0,viewFrame:0,lastDraw:0,lowPower:true,lost:false,visible:true,document:{hidden:false},renderer:{render(){renders++;}},scene:{},camera:{},updateArrow(){},requestAnimationFrame(fn){queue.set(++id,fn);return id;},cancelAnimationFrame(id){queue.delete(id);}};
+  const state={active:null,frame:0,viewFrame:0,lastDraw:0,lowPower:true,lost:false,disposed:false,visible:true,document:{hidden:false},renderer:{render(){renders++;}},scene:{},camera:{},updateArrow(){},requestAnimationFrame(fn){queue.set(++id,fn);return id;},cancelAnimationFrame(id){queue.delete(id);}};
   vm.createContext(state);
   vm.runInContext(source.slice(source.indexOf('  function renderScene('),source.indexOf('  function inspect(')),state);
   return {state,queue,get renders(){return renders;},step(t){const pending=[...queue.values()];queue.clear();pending.forEach(fn=>fn(t));}};

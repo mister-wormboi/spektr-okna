@@ -3,7 +3,8 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
-const source = fs.readFileSync(path.join(__dirname, '../assets/js/header.js'), 'utf8');
+const source = fs.readFileSync(path.join(__dirname, '../assets/js/header.js'), 'utf8').split('/* Reading progress */')[0];
+const readingProgress = fs.readFileSync(path.join(__dirname, '../assets/js/header.js'), 'utf8').split('/* Reading progress */')[1];
 const styles = fs.readFileSync(path.join(__dirname, '../assets/css/header-refresh.css'), 'utf8');
 
 test('folding keeps square corners and only keyboard focus can hold the second row open', () => {
@@ -110,4 +111,14 @@ test('shared headers have the requested row order, a labelled disclosure and def
     assert.doesNotMatch(html.match(/<nav class="header-nav"[\s\S]*?<\/nav>/)[0], /data-theme-toggle/);
     assert.equal((html.match(/data-theme-toggle/g) || []).length, 1);
   }
+});
+
+test('shared reading progress is injected once and uses the home page behavior', () => {
+  assert.match(readingProgress, /className = 'reading-progress'/);
+  assert.match(readingProgress, /document\.body\.prepend\(bar\)/);
+  assert.match(readingProgress, /document\.body\.classList\.contains\('home-page'\)/);
+  assert.match(readingProgress, /animation-timeline: scroll\(\)/);
+  assert.match(readingProgress, /scrollY \/ pageHeight/);
+  const css = fs.readFileSync(path.join(__dirname, '../assets/css/home-refresh.css'), 'utf8');
+  assert.match(css, /\.reading-progress span \{\s*animation: home-reading-progress/);
 });
