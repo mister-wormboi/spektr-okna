@@ -359,7 +359,7 @@ body:not(.home-page):not(.information-page).inside-page { padding-top:144px; bac
 .inside-page-content,.inside-gallery,.reviews-cta { background:var(--studio-edge); }
 .inside-gallery { padding-top:0; padding-bottom:90px; }
 .inside-gallery::before { display:none; }
-.inside-gallery-grid { grid-template-columns:1fr; gap:0; }
+.inside-gallery-grid { grid-template-columns:1fr; gap:0; overflow-anchor:none; }
 .inside-gallery-grid .inside-model-card,.inside-model-card:nth-child(even) { display:block; border:0; background:transparent; box-shadow:none; }
 .inside-gallery-grid .inside-model-stage { height:min(68svh,680px); min-height:520px; }
 .inside-gallery-grid .inside-model-copy { display:block; max-width:850px; padding:38px 0 70px; }
