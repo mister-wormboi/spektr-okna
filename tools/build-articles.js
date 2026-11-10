@@ -61,7 +61,7 @@ articles.forEach(article => {
     : '';
   const sections = article.sections.map((s, i) => `<section id="section-${i + 1}"><h2>${heading(s.heading, s.heading_accent)}</h2>${s.paragraphs.map(p => `<p>${escape(p)}</p>`).join('')}${s.items ? `<ul>${s.items.map(item => `<li>${escape(item)}</li>`).join('')}</ul>` : ''}${s.photo ? `<figure class="article-example"><a href="../../${escape(s.photo.full)}" target="_blank" rel="noopener"><img src="../../${escape(s.photo.thumb)}" alt="${escape(s.photo.alt)}" width="${s.photo.width}" height="${s.photo.height}" loading="lazy" decoding="async"></a><figcaption>${escape(s.photo.caption)}</figcaption></figure>` : ''}</section>`).join('\n');
   const main = `<main id="content" class="article-detail wrap">
-    <nav class="article-breadcrumbs" aria-label="Хлебные крошки"><a href="../../">Главная</a><span aria-hidden="true">/</span><a href="../">Статьи</a><span aria-hidden="true">/</span><span aria-current="page">${escape(article.category)}</span></nav>
+    <nav class="article-breadcrumbs" aria-label="Хлебные крошки"><a href="../../">Главная</a><span aria-hidden="true">/</span><a href="../">Статьи</a><span aria-hidden="true">/</span><span aria-current="page">${escape(article.title)}</span></nav>
     <article>
       <header class="article-heading"><h1>${heading(article.title, article.title_accent)}</h1><div class="article-heading-meta"><span><time datetime="${article.published_on}">${date(article.published_on)}</time></span><span>Чтение: около ${readingMinutes(article)} мин</span></div></header>
       <div class="article-content">
