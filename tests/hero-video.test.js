@@ -50,6 +50,17 @@ test('hero uses one video source on desktop and mobile without a second request'
   assert.equal(page.video.src, 'curtains.mp4');
 });
 
+test('mobile hero selects its own video and switches back on desktop', () => {
+  const page = mount({ mobile: true });
+  page.video.dataset.mobileSrc = 'window.mp4';
+  page.enter(true); page.events.load();
+  assert.equal(page.video.src, 'window.mp4');
+  page.screen.matches = false; page.screen.change();
+  assert.equal(page.video.src, 'curtains.mp4');
+  page.screen.matches = true; page.screen.change();
+  assert.equal(page.video.src, 'window.mp4');
+});
+
 test('hero waits for page load and visibility before requesting the video', () => {
   const page = mount();
   page.enter(true);

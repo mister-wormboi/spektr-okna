@@ -26,7 +26,7 @@
   <link rel="stylesheet" href="assets/css/home-refresh.css?v=20261106-video-hero-restored">
   <link rel="stylesheet" href="assets/css/solutions.css?v=20261022-continuous">
   <link rel="stylesheet" href="assets/css/hero-atmosphere.css?v=20261106-video-restored">
-  <script src="assets/js/hero-video.js?v=20261105-client" defer></script>
+  <script src="assets/js/hero-video.js?v=20261110-mobile-window" defer></script>
   <link rel="stylesheet" href="assets/css/request.css">
   <link rel="stylesheet" href="assets/css/layout.css?v=20261022-breadcrumb-surfaces">
   <link rel="stylesheet" href="assets/css/theme.css?v=20261025-original-green">
@@ -98,8 +98,8 @@
   <main id="top">
     <section class="hero-cinema" aria-labelledby="heroTitle">
       <div class="hero-cinema-media" aria-hidden="true">
-        <picture><img src="assets/hero-curtains-poster.webp" alt="" width="1280" height="720" fetchpriority="high" decoding="async"></picture>
-        <video id="heroVideo" muted loop playsinline preload="none" data-src="assets/hero-curtains.mp4" tabindex="-1"></video>
+        <picture><source media="(max-width: 760px)" srcset="assets/hero-mobile-window-poster.jpg"><img src="assets/hero-curtains-poster.webp" alt="" width="1280" height="720" fetchpriority="high" decoding="async"></picture>
+        <video id="heroVideo" muted loop playsinline preload="none" data-src="assets/hero-curtains.mp4" data-mobile-src="assets/hero-mobile-window.mp4" tabindex="-1"></video>
       </div>
       <div class="hero-cinema-heading">
         <h1 id="heroTitle">Производим и устанавливаем МПК<br><em class="heading-accent">по вашим размерам</em></h1>
