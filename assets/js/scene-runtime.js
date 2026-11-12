@@ -2,10 +2,11 @@ import * as THREE from '../vendor/three/three.module.min.js';
 export { THREE };
 
 // Local environment map: large softboxes and sky, with no low-resolution image assets.
-export function environment(renderer, studio = false) {
+export function environment(renderer, studio = false, resolutionScale = 1) {
   const canvas = document.createElement('canvas');
-  canvas.width = 2048; canvas.height = 1024;
+  canvas.width = Math.round(2048 * resolutionScale); canvas.height = Math.round(1024 * resolutionScale);
   const ctx = canvas.getContext('2d');
+  ctx.scale(resolutionScale, resolutionScale);
   const gradient = ctx.createLinearGradient(0, 0, 0, 1024);
   gradient.addColorStop(0, studio ? '#dbe5e1' : '#6e9caa');
   gradient.addColorStop(.48, studio ? '#829a8e' : '#e6e9d8');

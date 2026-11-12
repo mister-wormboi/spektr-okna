@@ -33,7 +33,7 @@ test('scroll directly drives construction, hardware modes and rotation',()=>{
   const button={dataset:{on:'Собрать',off:'Разобрать'},setAttribute(name,value){this[name]=value;}};
   const input={},output={};
   const panel={dataset:{part:'glass'},classList:{toggle(){}},querySelector(selector){return selector==='[data-detail]'?button:selector.includes('input')?input:output;}};
-  const state={THREE,key:'glass',active:panel,lost:false,scrollCallouts:{glass:[],hardware:[]},scrollPart:null,inspect(){},current:{rotationY:-.65,rotationX:.09},target:{},models:{glass:{rotation:{}}},panel,cancelRendering(){state.cancelled=true;},apply(values){state.applied={...values};},renderView(){state.rendered=true;}};
+  const state={storyMode:false,THREE,key:'glass',active:panel,lost:false,scrollCallouts:{glass:[],hardware:[]},scrollPart:null,inspect(){},current:{rotationY:-.65,rotationX:.09},target:{},models:{glass:{rotation:{}}},panel,cancelRendering(){state.cancelled=true;},apply(values){state.applied={...values};},renderView(){state.rendered=true;}};
   vm.createContext(state);vm.runInContext(source.slice(source.indexOf('  function scroll('),source.indexOf('  return {update,scroll,ready,destroy};')),state);
   state.scroll(panel,.5);
   assert.ok(state.applied.detail>0&&state.applied.detail<1);
@@ -61,4 +61,17 @@ test('stay endpoints remain attached through the full tilt travel and model rota
     assert.ok(Math.abs(a.distanceTo(b)-.52)<1e-9);
     assert.ok(framePin.position.x>=.13&&framePin.position.x<=.68);
   }
+});
+
+test('persistent story canvas does not break first and last chapter detection or rotation',async()=>{
+ const THREE=await import('../assets/vendor/three/three.module.min.js');
+ const hardware={dataset:{part:'hardware'}},glass={dataset:{part:'glass'}},last={dataset:{part:'frame'}};
+ const button={dataset:{on:'Собрать',off:'Разобрать'},setAttribute(){}},input={},output={};
+ glass.classList={toggle(){}};glass.querySelector=s=>s==='[data-detail]'?button:s.includes('input')?input:output;
+ const state={THREE,storyMode:true,storyPanels:[hardware,glass,last],mount:{style:{}},host:{classList:{contains:()=>false},querySelector(){throw Error('Must not depend on :last-child after mounting canvas');}},key:'glass',active:glass,lost:false,scrollCallouts:{glass:[]},scrollPart:null,current:{},target:{},cancelRendering(){},apply(v){this.applied=v;},renderView(){state.renders++;},renders:0};
+ vm.createContext(state);
+ vm.runInContext(source.slice(source.indexOf('  function scroll('),source.indexOf('  function destroy(')),state);
+ state.scroll(glass,.2);const firstRotation=state.current.rotationY;
+ state.scroll(glass,.7);assert.ok(state.current.rotationY>firstRotation);
+ assert.equal(state.renders,2);assert.equal(state.mount.style.opacity,'1');
 });

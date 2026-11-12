@@ -37,6 +37,7 @@ function story({ reduced = false, observer = true, animation = true, fallback = 
   const stage = { replaceChildren() {} };
   const section = { classList: classList(), querySelector: () => stage };
   const document = {
+    currentScript: { src: 'https://example.test/assets/js/window-story.js' },
     hidden: false, querySelector: selector => selector === '.window-story' ? section : fallback ? fallbackSvg : null, createElementNS: () => svg,
     addEventListener: (name, fn) => listeners.set(name, fn), removeEventListener: name => listeners.delete(name),
   };
@@ -53,6 +54,8 @@ function story({ reduced = false, observer = true, animation = true, fallback = 
     disconnect() { connected = false; }
   }
   vm.runInNewContext(source('window-story.js'), {
+    URL, Image: class { decode() {} },
+    Promise: { all(values) { if (values.some(Boolean)) return Promise.all(values); return { then(callback) { callback(); return { catch() {} }; } }; } },
     document, window: { ...(mobilePlayback ? {requestAnimationFrame(fn){frames.set(++frameId,fn);return frameId;},cancelAnimationFrame(id){frames.delete(id);}} : {}), matchMedia: query => query.includes('max-width') ? layout : media, MutationObserver: true, ...(observer ? { IntersectionObserver: Observer } : {}) },
     IntersectionObserver: Observer,
     MutationObserver: class { constructor(fn) { rendererChanged = fn; } observe() {} disconnect() {} },

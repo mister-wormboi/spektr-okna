@@ -229,3 +229,8 @@ html[data-theme="dark"] .theme-toggle .theme-moon { display: none; }
   .home-page .site-header.is-scrolled:not(.is-over-hero) { background: var(--surface); }
   .home-page .site-header.is-scrolled:not(.is-over-hero) .header-inner { background: var(--surface); }
 }
+
+/* Light theme uses a neutral reading indicator across all pages. */
+html[data-theme="light"] .reading-progress span,
+html[data-theme="light"] .inside-progress span,
+html[data-theme="light"] .inside-progress i { background:#000; box-shadow:none; }

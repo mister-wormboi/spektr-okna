@@ -1,10 +1,11 @@
-import { THREE, createRenderer, environment, surfaceTexture, box } from './scene-runtime.js?v=20261105-realism';
+import { THREE, createRenderer, environment, surfaceTexture, box } from './scene-runtime.js?v=20261112-gallery-light';
 
 // One shared, lazy WebGL context. Frames are requested only during an interaction.
 export function createInsideExhibit(host) {
   // Keep the same quality tier through rotation: avoid shader recompilation on resize.
+  const galleryMode=Boolean(host.dataset.galleryModel);
   const compactDevice=matchMedia('(max-width: 700px), (pointer: coarse) and (max-width: 1100px)').matches;
-  const lowPower=compactDevice || navigator.connection?.saveData || (navigator.deviceMemory && navigator.deviceMemory<=4);
+  const lowPower=galleryMode || compactDevice || navigator.connection?.saveData || (navigator.deviceMemory && navigator.deviceMemory<=4);
   const mount = document.createElement('div');
   mount.className = 'inside-webgl';
   const renderer = createRenderer(mount, true);
@@ -13,7 +14,7 @@ export function createInsideExhibit(host) {
   renderer.shadowMap.enabled = !lowPower;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   const scene = new THREE.Scene();
-  scene.environment = environment(renderer, 'neutral');
+  scene.environment = environment(renderer, 'neutral', galleryMode ? .5 : 1);
   scene.add(new THREE.HemisphereLight(0xffffff, 0x626566, .65));
   const light = new THREE.DirectionalLight(0xfff8ef, 2.0);
   light.position.set(-3, 5, 6); scene.add(light);
@@ -62,23 +63,23 @@ export function createInsideExhibit(host) {
   glassEdge.userData.part='glass';
   // Transmission needs a rendered background, rather than only the CSS behind
   // the transparent canvas. Match the studio palette in both site themes.
-  const backdropCanvas=document.createElement('canvas');
-  backdropCanvas.width=512;backdropCanvas.height=512;
-  const backdropContext=backdropCanvas.getContext('2d');
-  const backdrop=new THREE.CanvasTexture(backdropCanvas);
-  backdrop.colorSpace=THREE.SRGBColorSpace;scene.background=backdrop;
+  const backdrop=new THREE.Color();
+  scene.background=backdrop;
   function updateBackdrop(){
     const style=getComputedStyle(host.closest('.inside') || host);
-    const gradient=backdropContext.createRadialGradient(246,180,0,246,180,380);
-    gradient.addColorStop(0,style.getPropertyValue('--studio-center').trim() || '#30483a');
-    gradient.addColorStop(.55,style.getPropertyValue('--studio-mid').trim() || '#203127');
-    gradient.addColorStop(1,style.getPropertyValue('--studio-edge').trim() || '#15221a');
-    backdropContext.fillStyle=gradient;backdropContext.fillRect(0,0,512,512);backdrop.needsUpdate=true;
+    // A clear colour is not exposure-tonemapped like an environment texture.
+    // It therefore matches the CSS surface at the canvas boundary.
+    backdrop.set(style.getPropertyValue('--studio-edge').trim() || '#121815');
   }
   updateBackdrop();
   const metalTexture=surfaceTexture('metal');
   steel.roughnessMap=steel.bumpMap=metalTexture;steel.bumpScale=.00015;
   const models = {};
+  const requestedPart = host.dataset.galleryModel;
+  const storyMode = !requestedPart && Boolean(host.closest('.inside-journey'));
+  const storyPanels = storyMode ? [...host.querySelectorAll('.inside-study .inside-panel')] : [];
+  if (storyMode) { mount.classList.add('inside-story-canvas'); host.classList.add('is-preparing'); }
+  const needs = part => !requestedPart || requestedPart === part;
   const descriptions = {
     pvc:['ПВХ-оболочка','Твёрдые наружные стенки профиля. Они формируют его поверхность и защищают внутренние камеры и усиление.'],
     steel:['Сталь и дистанционные рамки','В раме металл служит усилением, а в стеклопакете дистанционная рамка задаёт расстояние между стёклами.'],
@@ -196,6 +197,7 @@ export function createInsideExhibit(host) {
     return {fixed,pivot,sash,handle,mechanism,arm,updateStay};
   }
   function root(key) { const group=new THREE.Group(); group.rotation.set(.09,-.42,0); scene.add(group); models[key]=group; return group; }
+  function buildFrame() {
   const frameRoot=root('frame'); frameRoot.rotation.y=.2;
   // The frame tab displays only its cross-section; no hidden full window is built.
   const section=new THREE.Group(); frameRoot.add(section);
@@ -256,6 +258,11 @@ export function createInsideExhibit(host) {
   }
   section.rotation.set(.24,-.55,0); section.position.set(0,-.36,0);
 
+    return {section,body,airChambers,reinforcement,cap,rubber,sashSection};
+  }
+  const {section,body,airChambers,reinforcement,cap,rubber,sashSection}=needs('frame')?buildFrame():{};
+
+  function buildInstallation() {
   const profileRoot=root('profile');
   const installed=windowModel(profileRoot);
   const surround=new THREE.Group(); profileRoot.add(surround);
@@ -266,6 +273,13 @@ export function createInsideExhibit(host) {
   const sill=box(surround,2,.055,.9,0,-1.065,.25,pvc);
   const apron=box(surround,1.65,.025,.32,0,-1.075,-.44,steel); apron.rotation.x=-.12;
 
+  openingWalls.userData.selectionPart='opening';installed.fixed.userData.selectionPart='windowStructure';
+  installationJoint.userData.selectionPart='installationJoint';sill.userData.selectionPart='windowSill';
+    return {installed,surround,openingWalls,installationJoint,sill};
+  }
+  const {installed,surround,openingWalls,installationJoint,sill}=needs('profile')?buildInstallation():{};
+
+  function buildGlass() {
   const glassRoot=root('glass'); glassRoot.rotation.y=-.65;
   const layers=[];
   for(let i=0;i<5;i++) {
@@ -278,10 +292,11 @@ export function createInsideExhibit(host) {
       }
     }
   }
+    return layers;
+  }
+  const layers=needs('glass')?buildGlass():[];
   const layerParts=['outerPane','outerGap','middlePane','innerGap','innerPane'];
   layers.forEach((layer,i)=>{layer.userData.selectionPart=layerParts[i];});
-  openingWalls.userData.selectionPart='opening';installed.fixed.userData.selectionPart='windowStructure';
-  installationJoint.userData.selectionPart='installationJoint';sill.userData.selectionPart='windowSill';
   Object.assign(descriptions,{
     outerPane:['Наружное стекло','Первое стекло со стороны улицы. Отделяет наружный воздух от первой герметичной камеры стеклопакета.'],
     outerGap:['Первая камера и рамка','Промежуток между наружным и средним стёклами. Дистанционная рамка по периметру задаёт его ширину.'],
@@ -293,19 +308,18 @@ export function createInsideExhibit(host) {
     installationJoint:['Монтажный шов','Теплоизоляционный слой между стеной и наружным краем рамы. В реальном монтаже его защищают от влаги и продувания.'],
     windowSill:['Подоконник','Горизонтальная деталь со стороны комнаты под нижней частью рамы. Снаружи окна расположен отдельный отлив.']
   });
-  const hardwareRoot=root('hardware'); const hw=windowModel(hardwareRoot,true);
+  const hw=needs('hardware')?windowModel(root('hardware'),true):null;
   const initialVisibility=new Map(Object.entries(models).map(([name,model])=>[name,model.visible]));
-  Object.values(models).forEach(model=>{model.visible=true;});
-  renderer.compile(scene,camera);
-  Object.entries(models).forEach(([name,model])=>{model.visible=initialVisibility.get(name);});
-  const ready=Promise.resolve();
+  // Compile and render every story chapter before its first visible frame.
+  // Promise scheduling lets the DOM and all state finish initializing first.
+  const ready=Promise.resolve().then(prepareStory);
   // Transparent panes and selection overlays must not cast opaque rectangular shadows.
   Object.values(models).forEach(model=>model.traverse(mesh=>{
     if(!mesh.isMesh)return;
     mesh.castShadow=!mesh.material.transparent;
     mesh.receiveShadow=!mesh.material.transparent;
   }));
-  let active, key='frame', detail=0, open=0, tilt=0, mech=0, frame=0, start=0, from={}, target={}, current={detail:0,open:0,tilt:0,mech:0};
+  let active, key=requestedPart || 'frame', detail=0, open=0, tilt=0, mech=0, frame=0, start=0, from={}, target={}, current={detail:0,open:0,tilt:0,mech:0};
   let lost=false, visible=true, disposed=false;
   let viewFrame=0,lastDraw=0;
   let zoom=1, dragging=null, highlighted=null;
@@ -321,6 +335,8 @@ export function createInsideExhibit(host) {
   mount.append(arrow,arrowLabel);
   const bounds=new THREE.Box3(), anchor=new THREE.Vector3();
   function updateArrow(){
+    // Avoid DOM geometry reads and leader-line layout while the user rotates.
+    if(dragging){arrow.style.display=arrowLabel.style.display='none';return;}
     arrow.style.display=arrowLabel.style.display=selectedObject?'':'none';
     if(!selectedObject)return;
     let node=selectedObject;while(node){if(!node.visible){arrow.style.display=arrowLabel.style.display='none';return;}node=node.parent;}
@@ -368,12 +384,12 @@ export function createInsideExhibit(host) {
     if(!partOverride && object){let node=object;while(node){if(node.userData.selectionPart){object=node;partOverride=node.userData.selectionPart;break;}node=node.parent;}}
     if(highlighted){highlighted.forEach(item=>{item.mesh.material=item.original;item.material.dispose();});highlighted=null;}
     const part=partOverride || object?.userData.part || object?.material?.userData.part;
-    airChambers.visible=part==='chambers';
+    if(airChambers)airChambers.visible=part==='chambers';
     selectedObject=part?object:null;selectedPoint=hitPoint && object?object.worldToLocal(hitPoint.clone()):null;
-    if(!hitPoint && object===body.children[0] && part==='pvc')selectedPoint=new THREE.Vector3(-.435,.19,.655);
+    if(!hitPoint && object===body?.children[0] && part==='pvc')selectedPoint=new THREE.Vector3(-.435,.19,.655);
     if(!hitPoint && object===airChambers)selectedPoint=new THREE.Vector3(-.32,0,.655);
     if(!hitPoint && object===openingWalls)selectedPoint=new THREE.Vector3(-1.02,.35,.4);
-    if(!hitPoint && object===installed.fixed)selectedPoint=new THREE.Vector3(-.7,.35,.1);
+    if(!hitPoint && object===installed?.fixed)selectedPoint=new THREE.Vector3(-.7,.35,.1);
     if(!hitPoint && object===installationJoint)selectedPoint=new THREE.Vector3(-.79,.35,-.075);
     if(!hitPoint && ['outerGap','innerGap'].includes(partOverride))selectedPoint=new THREE.Vector3(-.635,.25,.033);
     active?.querySelectorAll('[data-inspect]').forEach(button=>button.setAttribute('aria-pressed',String(Boolean(part) && button.dataset.inspectPart===part)));
@@ -387,6 +403,8 @@ export function createInsideExhibit(host) {
   canvas.addEventListener('pointerdown',event=>{
     if(!event.isPrimary || (event.pointerType==='mouse' && event.button!==0)){dragging=null;return;}
     dragging={id:event.pointerId,x:event.clientX,y:event.clientY,startX:event.clientX,startY:event.clientY,moved:0,touch:event.pointerType==='touch',locked:false};
+    cancelRendering();
+    if(galleryMode)host.dataset.rotating='true';
     canvas.setPointerCapture(event.pointerId);
   });
   canvas.addEventListener('pointermove',event=>{
@@ -394,7 +412,7 @@ export function createInsideExhibit(host) {
     if(dragging.touch && !dragging.locked){
       const horizontal=Math.abs(event.clientX-dragging.startX),vertical=Math.abs(event.clientY-dragging.startY);
       if(Math.max(horizontal,vertical)<7)return;
-      if(vertical>horizontal){dragging=null;canvas.releasePointerCapture(event.pointerId);return;}
+      if(vertical>horizontal){dragging=null;delete host.dataset.rotating;canvas.releasePointerCapture(event.pointerId);return;}
       dragging.locked=true;
     }
     const dx=event.clientX-dragging.x,dy=event.clientY-dragging.y;
@@ -410,13 +428,13 @@ export function createInsideExhibit(host) {
       if(key==='hardware' && hit?.object.userData.part==='handle'){
         const modes=['closed','open','tilt'];active.querySelector(`[data-mode="${modes[(modes.indexOf(active.dataset.mode)+1)%3]}"]`).click();
       }
-    }dragging=null;
+    }dragging=null;delete host.dataset.rotating;renderView();
   });
-  canvas.addEventListener('pointercancel',()=>{dragging=null;});
-  canvas.addEventListener('lostpointercapture',()=>{dragging=null;});
+  canvas.addEventListener('pointercancel',()=>{dragging=null;delete host.dataset.rotating;renderView();});
+  canvas.addEventListener('lostpointercapture',()=>{dragging=null;delete host.dataset.rotating;renderView();});
   canvas.addEventListener('keydown',event=>{if(!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(event.key))return;event.preventDefault();models[key].rotation.y+=event.key==='ArrowLeft'?-.12:event.key==='ArrowRight'?.12:0;models[key].rotation.x=THREE.MathUtils.clamp(models[key].rotation.x+(event.key==='ArrowUp'?-.1:event.key==='ArrowDown'?.1:0),-.65,.65);renderView();});
   host.querySelectorAll('.inside-panel').forEach(panel=>{
-    const choices={frame:[[body.children[0],'pvc'],[airChambers,'chambers'],[reinforcement,'reinforcement'],[rubber,'seal']],profile:[[openingWalls,'opening'],[installed.fixed,'windowStructure'],[installationJoint,'installationJoint'],[sill,'windowSill']],glass:layers.map((layer,i)=>[layer,layerParts[i]]),hardware:[]};
+    const choices={frame:[[body?.children[0],'pvc'],[airChambers,'chambers'],[reinforcement,'reinforcement'],[rubber,'seal']],profile:[[openingWalls,'opening'],[installed?.fixed,'windowStructure'],[installationJoint,'installationJoint'],[sill,'windowSill']],glass:layers.map((layer,i)=>[layer,layerParts[i]]),hardware:[]};
     panel.querySelectorAll('[data-inspect]').forEach((button,i)=>{button.dataset.inspectPart=choices[panel.dataset.part][i][1];button.addEventListener('click',()=>{
       const was=button.getAttribute('aria-pressed')==='true';
       panel.querySelectorAll('[data-inspect]').forEach(item=>item.setAttribute('aria-pressed',String(!was && item===button)));
@@ -434,13 +452,14 @@ export function createInsideExhibit(host) {
       panel.querySelector('.inside-controls').append(label);
       label.querySelector('input').addEventListener('input',event=>{
         const value=Number(event.target.value)/100;label.querySelector('output').value=Math.round(value*100)+'%';
+        event.target.style?.setProperty('--range-progress',Math.round(value*100)+'%');
         cancelRendering();current.detail=value;target.detail=value;apply(current);renderView();
         panel.classList.toggle('is-detail',value>.5);const button=panel.querySelector('[data-detail]');button.setAttribute('aria-pressed',value>.5);button.textContent=value>.5?button.dataset.on:button.dataset.off;
       });
     }
   });
   const scrollCallouts={
-    hardware:[[.12,hw.handle,'handle'],[.42,hw.sash,'swing'],[.72,hw.sash,'tilting']],
+    hardware:[[.12,hw?.handle,'handle'],[.42,hw?.sash,'swing'],[.72,hw?.sash,'tilting']],
     glass:[[.16,layers[0],'outerPane'],[.43,layers[2],'middlePane'],[.72,layers[4],'innerPane']],
     profile:[[.16,openingWalls,'opening'],[.43,installationJoint,'installationJoint'],[.72,sill,'windowSill']],
     frame:[[.16,airChambers,'chambers'],[.43,reinforcement,'reinforcement'],[.72,rubber,'seal']]
@@ -533,6 +552,27 @@ export function createInsideExhibit(host) {
     camera.position.set(0,.15,distance); camera.lookAt(0,0,0); camera.updateProjectionMatrix();
     animate();
   }
+  async function prepareStory() {
+    if(!storyMode) { renderer.compile(scene,camera); return; }
+    update(host.querySelector('.inside-panel'));
+    cancelRendering();
+    const visibility=new Map();
+    Object.values(models).forEach(model=>model.traverse(object=>visibility.set(object,object.visible)));
+    try {
+      for(const model of Object.values(models)) {
+        if(disposed || lost)return;
+        Object.values(models).forEach(item=>{item.visible=item===model;});
+        model.traverse(object=>{object.visible=true;});
+        await renderer.compileAsync(scene,camera);
+        if(disposed || lost)return;
+        renderer.render(scene,camera);
+        await new Promise(resolve=>requestAnimationFrame(resolve));
+      }
+    } finally {
+      visibility.forEach((value,object)=>{object.visible=value;});
+      Object.entries(models).forEach(([name,model])=>{model.visible=name===key;});
+    }
+  }
   const statuses={
     frame:['Разрез рамы. Раздвиньте детали, чтобы рассмотреть конструкцию.','Рама в разрезе: полые камеры, стальное усиление и контур уплотнения.'],
     profile:['Рама и подвижная створка в сборе.','Окно в проёме: монтажный шов по периметру, подоконник внутри и отлив снаружи.'],
@@ -561,14 +601,15 @@ export function createInsideExhibit(host) {
   }
   function update(panel = active || host.querySelector('.inside-panel')) {
     if(disposed || !panel)return;
-    if(active!==panel) { cancelRendering(); preservePanel(); }
+    if(active!==panel) { cancelRendering(); if(!storyMode)preservePanel(); }
     const changed=active!==panel; active=panel; key=panel.dataset.part;
     if(changed) {
       inspect(null);scrollPart=null;zoom=panelStates.get(panel)?.zoom || 1;camera.zoom=zoom;camera.updateProjectionMatrix();
       host.querySelectorAll('.inside-scene').forEach(el=>el.classList.remove('has-3d'));
-      panel.querySelector('.inside-scene').append(mount);
+      const destination=storyMode?host.querySelector('.inside-sticky'):panel.querySelector('.inside-scene');
+      if(mount.parentNode!==destination)destination.append(mount);
       mount.getAnimations().forEach(animation=>animation.cancel());
-      if(!motion.matches)mount.animate([
+      if(!storyMode && !motion.matches)mount.animate([
         {opacity:0,easing:'cubic-bezier(.4,0,.2,1)'},
         {opacity:0,offset:.18,easing:'cubic-bezier(.4,0,.2,1)'},
         {opacity:1}
@@ -578,16 +619,17 @@ export function createInsideExhibit(host) {
       Object.entries(models).forEach(([name,model])=>{model.visible=name===key;});
       current=panelStates.get(panel)?.values || {detail:0,open:0,tilt:0,mech:0,rotationY:models[key].rotation.y,rotationX:models[key].rotation.x,scale:1,lift:0};
       const rect = panel.querySelector('.inside-scene').getBoundingClientRect();
-      visible = rect.bottom > 0 && rect.top < innerHeight;
+      visible = storyMode || (rect.bottom > 0 && rect.top < innerHeight);
     }
     detail=changed && panelStates.has(panel) ? current.detail : Number(panel.classList.contains('is-detail'));
     open=Number(panel.dataset.mode==='open'); tilt=Number(panel.dataset.mode==='tilt'); mech=key==='hardware'?detail:0;
     const baseRotation=key==='glass'?-.65:key==='frame'?.2:-.42;
     target={detail,open,tilt,mech,rotationY:current.rotationY??baseRotation,rotationX:current.rotationX??.09,scale:current.scale??1,lift:current.lift??0};
-    const scrubber=panel.querySelector('.inside-scrubber');if(scrubber){scrubber.querySelector('input').value=detail*100;scrubber.querySelector('output').value=(detail*100)+'%';}
+    const scrubber=panel.querySelector('.inside-scrubber');if(scrubber){scrubber.querySelector('input').value=detail*100;scrubber.querySelector('input').style?.setProperty('--range-progress',detail*100+'%');scrubber.querySelector('output').value=(detail*100)+'%';}
     const status=panel.querySelector('.inside-status');
     status.textContent=key==='hardware'?`${open?'Створка открыта на боковых петлях.':tilt?'Верх створки откинут внутрь для проветривания.':'Створка закрыта, ручка направлена вниз.'}${mech?' Подсвечены запорная обвязка и точки прижима.':''}`:statuses[key][detail];
     panel.querySelector('.inside-legend').classList.toggle('is-expanded',Boolean(detail));
+    if(storyMode) { if(!lastRenderSize)resize(); return; }
     if(changed)resize();else animate();
   }
   const resizeObserver=new ResizeObserver(resize);resizeObserver.observe(mount);
@@ -601,7 +643,7 @@ export function createInsideExhibit(host) {
       if (panel !== active) update(panel);
     }
   }, { threshold: [0, .15, .35, .6, 1] });
-  host.querySelectorAll('.inside-scene').forEach(studio => studiesObserver.observe(studio));
+  if(!storyMode)host.querySelectorAll('.inside-scene').forEach(studio => studiesObserver.observe(studio));
   const onVisibilityChange=()=>{if(document.hidden)cancelRendering();else if(!disposed)animate();};
   document.addEventListener('visibilitychange',onVisibilityChange);
   motion.addEventListener('change',animate);
@@ -634,19 +676,29 @@ export function createInsideExhibit(host) {
       button.textContent=target.detail>.5?button.dataset.on:button.dataset.off;
       const input=panel.querySelector('.inside-scrubber input');
       const output=panel.querySelector('.inside-scrubber output');
-      input.value=Math.round(target.detail*100);output.value=Math.round(target.detail*100)+'%';
+      input.value=Math.round(target.detail*100);input.style?.setProperty('--range-progress',Math.round(target.detail*100)+'%');output.value=Math.round(target.detail*100)+'%';
     } else {
       panel.dataset.mode=target.tilt>.5?'tilt':target.open>.1?'open':'closed';
       panel.querySelectorAll('button[data-mode]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.mode===panel.dataset.mode)));
     }
     const callout=[...scrollCallouts[key]].reverse().find(([threshold])=>value>=threshold);
-    const nextPart=value>=.96?null:callout?.[2]||null;
+    const nextPart=storyMode || value>=.96?null:callout?.[2]||null;
     if(nextPart!==scrollPart) {
       scrollPart=nextPart;
       const selected=scrollCallouts[key].find(([,object,part])=>part===nextPart);
       inspect(selected?.[1],selected?.[2]);
     }
-    current={...target};apply(current);renderView();
+    if(storyMode) {
+      const first=key===storyPanels[0].dataset.part;
+      const last=key===storyPanels.at(-1).dataset.part;
+      const entering=first?1:THREE.MathUtils.smoothstep(value,0,.09);
+      const leaving=last?1:1-THREE.MathUtils.smoothstep(value,.91,1);
+      mount.style.opacity=String(entering*leaving);
+    }
+    current={...target};apply(current);
+    // Commit the correct first pose before exposing the warmed canvas.
+    if(storyMode && host.classList.contains('is-preparing'))renderScene();
+    else renderView();
   }
   function destroy() {
     if(disposed)return;
@@ -662,7 +714,7 @@ export function createInsideExhibit(host) {
       });
     });
     geometries.forEach(geometry=>geometry.dispose());materials.forEach(material=>material.dispose());textures.forEach(texture=>texture.dispose());
-    scene.environment?.dispose();backdrop.dispose();active=null;inspector.remove();mount.remove();renderer.dispose();renderer.forceContextLoss();
+    scene.environment?.dispose();backdrop.dispose?.();active=null;inspector.remove();mount.remove();renderer.dispose();renderer.forceContextLoss();
   }
   return {update,scroll,ready,destroy};
 }

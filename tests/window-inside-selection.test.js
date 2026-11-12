@@ -9,7 +9,7 @@ function setup(parts) {
   const objects=parts.map(part=>({userData:{selectionPart:part},isMesh:true,material,traverse(fn){fn(this);}}));
   const state={THREE:{Vector3:class{constructor(x,y,z){Object.assign(this,{x,y,z});}}},descriptions:{pvc:['ПВХ','Оболочка']},highlighted:null,selectedObject:null,selectedPoint:null,airChambers:{},body:{children:[{}]},openingWalls:{},installed:{fixed:{}},installationJoint:{},active:{querySelectorAll(){return buttons;}},inspector:{append(...children){this.children=children;}},arrowLabel:{},document:{createElement(){return {}; }},renderView(){}};
   vm.createContext(state);
-  vm.runInContext(source.slice(source.indexOf('  Object.assign(descriptions,'),source.indexOf("  const hardwareRoot=root('hardware');")),state);
+  vm.runInContext(source.slice(source.indexOf('  Object.assign(descriptions,'),source.indexOf("  const hw=needs('hardware')")),state);
   vm.runInContext(source.slice(source.indexOf('  function inspect('),source.indexOf("  canvas.addEventListener('pointerdown'")),state);
   return {state,objects,buttons,material};
 }

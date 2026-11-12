@@ -48,28 +48,17 @@
     panel.querySelector('.inside-scene').insertAdjacentHTML('beforeend', `<div class="inside-scene-caption" aria-hidden="true"><span>${key==='profile'?'Вид со стороны комнаты':'Рассмотрите ближе'}</span></div>`);
     panel.querySelector('.inside-controls').insertAdjacentHTML('beforebegin', `<div class="inside-legend" aria-label="Элементы конструкции">${items.map((item,i)=>`<button type="button" data-inspect="${i}" aria-pressed="false">${`<svg class="inside-part-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${partIcons[key][i]}</svg><span class="inside-part-name">${item}</span>`}</button>`).join('')}</div><p class="inside-status" role="status" aria-live="polite"></p>`);
   });
-  // Reveal each scene only once it reaches the viewport, not during lazy preload.
-  if ('IntersectionObserver' in window) {
-    const revealObserver=new IntersectionObserver(entries=>{
-      entries.forEach(entry=>{
-        if(!entry.isIntersecting)return;
-        entry.target.classList.add('is-revealed');
-        revealObserver.unobserve(entry.target);
-      });
-    },{threshold:.15});
-    host.querySelectorAll('.inside-scene').forEach(scene=>revealObserver.observe(scene));
-  } else host.querySelectorAll('.inside-scene').forEach(scene=>scene.classList.add('is-revealed'));
   let exhibit;
   let loading;
   async function enhance() {
     if (loading) return loading;
-    loading = import('./window-inside-3d.js?v=20261110-precompiled').then(async module => {
+    loading = import('./window-inside-3d.js?v=20261112-studio-surface').then(async module => {
       exhibit = module.createInsideExhibit(host);
       await exhibit.ready;
-      exhibit.update();
-      scheduleScroll();
+      paintScroll();
+      host.classList.remove('is-preparing');
       requestAnimationFrame(()=>requestAnimationFrame(()=>document.body.classList.remove('is-loading')));
-    }).catch(error => { document.body.classList.remove('is-loading');host.querySelectorAll('.inside-scene').forEach(scene=>scene.classList.add('is-unavailable')); console.warn('Inside exhibit:', error.message); });
+    }).catch(error => { document.body.classList.remove('is-loading');host.classList.remove('is-preparing');host.querySelectorAll('.inside-scene').forEach(scene=>scene.classList.add('is-unavailable')); console.warn('Inside exhibit:', error.message); });
     return loading;
   }
   if ('IntersectionObserver' in window) {
@@ -133,7 +122,7 @@
       });
       setCurrentSection(studies[index].id);
     }
-    if(!reducedMotion.matches)exhibit?.scroll(studies[index].querySelector('.inside-panel'),localProgress,direction);
+    exhibit?.scroll(studies[index].querySelector('.inside-panel'),reducedMotion.matches?0:localProgress,direction);
   }
   function scheduleScroll() {
     if(!scrollFrame)scrollFrame=requestAnimationFrame(paintScroll);

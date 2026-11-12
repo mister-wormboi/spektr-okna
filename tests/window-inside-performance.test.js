@@ -42,3 +42,22 @@ test('rotation renders on every 60 Hz frame without an alternating-frame delay',
     assert.equal(run.queue.size,0);
   }
 });
+
+test('story prewarms each chapter before readiness and restores model visibility',async()=>{
+  const models=Object.fromEntries(['hardware','glass','profile','frame'].map(name=>[name,{visible:name==='hardware',traverse(fn){fn(this);}}]));
+  let compiles=0,renders=0;
+  const state={storyMode:true,models,key:'hardware',disposed:false,lost:false,scene:{},camera:{},host:{querySelector(){return {}; }},update(){},cancelRendering(){},renderer:{async compileAsync(){compiles++;},render(){renders++;}},requestAnimationFrame(fn){fn();}};
+  vm.createContext(state);
+  vm.runInContext(source.slice(source.indexOf('  async function prepareStory('),source.indexOf('  const statuses=')),state);
+  await state.prepareStory();
+  assert.equal(compiles,4);assert.equal(renders,4);
+  assert.equal(models.hardware.visible,true);
+  assert.ok(['glass','profile','frame'].every(name=>models[name].visible===false));
+});
+
+test('story canvas stays mounted and is not controlled by chapter visibility observers',()=>{
+  assert.match(source,/if\(!storyMode\)preservePanel\(\)/);
+  assert.match(source,/if\(mount.parentNode!==destination\)destination.append\(mount\)/);
+  assert.match(source,/if\(!storyMode && !motion.matches\)mount.animate/);
+  assert.match(source,/if\(!storyMode\)host.querySelectorAll\('\.inside-scene'\)/);
+});
