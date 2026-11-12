@@ -32,7 +32,7 @@
     <path d="M125 574V508L218 433"/>
     <path d="M375 574V500L364 433"/>
     <path d="M625 574V508L564 436"/>
-    <path d="M875 574V522L756 468"/>
+    <path d="M875 574V522L756 448"/>
   </g>
   <g class="ws-mobile-labels" text-anchor="middle"><text x="160" y="350">1 · Рама</text><text x="480" y="350">2 · Створка</text><text x="160" y="730">3 · Стеклопакет</text><text x="480" y="730">4 · Штапик</text></g>`;
   // Decode the four lightweight rasters before replacing the static fallback.
