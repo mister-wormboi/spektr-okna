@@ -14,12 +14,12 @@
   <title>{{title}}</title>
   <link rel="icon" type="image/png" sizes="128x128" href="{{prefix}}assets/favicon.png?v=4">
   <link rel="icon" type="image/svg+xml" sizes="any" href="{{prefix}}assets/favicon.svg?v=4">
-  <link rel="stylesheet" href="{{prefix}}assets/css/main.css?v=20261020-audit">
-  <link rel="stylesheet" href="{{prefix}}assets/css/design.css?v=20261020-audit">
-  <link rel="stylesheet" href="{{prefix}}assets/css/night.css?v=20261020-audit">
+  <link rel="stylesheet" href="{{prefix}}assets/css/main.css?v=20261112-cleanup">
+  <link rel="stylesheet" href="{{prefix}}assets/css/design.css?v=20261112-cleanup">
+  <link rel="stylesheet" href="{{prefix}}assets/css/night.css?v=20261112-cleanup">
   <link rel="stylesheet" href="{{prefix}}assets/css/articles.css?v=20261024-cards">
   {{detail_css}}
-  <link rel="stylesheet" href="{{prefix}}assets/css/header-refresh.css?v=20261106-heading-accents">
+  <link rel="stylesheet" href="{{prefix}}assets/css/header-refresh.css?v=20261112-cleanup">
   <script src="{{prefix}}assets/js/header.js" defer></script>
   <link rel="stylesheet" href="{{prefix}}assets/css/footer.css?v=20261105-client">
   <link rel="stylesheet" href="{{prefix}}assets/css/layout.css?v=20261022-breadcrumb-surfaces">

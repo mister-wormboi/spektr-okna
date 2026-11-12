@@ -24,6 +24,11 @@ for (const item of [...window.SPEKTR_PRODUCTS, ...window.SPEKTR_CATALOG]) {
     dynamic.add(file.replace('.webp', '-small.webp'));
   }
 }
+// These parts are addressed through new URL(name + '.webp', assetBase).
+const story = fs.readFileSync(path.join(root, 'assets/js/window-story.js'), 'utf8');
+for (const [, name] of story.matchAll(/\['(frame|sash|glass|bead)'\s*,/g)) {
+  dynamic.add(`assets/window-parts/${name}.webp`);
+}
 const candidates = files.filter(file => path.relative(root, file).startsWith('assets' + path.sep)).filter(file => {
   const relative = path.relative(root, file);
   const name = path.basename(file);

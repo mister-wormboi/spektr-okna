@@ -30,7 +30,7 @@ summary {
 }
 
 .hero {
-  background: linear-gradient(90deg, #13281ee6 0%, #13281e96 43%, #13281e08 78%), url('../hero.webp') center 56% / cover;
+  background: linear-gradient(90deg, #13281ee6 0%, #13281e96 43%, #13281e08 78%), url('../hero-curtains-poster.webp') center 56% / cover;
 }
 
 .hero::after {

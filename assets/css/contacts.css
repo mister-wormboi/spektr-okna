@@ -52,8 +52,8 @@ button {
 
 .eyebrow {
     color: var(--green);
-    font-size: var(--font-size-body);
-    font-weight: 800;
+
+
     letter-spacing: .24em;
     text-transform: uppercase;
 }
@@ -107,8 +107,8 @@ button {
 }
 
 .hero {
-    position: relative;
-    overflow: hidden;
+
+
     padding: 105px 0 95px;
     color: #fff;
     background: #111210;
@@ -269,7 +269,7 @@ button {
     position: relative;
     display: block;
     height: 280px;
-    overflow: hidden;
+
     background: var(--paper);
 }
 

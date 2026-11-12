@@ -18,7 +18,7 @@ body {
   position: relative;
   overflow: hidden;
   color: #fff;
-  background: linear-gradient(90deg, #111210e8, #111210ad 50%, #11121087), url("../hero.webp") center / cover;
+  background: linear-gradient(90deg, #111210e8, #111210ad 50%, #11121087), url("../hero-curtains-poster.webp") center / cover;
 }
 
 .hero::after {

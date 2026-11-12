@@ -33,7 +33,10 @@ test('all four model cards have controls and concise element descriptions', () =
   for (const [part, title] of [['hardware', 'Фурнитура'], ['glass', 'Стеклопакет'], ['profile', 'Монтаж'], ['frame', 'Рама и профиль']]) {
     assert.match(html, new RegExp(`data-gallery-model="${part}"[\\s\\S]*?<h3>${title}</h3><p>[^<]+</p>`));
   }
-  assert.doesNotMatch(html, /inside-model-fact|inside-model-tip/);
+  assert.equal((html.match(/role="tab"/g) || []).length, 4);
+  assert.equal((html.match(/role="tabpanel"/g) || []).length, 4);
+  assert.match(html, /inside-model-fact/);
+  assert.match(html, /inside-model-tip/);
   assert.match(html, /data-mode="open"/);
   assert.match(html, /data-detail/);
   assert.match(html, /data-inspect/);

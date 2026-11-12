@@ -4,7 +4,7 @@ body { background: var(--surface); }
 .home-page .hero { isolation: isolate; background: #17221b; }
 .home-page .hero::before {
   content: ''; position: absolute; z-index: -1; inset: -75px -3%;
-  background: linear-gradient(90deg, #0c1819d9, #0c18195c 55%, #0c181914), url('../hero.webp') center 56% / cover;
+  background: linear-gradient(90deg, #0c1819d9, #0c18195c 55%, #0c181914), url('../hero-curtains-poster.webp') center 56% / cover;
   transform: translate3d(0, var(--hero-shift, 0px), 0) scale(1.025);
 }
 .home-page .hero.is-in-view::before { will-change: transform; }
@@ -56,7 +56,7 @@ body { background: var(--surface); }
 .contacts-page .contact-banner { background: #244536; }
 .contacts-page .contact-banner a { color: #15251a; background: #e2ecd7; }
 @media (max-width: 760px) {
-  .home-page .hero::before { background-image: linear-gradient(90deg, #0c1819d9, #0c181970 70%, #0c181930), url('../hero-mobile.webp'); }
+  .home-page .hero::before { background-image: linear-gradient(90deg, #0c1819d9, #0c181970 70%, #0c181930), url('../hero-mobile-couple-poster.webp'); }
   .home-page .hero h1 { margin: 22px 0 18px; }
 }
 @media (prefers-reduced-motion: reduce) { .home-page .hero::before { transform: none; } }

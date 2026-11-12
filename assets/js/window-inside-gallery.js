@@ -10,7 +10,6 @@
       cards[i].classList.toggle('is-near', active);
       if (!active) dispose(cards[i]);
     });
-    lastNear = index;
     initialize(cards[index]);
     if (focus) tabs[index].focus();
   }
@@ -28,18 +27,16 @@
     });
   });
   const exhibits = new WeakMap();
+  const pending = new WeakMap();
+  const templates = new WeakMap(cards.map(card => [card, card.querySelector('.inside-panel').cloneNode(true)]));
   let exhibitModule;
   let preparation = Promise.resolve();
   const idle = () => new Promise(resolve => {
     if ('requestIdleCallback' in window) requestIdleCallback(resolve, {timeout:700});
     else setTimeout(resolve, 32);
   });
-  let lastNear = 0;
-  const compact = matchMedia('(max-width: 900px)').matches || navigator.connection?.saveData;
   function trim() {
-    cards.forEach((card, index) => {
-      if (!card.classList.contains('is-near') && (compact || Math.abs(index - lastNear) > 1)) dispose(card);
-    });
+    cards.filter(card => card.hidden).forEach(dispose);
   }
   const loadExhibit = () => exhibitModule ||= import('./window-inside-3d.js?v=20261112-studio-surface');
 
@@ -60,17 +57,14 @@
   }));
 
   function dispose(card) {
+    const hadPending = pending.has(card);
+    pending.delete(card);
     const exhibit = exhibits.get(card);
-    if (!exhibit) return;
+    if (!exhibit && !hadPending) return;
     delete card.dataset.rotating;
-    exhibit.destroy();
+    exhibit?.destroy();
     exhibits.delete(card);
-    const panel = card.querySelector('.inside-panel');
-    const cleanPanel = panel.cloneNode(true);
-    cleanPanel.classList.remove('is-detail');
-    cleanPanel.querySelectorAll('.inside-view-tools,.inside-scrubber,.inside-inspector,.inside-scene-preview').forEach(element => element.remove());
-    cleanPanel.querySelector('.inside-scene').classList.remove('has-3d', 'is-revealed', 'has-preview', 'is-unavailable');
-    panel.replaceWith(cleanPanel);
+    card.querySelector('.inside-panel').replaceWith(templates.get(card).cloneNode(true));
     delete card.dataset.initialized;
     card.removeAttribute('aria-busy');
   }
@@ -78,34 +72,44 @@
   async function initialize(card) {
     if (card.hidden || card.dataset.initialized) return;
     card.dataset.initialized = 'true';
+    const token = {};
+    pending.set(card, token);
+    const isCurrent = () => pending.get(card) === token && !card.hidden;
     card.querySelector('.inside-scene').classList.add('is-revealed');
     card.setAttribute('aria-busy', 'true');
     try {
       const { createInsideExhibit } = await loadExhibit();
       const task = preparation.then(async () => {
         await idle();
-        while (cards.some(item => item.dataset.rotating === 'true')) {
-          await new Promise(resolve => setTimeout(resolve, 100));
-        }
-        if (!card.classList.contains('is-near')) { delete card.dataset.initialized; return null; }
+        if (!isCurrent() || !card.classList.contains('is-near')) return null;
         const exhibit = createInsideExhibit(card);
-        await exhibit.ready;
-        if (card.hidden) { exhibit.destroy(); delete card.dataset.initialized; return null; }
+        try {
+          await exhibit.ready;
+        } catch (error) {
+          exhibit.destroy();
+          throw error;
+        }
+        if (!isCurrent()) { exhibit.destroy(); return null; }
         return exhibit;
       });
       preparation = task.catch(() => {});
       const exhibit = await task;
-      if (!exhibit) return;
+      if (!exhibit || !isCurrent()) { exhibit?.destroy(); return; }
       exhibits.set(card, exhibit);
       exhibit.update();
       trim();
     } catch (error) {
+      if (!isCurrent()) return;
       card.classList.add('is-unavailable');
       card.querySelector('.inside-scene')?.classList.add('is-unavailable');
       card.querySelector('.inside-status').textContent = 'Не удалось загрузить 3D-модель. Обновите страницу, чтобы попробовать снова.';
       console.error('Inside gallery model:', error);
     } finally {
-      card.removeAttribute('aria-busy');
+      if (pending.get(card) === token) {
+        pending.delete(card);
+        if (!exhibits.has(card)) delete card.dataset.initialized;
+        card.removeAttribute('aria-busy');
+      }
     }
   }
 
@@ -114,7 +118,7 @@
       entries.forEach(entry => {
         const card = entry.target;
         card.classList.toggle('is-near', entry.isIntersecting && !card.hidden);
-        if (entry.isIntersecting && !card.hidden) { lastNear = cards.indexOf(card); initialize(card); }
+        if (entry.isIntersecting && !card.hidden) { initialize(card); }
       });
       trim();
     }, { rootMargin: '350px 0px' });
