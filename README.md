@@ -155,3 +155,8 @@ Mixkit, «Silhouette of woman opening a window», Stock Video Free License дл�
 и личного использования. Видео иллюстративное, не съёмка объекта компании.
 
 [Правки заказчика от 5 ноября 2026](docs/client-revisions-2026-11-05.md).
+
+## Мобильное видео hero — 12.11.2026
+
+На главной при ширине до 760 px используется `assets/hero-mobile-couple-20261112.mp4`: 540×1024, 24 fps, H.264/yuv420p, 11,25 с, без аудио, MP4 faststart. Размер — 491 068 байт вместо 26 497 872 байт исходника `8088642-uhd_2160_4096_24fps.mp4`.
+Заставка — `assets/hero-mobile-couple-poster.webp`, с мобильным preload. Десктопный ролик `hero-curtains.mp4` не менялся.

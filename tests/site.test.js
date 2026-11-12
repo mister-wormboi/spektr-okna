@@ -127,6 +127,7 @@ test('all pages declare responsive viewport; mobile assets and controls are link
   assert.equal(heroVideo.preload, 'none');
   assert.ok(!heroVideo.src, 'Playback preferences are checked before requesting the video');
   checkLink(path.join(root, 'index.html'), heroVideo['data-src']);
-  assert.equal(heroVideo['data-mobile-src'], undefined);
+  assert.equal(heroVideo['data-mobile-src'], 'assets/hero-mobile-couple-20261112.mp4');
+  checkLink(path.join(root, 'index.html'), heroVideo['data-mobile-src']);
   assert.equal(heroVideo.id, 'heroVideo');
 });
