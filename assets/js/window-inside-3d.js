@@ -449,7 +449,8 @@ export function createInsideExhibit(host) {
     toolbar.addEventListener('click',event=>{const action=event.target.dataset.view;if(!action)return;if(action==='reset'){models[key].rotation.set(.09,key==='glass'?-.65:key==='frame'?.2:-.42,0);zoom=1;inspect(null);}else zoom=THREE.MathUtils.clamp(zoom+(action==='in'?.15:-.15),.7,1.5);camera.zoom=zoom;camera.updateProjectionMatrix();renderView();});
     if(panel.dataset.part!=='hardware'){
       const label=document.createElement('label');label.className='inside-scrubber';label.innerHTML='Разборка <input type="range" min="0" max="100" value="0" aria-label="Степень разборки модели"><output>0%</output>';
-      panel.querySelector('.inside-controls').append(label);
+      // Gallery sliders occupy their own layout row, outside the filtered toolbar.
+      (galleryMode ? panel : panel.querySelector('.inside-controls')).append(label);
       label.querySelector('input').addEventListener('input',event=>{
         const value=Number(event.target.value)/100;label.querySelector('output').value=Math.round(value*100)+'%';
         event.target.style?.setProperty('--range-progress',Math.round(value*100)+'%');

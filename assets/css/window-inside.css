@@ -542,14 +542,14 @@ html[data-theme="light"] .inside-page-content::after {
 
 /* Fixed mobile control slots keep the range clear of wrapping part labels. */
 @media(max-width:900px) {
- .inside-explorer .inside-panel { display:grid; grid-template-columns:minmax(0,1fr); grid-template-rows:auto 64px 108px; padding-bottom:60px; }
+ .inside-explorer .inside-panel { display:grid; grid-template-columns:minmax(0,1fr); grid-template-rows:auto 64px 108px 52px; padding-bottom:0; }
  .inside-explorer .inside-scene { grid-column:1; grid-row:1; }
  .inside-explorer .inside-controls { display:grid!important; position:static; grid-column:1; grid-row:2; grid-template-columns:repeat(3,minmax(0,1fr)); align-content:center; gap:6px; height:64px; min-height:0; margin:0; padding:8px 0; border:0; background:transparent; }
  .inside-explorer .inside-controls > button { min-width:0; padding:8px 6px; white-space:normal; }
  .inside-explorer .inside-controls > button[data-detail] { grid-column:1 / -1; }
  .inside-explorer .inside-legend { grid-column:1; grid-row:3; height:108px; min-height:0; box-sizing:border-box; align-content:start; padding:8px 0; overflow-y:auto; }
  .inside-explorer .inside-legend:empty { display:flex!important; visibility:hidden; }
- .inside-explorer .inside-scrubber { position:absolute; inset:auto 0 0; display:grid; grid-template-columns:68px minmax(0,1fr) 38px; gap:10px; height:52px; min-height:52px; margin:0; padding:0 8px; box-sizing:border-box; white-space:nowrap; border-top:1px solid var(--gallery-line); }
+ .inside-explorer .inside-scrubber { position:relative; inset:auto; grid-column:1; grid-row:4; display:grid; grid-template-columns:68px minmax(0,1fr) 38px; gap:10px; height:52px; min-height:52px; margin:0; padding:0 8px; box-sizing:border-box; white-space:nowrap; border-top:1px solid var(--gallery-line); }
  .inside-explorer .inside-scrubber input { appearance:none; -webkit-appearance:none; width:100%; height:44px; min-height:44px; margin:0; padding:0; border:0; background:transparent; touch-action:pan-y; }
  .inside-explorer .inside-scrubber input::-webkit-slider-runnable-track { height:3px; border:0; border-radius:2px; background:linear-gradient(to right,var(--gallery-accent) 0 var(--range-progress,0%),var(--gallery-line) var(--range-progress,0%) 100%); }
  .inside-explorer .inside-scrubber input::-moz-range-track { height:3px; border:0; border-radius:2px; background:var(--gallery-line); }

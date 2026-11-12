@@ -52,7 +52,7 @@
   let loading;
   async function enhance() {
     if (loading) return loading;
-    loading = import('./window-inside-3d.js?v=20261112-studio-surface').then(async module => {
+    loading = import('./window-inside-3d.js?v=20261112-slider-row').then(async module => {
       exhibit = module.createInsideExhibit(host);
       await exhibit.ready;
       paintScroll();

@@ -38,7 +38,7 @@
   function trim() {
     cards.filter(card => card.hidden).forEach(dispose);
   }
-  const loadExhibit = () => exhibitModule ||= import('./window-inside-3d.js?v=20261112-studio-surface');
+  const loadExhibit = () => exhibitModule ||= import('./window-inside-3d.js?v=20261112-slider-row');
 
   cards.forEach(card => card.addEventListener('click', event => {
     const button = event.target.closest('button');
