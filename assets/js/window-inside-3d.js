@@ -5,7 +5,7 @@ export function createInsideExhibit(host) {
   // Keep the same quality tier through rotation: avoid shader recompilation on resize.
   const galleryMode=Boolean(host.dataset.galleryModel);
   const compactDevice=matchMedia('(max-width: 700px), (pointer: coarse) and (max-width: 1100px)').matches;
-  const lowPower=galleryMode || compactDevice || navigator.connection?.saveData || (navigator.deviceMemory && navigator.deviceMemory<=4);
+  const lowPower=galleryMode || host.hasAttribute('data-home-inside') || compactDevice || navigator.connection?.saveData || (navigator.deviceMemory && navigator.deviceMemory<=4);
   const mount = document.createElement('div');
   mount.className = 'inside-webgl';
   const renderer = createRenderer(mount, true);
@@ -14,7 +14,7 @@ export function createInsideExhibit(host) {
   renderer.shadowMap.enabled = !lowPower;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   const scene = new THREE.Scene();
-  scene.environment = environment(renderer, 'neutral', galleryMode ? .5 : 1);
+  scene.environment = environment(renderer, 'neutral', (galleryMode || host.hasAttribute('data-home-inside')) ? .5 : 1);
   scene.add(new THREE.HemisphereLight(0xffffff, 0x626566, .65));
   const light = new THREE.DirectionalLight(0xfff8ef, 2.0);
   light.position.set(-3, 5, 6); scene.add(light);
