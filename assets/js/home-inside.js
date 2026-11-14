@@ -50,7 +50,7 @@
     measure();
     section.setAttribute('aria-busy', 'true');
     try {
-      const { createInsideExhibit } = await import('./window-inside-3d.js?v=20261114-home-intro');
+      const { createInsideExhibit } = await import('./window-inside-3d.js?v=20261114-install-wall');
       exhibit = createInsideExhibit(host);
       await exhibit.ready;
       paint(mobile.matches ? elapsed / duration : (scrollY - top) / distance);

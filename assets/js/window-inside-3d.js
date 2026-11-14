@@ -480,8 +480,8 @@ export function createInsideExhibit(host) {
     reinforcement.position.z=d*.5;
     sashSection.position.y=.47+d*.13;
     } else if(key==='profile') {
-    surround.visible=d>.01; surround.scale.setScalar(.95+d*.05);
-    surround.position.z=-.65*(1-d); installed.fixed.position.z=-d*.35;
+    surround.visible=true; surround.scale.setScalar(1);
+    surround.position.z=0; installed.fixed.position.z=-d*.35;
     installed.pivot.rotation.y=d*.35;
     sill.position.z=.25+d*.2;
     } else if(key==='glass') {
@@ -576,7 +576,7 @@ export function createInsideExhibit(host) {
   }
   const statuses={
     frame:['Разрез рамы. Раздвиньте детали, чтобы рассмотреть конструкцию.','Рама в разрезе: полые камеры, стальное усиление и контур уплотнения.'],
-    profile:['Рама и подвижная створка в сборе.','Окно в проёме: монтажный шов по периметру, подоконник внутри и отлив снаружи.'],
+    profile:['Окно установлено в стене: видны проём, монтажный шов и подоконник.','Окно в проёме: монтажный шов по периметру, подоконник внутри и отлив снаружи.'],
     glass:['Двухкамерный стеклопакет в сборе: три стекла и две камеры.','Слои разделены: стекло, дистанционная рамка, стекло, дистанционная рамка, стекло.']
   };
   const panelStates = new WeakMap();

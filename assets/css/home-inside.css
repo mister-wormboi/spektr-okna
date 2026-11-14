@@ -1,18 +1,19 @@
 /* Short version of the window exhibit; styles stay scoped to the homepage. */
 .home-inside { --studio-edge:var(--surface); --studio-subtle:var(--muted); --studio-text:var(--ink); --studio-accent:var(--green); --inside-glow:var(--green); position:relative; background:var(--surface); padding-top:32px; }
-.home-inside-heading { display:flex; align-items:end; justify-content:space-between; gap:32px; padding:0 24px; width:min(var(--content-max),calc(100% - 2 * var(--page-gutter))); box-sizing:border-box; margin-inline:auto; }
-.home-inside-heading p { max-width:300px; margin:0; color:var(--muted); }
+.home-page .home-inside-heading.home-section-heading { display:block; position:absolute; z-index:5; top:0; left:0; right:0; padding:12px 24px 22px; border-bottom:1px solid var(--line); width:100%; background:var(--surface); box-sizing:border-box; margin-inline:auto; }
+.home-page .home-inside-heading.home-section-heading > p { max-width:46ch; margin:12px 0 0; color:var(--muted); font-size:14px; }
 .home-inside-host { height:auto; width:min(var(--content-max),calc(100% - 2 * var(--page-gutter))); margin-inline:auto; }
 .home-inside .inside-sticky { position:relative; top:0; height:700px; min-height:600px; overflow:hidden; contain:layout paint; }
 .home-inside .inside-study { position:absolute; inset:0; visibility:hidden; pointer-events:none; }
 .home-inside .inside-study.is-active { visibility:visible; }
-.home-inside-copy { position:absolute; z-index:3; left:24px; top:7%; width:35%; }
-.home-inside-index { display:block; margin-bottom:24px; color:var(--green); font-size:12px; letter-spacing:.12em; }
-.home-inside-copy h3 { margin:0 0 20px; font-size:clamp(28px,3.8vw,56px); line-height:1.12; }
-.home-inside-copy p { max-width:340px; margin:0; color:var(--muted); }
+.home-inside-copy { position:absolute; z-index:3; left:24px; top:calc(43.5% + 70px); width:34%; transform:translateY(-50%); }
+.home-inside-index { display:flex; align-items:center; gap:16px; margin-bottom:20px; color:var(--green); font-size:12px; letter-spacing:.035em; }
+.home-inside-index::before { content:""; width:28px; height:1px; background:currentColor; opacity:.5; }
+.home-inside-copy h3 { margin:0 0 20px; font-size:clamp(28px,2.8vw,42px); line-height:1.12; }
+.home-inside-copy p { max-width:31ch; margin:0; color:var(--muted); font-size:16px; }
 .home-inside .inside-panel { position:absolute; inset:0; pointer-events:none; }
 .home-inside :is(.inside-controls,.inside-legend,.inside-status,.inside-view-tools,.inside-inspector,.inside-selection-arrow,.inside-arrow-label) { display:none!important; }
-.home-inside .inside-story-canvas { position:absolute; inset:0 0 13% 37%; opacity:0; }
+.home-inside .inside-story-canvas { position:absolute; inset:140px 0 13% 37%; opacity:0; }
 .home-inside.is-ready .inside-story-canvas { opacity:1; }
 .home-inside canvas { display:block; width:100%; height:100%; pointer-events:none; }
 .home-inside-loading { position:absolute; top:45%; left:42%; right:0; text-align:center; color:var(--muted); font-size:14px; }
@@ -24,16 +25,16 @@
 .home-inside :is(a,button):focus-visible { outline:2px solid var(--green); outline-offset:4px; }
 @media(max-width:760px) {
  .home-inside { padding-top:24px; }
- .home-inside-heading { display:block; padding:0 0 8px; }
- .home-inside-heading p { margin-top:14px; }
+ .home-page .home-inside-heading.home-section-heading { padding:12px 24px 20px; }
+ .home-page .home-inside-heading.home-section-heading > p { margin-top:12px; }
  .home-inside-host { height:auto; }
- .home-inside .inside-sticky { position:relative; height:680px; min-height:0; }
- .home-inside-copy { top:24px; left:24px; right:24px; width:auto; }
+ .home-inside .inside-sticky { position:relative; height:820px; min-height:0; }
+ .home-inside-copy { top:165px; left:24px; right:24px; width:auto; transform:none; }
  .home-inside-index { margin-bottom:12px; }
  .home-inside-copy h3 { font-size:30px; margin-bottom:12px; }
  .home-inside-copy p { font-size:14px; max-width:340px; }
- .home-inside .inside-story-canvas { inset:205px 0 110px; }
- .home-inside-loading { top:390px; left:0; right:0; }
+ .home-inside .inside-story-canvas { inset:345px 0 110px; }
+ .home-inside-loading { top:530px; left:0; right:0; }
  .home-inside-bottom { left:24px; right:24px; bottom:18px; gap:4px 20px; padding-top:12px; }
  .home-inside-hint { display:none; }
  .home-inside-link { margin-left:0; }

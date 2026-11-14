@@ -75,3 +75,16 @@ test('persistent story canvas does not break first and last chapter detection or
  state.scroll(glass,.7);assert.ok(state.current.rotationY>firstRotation);
  assert.equal(state.renders,2);assert.equal(state.mount.style.opacity,'1');
 });
+
+test('installation starts in the wall and keeps the opening stationary during separation',()=>{
+ const state={key:'profile',surround:{visible:false,scale:{setScalar(v){this.value=v;}},position:{}},installed:{fixed:{position:{}},pivot:{rotation:{}}},sill:{position:{}}};
+ vm.createContext(state);
+ vm.runInContext(source.slice(source.indexOf('  function apply('),source.indexOf('  function draw(')),state);
+ for(const detail of [0,.5,1]) {
+  state.apply({detail});
+  assert.equal(state.surround.visible,true);
+  assert.equal(state.surround.scale.value,1);
+  assert.equal(state.surround.position.z,0);
+  assert.equal(state.installed.fixed.position.z,-detail*.35);
+ }
+});

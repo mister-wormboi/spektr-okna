@@ -4,7 +4,7 @@
   if (!host) return;
   const controls = {
     frame:'<button type="button" data-detail aria-pressed="false" data-on="Собрать раму" data-off="Разобрать конструкцию">Разобрать конструкцию</button><span class="hint">Камеры · усиление · уплотнение</span>',
-    profile:'<button type="button" data-detail aria-pressed="false" data-on="Вернуть окно" data-off="Показать в проёме">Показать в проёме</button><span class="hint">Рама · створка · монтажный шов</span>',
+    profile:'<button type="button" data-detail aria-pressed="false" data-on="Собрать" data-off="Рассмотреть монтаж">Рассмотреть монтаж</button><span class="hint">Рама · створка · монтажный шов</span>',
     glass:'<button type="button" data-detail aria-pressed="false" data-on="Собрать стеклопакет" data-off="Разделить слои">Разделить слои</button><span class="hint">Двухкамерная конструкция</span>',
     hardware:'<button type="button" data-mode="closed" aria-pressed="true">Закрыто</button><button type="button" data-mode="open" aria-pressed="false">Открыто</button><button type="button" data-mode="tilt" aria-pressed="false">Проветривание</button><button type="button" data-detail aria-pressed="false" data-on="Скрыть механизм" data-off="Показать механизм">Показать механизм</button>'
   };
@@ -52,7 +52,7 @@
   let loading;
   async function enhance() {
     if (loading) return loading;
-    loading = import('./window-inside-3d.js?v=20261112-slider-row').then(async module => {
+    loading = import('./window-inside-3d.js?v=20261114-install-wall').then(async module => {
       exhibit = module.createInsideExhibit(host);
       await exhibit.ready;
       paintScroll();
